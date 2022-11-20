@@ -11,7 +11,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "You're logged in, welcome to home page"
+      "You're logged in, welcome to home page, user: "
     );
   }
 }

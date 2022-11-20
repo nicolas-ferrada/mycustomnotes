@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _emailRegisterController = TextEditingController();
+  final _passwordRegisterController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailRegisterController.dispose();
+    _passwordRegisterController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,35 +31,29 @@ class RegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Mail user input
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(
+                controller: _emailRegisterController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
                   hintText: 'Enter your email',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             //password user input
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(
+                controller: _passwordRegisterController,
+                decoration: const InputDecoration(
                   hintText: 'Enter your password',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Repeat your password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            //Login button
+            //Register button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
@@ -56,7 +66,10 @@ class RegisterPage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.all(10),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _registerFirebaseUser(_emailRegisterController.text,
+                      _passwordRegisterController.text);
+                },
                 child: const Text('Register new user'),
               ),
             ),
@@ -65,4 +78,9 @@ class RegisterPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future _registerFirebaseUser(String email, String password) async {
+  await FirebaseAuth.instance
+      .createUserWithEmailAndPassword(email: email, password: password);
 }
