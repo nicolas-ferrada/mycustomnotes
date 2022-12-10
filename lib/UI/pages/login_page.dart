@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
 
@@ -30,7 +31,11 @@ class _LoginPageState extends State<LoginPage> {
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong'));
+            } else if (snapshot.hasData) {
               return const HomePage();
             }
             return Center(
@@ -92,15 +97,49 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  //Press here to create an account button
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/RegisterPage');
-                    },
-                    child: const Text('Press here to create an account',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 160, 160, 160))),
+                  //Button 'need an account?' Sign up
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      text: TextSpan(
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 20),
+                          text: 'Need an account? ',
+                          children: [
+                            TextSpan(
+                                style: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.white),
+                                text: 'Sign up',
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushNamed(
+                                        context, '/RegisterPage');
+                                  }),
+                          ]),
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      text: TextSpan(
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 20),
+                          text: 'Forgot your password? ',
+                          children: [
+                            TextSpan(
+                                style: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.white),
+                                text: 'Recover it',
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushNamed(
+                                        context, '/RegisterPage');
+                                  }),
+                          ]),
+                    ),
+                  )
                 ],
               ),
             );
@@ -110,6 +149,10 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 Future _loginFirebase(String email, String password) async {
-  await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: email, password: password);
+  try {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email.trim(), password: password.trim());
+  } catch (error) {
+    print('Error $error');
+  }
 }

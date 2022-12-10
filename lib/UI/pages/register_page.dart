@@ -69,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onPressed: () {
                   _registerFirebaseUser(_emailRegisterController.text,
                       _passwordRegisterController.text);
+                      
                 },
                 child: const Text('Register new user'),
               ),
@@ -81,6 +82,10 @@ class _RegisterPageState extends State<RegisterPage> {
 }
 
 Future _registerFirebaseUser(String email, String password) async {
-  await FirebaseAuth.instance
-      .createUserWithEmailAndPassword(email: email, password: password);
+  try {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.trim(), password: password.trim());
+  } catch (error) {
+    print('Error $error');
+  }
 }
