@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
 import 'package:mycustomnotes/UI/pages/login_page.dart';
+import 'package:mycustomnotes/UI/pages/recover_password_page.dart';
 import 'package:mycustomnotes/UI/pages/register_page.dart';
 
 class Routes extends StatelessWidget {
@@ -17,6 +18,7 @@ class Routes extends StatelessWidget {
         '/LoginPage': (context) => const LoginPage(),
         '/RegisterPage': (context) => const RegisterPage(),
         '/HomePage': (context) => const HomePage(),
+        '/RecoverPassword': (context) => const RecoverPassword(),
       },
       //home: const MainPage(),
     );

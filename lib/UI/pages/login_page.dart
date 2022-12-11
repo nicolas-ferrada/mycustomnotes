@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
+import 'package:mycustomnotes/UI/pages/verification_email.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('Something went wrong'));
             } else if (snapshot.hasData) {
-              return const HomePage();
+              return const VerificationEmail();
             }
             return Center(
               child: Column(
@@ -135,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushNamed(
-                                        context, '/RegisterPage');
+                                        context, '/RecoverPassword');
                                   }),
                           ]),
                     ),
@@ -150,8 +151,8 @@ class _LoginPageState extends State<LoginPage> {
 
 Future _loginFirebase(String email, String password) async {
   try {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email.trim(), password: password.trim());
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.trim(), password: password.trim());
   } catch (error) {
     print('Error $error');
   }

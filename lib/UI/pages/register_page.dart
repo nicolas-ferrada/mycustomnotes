@@ -47,6 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _passwordRegisterController,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
                 decoration: const InputDecoration(
                   hintText: 'Enter your password',
                   border: OutlineInputBorder(),
@@ -69,7 +72,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 onPressed: () {
                   _registerFirebaseUser(_emailRegisterController.text,
                       _passwordRegisterController.text);
-                      
                 },
                 child: const Text('Register new user'),
               ),
