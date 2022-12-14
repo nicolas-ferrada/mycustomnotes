@@ -5,8 +5,8 @@ import 'package:mycustomnotes/UI/pages/recover_password_page.dart';
 import 'package:mycustomnotes/UI/pages/register_page.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 
-class Routes extends StatelessWidget {
-  const Routes({super.key});
+class AfterMain extends StatelessWidget {
+  const AfterMain({super.key});
 
   @override
   Widget build(BuildContext context) {
