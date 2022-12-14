@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
 import 'package:mycustomnotes/UI/pages/verification_email.dart';
+import 'package:mycustomnotes/constants/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushNamed(
-                                        context, '/RegisterPage');
+                                        context, registerRoute);
                                   }),
                           ]),
                     ),
@@ -136,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushNamed(
-                                        context, '/RecoverPassword');
+                                        context, recoverPasswordRoute);
                                   }),
                           ]),
                     ),

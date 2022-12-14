@@ -3,6 +3,7 @@ import 'package:mycustomnotes/UI/pages/home_page.dart';
 import 'package:mycustomnotes/UI/pages/login_page.dart';
 import 'package:mycustomnotes/UI/pages/recover_password_page.dart';
 import 'package:mycustomnotes/UI/pages/register_page.dart';
+import 'package:mycustomnotes/constants/routes.dart';
 
 class Routes extends StatelessWidget {
   const Routes({super.key});
@@ -13,12 +14,12 @@ class Routes extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My custom notes',
       theme: ThemeData.dark(),
-      initialRoute: '/LoginPage',
+      initialRoute: loginRoute,
       routes: {
-        '/LoginPage': (context) => const LoginPage(),
-        '/RegisterPage': (context) => const RegisterPage(),
-        '/HomePage': (context) => const HomePage(),
-        '/RecoverPassword': (context) => const RecoverPassword(),
+        loginRoute: (context) => const LoginPage(),
+        registerRoute: (context) => const RegisterPage(),
+        homeRoute: (context) => const HomePage(),
+        recoverPasswordRoute: (context) => const RecoverPassword(),
       },
       //home: const MainPage(),
     );
