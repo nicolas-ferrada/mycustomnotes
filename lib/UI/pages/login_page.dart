@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/UI/pages/home_page.dart';
 import 'package:mycustomnotes/UI/pages/verification_email.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 
