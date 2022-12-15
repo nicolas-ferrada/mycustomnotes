@@ -58,7 +58,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Verify your email'),
+          title: const Text('Email verification'),
         ),
         body: Center(
           child: Column(
@@ -84,7 +84,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
                 icon: const Icon(Icons.arrow_back),
                 label: const Text(
                   "Can't verify the email? sign out",
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 18),
                 ),
               )
             ],

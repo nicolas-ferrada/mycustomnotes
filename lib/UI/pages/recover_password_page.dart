@@ -75,8 +75,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
   }
 }
 
-Future 
-_recoverPassword(String email) async {
+Future _recoverPassword(String email) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
   } catch (error) {
