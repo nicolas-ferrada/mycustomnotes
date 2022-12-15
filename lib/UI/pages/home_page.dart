@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '/firebase_functions/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,8 +38,8 @@ class _HomePageState extends State<HomePage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
               ),
-              onPressed: () {
-                _logoutFirebase();
+              onPressed: () async {
+                await FirebaseFunctions.logoutFirebase();
               },
               icon: const Icon(Icons.arrow_back),
               label: const Text(
@@ -51,8 +52,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-Future _logoutFirebase() async {
-  await FirebaseAuth.instance.signOut();
 }

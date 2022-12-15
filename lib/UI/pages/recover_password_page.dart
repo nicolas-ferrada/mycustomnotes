@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '/firebase_functions/firebase_auth.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({super.key});
@@ -64,7 +64,8 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () {
-                  _recoverPassword(_emailRecoverPasswordController.text);
+                  FirebaseFunctions.recoverPassword(
+                      _emailRecoverPasswordController.text);
                 },
               ),
             ),
@@ -72,13 +73,5 @@ class _RecoverPasswordState extends State<RecoverPassword> {
         ),
       ),
     );
-  }
-}
-
-Future _recoverPassword(String email) async {
-  try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
-  } catch (error) {
-    print(error);
   }
 }

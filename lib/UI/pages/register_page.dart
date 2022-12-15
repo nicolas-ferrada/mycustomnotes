@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '/firebase_functions/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -69,8 +69,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   padding: const EdgeInsets.all(10),
                 ),
-                onPressed: () {
-                  _registerFirebaseUser(_emailRegisterController.text,
+                onPressed: () async {
+                  await FirebaseFunctions.registerFirebaseUser(
+                      _emailRegisterController.text,
                       _passwordRegisterController.text);
                 },
                 child: const Text('Register new user'),
@@ -80,14 +81,5 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-  }
-}
-
-Future _registerFirebaseUser(String email, String password) async {
-  try {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.trim(), password: password.trim());
-  } catch (error) {
-    print('Error $error');
   }
 }

@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import 'dart:developer' as devtools show log;
+import '/firebase_functions/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -82,8 +81,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   padding: const EdgeInsets.all(10),
                 ),
-                onPressed: () {
-                  _loginFirebase(_emailLoginController.text,
+                onPressed: () async {
+                  await FirebaseFunctions.loginFirebase(
+                      _emailLoginController.text,
                       _passwordLoginController.text);
                 },
               ),
@@ -134,14 +134,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-}
-
-Future _loginFirebase(String email, String password) async {
-  try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.trim(), password: password.trim());
-  } catch (error) {
-    devtools.log('loginfirebasefunction $error');
   }
 }
