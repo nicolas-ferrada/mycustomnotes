@@ -2,16 +2,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseFunctions {
+  FirebaseFunctions(this.context);
+  final BuildContext context;
+
   //Register/create a new user
-  static Future registerFirebaseUser(String email, String password) async {
+  Future registerFirebaseUser(String email, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
     } catch (registerError) {
-      final snackBarMsg = SnackBar(content: Text(registerError.toString()));
-      //Scaffold.of(context).showSnackBar(snackBarMsg);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              registerError.toString(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

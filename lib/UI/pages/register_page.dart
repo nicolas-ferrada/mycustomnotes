@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  await FirebaseFunctions.registerFirebaseUser(
+                  await firebaseFunctions.registerFirebaseUser(
                       _emailRegisterController.text,
                       _passwordRegisterController.text);
                 },

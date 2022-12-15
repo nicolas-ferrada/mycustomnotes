@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            devtools.log('snapshot has data');
             return const VerificationEmail();
           } else {
             devtools.log('snapshot has no data');
