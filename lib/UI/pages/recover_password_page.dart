@@ -19,6 +19,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -64,7 +65,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () {
-                  FirebaseFunctions.recoverPassword(
+                  firebaseFunctions.recoverPassword(
                       _emailRecoverPasswordController.text);
                 },
               ),

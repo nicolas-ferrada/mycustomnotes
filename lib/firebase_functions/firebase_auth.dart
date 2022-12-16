@@ -12,7 +12,7 @@ class FirebaseFunctions {
         email: email.trim(),
         password: password.trim(),
       );
-    } catch (registerError) {
+    } catch (error) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -20,8 +20,10 @@ class FirebaseFunctions {
             title: const Center(
               child: Text('Error'),
             ),
-            content: Text(
-              registerError.toString(),
+            content: Center(
+              child: Text(
+                error.toString(),
+              ),
             ),
             actions: [
               ElevatedButton(
@@ -38,40 +40,154 @@ class FirebaseFunctions {
   }
 
   //Logs in a user with it's email and password
-  static Future loginFirebase(String email, String password) async {
+  Future loginFirebase(String email, String password) async {
+    String errorMessage = 'No error';
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
-    } catch (e) {
-      print(e);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'wrong-password') {
+        errorMessage =
+            'The password you entered is incorrect. Please try again.';
+      }
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            elevation: 3,
+            backgroundColor: Colors.redAccent[100],
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              errorMessage.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'Close',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              error.toString(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
   //Log out the current user
-  static Future logoutFirebase() async {
+  Future logoutFirebase() async {
     try {
       await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              error.toString(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
   //Send a verification email to the current user
-  static Future sendVerificationEmail() async {
+  Future sendVerificationEmail() async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              error.toString(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
   //Recover the password of the specified mail sending it an email
-  static Future recoverPassword(String email) async {
+  Future recoverPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Center(
+              child: Text('Error'),
+            ),
+            content: Text(
+              error.toString(),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 }

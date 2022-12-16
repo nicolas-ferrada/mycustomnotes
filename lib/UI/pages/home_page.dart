@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.redAccent,
               ),
               onPressed: () async {
-                await FirebaseFunctions.logoutFirebase();
+                await firebaseFunctions.logoutFirebase();
               },
               icon: const Icon(Icons.arrow_back),
               label: const Text(

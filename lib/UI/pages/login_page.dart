@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -82,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  await FirebaseFunctions.loginFirebase(
+                  await firebaseFunctions.loginFirebase(
                       _emailLoginController.text,
                       _passwordLoginController.text);
                 },

@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/verification_email.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import 'dart:developer' as devtools show log;
 
 import 'UI/pages/home_page.dart';
 import 'UI/pages/login_page.dart';
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return const VerificationEmail();
           } else {
-            devtools.log('snapshot has no data');
             return const LoginPage();
           }
         },
