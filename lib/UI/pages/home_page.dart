@@ -13,8 +13,12 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -40,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.redAccent,
               ),
               onPressed: () async {
-                await firebaseFunctions.logoutFirebase();
+                await FirebaseFunctions.logoutFirebase();
               },
               icon: const Icon(Icons.arrow_back),
               label: const Text(

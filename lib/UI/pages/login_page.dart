@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import '/firebase_functions/firebase_auth.dart';
+import 'package:mycustomnotes/firebase_functions/firebase_auth.dart';
+import 'dart:developer' as devtools;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseFunctions = FirebaseFunctions(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  await firebaseFunctions.loginFirebase(
+                  await FirebaseFunctions.loginFirebase(
                       _emailLoginController.text,
                       _passwordLoginController.text);
                 },
