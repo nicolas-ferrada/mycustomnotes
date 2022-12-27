@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/firebase_functions/firebase_auth.dart';
-import 'dart:developer' as devtools;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
