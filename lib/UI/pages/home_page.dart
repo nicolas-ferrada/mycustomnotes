@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/create_note_page.dart';
-import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:mycustomnotes/services/sqlite/note_database.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
-import 'dart:developer' as logs show log;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -64,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       NoteModel notes = snapshot.data![index];
                       return ListTile(
                         title:
-                            Center(child: Text('${notes.title}, ${notes.id}')),
+                            Center(child: Text(notes.title)),
                         subtitle: Center(child: Text(notes.body)),
                       );
                     },
@@ -95,6 +93,7 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => const CreateNote(),
           ))
               .then((_) {
+                // Updates the notes in the UI
             Provider.of<NoteModelNotifier>(context, listen: false)
                 .refreshNote();
           });

@@ -2,7 +2,6 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'dart:developer' as logs show log;
 
 // Class for the notes in sqlite
 class NoteDatabase {

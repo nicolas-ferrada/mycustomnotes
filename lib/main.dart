@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/verification_email.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:provider/provider.dart';
 
