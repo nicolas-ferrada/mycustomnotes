@@ -1,7 +1,8 @@
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
+import 'dart:developer' as logs show log;
 
 // Class for the notes in sqlite
 class NoteDatabase {
@@ -15,9 +16,7 @@ class NoteDatabase {
   // If the database is not null (it's ready created) it will return it,
   // otherwise, if is not created (meaning it's null), it will create the file and then return it.
   Future<Database> get database async {
-    if (_database != null) {
-      return _database!;
-    }
+    if (_database != null) return _database!;
 
     _database = await _initDB('note.db');
     return _database!;
@@ -44,13 +43,20 @@ class NoteDatabase {
 ''');
   }
 
-  // CRUD OPERATIONS
+  // CRUD OPERATIONS in sqlite
 
-  // Create
-  Future<void> insert(NoteModel note) async {
+  // Create a new note
+  Future<void> createNoteDB(NoteModel note) async {
     // Reference to the db singleton instance
     final Database db = await instance.database;
-    await db.insert('Note', note.toMap());
+    await db.insert('note', note.toMap());
+  }
+
+  // Read all notes
+  Future<List<NoteModel>> readAllNotesDB() async {
+    final db = await instance.database;
+    final results = await db.query('note');
+    return results.map((map) => NoteModel.fromMap(map)).toList();
   }
 
   // Closes the database

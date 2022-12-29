@@ -3,3 +3,4 @@ const registerRoute = '/register';
 const homeRoute = '/home';
 const recoverPasswordRoute = '/recoverPassword';
 const verificationEmailRoute = '/verificationEmail';
+const createNoteRoute = '/createNote';

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/verification_email.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         registerRoute: (context) => const RegisterPage(),
         homeRoute: (context) => const HomePage(),
         recoverPasswordRoute: (context) => const RecoverPassword(),
-        verificationEmailRoute: (context) => const VerificationEmail()
+        verificationEmailRoute: (context) => const VerificationEmail(),
+        createNoteRoute: (context) => const CreateNote(),
       },
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
