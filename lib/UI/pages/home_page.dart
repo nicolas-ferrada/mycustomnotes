@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/create_note_page.dart';
+import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:mycustomnotes/services/sqlite/note_database.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
+
+import 'dart:developer' as logs show log;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,7 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    NoteDatabase.instance.closeDB(); // Why?
+    NoteDatabase.instance.closeDB();
     super.dispose();
   }
 
@@ -61,9 +64,13 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       NoteModel notes = snapshot.data![index];
                       return ListTile(
-                        title:
-                            Center(child: Text(notes.title)),
+                        title: Center(child: Text(notes.title)),
                         subtitle: Center(child: Text(notes.body)),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  NoteDetail(noteId: notes.id!)));
+                        },
                       );
                     },
                   );
@@ -73,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text("You have no notes created."));
                 }
               } else {
-                // The data it's still loading
+                // The data it's still loading from database
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -93,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => const CreateNote(),
           ))
               .then((_) {
-                // Updates the notes in the UI
+            // Updates the notes in the UI
             Provider.of<NoteModelNotifier>(context, listen: false)
                 .refreshNote();
           });
