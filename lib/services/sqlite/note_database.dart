@@ -51,6 +51,13 @@ class NoteDatabase {
     await db.insert('note', note.toMap());
   }
 
+  // Read all notes
+  Future<List<NoteModel>> readAllNotesDB() async {
+    final db = await instance.database;
+    final results = await db.query('note');
+    return results.map((map) => NoteModel.fromMap(map)).toList();
+  }
+
   // Read one note
   Future<NoteModel> readOneNoteDB(int noteId) async {
     final db = await instance.database;
@@ -63,18 +70,11 @@ class NoteDatabase {
     }
   }
 
-  // Read all notes
-  Future<List<NoteModel>> readAllNotesDB() async {
-    final db = await instance.database;
-    final results = await db.query('note');
-    return results.map((map) => NoteModel.fromMap(map)).toList();
-  }
-
   // Delete a note
-  // Future<int> deleteNoteDB(NoteModel note) async {
-  //   final db = await instance.database;
-  //   return await db.delete('note', where: 'id = ?', whereArgs: note.id);
-  // }
+  Future<int> deleteNoteDB(int noteId) async {
+    final db = await instance.database;
+    return await db.delete('note', where: 'id = ?', whereArgs: [noteId]);
+  }
 
   // Closes the database
   Future closeDB() async {
