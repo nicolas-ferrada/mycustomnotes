@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     Provider.of<NoteModelNotifier>(context, listen: false).refreshNote();
+    logs.log('init state note detail');
     super.initState();
   }
 
@@ -67,9 +68,19 @@ class _HomePageState extends State<HomePage> {
                         title: Center(child: Text(notes.title)),
                         subtitle: Center(child: Text(notes.body)),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  NoteDetail(noteId: notes.id!)));
+                          Navigator.of(context)
+                              .push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NoteDetail(noteId: notes.id!)),
+                          )
+                              .then(
+                            (_) {
+                              Provider.of<NoteModelNotifier>(context,
+                                      listen: false)
+                                  .refreshNote();
+                            },
+                          );
                         },
                       );
                     },
@@ -96,14 +107,17 @@ class _HomePageState extends State<HomePage> {
         icon: const Icon(Icons.create),
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(
-            builder: (context) => const CreateNote(),
-          ))
-              .then((_) {
-            // Updates the notes in the UI
-            Provider.of<NoteModelNotifier>(context, listen: false)
-                .refreshNote();
-          });
+              .push(
+            MaterialPageRoute(
+              builder: (context) => const CreateNote(),
+            ),
+          )
+              .then(
+            (_) {
+              Provider.of<NoteModelNotifier>(context, listen: false)
+                  .refreshNote();
+            },
+          );
         },
       ),
     );
