@@ -5,10 +5,10 @@ import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:mycustomnotes/services/sqlite/note_database.dart';
+import 'package:mycustomnotes/widgets/notes_widget.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
-
-
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -59,30 +59,36 @@ class _HomePageState extends State<HomePage> {
                 List<NoteModel> thereAreNotes = snapshot.data!;
                 if (thereAreNotes.isNotEmpty) {
                   // Show the available notes if there is any note
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      NoteModel notes = snapshot.data![index];
-                      return ListTile(
-                        title: Center(child: Text(notes.title)),
-                        subtitle: Center(child: Text(notes.body)),
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    NoteDetail(noteId: notes.id!)),
-                          )
-                              .then(
-                            (_) {
-                              Provider.of<NoteModelNotifier>(context,
-                                      listen: false)
-                                  .refreshNote();
+                  return GridView.custom(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      
+                      
+                    ),
+                    childrenDelegate: SliverChildBuilderDelegate(
+                      childCount: thereAreNotes.length,
+                      ((context, index) {
+                        NoteModel note = snapshot.data![index];
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NoteDetail(noteId: note.id!)),
+                              )
+                                  .then(
+                                (_) {
+                                  Provider.of<NoteModelNotifier>(context,
+                                          listen: false)
+                                      .refreshNote();
+                                },
+                              );
                             },
-                          );
-                        },
-                      );
-                    },
+                            child: NotesWidget(note: note, index: index));
+                      }),
+                    ),
                   );
                 } else {
                   // There are no notes to show
@@ -122,3 +128,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+//NoteModel notes = snapshot.data![index];

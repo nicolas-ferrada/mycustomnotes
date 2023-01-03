@@ -19,6 +19,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   void initState() {
+    logs.log('init state');
     refreshNote();
     super.initState();
   }
@@ -28,6 +29,8 @@ class _NoteDetailState extends State<NoteDetail> {
         await NoteDatabase.instance.readOneNoteDB(widget.noteId);
     setState(() {
       note = awaitingNote;
+      newTitle = note.title;
+      newBody = note.body;
     });
   }
 
@@ -107,8 +110,8 @@ class _NoteDetailState extends State<NoteDetail> {
   }
 
   void editNote() {
-    final newNote = NoteModel(title: newTitle, body: newBody, id: widget.noteId);
-
+    final newNote =
+        NoteModel(title: newTitle, body: newBody, id: widget.noteId);
     NoteDatabase.instance.editNoteDB(newNote);
 
     Navigator.pop(context);
