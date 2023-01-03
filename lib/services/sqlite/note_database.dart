@@ -45,26 +45,26 @@ class NoteDatabase {
   // CRUD OPERATIONS in sqlite
 
   // Create a new note
-  Future<void> createNoteDB(NoteModel note) async {
+  Future<void> createNoteDB(Note note) async {
     // Reference to the db singleton instance
     final Database db = await instance.database;
     await db.insert('note', note.toMap());
   }
 
   // Read all notes
-  Future<List<NoteModel>> readAllNotesDB() async {
+  Future<List<Note>> readAllNotesDB() async {
     final db = await instance.database;
     final results = await db.query('note');
-    return results.map((map) => NoteModel.fromMap(map)).toList();
+    return results.map((map) => Note.fromMap(map)).toList();
   }
 
   // Read one note
-  Future<NoteModel> readOneNoteDB(int noteId) async {
+  Future<Note> readOneNoteDB(int noteId) async {
     final db = await instance.database;
     final mapResult =
         await db.query('note', where: 'id = ?', whereArgs: [noteId]);
     if (mapResult.isNotEmpty) {
-      return NoteModel.fromMap(mapResult.first);
+      return Note.fromMap(mapResult.first);
     } else {
       throw Exception('ID $noteId not found');
     }
@@ -77,9 +77,10 @@ class NoteDatabase {
   }
 
   // Edit a note
-  Future<void> editNoteDB(NoteModel note) async {
+  Future<void> editNoteDB(Note note) async {
     final db = await instance.database;
-    await db.update('note', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
+    await db
+        .update('note', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
   }
 
   // Closes the database

@@ -8,7 +8,6 @@ import 'package:mycustomnotes/services/sqlite/note_database.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,22 +53,20 @@ class _HomePageState extends State<HomePage> {
         builder: (context, value, child) {
           return FutureBuilder(
             future: NoteDatabase.instance.readAllNotesDB(),
-            builder: (context, AsyncSnapshot<List<NoteModel>> snapshot) {
+            builder: (context, AsyncSnapshot<List<Note>> snapshot) {
               if (snapshot.hasData) {
-                List<NoteModel> thereAreNotes = snapshot.data!;
+                List<Note> thereAreNotes = snapshot.data!;
                 if (thereAreNotes.isNotEmpty) {
                   // Show the available notes if there is any note
                   return GridView.custom(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      
-                      
                     ),
                     childrenDelegate: SliverChildBuilderDelegate(
                       childCount: thereAreNotes.length,
                       ((context, index) {
-                        NoteModel note = snapshot.data![index];
+                        Note note = snapshot.data![index];
                         return GestureDetector(
                             onTap: () {
                               Navigator.of(context)

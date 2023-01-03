@@ -12,7 +12,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
-  late NoteModel note;
+  late Note note;
   bool _isSaveButtonVisible = false;
   String newTitle = '';
   String newBody = '';
@@ -110,8 +110,7 @@ class _NoteDetailState extends State<NoteDetail> {
   }
 
   void editNote() {
-    final newNote =
-        NoteModel(title: newTitle, body: newBody, id: widget.noteId);
+    final newNote = Note(title: newTitle, body: newBody, id: widget.noteId);
     NoteDatabase.instance.editNoteDB(newNote);
 
     Navigator.pop(context);

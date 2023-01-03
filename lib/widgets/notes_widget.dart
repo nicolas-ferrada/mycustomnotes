@@ -5,7 +5,7 @@ import 'dart:developer' as logs;
 class NotesWidget extends StatelessWidget {
   NotesWidget({super.key, required this.note, required this.index});
 
-  final NoteModel note;
+  final Note note;
   final int index;
   final List<Color> _lightColors = [
     Colors.amber.shade300,

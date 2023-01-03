@@ -1,9 +1,9 @@
-class NoteModel {
+class Note {
   final int? id;
   final String title;
   final String body;
 
-  const NoteModel({this.id, required this.title, required this.body});
+  const Note({this.id, required this.title, required this.body});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
@@ -11,7 +11,7 @@ class NoteModel {
   }
 
   // Convert the map coming from the database to the class model
-  static NoteModel fromMap(Map<String, dynamic> map) => NoteModel(
+  static Note fromMap(Map<String, dynamic> map) => Note(
         id: map['id'],
         title: map['title'],
         body: map['body'],

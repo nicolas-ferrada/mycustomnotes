@@ -74,9 +74,8 @@ class _CreateNoteState extends State<CreateNote> {
   }
 
   createNoteDB() {
-    final note = NoteModel(
-        title: _noteTitleController.text,
-        body: _noteBodyController.text);
+    final note =
+        Note(title: _noteTitleController.text, body: _noteBodyController.text);
 
     NoteDatabase.instance.createNoteDB(note);
 
