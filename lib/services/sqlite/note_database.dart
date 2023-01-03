@@ -71,9 +71,15 @@ class NoteDatabase {
   }
 
   // Delete a note
-  Future<int> deleteNoteDB(int noteId) async {
+  Future<void> deleteNoteDB(int noteId) async {
     final db = await instance.database;
-    return await db.delete('note', where: 'id = ?', whereArgs: [noteId]);
+    await db.delete('note', where: 'id = ?', whereArgs: [noteId]);
+  }
+
+  // Edit a note
+  Future<void> editNoteDB(NoteModel note) async {
+    final db = await instance.database;
+    await db.update('note', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
   }
 
   // Closes the database

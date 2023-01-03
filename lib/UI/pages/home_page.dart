@@ -8,7 +8,7 @@ import 'package:mycustomnotes/services/sqlite/note_database.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
 
-import 'dart:developer' as logs show log;
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     Provider.of<NoteModelNotifier>(context, listen: false).refreshNote();
-    logs.log('init state note detail');
     super.initState();
   }
 
