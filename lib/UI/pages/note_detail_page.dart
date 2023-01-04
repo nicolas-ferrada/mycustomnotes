@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/services/sqlite/note_database.dart';
+import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'dart:developer' as logs show log;
 
 class NoteDetail extends StatefulWidget {
@@ -26,7 +26,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   refreshNote() async {
     final awaitingNote =
-        await NoteDatabase.instance.readOneNoteDB(widget.noteId);
+        await DatabaseHelper.instance.readOneNoteDB(widget.noteId);
     setState(() {
       note = awaitingNote;
       newTitle = note.title;
@@ -105,13 +105,13 @@ class _NoteDetailState extends State<NoteDetail> {
   }
 
   void deleteNote() {
-    NoteDatabase.instance.deleteNoteDB(widget.noteId);
+    DatabaseHelper.instance.deleteNoteDB(widget.noteId);
     Navigator.pop(context);
   }
 
   void editNote() {
     final newNote = Note(title: newTitle, body: newBody, id: widget.noteId);
-    NoteDatabase.instance.editNoteDB(newNote);
+    DatabaseHelper.instance.editNoteDB(newNote);
 
     Navigator.pop(context);
   }

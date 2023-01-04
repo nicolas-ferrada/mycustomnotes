@@ -4,7 +4,7 @@ import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
-import 'package:mycustomnotes/services/sqlite/note_database.dart';
+import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 import 'package:provider/provider.dart';
 import '/firebase_functions/firebase_auth.dart';
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    NoteDatabase.instance.closeDB();
+    DatabaseHelper.instance.closeDB();
     super.dispose();
   }
 
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       body: Consumer<NoteModelNotifier>(
         builder: (context, value, child) {
           return FutureBuilder(
-            future: NoteDatabase.instance.readAllNotesDB(),
+            future: DatabaseHelper.instance.readAllNotesDB(),
             builder: (context, AsyncSnapshot<List<Note>> snapshot) {
               if (snapshot.hasData) {
                 List<Note> thereAreNotes = snapshot.data!;

@@ -4,13 +4,13 @@ import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 
 // Class for the notes in sqlite
-class NoteDatabase {
+class DatabaseHelper {
   // Singleton pattern for the database instance
-  static final NoteDatabase instance = NoteDatabase._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database? _database;
 
-  NoteDatabase._privateConstructor();
+  DatabaseHelper._privateConstructor();
 
   // If the database is not null (it's ready created) it will return it,
   // otherwise, if is not created (meaning it's null), it will create the file and then return it.

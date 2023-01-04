@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/services/sqlite/note_database.dart';
+import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
@@ -77,7 +77,7 @@ class _CreateNoteState extends State<CreateNote> {
     final note =
         Note(title: _noteTitleController.text, body: _noteBodyController.text);
 
-    NoteDatabase.instance.createNoteDB(note);
+    DatabaseHelper.instance.createNoteDB(note);
 
     Navigator.pop(context);
   }
