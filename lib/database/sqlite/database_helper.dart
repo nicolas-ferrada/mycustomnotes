@@ -2,6 +2,8 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import '../../models/user_model.dart';
+import 'dart:developer' as dev;
 
 // Class for the notes in sqlite
 class DatabaseHelper {
@@ -17,7 +19,7 @@ class DatabaseHelper {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('note.db');
+    _database = await _initDB('mycustomnotes.db');
     return _database!;
   }
 
@@ -37,12 +39,28 @@ class DatabaseHelper {
     CREATE TABLE note(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
-      body TEXT
+      body TEXT,
+      user_id INTEGER NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES user(id)
+    )
+''');
+
+    await db.execute('''
+    CREATE TABLE user(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT,
+      password TEXT
     )
 ''');
   }
 
-  // CRUD OPERATIONS in sqlite
+  // Closes the database
+  Future closeDB() async {
+    final db = await instance.database;
+    db.close();
+  }
+
+  // Notes CRUD OPERATIONS in sqlite
 
   // Create a new note
   Future<void> createNoteDB(Note note) async {
@@ -83,9 +101,27 @@ class DatabaseHelper {
         .update('note', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
   }
 
-  // Closes the database
-  Future closeDB() async {
+  // User CRUD OPERATIONS in sqlite
+
+  // Create a new user
+  Future<User> createUser(User user) async {
     final db = await instance.database;
-    db.close();
+    user.id = await db.insert('user', user.toMap());
+    return user;
+  }
+
+  Future<User?> loginUser(String email, String password) async {
+    final db = await instance.database;
+    final login = await db.rawQuery('''
+      SELECT * FROM user WHERE email = "$email" AND password = "$password";
+ ''');
+
+    if (login.isNotEmpty) {
+      dev.log('logged in');
+      return User.fromMap(login.first);
+    } else {
+      dev.log('NOT logged in');
+      return null;
+    }
   }
 }

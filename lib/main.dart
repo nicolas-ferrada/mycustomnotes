@@ -6,7 +6,7 @@ import 'package:mycustomnotes/UI/pages/verification_email.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:developer' as dev;
 import 'UI/pages/home_page.dart';
 import 'UI/pages/login_page.dart';
 import 'UI/pages/recover_password_page.dart';

@@ -7,7 +7,7 @@ import 'package:mycustomnotes/notifiers/note_model_notifier.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 import 'package:provider/provider.dart';
-import '/firebase_functions/firebase_auth.dart';
+import '../../auth_functions/auth_firebase_functions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
-            await FirebaseFunctions.logoutFirebase();
+            await AuthFirebaseFunctions.logoutFirebase();
           },
         ),
       ),

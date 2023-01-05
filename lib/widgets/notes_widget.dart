@@ -25,7 +25,7 @@ class NotesWidget extends StatelessWidget {
       color: color,
       child: Container(
         padding: const EdgeInsets.all(8),
-        constraints: BoxConstraints(minHeight: 100),
+        constraints: BoxConstraints(minHeight: minHeight),
         alignment: Alignment.center,
         child: Column(
           mainAxisSize: MainAxisSize.min,

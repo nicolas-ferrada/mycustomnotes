@@ -1,17 +1,19 @@
 class User {
-  final int? id;
+  int? id;
   final String email;
+  final String password;
 
-  const User({this.id, required this.email});
+  User({this.id, required this.email, required this.password});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
-    return {'id': id, 'email': email};
+    return {'id': id, 'email': email, 'password': password};
   }
 
   // Convert the map coming from the database to the class model
   static User fromMap(Map<String, dynamic> map) => User(
         id: map['id'],
         email: map['email'],
+        password: map['password'],
       );
 }

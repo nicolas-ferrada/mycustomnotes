@@ -1,7 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/auth_functions/auth_sqlite_functions.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import 'package:mycustomnotes/firebase_functions/firebase_auth.dart';
+import 'package:mycustomnotes/database/sqlite/database_helper.dart';
+import 'package:mycustomnotes/auth_functions/auth_firebase_functions.dart';
+
+import '../../models/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -82,9 +86,13 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  await FirebaseFunctions.loginFirebase(
-                      _emailLoginController.text,
-                      _passwordLoginController.text);
+                  String email = _emailLoginController.text;
+                  String password = _passwordLoginController.text;
+                  // sqlite
+                  await AuthSqliteFunctions.loginSqliteUser(email, password);
+                  
+                  // firebase
+                  await AuthFirebaseFunctions.loginFirebase(email, password);
                 },
               ),
             ),

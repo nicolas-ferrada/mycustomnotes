@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools;
 //import 'package:flutter/material.dart';
 
-class FirebaseFunctions {
+class AuthFirebaseFunctions {
   //Logs in a user with it's email and password
   static Future loginFirebase(String email, String password) async {
     try {

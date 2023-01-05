@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '/firebase_functions/firebase_auth.dart';
+import 'package:mycustomnotes/auth_functions/auth_sqlite_functions.dart';
+import '../../auth_functions/auth_firebase_functions.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -11,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _emailRegisterController = TextEditingController();
   final _passwordRegisterController = TextEditingController();
+  bool _isBackButtonDisabled = false;
 
   @override
   void dispose() {
@@ -25,6 +27,16 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Register'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (_isBackButtonDisabled == true) {
+              return; //does nothing
+            } else {
+              Navigator.maybePop(context);
+            }
+          },
+        ),
       ),
       body: Center(
         child: Column(
@@ -70,9 +82,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  await FirebaseFunctions.registerFirebaseUser(
-                       _emailRegisterController.text,
-                       _passwordRegisterController.text);
+                  // Prevents user leaving screen
+                  setState(() {
+                    _isBackButtonDisabled = true;
+                  });
+                  String email = _emailRegisterController.text;
+                  String password = _passwordRegisterController.text;
+                  // Sqlite
+                  await AuthSqliteFunctions.registerSqliteUser(email, password);
+
+                  // Firebase
+                  await AuthFirebaseFunctions.registerFirebaseUser(
+                          email, password)
+                      .then(
+                    (value) {
+                      // If the login was success then pop, if not, exception and unlock back button!!!
+                      Navigator.maybePop(context);
+                    },
+                  );
                 },
                 child: const Text('Register new user'),
               ),
