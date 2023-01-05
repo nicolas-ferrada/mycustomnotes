@@ -14,9 +14,10 @@ class AuthSqliteFunctions{
   }
 
 
-  static Future<void> registerSqliteUser(String email, String password) async {
+  static Future<void> registerSqliteUser({required String email, required String password, required String uid}) async {
     try{
         final user = User(
+         id: uid,
          email: email.trim(),
          password: password.trim());
          await DatabaseHelper.instance.createUser(user);

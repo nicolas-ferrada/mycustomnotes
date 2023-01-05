@@ -34,10 +34,12 @@ class AuthFirebaseFunctions {
   //Register/create a new user
   static Future registerFirebaseUser(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final UserCredential newUser =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
+      return newUser;
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'email-already-in-use') {
         devtools.log(

@@ -88,11 +88,13 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   String email = _emailLoginController.text;
                   String password = _passwordLoginController.text;
-                  // sqlite
+                  // sqlite login
                   await AuthSqliteFunctions.loginSqliteUser(email, password);
                   
-                  // firebase
+                  // firebase login
                   await AuthFirebaseFunctions.loginFirebase(email, password);
+
+                  // I SHOULD CREATE SQLITE USER ON SUCCESS LOGIN!!!
                 },
               ),
             ),

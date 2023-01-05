@@ -40,14 +40,14 @@ class DatabaseHelper {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       body TEXT,
-      user_id INTEGER NOT NULL,
+      user_id TEXT NOT NULL,
       FOREIGN KEY(user_id) REFERENCES user(id)
     )
 ''');
 
     await db.execute('''
     CREATE TABLE user(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY,
       email TEXT,
       password TEXT
     )
@@ -104,10 +104,9 @@ class DatabaseHelper {
   // User CRUD OPERATIONS in sqlite
 
   // Create a new user
-  Future<User> createUser(User user) async {
+  Future<void> createUser(User user) async {
     final db = await instance.database;
-    user.id = await db.insert('user', user.toMap());
-    return user;
+    await db.insert('user', user.toMap());
   }
 
   Future<User?> loginUser(String email, String password) async {

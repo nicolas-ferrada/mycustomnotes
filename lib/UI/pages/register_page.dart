@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/auth_functions/auth_sqlite_functions.dart';
 import '../../auth_functions/auth_firebase_functions.dart';
@@ -88,18 +89,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   });
                   String email = _emailRegisterController.text;
                   String password = _passwordRegisterController.text;
-                  // Sqlite
-                  await AuthSqliteFunctions.registerSqliteUser(email, password);
-
                   // Firebase
-                  await AuthFirebaseFunctions.registerFirebaseUser(
-                          email, password)
+                  final UserCredential uidFirebase =
+                      await AuthFirebaseFunctions.registerFirebaseUser(
+                          email, password);
+
+                  // Sqlite
+                  await AuthSqliteFunctions.registerSqliteUser(
+                          uid: uidFirebase.user!.uid,
+                          email: email,
+                          password: password)
                       .then(
                     (value) {
                       // If the login was success then pop, if not, exception and unlock back button!!!
                       Navigator.maybePop(context);
                     },
                   );
+                  ;
                 },
                 child: const Text('Register new user'),
               ),

@@ -1,9 +1,9 @@
 class User {
-  int? id;
+  String id;
   final String email;
   final String password;
 
-  User({this.id, required this.email, required this.password});
+  User({required this.id, required this.email, required this.password});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
