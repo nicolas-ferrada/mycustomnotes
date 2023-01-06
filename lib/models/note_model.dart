@@ -2,10 +2,10 @@ class Note {
   final int? id;
   final String title;
   final String body;
-  final String userId;
+  final String? userId;
 
   const Note(
-      {this.id, required this.title, required this.body, required this.userId});
+      {this.id, required this.title, required this.body, this.userId});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
@@ -17,6 +17,5 @@ class Note {
         id: map['id'],
         title: map['title'],
         body: map['body'],
-        userId: map['user_id'],
       );
 }

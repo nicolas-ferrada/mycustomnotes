@@ -4,6 +4,8 @@ import 'package:mycustomnotes/auth_functions/auth_sqlite_functions.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/auth_functions/auth_firebase_functions.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:developer' as dev;
 
 import '../../models/user_model.dart';
 
@@ -90,7 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                   String password = _passwordLoginController.text;
                   // sqlite login
                   await AuthSqliteFunctions.loginSqliteUser(email, password);
+
                   
+
                   // firebase login
                   await AuthFirebaseFunctions.loginFirebase(email, password);
 

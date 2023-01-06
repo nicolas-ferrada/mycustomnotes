@@ -69,11 +69,14 @@ class DatabaseHelper {
     await db.insert('note', note.toMap());
   }
 
-  // Read all notes
-  Future<List<Note>> readAllNotesDB() async {
+  // Read all notes but ONLY those who match with user's id.
+  Future<List<Note>> readAllNotesDB(String userId) async {
     final db = await instance.database;
-    final results = await db.query('note');
-    return results.map((map) => Note.fromMap(map)).toList();
+    //final results = await db.query('note');
+    final notesFromUser = await db.rawQuery('''
+        SELECT id, title, body FROM note WHERE user_id = "$userId";
+ ''');
+    return notesFromUser.map((map) => Note.fromMap(map)).toList();
   }
 
   // Read one note

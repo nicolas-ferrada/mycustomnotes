@@ -26,20 +26,13 @@ class _HomePageState extends State<HomePage> {
     refreshNotes();
     super.initState();
   }
-
-  @override
-  void dispose() {
-    DatabaseHelper.instance.closeDB();
-    super.dispose();
-  }
-
+  
   Future refreshNotes() async {
     setState(() {
       areNotesLoading = true;
     });
-
     await DatabaseHelper.instance
-        .readAllNotesDB()
+        .readAllNotesDB(user.uid)
         .then((inComingNotes) => setState((() {
               notes = inComingNotes;
             })));
@@ -62,6 +55,7 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
+            // Close database
             await AuthFirebaseFunctions.logoutFirebase();
           },
         ),
@@ -79,11 +73,13 @@ class _HomePageState extends State<HomePage> {
         label: const Text('New note'),
         icon: const Icon(Icons.create),
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const CreateNote(),
-            ),
-          ).then((_) => refreshNotes());
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => const CreateNote(),
+                ),
+              )
+              .then((_) => refreshNotes());
         },
       ),
     );
@@ -101,10 +97,12 @@ class _HomePageState extends State<HomePage> {
           return GestureDetector(
               onTap: () {
                 // ACTUALIZAR UI AL VOLVER DE UNA NOTA
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => NoteDetail(noteId: note.id!)),
-                ).then((_) => refreshNotes());
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                          builder: (context) => NoteDetail(noteId: note.id!)),
+                    )
+                    .then((_) => refreshNotes());
               },
               child: NotesWidget(note: note, index: index));
         }),
