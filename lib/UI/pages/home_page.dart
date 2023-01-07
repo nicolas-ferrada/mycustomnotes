@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   : buildNotes()),
       // Button create a new note page
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
         label: const Text('New note'),
         icon: const Icon(Icons.create),
         onPressed: () {

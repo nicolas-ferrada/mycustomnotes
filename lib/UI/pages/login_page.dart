@@ -32,7 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('My Custom Notes'),
+        title: const Text(
+          'My Custom Notes',
+          style: TextStyle(),
+        ),
       ),
       body: Center(
         child: Column(
@@ -80,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
-                  backgroundColor: const Color.fromARGB(255, 221, 86, 76),
+                  backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
                   minimumSize: const Size(220, 70),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),

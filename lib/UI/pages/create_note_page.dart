@@ -60,14 +60,27 @@ class _CreateNoteState extends State<CreateNote> {
                 ),
               ],
             ),
+            const SizedBox(height: 30),
             // Button create a note
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
+                minimumSize: const Size(200, 75),
+                elevation: 30,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
               onPressed: () {
                 createNoteDB();
               },
-              child: const Text('Create a note'),
+              child: const Text(
+                'Create a new note',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
             ),
-            const SizedBox(height: 60),
           ],
         ),
       ),
@@ -75,8 +88,10 @@ class _CreateNoteState extends State<CreateNote> {
   }
 
   createNoteDB() {
-    final note =
-        Note(title: _noteTitleController.text, body: _noteBodyController.text, userId: user.uid);
+    final note = Note(
+        title: _noteTitleController.text,
+        body: _noteBodyController.text,
+        userId: user.uid);
     DatabaseHelper.instance.createNoteDB(note);
 
     Navigator.pop(context);

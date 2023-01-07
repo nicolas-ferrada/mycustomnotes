@@ -42,6 +42,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
             //Button recover password
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -52,12 +53,12 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                 ),
                 label: const Text(
                   'Recover password',
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 20),
                 ),
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
-                  backgroundColor: const Color.fromARGB(255, 221, 86, 76),
-                  minimumSize: const Size(220, 70),
+                  backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+                  minimumSize: const Size(220, 75),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),

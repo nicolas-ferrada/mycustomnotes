@@ -56,9 +56,9 @@ dependencies:
 
 # Splash screen configurationsflutter pub run flutter_native_splash:create
 flutter_native_splash:
-  color: "#fca9e2"
+  color: "#fad85a"
   android_12:
-    color: "#fca9e2"
+    color: "#fad85a"
 
 
 

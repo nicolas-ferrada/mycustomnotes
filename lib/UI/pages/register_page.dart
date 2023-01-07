@@ -69,14 +69,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
             //Register button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
-                  backgroundColor: const Color.fromARGB(255, 221, 86, 76),
-                  minimumSize: const Size(220, 70),
+                  backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+                  minimumSize: const Size(200, 75),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -107,7 +108,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                   ;
                 },
-                child: const Text('Register new user'),
+                child: const Text(
+                  'Register new user',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
           ],
