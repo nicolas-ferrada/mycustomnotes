@@ -52,11 +52,14 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
 
   # Splash screen
-  #flutter_native_splash: ^2.2.16
+  flutter_native_splash: ^2.2.16
 
-#flutter_native_splash:
- # color: "#ff80d7"
-  #image: assets/splash.png
+# Splash screen configurationsflutter pub run flutter_native_splash:create
+flutter_native_splash:
+  color: "#fca9e2"
+  android_12:
+    color: "#fca9e2"
+
 
 
 
@@ -65,6 +68,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # app icon
+  flutter_launcher_icons: "^0.11.0"
+
+# app icon config
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,8 +98,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  #assets:
-   # - assets/icon.png/
+  assets:
+    - assets/icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
