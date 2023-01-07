@@ -17,10 +17,12 @@ class DatabaseHelper {
   // If the database is not null (it's ready created) it will return it,
   // otherwise, if is not created (meaning it's null), it will create the file and then return it.
   Future<Database> get database async {
-    if (_database != null) return _database!;
-
-    _database = await _initDB('mycustomnotes.db');
-    return _database!;
+    if (_database != null) {
+      return _database!;
+    } else {
+      _database = await _initDB('mycustomnotes.db');
+      return _database!;
+    }
   }
 
   // Opening the database

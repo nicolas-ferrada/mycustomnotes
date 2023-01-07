@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     refreshNotes();
     super.initState();
   }
-  
+
   Future refreshNotes() async {
     setState(() {
       areNotesLoading = true;
@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
         .then((inComingNotes) => setState((() {
               notes = inComingNotes;
             })));
-
     setState(() {
       areNotesLoading = false;
     });

@@ -93,8 +93,6 @@ class _LoginPageState extends State<LoginPage> {
                   // sqlite login
                   await AuthSqliteFunctions.loginSqliteUser(email, password);
 
-                  
-
                   // firebase login
                   await AuthFirebaseFunctions.loginFirebase(email, password);
 
