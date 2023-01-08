@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // Firebase
                   final UserCredential uidFirebase =
                       await AuthFirebaseFunctions.registerFirebaseUser(
-                          email, password);
+                          email, password, context);
 
                   // Sqlite
                   await AuthSqliteFunctions.registerSqliteUser(

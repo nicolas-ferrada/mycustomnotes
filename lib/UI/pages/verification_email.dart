@@ -22,7 +22,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (isEmailVerified == false) {
-      AuthFirebaseFunctions.sendVerificationEmail();
+      AuthFirebaseFunctions.sendVerificationEmail(context);
 
       timer = Timer.periodic(
         const Duration(seconds: 3),
@@ -81,7 +81,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
                   backgroundColor: Colors.redAccent,
                 ),
                 onPressed: () async {
-                  await AuthFirebaseFunctions.logoutFirebase();
+                  await AuthFirebaseFunctions.logoutFirebase(context);
                 },
                 icon: const Icon(Icons.arrow_back),
                 label: const Text(

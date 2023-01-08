@@ -1,38 +1,44 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mycustomnotes/exceptions/auth_firebase_exceptions.dart';
 import 'dart:developer' as devtools;
-//import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class AuthFirebaseFunctions {
   //Logs in a user with it's email and password
-  static Future loginFirebase(String email, String password) async {
+  static Future loginFirebase(
+      String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'wrong-password') {
-        devtools.log('The entered password is wrong.\n$exception');
-      }
-      if (exception.code == 'user-not-found') {
-        devtools.log("The entered account doesn't exist.\n$exception");
-      }
-      if (exception.code == 'invalid-email') {
-        devtools.log("The entered email is not valid.\n$exception");
-      }
-      if (exception.code == 'unknown') {
-        devtools.log("You have to type an email and password.\n$exception");
-      }
-      if (exception.code == 'network-request-failed') {
-        devtools.log("You have to be connected to internet.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, 'You have entered a wrong password');
+      } else if (exception.code == 'user-not-found') {
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "The entered account doesn't exist");
+      } else if (exception.code == 'invalid-email') {
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "The entered email is not valid");
+      } else if (exception.code == 'unknown') {
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have to type an email and password");
+      } else if (exception.code == 'network-request-failed') {
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have to be connected to internet");
       } else {
-        devtools.log('There is a problem with your login.\n$exception');
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "There is a problem with your login:\n$exception");
       }
     } catch (unexpectedException) {
-      devtools.log('Unexpected error, $unexpectedException');
+      AuthFirebaseExceptions.showErrorDialog(
+          context, "There is a unexpected error:\n$unexpectedException");
     }
   }
 
   //Register/create a new user
-  static Future registerFirebaseUser(String email, String password) async {
+  static Future registerFirebaseUser(
+      String email, String password, BuildContext context) async {
     try {
       final UserCredential newUser =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -42,31 +48,37 @@ class AuthFirebaseFunctions {
       return newUser;
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'email-already-in-use') {
-        devtools.log(
-            'You have entered an email that is already in use.\n$exception');
+        AuthFirebaseExceptions.showErrorDialog(
+            context, 'You have entered an email that is already in use');
       }
       if (exception.code == 'invalid-email') {
-        devtools.log("You have entered an invalid email.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have entered an invalid email");
       }
       if (exception.code == 'weak-password') {
-        devtools.log("You have entered a weak password.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have entered a weak password");
       }
       if (exception.code == 'unknown') {
-        devtools.log("You have to type an email and password.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have to type an email and password");
       } else {
-        devtools.log('There is a problem with your register\n$exception');
+        AuthFirebaseExceptions.showErrorDialog(context,
+            "There is a problem with your register process:\n$exception");
       }
     } catch (unexpectedException) {
-      devtools.log('Unexpected error, $unexpectedException');
+      AuthFirebaseExceptions.showErrorDialog(
+          context, "There is a unexpected error:\n$unexpectedException");
     }
   }
 
   //Log out the current user
-  static Future logoutFirebase() async {
+  static Future logoutFirebase(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-    } catch (error) {
-      devtools.log('Unexpected exception, $error');
+    } catch (unexpectedException) {
+      AuthFirebaseExceptions.showErrorDialog(
+          context, "There is a unexpected error:\n$unexpectedException");
     }
   }
 
@@ -101,35 +113,3 @@ class AuthFirebaseFunctions {
     }
   }
 }
-
-//Error dialog message function
-// void showErrorDialog(BuildContext context, String errorMessage) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         elevation: 3,
-//         backgroundColor: Colors.redAccent[100],
-//         title: const Center(
-//           child: Text('Error'),
-//         ),
-//         content: Text(
-//           errorMessage.toString(),
-//           style: const TextStyle(color: Colors.white),
-//         ),
-//         actions: [
-//           ElevatedButton(
-//             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: const Text(
-//               'Close',
-//               style: TextStyle(color: Colors.black),
-//             ),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }

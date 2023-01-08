@@ -66,7 +66,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                 ),
                 onPressed: () {
                   AuthFirebaseFunctions.recoverPassword(
-                      _emailRecoverPasswordController.text);
+                      _emailRecoverPasswordController.text, context);
                 },
               ),
             ),
