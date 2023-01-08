@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'dart:developer' as logs;
 
 class NotesWidget extends StatelessWidget {
   NotesWidget({super.key, required this.note, required this.index});

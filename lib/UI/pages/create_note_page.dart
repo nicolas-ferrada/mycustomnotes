@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
-import 'dart:developer' as dev;
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});

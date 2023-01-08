@@ -97,10 +97,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // Sqlite
                   await AuthSqliteFunctions.registerSqliteUser(
-                          uid: uidFirebase.user!.uid,
-                          email: email,
-                          password: password)
-                      .then(
+                    uid: uidFirebase.user!.uid,
+                    email: email,
+                    password: password,
+                    context: context,
+                  ).then(
                     (value) {
                       // If the login was success then pop, if not, exception and unlock back button!!!
                       Navigator.maybePop(context);

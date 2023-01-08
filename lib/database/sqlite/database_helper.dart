@@ -3,7 +3,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import '../../models/user_model.dart';
-import 'dart:developer' as dev;
 
 // Class for the notes in sqlite
 class DatabaseHelper {
@@ -121,10 +120,8 @@ class DatabaseHelper {
  ''');
 
     if (login.isNotEmpty) {
-      dev.log('logged in');
       return User.fromMap(login.first);
     } else {
-      dev.log('NOT logged in');
       return null;
     }
   }

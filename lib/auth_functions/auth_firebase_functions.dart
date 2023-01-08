@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mycustomnotes/exceptions/auth_firebase_exceptions.dart';
-import 'dart:developer' as devtools;
 import 'package:flutter/material.dart';
 
 class AuthFirebaseFunctions {
@@ -83,33 +82,39 @@ class AuthFirebaseFunctions {
   }
 
   //Send a verification email to the current user
-  static Future sendVerificationEmail() async {
+  static Future sendVerificationEmail(BuildContext context) async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-    } catch (error) {
-      devtools.log('Unexpected exception, $error');
+    } catch (unexpectedException) {
+      AuthFirebaseExceptions.showErrorDialog(
+          context, "There is a unexpected error:\n$unexpectedException");
     }
   }
 
   //Recover the password of the specified mail sending it an email
-  static Future recoverPassword(String email) async {
+  static Future recoverPassword(String email, BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'invalid-email') {
-        devtools.log('You have entered an invalid email.\n$exception');
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have entered an invalid email");
       }
       if (exception.code == 'user-not-found') {
-        devtools.log("The entered account doesn't exist.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "The entered account doesn't exist");
       }
       if (exception.code == 'unknown') {
-        devtools.log("You have to type an email.\n$exception");
+        AuthFirebaseExceptions.showErrorDialog(
+            context, "You have to type an email and password");
       } else {
-        devtools.log('There is a problem resetting the password\n$exception');
+        AuthFirebaseExceptions.showErrorDialog(context,
+            "There is a problem recovering your password:\n$exception");
       }
     } catch (unexpectedException) {
-      devtools.log('Unexpected error, $unexpectedException');
+      AuthFirebaseExceptions.showErrorDialog(
+          context, "There is a unexpected error:\n$unexpectedException");
     }
   }
 }

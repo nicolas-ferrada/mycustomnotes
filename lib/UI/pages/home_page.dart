@@ -7,8 +7,6 @@ import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 import '../../auth_functions/auth_firebase_functions.dart';
 
-import 'dart:developer' as dev;
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
