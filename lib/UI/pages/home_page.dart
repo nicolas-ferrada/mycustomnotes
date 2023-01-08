@@ -55,7 +55,58 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
             // Close database
-            await AuthFirebaseFunctions.logoutFirebase();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  elevation: 3,
+                  backgroundColor: Color.fromRGBO(250, 216, 90, 0.8),
+                  title: const Center(
+                    child: Text('Log out'),
+                  ),
+                  content: Text(
+                    'Do you really want to log out?',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  actions: [
+                    Center(
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(200, 40),
+                                backgroundColor: Colors.white),
+                            onPressed: () async {
+                              await AuthFirebaseFunctions.logoutFirebase(
+                                  context).then((value) => Navigator.of(context).pop());
+                            },
+                            child: const Text(
+                              'Log out',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(200, 40),
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           },
         ),
       ),
