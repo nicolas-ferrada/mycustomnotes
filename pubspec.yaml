@@ -54,6 +54,9 @@ dependencies:
   # Splash screen
   flutter_native_splash: ^2.2.16
 
+  #Cloud storage firestore
+  cloud_firestore: ^4.3.1
+
 # Splash screen configurationsflutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#fad85a"
