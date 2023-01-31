@@ -1,9 +1,9 @@
-class User {
+class AuthUser {
   String id;
   final String email;
   final String password;
 
-  User({required this.id, required this.email, required this.password});
+  AuthUser({required this.id, required this.email, required this.password});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
@@ -11,7 +11,7 @@ class User {
   }
 
   // Convert the map coming from the database to the class model
-  static User fromMap(Map<String, dynamic> map) => User(
+  static AuthUser fromMap(Map<String, dynamic> map) => AuthUser(
         id: map['id'],
         email: map['email'],
         password: map['password'],

@@ -108,19 +108,19 @@ class DatabaseHelper {
   // User CRUD OPERATIONS in sqlite
 
   // Create a new user
-  Future<void> createUser(User user) async {
+  Future<void> createUser(AuthUser user) async {
     final db = await instance.database;
     await db.insert('user', user.toMap());
   }
 
-  Future<User?> loginUser(String email, String password) async {
+  Future<AuthUser?> loginUser(String email, String password) async {
     final db = await instance.database;
     final login = await db.rawQuery('''
       SELECT * FROM user WHERE email = "$email" AND password = "$password";
  ''');
 
     if (login.isNotEmpty) {
-      return User.fromMap(login.first);
+      return AuthUser.fromMap(login.first);
     } else {
       return null;
     }
