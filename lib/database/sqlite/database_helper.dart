@@ -41,8 +41,8 @@ class DatabaseHelper {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       body TEXT,
-      user_id TEXT NOT NULL,
-      FOREIGN KEY(user_id) REFERENCES user(id)
+      userId TEXT NOT NULL,
+      FOREIGN KEY(userId) REFERENCES user(id)
     )
 ''');
 
@@ -63,19 +63,12 @@ class DatabaseHelper {
 
   // Notes CRUD OPERATIONS in sqlite
 
-  // Create a new note
-  Future<void> createNoteDB(Note note) async {
-    // Reference to the db singleton instance
-    final Database db = await instance.database;
-    await db.insert('note', note.toMap());
-  }
-
   // Read all notes but ONLY those who match with user's id.
   Future<List<Note>> readAllNotesDB(String userId) async {
     final db = await instance.database;
     //final results = await db.query('note');
     final notesFromUser = await db.rawQuery('''
-        SELECT id, title, body FROM note WHERE user_id = "$userId";
+        SELECT id, title, body, userId FROM note WHERE userId = "$userId";
  ''');
     return notesFromUser.map((map) => Note.fromMap(map)).toList();
   }
@@ -90,6 +83,13 @@ class DatabaseHelper {
     } else {
       throw Exception('ID $noteId not found');
     }
+  }
+
+  // Create a new note
+  Future<void> createNoteDB(Note note) async {
+    // Reference to the db singleton instance
+    final Database db = await instance.database;
+    await db.insert('note', note.toMap());
   }
 
   // Delete a note

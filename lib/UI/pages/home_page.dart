@@ -52,59 +52,8 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
-            // Close database
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  elevation: 3,
-                  backgroundColor: Color.fromRGBO(250, 216, 90, 0.8),
-                  title: const Center(
-                    child: Text('Log out'),
-                  ),
-                  content: Text(
-                    'Do you really want to log out?',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  actions: [
-                    Center(
-                      child: Column(
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(200, 40),
-                                backgroundColor: Colors.white),
-                            onPressed: () async {
-                              await AuthFirebaseFunctions.logoutFirebase(
-                                  context).then((value) => Navigator.of(context).pop());
-                            },
-                            child: const Text(
-                              'Log out',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(200, 40),
-                                backgroundColor: Colors.white),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
+            // Log out dialog
+            logOutDialog(context);
           },
         ),
       ),
@@ -114,25 +63,88 @@ class _HomePageState extends State<HomePage> {
               ? const CircularProgressIndicator()
               : notes.isEmpty
                   ? const Text('No notes to show')
+                  // Show all notes of the user in screen
                   : buildNotes()),
-      // Button create a new note page
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
-        label: const Text('New note'),
-        icon: const Icon(Icons.create),
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => const CreateNote(),
-                ),
-              )
-              .then((_) => refreshNotes());
-        },
-      ),
+      // Button to create a new note
+      floatingActionButton: newNoteButton(context),
     );
   }
 
+  // Log out dialog
+  Future<dynamic> logOutDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 3,
+          backgroundColor: Color.fromRGBO(250, 216, 90, 0.8),
+          title: const Center(
+            child: Text('Log out'),
+          ),
+          content: Text(
+            'Do you really want to log out?',
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: [
+            Center(
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.white),
+                    onPressed: () async {
+                      await AuthFirebaseFunctions.logoutFirebase(context)
+                          .then((value) => Navigator.of(context).pop());
+                    },
+                    child: const Text(
+                      'Log out',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Create a new note button
+  FloatingActionButton newNoteButton(BuildContext context) {
+    return FloatingActionButton.extended(
+      backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
+      label: const Text('New note'),
+      icon: const Icon(Icons.create),
+      onPressed: () {
+        Navigator.of(context)
+            .push(
+              MaterialPageRoute(
+                builder: (context) => const CreateNote(),
+              ),
+            )
+            .then((_) => refreshNotes());
+      },
+    );
+  }
+
+  // Show all the notes of the user in the screen
   Widget buildNotes() {
     return GridView.custom(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -144,7 +156,6 @@ class _HomePageState extends State<HomePage> {
           Note note = notes[index];
           return GestureDetector(
               onTap: () {
-                // ACTUALIZAR UI AL VOLVER DE UNA NOTA
                 Navigator.of(context)
                     .push(
                       MaterialPageRoute(

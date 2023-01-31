@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
@@ -60,7 +59,7 @@ class _CreateNoteState extends State<CreateNote> {
               ],
             ),
             const SizedBox(height: 30),
-            // Button create a note
+            // Button to create a note
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
@@ -71,7 +70,11 @@ class _CreateNoteState extends State<CreateNote> {
                 ),
               ),
               onPressed: () {
-                createNoteDB();
+                Note.createNoteDB(
+                    title: _noteTitleController.text,
+                    body: _noteBodyController.text,
+                    userId: user.uid);
+                Navigator.pop(context);
               },
               child: const Text(
                 'Create a new note',
@@ -84,15 +87,5 @@ class _CreateNoteState extends State<CreateNote> {
         ),
       ),
     );
-  }
-
-  createNoteDB() {
-    final note = Note(
-        title: _noteTitleController.text,
-        body: _noteBodyController.text,
-        userId: user.uid);
-    DatabaseHelper.instance.createNoteDB(note);
-
-    Navigator.pop(context);
   }
 }
