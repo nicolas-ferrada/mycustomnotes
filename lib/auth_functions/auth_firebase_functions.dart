@@ -37,7 +37,10 @@ class AuthFirebaseFunctions {
 
   //Register/create a new user
   static Future registerFirebaseUser(
-      String email, String password, BuildContext context) async {
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
       final UserCredential newUser =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(

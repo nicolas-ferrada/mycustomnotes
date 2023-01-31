@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/auth_functions/auth_sqlite_functions.dart';
-import '../../auth_functions/auth_firebase_functions.dart';
+import 'package:mycustomnotes/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,7 +11,6 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _emailRegisterController = TextEditingController();
   final _passwordRegisterController = TextEditingController();
-  bool _isBackButtonDisabled = false;
 
   @override
   void dispose() {
@@ -28,16 +25,6 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Register'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            if (_isBackButtonDisabled == true) {
-              return; //does nothing
-            } else {
-              Navigator.maybePop(context);
-            }
-          },
-        ),
       ),
       body: Center(
         child: Column(
@@ -84,30 +71,19 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  // Prevents user leaving screen
-                  setState(() {
-                    _isBackButtonDisabled = true;
-                  });
-                  String email = _emailRegisterController.text;
-                  String password = _passwordRegisterController.text;
-                  // Firebase
-                  final UserCredential uidFirebase =
-                      await AuthFirebaseFunctions.registerFirebaseUser(
-                          email, password, context);
-
-                  // Sqlite
-                  await AuthSqliteFunctions.registerSqliteUser(
-                    uid: uidFirebase.user!.uid,
-                    email: email,
-                    password: password,
+                  // Create the user with firebase, returns the user as AuthUser object and use it to register it on sqlite
+                  await AuthUser.registerUserFirebase(
+                    email: _emailRegisterController.text,
+                    password: _passwordRegisterController.text,
                     context: context,
-                  ).then(
-                    (value) {
-                      // If the login was success then pop, if not, exception and unlock back button!!!
-                      Navigator.maybePop(context);
-                    },
-                  );
-                  ;
+                  )
+                      .then(
+                        (AuthUser newUser) => AuthUser.registerUserSqlite(
+                          user: newUser,
+                          context: context,
+                        ),
+                      )
+                      .then((_) => Navigator.maybePop(context));
                 },
                 child: const Text(
                   'Register new user',

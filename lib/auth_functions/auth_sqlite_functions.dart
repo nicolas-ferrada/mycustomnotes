@@ -6,7 +6,10 @@ import '../models/user_model.dart';
 
 class AuthSqliteFunctions {
   static Future<void> loginSqliteUser(
-      String email, String password, BuildContext context) async {
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
       await DatabaseHelper.instance.loginUser(email, password);
     } catch (unexpectedException) {
@@ -15,14 +18,12 @@ class AuthSqliteFunctions {
     }
   }
 
-  static Future<void> registerSqliteUser(
-      {required String email,
-      required String password,
-      required String uid,
-      required BuildContext context}) async {
+  // Recieves the AuthUser created by the register function of firebase
+  static Future<void> registerSqliteUser({
+    required AuthUser user,
+    required BuildContext context,
+  }) async {
     try {
-      final user =
-          AuthUser(id: uid, email: email.trim(), password: password.trim());
       await DatabaseHelper.instance.createUser(user);
     } catch (unexpectedException) {
       AuthFirebaseExceptions.showErrorDialog(context,

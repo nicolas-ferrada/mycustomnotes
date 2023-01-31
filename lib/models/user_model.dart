@@ -1,3 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+import '../auth_functions/auth_firebase_functions.dart';
+import '../auth_functions/auth_sqlite_functions.dart';
+
 class AuthUser {
   String id;
   final String email;
@@ -16,4 +22,27 @@ class AuthUser {
         email: map['email'],
         password: map['password'],
       );
+
+  // Register user firebase
+  static Future<AuthUser> registerUserFirebase({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    final UserCredential newUser =
+        await AuthFirebaseFunctions.registerFirebaseUser(
+            email, password, context);
+    return AuthUser(email: email, password: password, id: newUser.user!.uid);
+  }
+
+  // Register user sqlite
+  static void registerUserSqlite({
+    required AuthUser user,
+    required BuildContext context,
+  }) async {
+    await AuthSqliteFunctions.registerSqliteUser(
+      user: user,
+      context: context,
+    );
+  }
 }
