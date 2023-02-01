@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/user_model.dart';
+import 'package:mycustomnotes/services/AuthUserService.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -72,18 +73,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 onPressed: () async {
                   // Create the user with firebase, returns the user as AuthUser object and use it to register it on sqlite
-                  await AuthUser.registerUserFirebase(
+                  final AuthUser newUser =
+                      await AuthUserService.registerUserFirebase(
                     email: _emailRegisterController.text,
                     password: _passwordRegisterController.text,
                     context: context,
-                  )
-                      .then(
-                        (AuthUser newUser) => AuthUser.registerUserSqlite(
-                          user: newUser,
-                          context: context,
-                        ),
-                      )
-                      .then((_) => Navigator.maybePop(context));
+                  );
+
+                  // Creates the user in sqlite and pop register screen
+                  await AuthUserService.registerUserSqlite(
+                    user: newUser,
+                    context: context,
+                  ).then((_) => Navigator.maybePop(context));
                 },
                 child: const Text(
                   'Register new user',

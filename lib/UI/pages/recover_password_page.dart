@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../auth_functions/auth_firebase_functions.dart';
+import 'package:mycustomnotes/services/AuthUserService.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({super.key});
@@ -65,8 +65,10 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () {
-                  AuthFirebaseFunctions.recoverPassword(
-                      _emailRecoverPasswordController.text, context);
+                  AuthUserService.recoverPasswordUserFirebase(
+                    email: _emailRecoverPasswordController.text,
+                    context: context,
+                  );
                 },
               ),
             ),

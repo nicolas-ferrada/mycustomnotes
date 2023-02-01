@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
-import '../../auth_functions/auth_firebase_functions.dart';
+import 'package:mycustomnotes/services/AuthUserService.dart';
 
 class VerificationEmail extends StatefulWidget {
   const VerificationEmail({super.key});
@@ -15,14 +15,13 @@ class _VerificationEmailState extends State<VerificationEmail> {
   bool isEmailVerified = false;
   final user = FirebaseAuth.instance.currentUser!;
   Timer? timer;
-  late final AuthFirebaseFunctions firebaseFunctions;
 
   @override
   void initState() {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (isEmailVerified == false) {
-      AuthFirebaseFunctions.sendVerificationEmail(context);
+      AuthUserService.emailVerificationUserFirebase(context);
 
       timer = Timer.periodic(
         const Duration(seconds: 3),
@@ -81,7 +80,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
                   backgroundColor: Colors.redAccent,
                 ),
                 onPressed: () async {
-                  await AuthFirebaseFunctions.logoutFirebase(context);
+                  await AuthUserService.logOutUserFirebase(context);
                 },
                 icon: const Icon(Icons.arrow_back),
                 label: const Text(

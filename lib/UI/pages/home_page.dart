@@ -4,8 +4,8 @@ import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
+import 'package:mycustomnotes/services/AuthUserService.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
-import '../../auth_functions/auth_firebase_functions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
                     onPressed: () async {
-                      await AuthFirebaseFunctions.logoutFirebase(context)
+                      await AuthUserService.logOutUserFirebase(context)
                           .then((value) => Navigator.of(context).pop());
                     },
                     child: const Text(
