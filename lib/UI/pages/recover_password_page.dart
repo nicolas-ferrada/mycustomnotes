@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/services/AuthUserService.dart';
 
 class RecoverPassword extends StatefulWidget {
@@ -65,10 +66,14 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () {
-                  AuthUserService.recoverPasswordUserFirebase(
-                    email: _emailRecoverPasswordController.text,
-                    context: context,
-                  );
+                  // Send a email to recover the access of the account of the specified mail
+                  try {
+                    AuthUserService.recoverPasswordUserFirebase(
+                        email: _emailRecoverPasswordController.text);
+                  } catch (errorMessage) {
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context, errorMessage.toString());
+                  }
                 },
               ),
             ),

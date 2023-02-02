@@ -1,15 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:mycustomnotes/extensions/formatted_message.dart';
 import '../database/sqlite/database_helper.dart';
-import '../exceptions/auth_firebase_exceptions.dart';
 import '../models/user_model.dart';
 
 class AuthUserService {
-  // Register user firebase and returns an AuthUser object
-  static Future registerUserFirebase({
+  // Register user firebase and returns an AuthUser object, if not, throw
+  static Future<AuthUser> registerUserFirebase({
     required String email,
     required String password,
-    required BuildContext context,
   }) async {
     try {
       final UserCredential newUser =
@@ -18,42 +16,35 @@ class AuthUserService {
         password: password.trim(),
       );
       return AuthUser(email: email, password: password, id: newUser.user!.uid);
-    } on FirebaseAuthException catch (exception) {
-      if (exception.code == 'email-already-in-use') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, 'You have entered an email that is already in use');
-      }
-      if (exception.code == 'invalid-email') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have entered an invalid email");
-      }
-      if (exception.code == 'weak-password') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have entered a weak password");
-      }
-      if (exception.code == 'unknown') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have to type an email and password");
+    } on FirebaseAuthException catch (firebaseException) {
+      if (firebaseException.code == 'email-already-in-use') {
+        throw Exception('You have entered an email that is already in use')
+            .getMessage;
+      } else if (firebaseException.code == 'invalid-email') {
+        throw Exception("You have entered an invalid email").getMessage;
+      } else if (firebaseException.code == 'weak-password') {
+        throw Exception("You have entered a weak password").getMessage;
+      } else if (firebaseException.code == 'unknown') {
+        throw Exception("You have to type an email and password").getMessage;
       } else {
-        AuthFirebaseExceptions.showErrorDialog(context,
-            "There is a problem with your register process:\n$exception");
+        throw Exception(
+                "There's a problem in your register process:\n$firebaseException")
+            .getMessage;
       }
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(
-          context, "There is a unexpected error:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
   // Register user sqlite using the AuthUser object retured by registerUserFirebase.
   static Future registerUserSqlite({
     required AuthUser user,
-    required BuildContext context,
   }) async {
     try {
       await DatabaseHelper.instance.createUser(user);
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(context,
-          "There is a unexpected error with the local register process:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
@@ -61,34 +52,28 @@ class AuthUserService {
   static Future loginUserFirebase({
     required String email,
     required String password,
-    required BuildContext context,
   }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'wrong-password') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, 'You have entered a wrong password');
+        throw Exception('You have entered a wrong password').getMessage;
       } else if (exception.code == 'user-not-found') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "The entered account doesn't exist");
+        throw Exception("The entered account doesn't exist").getMessage;
       } else if (exception.code == 'invalid-email') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "The entered email is not valid");
+        throw Exception("The entered email is not valid").getMessage;
       } else if (exception.code == 'unknown') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have to type an email and password");
+        throw Exception("You have to type an email and password").getMessage;
       } else if (exception.code == 'network-request-failed') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have to be connected to internet");
+        throw Exception("You have to be connected to internet").getMessage;
       } else {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "There is a problem with your login:\n$exception");
+        throw Exception("There is a problem with your login:\n$exception")
+            .getMessage;
       }
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(
-          context, "There is a unexpected error:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
@@ -96,23 +81,22 @@ class AuthUserService {
   static Future<void> loginUserSqlite({
     required String email,
     required String password,
-    required BuildContext context,
   }) async {
     try {
       await DatabaseHelper.instance.loginUser(email, password);
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(context,
-          "There is a unexpected error with the local login:\n$unexpectedException");
+      throw Exception(
+              "There is a unexpected error with the local login:\n$unexpectedException")
+          .getMessage;
     }
   }
 
   // Log out user firebase
-  static Future logOutUserFirebase(BuildContext context) async {
+  static Future logOutUserFirebase() async {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(
-          context, "There is a unexpected error:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
@@ -120,13 +104,12 @@ class AuthUserService {
   // Close db?
 
   // Email verification user firebase
-  static Future emailVerificationUserFirebase(BuildContext context) async {
+  static Future emailVerificationUserFirebase() async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(
-          context, "There is a unexpected error:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
@@ -136,29 +119,24 @@ class AuthUserService {
   // Recover password user firebase
   static Future recoverPasswordUserFirebase({
     required String email,
-    required BuildContext context,
   }) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
-    } on FirebaseAuthException catch (exception) {
-      if (exception.code == 'invalid-email') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have entered an invalid email");
+    } on FirebaseAuthException catch (firebaseException) {
+      if (firebaseException.code == 'invalid-email') {
+        throw Exception("You have entered an invalid email").getMessage;
       }
-      if (exception.code == 'user-not-found') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "The entered account doesn't exist");
+      if (firebaseException.code == 'user-not-found') {
+        throw Exception("The entered account doesn't exist").getMessage;
       }
-      if (exception.code == 'unknown') {
-        AuthFirebaseExceptions.showErrorDialog(
-            context, "You have to type an email and password");
+      if (firebaseException.code == 'unknown') {
+        throw Exception("You have to type an email and password").getMessage;
       } else {
-        AuthFirebaseExceptions.showErrorDialog(context,
-            "There is a problem recovering your password:\n$exception");
+        throw Exception(
+            "There is a problem recovering your password:\n$firebaseException").getMessage;
       }
     } catch (unexpectedException) {
-      AuthFirebaseExceptions.showErrorDialog(
-          context, "There is a unexpected error:\n$unexpectedException");
+      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
     }
   }
 

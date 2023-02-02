@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AuthFirebaseExceptions {
+class ExceptionsAlertDialog {
   //Error dialog message function
-  static void showErrorDialog(BuildContext context, String errorMessage) {
-    showDialog(
+  static Future<void> showErrorDialog(
+    BuildContext context,
+    String errorMessage,
+  ) {
+    return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -20,7 +23,7 @@ class AuthFirebaseExceptions {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.maybePop(context);
               },
               child: const Text(
                 'Close',

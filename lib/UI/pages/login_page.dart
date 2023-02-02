@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/services/AuthUserService.dart';
 
+import '../../exceptions/exceptions_alert_dialog.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -85,12 +87,17 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  // login sqlite and register if not
-                  await AuthUserService.loginUserFirebase(
-                    email: _emailLoginController.text,
-                    password: _passwordLoginController.text,
-                    context: context,
-                  );
+                  // Login firebase and sqlite. Register sqlite if is not.
+                  try {
+                    await AuthUserService.loginUserFirebase(
+                      email: _emailLoginController.text,
+                      password: _passwordLoginController.text,
+                    );
+                    // If sqlite is not register, register it!
+                  } catch (errorMessage) {
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context, errorMessage.toString());
+                  }
                 },
               ),
             ),

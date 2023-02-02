@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
+import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/services/AuthUserService.dart';
 
 class VerificationEmail extends StatefulWidget {
@@ -21,11 +22,14 @@ class _VerificationEmailState extends State<VerificationEmail> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (isEmailVerified == false) {
-      AuthUserService.emailVerificationUserFirebase(context);
-
+      try {
+        AuthUserService.emailVerificationUserFirebase();
+      } catch (errorMessage) {
+        ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
+      }
       timer = Timer.periodic(
         const Duration(seconds: 3),
-        (_) => checkEmailVerified(), //why _
+        (_) => checkEmailVerified(),
       );
     }
 
@@ -80,7 +84,13 @@ class _VerificationEmailState extends State<VerificationEmail> {
                   backgroundColor: Colors.redAccent,
                 ),
                 onPressed: () async {
-                  await AuthUserService.logOutUserFirebase(context);
+                  // Log out firebase
+                  try {
+                    await AuthUserService.logOutUserFirebase();
+                  } catch (errorMessage) {
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context, errorMessage.toString());
+                  }
                 },
                 icon: const Icon(Icons.arrow_back),
                 label: const Text(

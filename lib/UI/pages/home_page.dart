@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
+import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/services/AuthUserService.dart';
@@ -94,8 +95,13 @@ class _HomePageState extends State<HomePage> {
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
                     onPressed: () async {
-                      await AuthUserService.logOutUserFirebase(context)
-                          .then((value) => Navigator.of(context).pop());
+                      try {
+                        await AuthUserService.logOutUserFirebase()
+                            .then((value) => Navigator.maybePop(context));
+                      } catch (errorMessage) {
+                        ExceptionsAlertDialog.showErrorDialog(
+                            context, errorMessage.toString());
+                      }
                     },
                     child: const Text(
                       'Log out',
