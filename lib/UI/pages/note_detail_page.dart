@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
+import 'package:mycustomnotes/services/NoteService.dart';
 
 class NoteDetail extends StatefulWidget {
   final int noteId;
@@ -48,8 +50,13 @@ class _NoteDetailState extends State<NoteDetail> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Note.deleteNote(noteId: widget.noteId);
-                    Navigator.pop(context);
+                    try {
+                      NoteService.deleteNote(noteId: widget.noteId)
+                          .then((_) => Navigator.maybePop(context));
+                    } catch (errorMessage) {
+                      ExceptionsAlertDialog.showErrorDialog(
+                          context, errorMessage.toString());
+                    }
                   },
                   icon: const Icon(Icons.delete),
                 )
@@ -104,13 +111,17 @@ class _NoteDetailState extends State<NoteDetail> {
                 ),
                 icon: const Icon(Icons.save),
                 onPressed: () {
-                  Note.editNote(
-                    title: newTitle,
-                    body: newBody,
-                    id: widget.noteId,
-                    userId: user.uid,
-                  );
-                  Navigator.pop(context);
+                  try {
+                    NoteService.editNote(
+                      title: newTitle,
+                      body: newBody,
+                      id: widget.noteId,
+                      userId: user.uid,
+                    ).then((_) => Navigator.maybePop(context));
+                  } catch (errorMessage) {
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context, errorMessage.toString());
+                  }
                 },
               ),
             ),

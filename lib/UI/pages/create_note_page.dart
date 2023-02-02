@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
+import 'package:mycustomnotes/services/NoteService.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
@@ -70,11 +72,16 @@ class _CreateNoteState extends State<CreateNote> {
                 ),
               ),
               onPressed: () {
-                Note.createNoteDB(
-                    title: _noteTitleController.text,
-                    body: _noteBodyController.text,
-                    userId: user.uid);
-                Navigator.pop(context);
+                try {
+                  NoteService.createNoteDB(
+                          title: _noteTitleController.text,
+                          body: _noteBodyController.text,
+                          userId: user.uid)
+                      .then((_) => Navigator.maybePop(context));
+                } catch (errorMessage) {
+                  ExceptionsAlertDialog.showErrorDialog(
+                      context, errorMessage.toString());
+                }
               },
               child: const Text(
                 'Create a new note',

@@ -32,7 +32,7 @@ class AuthUserService {
             .getMessage;
       }
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
@@ -43,7 +43,7 @@ class AuthUserService {
     try {
       await DatabaseHelper.instance.createUser(user);
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException")
+      throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
     }
   }
@@ -68,11 +68,11 @@ class AuthUserService {
       } else if (exception.code == 'network-request-failed') {
         throw Exception("You have to be connected to internet").getMessage;
       } else {
-        throw Exception("There is a problem with your login:\n$exception")
+        throw Exception("There is an problem with your login:\n$exception")
             .getMessage;
       }
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException")
+      throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
     }
   }
@@ -86,7 +86,7 @@ class AuthUserService {
       await DatabaseHelper.instance.loginUser(email, password);
     } catch (unexpectedException) {
       throw Exception(
-              "There is a unexpected error with the local login:\n$unexpectedException")
+              "There is an unexpected error with the local login:\n$unexpectedException")
           .getMessage;
     }
   }
@@ -96,7 +96,7 @@ class AuthUserService {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
@@ -109,7 +109,7 @@ class AuthUserService {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
@@ -136,7 +136,7 @@ class AuthUserService {
             "There is a problem recovering your password:\n$firebaseException").getMessage;
       }
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
     }
   }
 
