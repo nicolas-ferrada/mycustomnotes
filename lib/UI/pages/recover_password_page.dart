@@ -69,7 +69,11 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                   // Send a email to recover the access of the account of the specified mail
                   try {
                     AuthUserService.recoverPasswordUserFirebase(
-                        email: _emailRecoverPasswordController.text);
+                            email: _emailRecoverPasswordController.text)
+                        .then(
+                      (_) => Navigator.maybePop(context)
+                          .then((_) => dialogSucessfulMailSent(context)),
+                    );
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
                         context, errorMessage.toString());
@@ -80,6 +84,37 @@ class _RecoverPasswordState extends State<RecoverPassword> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> dialogSucessfulMailSent(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 3,
+          backgroundColor: Color.fromARGB(255, 66, 253, 162),
+          title: const Center(
+            child: Text('Successful'),
+          ),
+          content: Text(
+          'An email to recover your account was sent',
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
+              child: const Text(
+                'Close',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
