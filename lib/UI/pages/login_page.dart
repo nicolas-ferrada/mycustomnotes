@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
-import 'package:mycustomnotes/services/AuthUserService.dart';
+import 'package:mycustomnotes/services/auth_user_service.dart';
 
 import '../../exceptions/exceptions_alert_dialog.dart';
 
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
-                  backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
+                  backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
                   minimumSize: const Size(220, 70),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),

@@ -4,8 +4,8 @@ import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/services/AuthUserService.dart';
-import 'package:mycustomnotes/services/NoteService.dart';
+import 'package:mycustomnotes/services/auth_user_service.dart';
+import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -82,13 +82,13 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
           title: const Center(
             child: Text('Log out'),
           ),
-          content: Text(
+          content: const Text(
             'Do you really want to log out?',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           actions: [
             Center(
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
   // Create a new note button
   FloatingActionButton newNoteButton(BuildContext context) {
     return FloatingActionButton.extended(
-      backgroundColor: Color.fromRGBO(250, 216, 90, 0.9),
+      backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
       label: const Text('New note'),
       icon: const Icon(Icons.create),
       onPressed: () {

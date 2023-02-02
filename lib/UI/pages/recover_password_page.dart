@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/services/AuthUserService.dart';
+import 'package:mycustomnotes/services/auth_user_service.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({super.key});
@@ -93,13 +93,13 @@ class _RecoverPasswordState extends State<RecoverPassword> {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: Color.fromARGB(255, 66, 253, 162),
+          backgroundColor: const Color.fromARGB(255, 66, 253, 162),
           title: const Center(
             child: Text('Successful'),
           ),
-          content: Text(
+          content: const Text(
           'An email to recover your account was sent',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           actions: [
             ElevatedButton(

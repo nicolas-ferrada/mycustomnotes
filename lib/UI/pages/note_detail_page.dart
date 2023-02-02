@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/database/sqlite/database_helper.dart';
-import 'package:mycustomnotes/services/NoteService.dart';
+import 'package:mycustomnotes/services/note_service.dart';
 
 class NoteDetail extends StatefulWidget {
   final int noteId;

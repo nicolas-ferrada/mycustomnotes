@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
 import '../database/sqlite/database_helper.dart';
-import '../models/user_model.dart';
+import '../models/auth_user_model.dart';
 
 class AuthUserService {
   // Register user firebase and returns an AuthUser object, if not, throw

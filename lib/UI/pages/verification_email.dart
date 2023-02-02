@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home_page.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/services/AuthUserService.dart';
+import 'package:mycustomnotes/services/auth_user_service.dart';
 
 class VerificationEmail extends StatefulWidget {
   const VerificationEmail({super.key});

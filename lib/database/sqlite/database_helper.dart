@@ -2,7 +2,7 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import '../../models/user_model.dart';
+import '../../models/auth_user_model.dart';
 
 // Class for the notes in sqlite
 class DatabaseHelper {
