@@ -4,8 +4,8 @@ import 'package:mycustomnotes/UI/pages/create_note_page.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/database/sqlite/database_helper.dart';
 import 'package:mycustomnotes/services/AuthUserService.dart';
+import 'package:mycustomnotes/services/NoteService.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,22 +22,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    refreshNotes();
+    bringAllNotesDB();
     super.initState();
   }
 
-  Future refreshNotes() async {
-    setState(() {
-      areNotesLoading = true;
-    });
-    await DatabaseHelper.instance
-        .readAllNotesDB(user.uid)
-        .then((inComingNotes) => setState((() {
-              notes = inComingNotes;
-            })));
-    setState(() {
-      areNotesLoading = false;
-    });
+  // Read one note from sqlite and applies it to the late variable notes here.
+  Future<void> bringAllNotesDB() async {
+    try {
+      setState(() {
+        areNotesLoading = true;
+      });
+      await NoteService.readAllNotesDB(userId: user.uid).then((allNotesFromDB) {
+        setState(() {
+          notes = allNotesFromDB;
+        });
+      }).then((_) => setState(() {
+            areNotesLoading = false;
+          }));
+    } catch (errorMessage) {
+      ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
+    }
   }
 
   @override
@@ -145,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => const CreateNote(),
               ),
             )
-            .then((_) => refreshNotes());
+            .then((_) => bringAllNotesDB());
       },
     );
   }
@@ -167,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                           builder: (context) => NoteDetail(noteId: note.id!)),
                     )
-                    .then((_) => refreshNotes());
+                    .then((_) => bringAllNotesDB());
               },
               child: NotesWidget(note: note, index: index));
         }),

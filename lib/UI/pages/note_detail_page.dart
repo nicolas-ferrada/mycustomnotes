@@ -16,24 +16,29 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> {
   final user = FirebaseAuth.instance.currentUser!;
   bool _isSaveButtonVisible = false;
-  String newTitle = '';
-  String newBody = '';
+  late String newTitle;
+  late String newBody;
   late Note note;
 
   @override
   void initState() {
-    refreshNote();
+    bringNoteDB();
     super.initState();
   }
 
-  refreshNote() async {
-    await DatabaseHelper.instance
-        .readOneNoteDB(widget.noteId)
-        .then((awaitingNote) => setState(() {
-              note = awaitingNote;
-              newTitle = note.title;
-              newBody = note.body;
-            }));
+  // Read one note from sqlite and applies it to the late variable note here.
+  bringNoteDB() async {
+    try {
+      await NoteService.readOneNoteDB(noteId: widget.noteId).then((noteFromDB) {
+        setState(() {
+          note = noteFromDB;
+          newTitle = note.title;
+          newBody = note.body;
+        });
+      });
+    } catch (errorMessage) {
+      ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
+    }
   }
 
   @override
@@ -48,23 +53,14 @@ class _NoteDetailState extends State<NoteDetail> {
             // Note's title
             appBar: AppBar(
               actions: [
-                IconButton(
-                  onPressed: () {
-                    try {
-                      NoteService.deleteNote(noteId: widget.noteId)
-                          .then((_) => Navigator.maybePop(context));
-                    } catch (errorMessage) {
-                      ExceptionsAlertDialog.showErrorDialog(
-                          context, errorMessage.toString());
-                    }
-                  },
-                  icon: const Icon(Icons.delete),
-                )
+                // Delete note
+                deleteNoteIconButton(context),
               ],
               title: TextFormField(
                 initialValue: note.title,
                 onChanged: (value) {
                   setState(() {
+                    // Used to edit the note
                     _isSaveButtonVisible = true;
                     newTitle = value;
                   });
@@ -87,6 +83,7 @@ class _NoteDetailState extends State<NoteDetail> {
               child: TextFormField(
                 onChanged: (value) {
                   setState(() {
+                    // Used to edit the note
                     _isSaveButtonVisible = true;
                     newBody = value;
                   });
@@ -132,6 +129,22 @@ class _NoteDetailState extends State<NoteDetail> {
           return const CircularProgressIndicator();
         }
       },
+    );
+  }
+
+  // Delete note button (icon)
+  IconButton deleteNoteIconButton(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        try {
+          NoteService.deleteNote(noteId: widget.noteId)
+              .then((_) => Navigator.maybePop(context));
+        } catch (errorMessage) {
+          ExceptionsAlertDialog.showErrorDialog(
+              context, errorMessage.toString());
+        }
+      },
+      icon: const Icon(Icons.delete),
     );
   }
 }
