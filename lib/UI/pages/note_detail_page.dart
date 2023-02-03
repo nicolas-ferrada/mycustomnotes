@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/database/sqlite/database_helper.dart';
+import 'package:mycustomnotes/database/sqlite/local_database_helper.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 
 class NoteDetail extends StatefulWidget {
@@ -44,7 +44,7 @@ class _NoteDetailState extends State<NoteDetail> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: DatabaseHelper.instance.readOneNoteDB(widget.noteId),
+      future: LocalDatabaseHelper.instance.readOneNoteDB(widget.noteId),
       builder: (context, snapshot) {
         // If one nota was returned
         if (snapshot.hasData) {

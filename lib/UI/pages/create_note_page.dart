@@ -70,13 +70,25 @@ class _CreateNoteState extends State<CreateNote> {
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
+                // Create note button
                 try {
-                  NoteService.createNoteDB(
+                  // Create a note in local DB, then with the returned id (created by sqlite)
+                  // create the note in the cloud
+                  final int noteId = await NoteService.createNoteDB(
                           title: _noteTitleController.text,
                           body: _noteBodyController.text,
                           userId: user.uid)
-                      .then((_) => Navigator.maybePop(context));
+                      .then((_) {
+                    Navigator.maybePop(context);
+                    throw Exception('Note id error'); // ??
+                  });
+                  await NoteService.createNoteCloudFirestore(
+                    title: _noteTitleController.text,
+                    body: _noteBodyController.text,
+                    userId: user.uid,
+                    noteId: noteId,
+                  );
                 } catch (errorMessage) {
                   ExceptionsAlertDialog.showErrorDialog(
                       context, errorMessage.toString());

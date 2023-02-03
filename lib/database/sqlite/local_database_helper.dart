@@ -5,13 +5,14 @@ import 'package:path_provider/path_provider.dart';
 import '../../models/auth_user_model.dart';
 
 // Class for the notes in sqlite
-class DatabaseHelper {
+class LocalDatabaseHelper {
   // Singleton pattern for the database instance
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  static final LocalDatabaseHelper instance =
+      LocalDatabaseHelper._privateConstructor();
 
   static Database? _database;
 
-  DatabaseHelper._privateConstructor();
+  LocalDatabaseHelper._privateConstructor();
 
   // If the database is not null (it's ready created) it will return it,
   // otherwise, if is not created (meaning it's null), it will create the file and then return it.
@@ -86,10 +87,11 @@ class DatabaseHelper {
   }
 
   // Create a new note
-  Future<void> createNoteDB(Note note) async {
+  Future<int> createNoteDB(Note note) async {
     // Reference to the db singleton instance
     final Database db = await instance.database;
-    await db.insert('note', note.toMap());
+    final int noteId = await db.insert('note', note.toMap());
+    return noteId;
   }
 
   // Delete a note

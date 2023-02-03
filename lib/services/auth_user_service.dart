@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
-import '../database/sqlite/database_helper.dart';
+import '../database/sqlite/local_database_helper.dart';
 import '../models/auth_user_model.dart';
 
 class AuthUserService {
@@ -32,7 +32,8 @@ class AuthUserService {
             .getMessage;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
@@ -41,7 +42,7 @@ class AuthUserService {
     required AuthUser user,
   }) async {
     try {
-      await DatabaseHelper.instance.createUser(user);
+      await LocalDatabaseHelper.instance.createUser(user);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
@@ -83,7 +84,7 @@ class AuthUserService {
     required String password,
   }) async {
     try {
-      await DatabaseHelper.instance.loginUser(email, password);
+      await LocalDatabaseHelper.instance.loginUser(email, password);
     } catch (unexpectedException) {
       throw Exception(
               "There is an unexpected error with the local login:\n$unexpectedException")
@@ -96,7 +97,8 @@ class AuthUserService {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
@@ -109,7 +111,8 @@ class AuthUserService {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
@@ -133,10 +136,12 @@ class AuthUserService {
         throw Exception("You have to type an email and password").getMessage;
       } else {
         throw Exception(
-            "There is a problem recovering your password:\n$firebaseException").getMessage;
+                "There is a problem recovering your password:\n$firebaseException")
+            .getMessage;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException").getMessage;
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
     }
   }
 
