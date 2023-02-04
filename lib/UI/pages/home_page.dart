@@ -18,31 +18,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
-  late List<Note> notes;
-  bool areNotesLoading = false;
 
-  @override
-  void initState() {
-    bringAllNotesDB();
-    super.initState();
-  }
-
-  // Read one note from sqlite and applies it to the late variable notes here.
-  Future<void> bringAllNotesDB() async {
-    try {
-      setState(() {
-        areNotesLoading = true;
-      });
-      await NoteService.readAllNotesDB(userId: user.uid).then((allNotesFromDB) {
-        setState(() {
-          notes = allNotesFromDB;
-        });
-      }).then((_) => setState(() {
-            areNotesLoading = false;
-          }));
-    } catch (errorMessage) {
-      ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
-    }
+  void _updateNotes() {
+    setState(() {});
   }
 
   @override
@@ -70,14 +48,14 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasError) {
               return const Text('Something went wrong');
             } else if (snapshot.hasData) {
-              final notes = snapshot.data!;
+              final List<Note> notes = snapshot.data!;
+              // ordered by date
+              //notes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
               return Center(
-                  child: areNotesLoading
-                      ? const CircularProgressIndicator()
-                      : notes.isEmpty
-                          ? const Text('No notes to show')
-                          // Show all notes of the user in screen
-                          : buildNotes());
+                  child: notes.isEmpty
+                      ? const Text('No notes to show')
+                      // Show all notes of the user in screen
+                      : buildNotes(notes));
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -161,13 +139,13 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => const CreateNote(),
               ),
             )
-            .then((_) => bringAllNotesDB());
+            .then((_) => _updateNotes());
       },
     );
   }
 
   // Show all the notes of the user in the screen
-  Widget buildNotes() {
+  Widget buildNotes(List<Note> notes) {
     return GridView.custom(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -179,11 +157,9 @@ class _HomePageState extends State<HomePage> {
           return GestureDetector(
               onTap: () {
                 Navigator.of(context)
-                    .push(
-                      MaterialPageRoute(
-                          builder: (context) => NoteDetail(noteId: note.id!)),
-                    )
-                    .then((_) => bringAllNotesDB());
+                    .push(MaterialPageRoute(
+                        builder: (context) => NoteDetail(noteId: note.id!)))
+                    .then((value) => _updateNotes());
               },
               child: NotesWidget(note: note, index: index));
         }),
