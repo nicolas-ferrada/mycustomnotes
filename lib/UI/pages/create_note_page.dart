@@ -75,20 +75,18 @@ class _CreateNoteState extends State<CreateNote> {
                 try {
                   // Create a note in local DB, then with the returned id (created by sqlite)
                   // create the note in the cloud
-                  final int noteId = await NoteService.createNoteDB(
-                          title: _noteTitleController.text,
-                          body: _noteBodyController.text,
-                          userId: user.uid)
-                      .then((_) {
-                    Navigator.maybePop(context);
-                    throw Exception('Note id error'); // ??
-                  });
+                  int noteId = await NoteService.createNoteDB(
+                      title: _noteTitleController.text,
+                      body: _noteBodyController.text,
+                      userId: user.uid);
                   await NoteService.createNoteCloudFirestore(
                     title: _noteTitleController.text,
                     body: _noteBodyController.text,
                     userId: user.uid,
                     noteId: noteId,
-                  );
+                  ).then((_) {
+                    Navigator.maybePop(context);
+                  });
                 } catch (errorMessage) {
                   ExceptionsAlertDialog.showErrorDialog(
                       context, errorMessage.toString());

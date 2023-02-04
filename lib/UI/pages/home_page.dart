@@ -7,6 +7,7 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/widgets/notes_widget.dart';
+import 'package:mycustomnotes/database/firebase/cloud_database_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,13 +64,24 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       // Body to show the notes
-      body: Center(
-          child: areNotesLoading
-              ? const CircularProgressIndicator()
-              : notes.isEmpty
-                  ? const Text('No notes to show')
-                  // Show all notes of the user in screen
-                  : buildNotes()),
+      body: StreamBuilder(
+          stream: CloudDatabaseHelper.readAllNotesCloudDB(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            } else if (snapshot.hasData) {
+              final notes = snapshot.data!;
+              return Center(
+                  child: areNotesLoading
+                      ? const CircularProgressIndicator()
+                      : notes.isEmpty
+                          ? const Text('No notes to show')
+                          // Show all notes of the user in screen
+                          : buildNotes());
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
       // Button to create a new note
       floatingActionButton: newNoteButton(context),
     );
