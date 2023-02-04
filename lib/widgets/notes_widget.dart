@@ -18,13 +18,11 @@ class NotesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = _lightColors[index % _lightColors.length];
-    final minHeight = getMinHeight(index);
 
     return Card(
       color: color,
       child: Container(
         padding: const EdgeInsets.all(8),
-        constraints: BoxConstraints(minHeight: minHeight),
         alignment: Alignment.center,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -35,7 +33,7 @@ class NotesWidget extends StatelessWidget {
                 note.title,
                 style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -53,20 +51,5 @@ class NotesWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  double getMinHeight(int index) {
-    switch (index % 4) {
-      case 0:
-        return 100;
-      case 1:
-        return 150;
-      case 2:
-        return 150;
-      case 3:
-        return 100;
-      default:
-        return 100;
-    }
   }
 }

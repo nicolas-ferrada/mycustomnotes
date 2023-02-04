@@ -3,6 +3,7 @@ class Note {
   final String title;
   final String body;
   final String userId;
+  // date
 
   const Note(
       {this.id, required this.title, required this.body, required this.userId});
