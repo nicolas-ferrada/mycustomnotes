@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/UI/pages/create_note_page.dart';
-import 'package:mycustomnotes/UI/pages/note_detail_page.dart';
+import 'package:mycustomnotes/UI/pages/create_note.dart';
+import 'package:mycustomnotes/UI/pages/note_detail_edit_delete.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
-import 'package:mycustomnotes/widgets/notes_widget.dart';
-import 'package:mycustomnotes/database/firebase/cloud_database_helper.dart';
+import 'package:mycustomnotes/UI/widgets/notes_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,14 +42,14 @@ class _HomePageState extends State<HomePage> {
       ),
       // Body to show the notes
       body: StreamBuilder(
-          stream: CloudDatabaseHelper.readAllNotesCloudDB(),
+          stream: NoteService.readAllNotesFirestore(userId: user.uid),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text('Something went wrong');
             } else if (snapshot.hasData) {
               final List<Note> notes = snapshot.data!;
               // ordered by date
-              //notes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+              // notes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
               return Center(
                   child: notes.isEmpty
                       ? const Text('No notes to show')
@@ -89,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
                     onPressed: () async {
+                      // log out firebase
                       try {
                         await AuthUserService.logOutUserFirebase()
                             .then((value) => Navigator.maybePop(context));
@@ -154,11 +154,12 @@ class _HomePageState extends State<HomePage> {
         childCount: notes.length,
         ((context, index) {
           Note note = notes[index];
+          // Tapping on a note, opens the detailed version of it
           return GestureDetector(
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(
-                        builder: (context) => NoteDetail(noteId: note.id!)))
+                        builder: (context) => NoteDetail(noteId: note.id)))
                     .then((value) => _updateNotes());
               },
               child: NotesWidget(note: note, index: index));

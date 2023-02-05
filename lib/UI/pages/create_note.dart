@@ -73,17 +73,11 @@ class _CreateNoteState extends State<CreateNote> {
               onPressed: () async {
                 // Create note button
                 try {
-                  // Create a note in local DB, then with the returned id (created by sqlite)
-                  // create the note in the cloud
-                  int noteId = await NoteService.createNoteDB(
-                      title: _noteTitleController.text,
-                      body: _noteBodyController.text,
-                      userId: user.uid);
-                  await NoteService.createNoteCloudFirestore(
+                  // Create a note on firebase
+                  await NoteService.createNoteFirestore(
                     title: _noteTitleController.text,
                     body: _noteBodyController.text,
                     userId: user.uid,
-                    noteId: noteId,
                   ).then((_) {
                     Navigator.maybePop(context);
                   });

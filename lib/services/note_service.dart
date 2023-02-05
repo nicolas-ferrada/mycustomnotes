@@ -1,84 +1,72 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
-import '../database/firebase/cloud_database_helper.dart';
-import '../database/sqlite/local_database_helper.dart';
 import '../models/note_model.dart';
 
 class NoteService {
-  // Read one note from Firebase
-
-  // Read one note from sqlite and return it
-  static Future<Note> readOneNoteDB({
-    required int noteId,
+  // Read one note created by the user from Firebase
+  static Future<Note> readOneNoteFirestore({
+    required String noteId,
   }) async {
     try {
-      final Note fromDBNote =
-          await LocalDatabaseHelper.instance.readOneNoteDB(noteId);
-      return fromDBNote;
+      final db = FirebaseFirestore.instance;
+      final note = await db.collection('note').doc(noteId).get();
+
+      if (note.exists) {
+        return Note.fromMap(note.data()!);
+      } else {
+        throw Exception("Can't read the note").getMessage;
+      }
     } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException")
+      throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
     }
   }
 
-  // Read all notes firebase
-
-  // Read all notes sqlite and returns them.
-  static Future<List<Note>> readAllNotesDB({
+  // Read all notes from one user in firebase
+  static Stream<List<Note>> readAllNotesFirestore({
     required String userId,
-  }) async {
+  }) async* {
     try {
-      final List<Note> allNotesFromDB =
-          await LocalDatabaseHelper.instance.readAllNotesDB(userId);
-      return allNotesFromDB;
-    } catch (unexpectedException) {
-      throw Exception("There is a unexpected error:\n$unexpectedException")
-          .getMessage;
+      final db = FirebaseFirestore.instance;
+      final documents =
+          await db.collection('note').where('userId', isEqualTo: userId).get();
+      List<Note> notes = [];
+      for (var docSnapshots in documents.docs) {
+        final data = Note.fromMap(docSnapshots.data());
+        notes.add(data);
+      }
+      yield notes;
+    } catch (e) {
+      throw Exception('Error reading all notes: $e');
     }
   }
 
   // Create a note in firebase
-  static Future<void> createNoteCloudFirestore({
+  static Future<void> createNoteFirestore({
     required String title,
     required String body,
     required String userId,
-    required int noteId,
   }) async {
     try {
+      // References to the firestore colletion.
+      final noteCollection = FirebaseFirestore.instance.collection('note');
+
+      // Generate the document id
+      final documentReference = noteCollection.doc();
+      final noteId = documentReference.id;
+
       final note = Note(
+        id: noteId,
         title: title,
         body: body,
         userId: userId,
-        id: noteId,
       );
-      await CloudDatabaseHelper.createNoteCloudDB(note);
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
 
-  // Create note in sqlite
-  static Future<int> createNoteDB({
-    required String title,
-    required String body,
-    required String userId,
-  }) async {
-    try {
-      final note = Note(title: title, body: body, userId: userId);
-      final int noteId = await LocalDatabaseHelper.instance.createNoteDB(note);
-      return noteId;
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
+      // Transform that note object into a map to store it.
+      final mapNote = note.toMap();
 
-  // Delete a note in firebase
-
-  // Delete a note in sqlite
-  static Future<void> deleteNote({required int noteId}) async {
-    try {
-      LocalDatabaseHelper.instance.deleteNoteDB(noteId);
+      // Store the note object in firestore
+      await documentReference.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
@@ -86,25 +74,40 @@ class NoteService {
   }
 
   // Update a note in firebase
-
-  // Update a note in sqlite
-  static Future<void> editNote({
-    required String title,
-    required String body,
-    required int id,
+  static Future<void> editOneNoteFirestore({
+    required noteId,
+    required title,
+    required body,
     required userId,
   }) async {
     try {
-      final newNote = Note(
+      final note = Note(
+        id: noteId,
         title: title,
         body: body,
-        id: id,
         userId: userId,
       );
-      LocalDatabaseHelper.instance.editNoteDB(newNote);
+      final db = FirebaseFirestore.instance;
+
+      final docNote = db.collection('note').doc(noteId);
+
+      final mapNote = note.toMap();
+
+      await docNote.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
     }
+  }
+
+  // Delete a note in firebase
+  static Future<void> deleteOneNoteFirestore({
+    required noteId,
+  }) async {
+    final db = FirebaseFirestore.instance;
+
+    final docNote = db.collection('note').doc(noteId);
+
+    await docNote.delete();
   }
 }

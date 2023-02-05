@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
-import '../database/sqlite/local_database_helper.dart';
 import '../models/auth_user_model.dart';
 
 class AuthUserService {
-  // Register user firebase and returns an AuthUser object, if not, throw
+
+  // Register user firebase
+  // and returns an AuthUser object, if not, throw
   static Future<AuthUser> registerUserFirebase({
     required String email,
     required String password,
@@ -31,18 +32,6 @@ class AuthUserService {
                 "There's a problem in your register process:\n$firebaseException")
             .getMessage;
       }
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
-
-  // Register user sqlite using the AuthUser object retured by registerUserFirebase.
-  static Future registerUserSqlite({
-    required AuthUser user,
-  }) async {
-    try {
-      await LocalDatabaseHelper.instance.createUser(user);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
@@ -78,20 +67,6 @@ class AuthUserService {
     }
   }
 
-  // Login user sqlite (not used)
-  static Future<void> loginUserSqlite({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      await LocalDatabaseHelper.instance.loginUser(email, password);
-    } catch (unexpectedException) {
-      throw Exception(
-              "There is an unexpected error with the local login:\n$unexpectedException")
-          .getMessage;
-    }
-  }
-
   // Log out user firebase
   static Future logOutUserFirebase() async {
     try {
@@ -101,9 +76,6 @@ class AuthUserService {
           .getMessage;
     }
   }
-
-  // Log out user Sqlite
-  // Close db?
 
   // Email verification user firebase
   static Future emailVerificationUserFirebase() async {
@@ -115,9 +87,6 @@ class AuthUserService {
           .getMessage;
     }
   }
-
-  // Email verification user sqlite
-  // Needed? save it after?
 
   // Recover password user firebase
   static Future recoverPasswordUserFirebase({
@@ -144,7 +113,4 @@ class AuthUserService {
           .getMessage;
     }
   }
-
-  // Recover user password sqlite
-  // needed? need to change the password aswell?
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/models/auth_user_model.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -73,15 +72,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  // Create the user with firebase, returns the created user object and use it 
-                  // to register it on sqlite, then pop if possible to go to verification.
+                  // Register a user with email and password on firebase
                   try {
                     await AuthUserService.registerUserFirebase(
                       email: _emailRegisterController.text,
                       password: _passwordRegisterController.text,
-                    ).then((AuthUser newUser) {
-                      AuthUserService.registerUserSqlite(user: newUser);
-                    }).then((_) => Navigator.maybePop(context));
+                    ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
                         context, errorMessage.toString());

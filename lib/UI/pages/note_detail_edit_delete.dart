@@ -2,11 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/database/sqlite/local_database_helper.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 
 class NoteDetail extends StatefulWidget {
-  final int noteId;
+  final String noteId;
   const NoteDetail({super.key, required this.noteId});
 
   @override
@@ -22,14 +21,15 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   void initState() {
-    bringNoteDB();
     super.initState();
+    updateTitleBody();
   }
 
-  // Read one note from sqlite and applies it to the late variable note here.
-  bringNoteDB() async {
+  // Show the title and the body on note detail
+  updateTitleBody() async {
     try {
-      await NoteService.readOneNoteDB(noteId: widget.noteId).then((noteFromDB) {
+      await NoteService.readOneNoteFirestore(noteId: widget.noteId)
+          .then((noteFromDB) {
         setState(() {
           note = noteFromDB;
           newTitle = note.title;
@@ -44,9 +44,9 @@ class _NoteDetailState extends State<NoteDetail> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: LocalDatabaseHelper.instance.readOneNoteDB(widget.noteId),
+      future: NoteService.readOneNoteFirestore(noteId: widget.noteId),
       builder: (context, snapshot) {
-        // If one nota was returned
+        // If one note was returned
         if (snapshot.hasData) {
           note = snapshot.data!;
           return Scaffold(
@@ -108,11 +108,12 @@ class _NoteDetailState extends State<NoteDetail> {
                 ),
                 icon: const Icon(Icons.save),
                 onPressed: () {
+                  // Edit the selected note
                   try {
-                    NoteService.editNote(
+                    NoteService.editOneNoteFirestore(
                       title: newTitle,
                       body: newBody,
-                      id: widget.noteId,
+                      noteId: widget.noteId,
                       userId: user.uid,
                     ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {
@@ -124,9 +125,9 @@ class _NoteDetailState extends State<NoteDetail> {
             ),
           );
         } else if (snapshot.hasError) {
-          return const Text('An error has ocurred');
+          return const Center(child: Text('An error has ocurred'));
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -137,8 +138,66 @@ class _NoteDetailState extends State<NoteDetail> {
     return IconButton(
       onPressed: () {
         try {
-          NoteService.deleteNote(noteId: widget.noteId)
-              .then((_) => Navigator.maybePop(context));
+          showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  elevation: 3,
+                  backgroundColor: const Color.fromARGB(220, 250, 215, 90),
+                  title: const Center(
+                    child: Text('Confirmation'),
+                  ),
+                  content: const Text(
+                    'Do you really want to permanently delete this note?',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  actions: [
+                    Center(
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(200, 40),
+                                backgroundColor: Colors.white),
+                            onPressed: () async {
+                              // log out firebase
+                              try {
+                                // Delete a specified note
+                                Navigator.pop(context);
+                                await NoteService.deleteOneNoteFirestore(
+                                        noteId: widget.noteId)
+                                    .then((_) => Navigator.maybePop(context));
+                              } catch (errorMessage) {
+                                ExceptionsAlertDialog.showErrorDialog(
+                                    context, errorMessage.toString());
+                              }
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(200, 40),
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.maybePop(context);
+                            },
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              });
         } catch (errorMessage) {
           ExceptionsAlertDialog.showErrorDialog(
               context, errorMessage.toString());

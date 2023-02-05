@@ -1,12 +1,12 @@
 class Note {
-  final int? id;
-  final String title;
-  final String body;
-  final String userId;
+  final String id; // Document id created by firestore
+  final String title; // Title created by user
+  final String body; // Body created by user
+  final String userId; // User iud created by firebase auth
   // date
 
   const Note(
-      {this.id, required this.title, required this.body, required this.userId});
+      {required this.id, required this.title, required this.body, required this.userId});
 
   // Convert the class model to a map
   Map<String, dynamic> toMap() {
