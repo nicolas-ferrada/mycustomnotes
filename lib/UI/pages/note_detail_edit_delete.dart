@@ -115,6 +115,7 @@ class _NoteDetailState extends State<NoteDetail> {
                       body: newBody,
                       noteId: widget.noteId,
                       userId: user.uid,
+                      // need to update ids?
                     ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(

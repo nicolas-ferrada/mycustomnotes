@@ -87,13 +87,12 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(10),
                 ),
                 onPressed: () async {
-                  // Login firebase and sqlite. Register sqlite if is not.
+                  // Login firebase.
                   try {
                     await AuthUserService.loginUserFirebase(
                       email: _emailLoginController.text,
                       password: _passwordLoginController.text,
                     );
-                    // If sqlite is not register, register it!
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
                         context, errorMessage.toString());
