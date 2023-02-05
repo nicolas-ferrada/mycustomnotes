@@ -1,22 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
-import '../models/auth_user_model.dart';
 
 class AuthUserService {
-
-  // Register user firebase
-  // and returns an AuthUser object, if not, throw
-  static Future<AuthUser> registerUserFirebase({
+  // Register an user with email and password on firebase
+  static Future<void> registerUserEmailPasswordFirebase({
     required String email,
-    required String password,
+    required String password, // Used to register the user, but is not stored
   }) async {
     try {
-      final UserCredential newUser =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
-      return AuthUser(email: email, password: password, id: newUser.user!.uid);
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'email-already-in-use') {
         throw Exception('You have entered an email that is already in use')
@@ -39,7 +34,7 @@ class AuthUserService {
   }
 
   // Login user firebase
-  static Future loginUserFirebase({
+  static Future<void> loginUserFirebase({
     required String email,
     required String password,
   }) async {
@@ -68,7 +63,7 @@ class AuthUserService {
   }
 
   // Log out user firebase
-  static Future logOutUserFirebase() async {
+  static Future<void> logOutUserFirebase() async {
     try {
       await FirebaseAuth.instance.signOut();
     } catch (unexpectedException) {
@@ -78,10 +73,14 @@ class AuthUserService {
   }
 
   // Email verification user firebase
-  static Future emailVerificationUserFirebase() async {
+  static Future<void> emailVerificationUserFirebase() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
+      final currentUser = AuthUserService.getCurrentUserFirebase();
+      if (currentUser.emailVerified == false) {
+        await currentUser.sendEmailVerification();
+      } else {
+        throw Exception('The email is already verified');
+      }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
@@ -89,7 +88,7 @@ class AuthUserService {
   }
 
   // Recover password user firebase
-  static Future recoverPasswordUserFirebase({
+  static Future<void> recoverPasswordUserFirebase({
     required String email,
   }) async {
     try {
@@ -107,6 +106,21 @@ class AuthUserService {
         throw Exception(
                 "There is a problem recovering your password:\n$firebaseException")
             .getMessage;
+      }
+    } catch (unexpectedException) {
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
+    }
+  }
+
+  // Get current user logged on firebase
+  static User getCurrentUserFirebase() {
+    try {
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        return currentUser;
+      } else {
+        throw Exception("There is no user logged in").getMessage;
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")

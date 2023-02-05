@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/home.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
@@ -13,25 +13,39 @@ class VerificationEmail extends StatefulWidget {
 }
 
 class _VerificationEmailState extends State<VerificationEmail> {
-  bool isEmailVerified = false;
-  final user = FirebaseAuth.instance.currentUser!;
+  late User currentUser;
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    currentUser = AuthUserService.getCurrentUserFirebase();
+    userVerifyEmail();
+  }
 
-    if (isEmailVerified == false) {
+  Future<void> userVerifyEmail() async {
+    // If current user's email is not verified, send the email verification to it's email
+    if (currentUser.emailVerified == false) {
       try {
-        AuthUserService.emailVerificationUserFirebase();
+        AuthUserService
+            .emailVerificationUserFirebase(); // Sends the email verification
+        // Check every three seconds if the user is verified or not, when it is, stop checking.
+        timer = Timer.periodic(
+          const Duration(seconds: 3),
+          (_) async {
+            if (currentUser.emailVerified == false) {
+              await currentUser.reload();
+              currentUser = AuthUserService
+                  .getCurrentUserFirebase(); // Get a new instace after reload.
+            } else {
+              timer?.cancel();
+              setState(() {}); // Re-build UI
+            }
+          },
+        );
       } catch (errorMessage) {
         ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
       }
-      timer = Timer.periodic(
-        const Duration(seconds: 3),
-        (_) => checkEmailVerified(),
-      );
     }
   }
 
@@ -41,22 +55,10 @@ class _VerificationEmailState extends State<VerificationEmail> {
     super.dispose();
   }
 
-  Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
-
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-
-    if (isEmailVerified == true) {
-      timer?.cancel();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (isEmailVerified == true) {
-      //if email is verified, sends you to the home page, if not, keeps you here
+    if (currentUser.emailVerified == true) {
+      //If email is verified, sends you to the home page, if not, keeps you here
       return const HomePage();
     } else {
       return Scaffold(
@@ -74,7 +76,7 @@ class _VerificationEmailState extends State<VerificationEmail> {
               ),
               const SizedBox(height: 10),
               Text(
-                '${user.email}',
+                '${currentUser.email}',
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),

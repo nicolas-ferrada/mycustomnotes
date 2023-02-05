@@ -53,6 +53,7 @@ class NoteService {
 
       // Generate the document id
       final documentReference = noteCollection.doc();
+      // Applies the created id documents of firestore to the noteId
       final noteId = documentReference.id;
 
       final note = Note(

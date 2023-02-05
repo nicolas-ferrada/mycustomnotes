@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
+import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 
 class CreateNote extends StatefulWidget {
@@ -11,7 +11,7 @@ class CreateNote extends StatefulWidget {
 }
 
 class _CreateNoteState extends State<CreateNote> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final currentUser = AuthUserService.getCurrentUserFirebase();
   final _noteTitleController = TextEditingController();
   final _noteBodyController = TextEditingController();
 
@@ -77,7 +77,7 @@ class _CreateNoteState extends State<CreateNote> {
                   await NoteService.createNoteFirestore(
                     title: _noteTitleController.text,
                     body: _noteBodyController.text,
-                    userId: user.uid,
+                    userId: currentUser.uid,
                   ).then((_) {
                     Navigator.maybePop(context);
                   });

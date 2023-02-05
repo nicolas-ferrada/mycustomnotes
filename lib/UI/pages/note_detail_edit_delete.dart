@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
+import '../../services/auth_user_service.dart';
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -13,7 +13,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final currentUser = AuthUserService.getCurrentUserFirebase();
   bool _isSaveButtonVisible = false;
   late String newTitle;
   late String newBody;
@@ -114,7 +114,7 @@ class _NoteDetailState extends State<NoteDetail> {
                       title: newTitle,
                       body: newBody,
                       noteId: widget.noteId,
-                      userId: user.uid,
+                      userId: currentUser.uid,
                       // need to update ids?
                     ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {

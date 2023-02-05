@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/constants/routes.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
-
 import '../../exceptions/exceptions_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {

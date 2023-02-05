@@ -74,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onPressed: () async {
                   // Register a user with email and password on firebase
                   try {
-                    await AuthUserService.registerUserFirebase(
+                    await AuthUserService.registerUserEmailPasswordFirebase(
                       email: _emailRegisterController.text,
                       password: _passwordRegisterController.text,
                     ).then((_) => Navigator.maybePop(context));

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/UI/pages/create_note.dart';
 import 'package:mycustomnotes/UI/pages/note_detail_edit_delete.dart';
@@ -16,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final currentUser = AuthUserService.getCurrentUserFirebase(); // init state?
 
   void _updateNotes() {
     setState(() {});
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Welcome: ${user.email}',
+          'Welcome: ${currentUser.email}',
           style: const TextStyle(fontSize: 14),
         ),
         automaticallyImplyLeading: false,
@@ -42,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       ),
       // Body to show the notes
       body: StreamBuilder(
-          stream: NoteService.readAllNotesFirestore(userId: user.uid),
+          stream: NoteService.readAllNotesFirestore(userId: currentUser.uid),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text('Something went wrong');
