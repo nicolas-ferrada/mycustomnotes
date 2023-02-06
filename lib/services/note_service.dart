@@ -14,7 +14,7 @@ class NoteService {
       if (note.exists) {
         return Note.fromMap(note.data()!);
       } else {
-        throw Exception("Can't read the note").getMessage;
+        throw Exception("Can't find the note").getMessage;
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
