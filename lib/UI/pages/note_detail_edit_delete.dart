@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/enums/menu_item_note_detail.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
@@ -53,8 +54,8 @@ class _NoteDetailState extends State<NoteDetail> {
             // Note's title
             appBar: AppBar(
               actions: [
-                // Delete note
-                deleteNoteIconButton(context),
+                // Note three dots detais (delete, date)
+                menuButtonNote(),
               ],
               title: TextFormField(
                 initialValue: note.title,
@@ -134,77 +135,62 @@ class _NoteDetailState extends State<NoteDetail> {
     );
   }
 
-  // Delete note button (icon)
-  IconButton deleteNoteIconButton(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        try {
-          showDialog<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  elevation: 3,
-                  backgroundColor: const Color.fromARGB(220, 250, 215, 90),
-                  title: const Center(
-                    child: Text('Confirmation'),
-                  ),
-                  content: const Text(
-                    'Do you really want to permanently delete this note?',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  actions: [
-                    Center(
-                      child: Column(
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(200, 40),
-                                backgroundColor: Colors.white),
-                            onPressed: () async {
-                              // log out firebase
-                              try {
-                                // Delete a specified note
-                                Navigator.pop(context);
-                                await NoteService.deleteOneNoteFirestore(
-                                        noteId: widget.noteId)
-                                    .then((_) => Navigator.maybePop(context));
-                              } catch (errorMessage) {
-                                ExceptionsAlertDialog.showErrorDialog(
-                                    context, errorMessage.toString());
-                              }
-                            },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(200, 40),
-                                backgroundColor: Colors.white),
-                            onPressed: () {
-                              Navigator.maybePop(context);
-                            },
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              });
-        } catch (errorMessage) {
-          ExceptionsAlertDialog.showErrorDialog(
-              context, errorMessage.toString());
+  // Menu note button (icon three dots)
+  PopupMenuButton menuButtonNote() {
+    return PopupMenuButton(
+      onSelected: (value) {
+        if (value == MenuItemNoteDetail.item1) {
+          // Delete note
+        } else if (value == MenuItemNoteDetail.item1) {
+          // Mark as favorite
+        } else if (value == MenuItemNoteDetail.item1) {
+          // Share note
+        } else if (value == MenuItemNoteDetail.item1) {
+          // Note details
         }
       },
-      icon: const Icon(Icons.delete),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.delete, size: 30),
+              Text('Delete'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.star, size: 30),
+              Text('Favorite'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item3,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.share, size: 30),
+              Text('Share'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item4,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.info, size: 30),
+              Text('Details'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
