@@ -141,6 +141,7 @@ class _NoteDetailState extends State<NoteDetail> {
       onSelected: (value) {
         if (value == MenuItemNoteDetail.item1) {
           // Delete note
+          deleteNoteDialog(context);
         } else if (value == MenuItemNoteDetail.item1) {
           // Mark as favorite
         } else if (value == MenuItemNoteDetail.item1) {
@@ -191,6 +192,72 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
       ],
+    );
+  }
+
+  // Delete note dialog
+  Future<void> deleteNoteDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 3,
+          backgroundColor: const Color.fromARGB(220, 250, 215, 90),
+          title: const Center(
+            child: Text('Confirmation'),
+          ),
+          content: const Text(
+            'Do you really want to permanently delete this note?',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            Center(
+              child: Column(
+                children: [
+                  // Delete button
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.white),
+                    onPressed: () async {
+                      try {
+                        // Delete a specified note
+                        await NoteService.deleteOneNoteFirestore(
+                                noteId: widget.noteId)
+                            .then((_) => Navigator.pop(context)) // close dialog
+                            .then((_) => Navigator.maybePop(context)); // returns to the home page
+                      } catch (errorMessage) {
+                        ExceptionsAlertDialog.showErrorDialog(
+                            context, errorMessage.toString());
+                      }
+                    },
+                    child: const Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  // Cancel button
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.maybePop(context);
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
