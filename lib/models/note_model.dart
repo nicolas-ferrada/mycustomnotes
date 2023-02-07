@@ -6,9 +6,10 @@ class Note {
   final String body; // Body created by user
   final String userId; // User iud created by firebase auth
   final Timestamp
-       lastModificationDate; // Displayed outside the note, changes on edit
+      lastModificationDate; // Displayed outside the note, changes on edit
   final Timestamp
       createdDate; // Date of creation (can't be modified) displayed on details
+  final bool isFavorite;
 
   const Note({
     required this.id,
@@ -17,6 +18,7 @@ class Note {
     required this.userId,
     required this.lastModificationDate,
     required this.createdDate,
+    required this.isFavorite,
   });
 
   // Convert the class model to a map
@@ -28,6 +30,7 @@ class Note {
       'userId': userId,
       'lastModificationDate': lastModificationDate,
       'createdDate': createdDate,
+      'isFavorite': isFavorite,
     };
   }
 
@@ -39,5 +42,6 @@ class Note {
         userId: map['userId'],
         lastModificationDate: map['lastModificationDate'],
         createdDate: map['createdDate'],
+        isFavorite: map['isFavorite'],
       );
 }

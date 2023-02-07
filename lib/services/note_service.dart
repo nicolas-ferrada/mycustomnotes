@@ -46,6 +46,7 @@ class NoteService {
     required String title,
     required String body,
     required String userId,
+    required bool isFavorite,
   }) async {
     try {
       // References to the firestore colletion.
@@ -63,6 +64,7 @@ class NoteService {
         userId: userId,
         lastModificationDate: Timestamp.now(),
         createdDate: Timestamp.now(),
+        isFavorite: isFavorite,
       );
 
       // Transform that note object into a map to store it.
@@ -82,6 +84,7 @@ class NoteService {
     required title,
     required body,
     required userId,
+    required isFavorite,
   }) async {
     try {
       // Get the current 'created date' of the note to use the same.
@@ -96,6 +99,7 @@ class NoteService {
         userId: userId,
         lastModificationDate: Timestamp.now(),
         createdDate: existingCreatedDate,
+        isFavorite: isFavorite,
       );
       final db = FirebaseFirestore.instance;
 
@@ -119,5 +123,16 @@ class NoteService {
     final docNote = db.collection('note').doc(noteId);
 
     await docNote.delete();
+  }
+
+  // After adding a new attribute to the model class, you need to update all other notes created.
+  // Updates all documents created to add a new field to them, so stream won't return null.
+  static Future<void> updateAllNotesFirestoreWithNewFields() async {
+    final db = FirebaseFirestore.instance;
+    final snapshot = await db.collection('note').get();
+
+    for (var document in snapshot.docs) {
+      await document.reference.update({'isFavorite': false}); // new field: default value.
+    }
   }
 }
