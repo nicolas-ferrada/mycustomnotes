@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           stream: NoteService.readAllNotesFirestore(userId: currentUser.uid),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Text('Something went wrong');
+              return Text('Something went wrong ${snapshot.error.toString()}');
             } else if (snapshot.hasData) {
               final List<Note> notes = snapshot.data!;
               return Center(
