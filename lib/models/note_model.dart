@@ -7,7 +7,7 @@ class Note {
   final String userId; // User iud created by firebase auth
   final Timestamp
        lastModificationDate; // Displayed outside the note, changes on edit
-  final Timestamp?
+  final Timestamp
       createdDate; // Date of creation (can't be modified) displayed on details
 
   const Note({
