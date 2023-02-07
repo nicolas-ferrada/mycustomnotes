@@ -47,13 +47,12 @@ class _HomePageState extends State<HomePage> {
               return const Text('Something went wrong');
             } else if (snapshot.hasData) {
               final List<Note> notes = snapshot.data!;
-              // ordered by date
-              // notes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
               return Center(
-                  child: notes.isEmpty
-                      ? const Text('No notes to show')
-                      // Show all notes of the user in screen
-                      : buildNotes(notes));
+                // If notes are empty, show 'no notes message', if theres notes, build them
+                child: notes.isEmpty
+                    ? const Text('No notes to show')
+                    : buildNotes(notes), // Show all notes of the user in screen
+              );
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -152,6 +151,8 @@ class _HomePageState extends State<HomePage> {
       childrenDelegate: SliverChildBuilderDelegate(
         childCount: notes.length,
         ((context, index) {
+          // ordered by date, first note created will show first
+          notes.sort((a, b) => a.createdDate.compareTo(b.createdDate));
           Note note = notes[index];
           // Tapping on a note, opens the detailed version of it
           return GestureDetector(
