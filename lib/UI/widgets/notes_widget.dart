@@ -1,11 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 
 class NotesWidget extends StatelessWidget {
-  NotesWidget({super.key, required this.note, required this.index});
+  NotesWidget({
+    super.key,
+    required this.note,
+    required this.index,
+    required this.lastModificationDate,
+  });
 
   final Note note;
   final int index;
+  final Timestamp lastModificationDate;
+
   final List<Color> _lightColors = [
     Colors.amber.shade300,
     Colors.lightGreen.shade300,
@@ -25,9 +33,18 @@ class NotesWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          //mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                showDateFormatted(lastModificationDate),
+                style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+              ),
+            ),
+            const SizedBox(height: 28),
+            // Text title
             Center(
               child: Text(
                 note.title,
@@ -38,6 +55,7 @@ class NotesWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
+            // Text body
             Center(
               child: Text(
                 note.body,
@@ -51,5 +69,21 @@ class NotesWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Formate the timestamp from firebase to a user friendly date
+  // Day, Month, Year, Hour, Minutes
+  String showDateFormatted(Timestamp lastModificationDate) {
+    final DateTime dateTime = lastModificationDate.toDate();
+    //final String formattedTime = DateFormat('d-M-y H:m').format(dateTime);
+
+    final day = dateTime.day.toString().padLeft(2, '0');
+    final month = dateTime.month.toString().padLeft(2, '0');
+    final hour = dateTime.hour.toString().padLeft(2, '0');
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+
+    final String formattedTime = '$day-$month-${dateTime.year} $hour:$minute';
+
+    return formattedTime;
   }
 }

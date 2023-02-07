@@ -6,7 +6,6 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/UI/widgets/notes_widget.dart';
-import 'dart:developer' as log;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -162,7 +161,11 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => NoteDetail(noteId: note.id)))
                     .then((value) => _updateNotes());
               },
-              child: NotesWidget(note: note, index: index));
+              child: NotesWidget(
+                note: note,
+                lastModificationDate: note.lastModificationDate,
+                index: index,
+              ));
         }),
       ),
     );
