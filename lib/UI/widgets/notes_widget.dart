@@ -43,22 +43,26 @@ class NotesWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 13, color: Colors.grey[700]),
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 8),
             // Text title
             Center(
               child: Text(
                 note.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             // Text body
             Center(
               child: Text(
                 note.body,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
