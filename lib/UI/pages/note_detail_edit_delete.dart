@@ -95,6 +95,7 @@ class _NoteDetailState extends State<NoteDetail> {
                 maxLines: null,
                 expands: true,
                 decoration: const InputDecoration(
+                  hintText: 'Body',
                   border: InputBorder.none,
                 ),
               ),
@@ -117,6 +118,7 @@ class _NoteDetailState extends State<NoteDetail> {
                       body: newBody,
                       noteId: widget.noteId,
                       userId: currentUser.uid,
+                      isFavorite: false,
                       // need to update ids?
                     ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {
