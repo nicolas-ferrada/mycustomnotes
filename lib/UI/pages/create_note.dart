@@ -16,6 +16,11 @@ class _CreateNoteState extends State<CreateNote> {
   final _noteBodyController = TextEditingController();
   bool isFavorite = false;
   bool _isCreateButtonVisible = false;
+  Icon isFavoriteIcon = const Icon(
+    Icons.star_outlined,
+    color: Colors.grey,
+    size: 35,
+  );
 
   @override
   void dispose() {
@@ -29,9 +34,40 @@ class _CreateNoteState extends State<CreateNote> {
     return Scaffold(
       // Note's title
       appBar: AppBar(
-        actions: const [
-          // Note options before creating
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
+            // Favorite star icon
+            child: IconButton(
+              icon: isFavoriteIcon,
+              onPressed: () {
+                setState(() {
+                  // if it's not favorite, changes it to yellow and to true
+                  // if it's favorite, then make it no favorite.
+                  if (!isFavorite) {
+                    isFavoriteIcon = const Icon(
+                      Icons.star,
+                      color: Colors.amberAccent,
+                      size: 35,
+                    );
+                    isFavorite = true;
+                    SnackBar snackBarIsFavoriteTrue = favoriteNoteSnackBarMessage();
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(snackBarIsFavoriteTrue);
+                  } else {
+                    isFavoriteIcon = const Icon(
+                      Icons.star_outlined,
+                      color: Colors.grey,
+                      size: 35,
+                    );
+                    isFavorite = false;
+                  }
+                });
+              },
+            ),
+          )
         ],
+        // Note title
         title: TextFormField(
           controller: _noteTitleController,
           onChanged: (value) {
@@ -41,7 +77,7 @@ class _CreateNoteState extends State<CreateNote> {
           },
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: "Enter your note's title",
+            hintText: "Title",
             hintStyle: TextStyle(color: Colors.white70),
           ),
           style: const TextStyle(
@@ -65,7 +101,7 @@ class _CreateNoteState extends State<CreateNote> {
           maxLines: null,
           expands: true,
           decoration: const InputDecoration(
-            hintText: "Enter your note's body",
+            hintText: "Body",
             border: InputBorder.none,
           ),
         ),
@@ -82,7 +118,7 @@ class _CreateNoteState extends State<CreateNote> {
                 title: _noteTitleController.text,
                 body: _noteBodyController.text,
                 userId: currentUser.uid,
-                isFavorite: false,
+                isFavorite: isFavorite,
               ).then((_) {
                 Navigator.maybePop(context);
               });
@@ -101,85 +137,19 @@ class _CreateNoteState extends State<CreateNote> {
       ),
     );
   }
+
+  SnackBar favoriteNoteSnackBarMessage() {
+    const snackBarIsFavoriteTrue = SnackBar(
+      duration: Duration(seconds: 1),
+      content: Center(
+        child: Text(
+          'Note marked as favorite',
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+      backgroundColor: Colors.amberAccent,
+    );
+    return snackBarIsFavoriteTrue;
+  }
 }
-
-
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       centerTitle: true,
-  //       title: const Text('Creating a note'),
-  //     ),
-  //     body: Center(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           // Note's title
-  //           Column(
-  //             children: [
-  //               Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: TextFormField(
-  //                   controller: _noteTitleController,
-  //                   decoration: const InputDecoration(
-  //                     hintText: "Enter your note's title",
-  //                     border: OutlineInputBorder(),
-  //                   ),
-  //                 ),
-  //               ),
-  //               // Note's body
-  //               Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: TextFormField(
-  //                   controller: _noteBodyController,
-  //                   decoration: const InputDecoration(
-  //                     hintText: "Enter your note's body",
-  //                     border: OutlineInputBorder(),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           const SizedBox(height: 30),
-  //           // Button to create a note
-  //           ElevatedButton(
-  //             style: ElevatedButton.styleFrom(
-  //               backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-  //               minimumSize: const Size(200, 75),
-  //               elevation: 30,
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(15),
-  //               ),
-  //             ),
-  //             onPressed: () async {
-  //               // Create note button
-  //               try {
-  //                 // Create a note on firebase
-  //                 await NoteService.createNoteFirestore(
-  //                   title: _noteTitleController.text,
-  //                   body: _noteBodyController.text,
-  //                   userId: currentUser.uid,
-  //                   isFavorite: false,
-  //                 ).then((_) {
-  //                   Navigator.maybePop(context);
-  //                 });
-  //               } catch (errorMessage) {
-  //                 ExceptionsAlertDialog.showErrorDialog(
-  //                     context, errorMessage.toString());
-  //               }
-  //             },
-  //             child: const Text(
-  //               'Create a new note',
-  //               style: TextStyle(
-  //                 fontSize: 20,
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
