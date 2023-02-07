@@ -4,6 +4,7 @@ import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import '../../services/auth_user_service.dart';
+import '../../utils/date_formatter.dart';
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -142,12 +143,13 @@ class _NoteDetailState extends State<NoteDetail> {
         if (value == MenuItemNoteDetail.item1) {
           // Delete note
           deleteNoteDialog(context);
-        } else if (value == MenuItemNoteDetail.item1) {
+        } else if (value == MenuItemNoteDetail.item2) {
           // Mark as favorite
-        } else if (value == MenuItemNoteDetail.item1) {
+        } else if (value == MenuItemNoteDetail.item3) {
           // Share note
-        } else if (value == MenuItemNoteDetail.item1) {
+        } else if (value == MenuItemNoteDetail.item4) {
           // Note details
+          noteDetailsDialog(context);
         }
       },
       itemBuilder: (context) => [
@@ -225,7 +227,8 @@ class _NoteDetailState extends State<NoteDetail> {
                         await NoteService.deleteOneNoteFirestore(
                                 noteId: widget.noteId)
                             .then((_) => Navigator.pop(context)) // close dialog
-                            .then((_) => Navigator.maybePop(context)); // returns to the home page
+                            .then((_) => Navigator.maybePop(
+                                context)); // returns to the home page
                       } catch (errorMessage) {
                         ExceptionsAlertDialog.showErrorDialog(
                             context, errorMessage.toString());
@@ -246,6 +249,55 @@ class _NoteDetailState extends State<NoteDetail> {
                     },
                     child: const Text(
                       'Cancel',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Show note detail
+  Future<void> noteDetailsDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 3,
+          backgroundColor: Colors.grey,
+          title: const Center(
+            child: Text('Note details'),
+          ),
+          content: Column(
+            children: [
+              Text(
+                'Creation date: ${DateFormatter.showDateFormatted(note.lastModificationDate)}',
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              //Text('xd'),
+            ],
+          ),
+          actions: [
+            Center(
+              child: Column(
+                children: [
+                  // Close button
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.maybePop(context);
+                    },
+                    child: const Text(
+                      'Close',
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
