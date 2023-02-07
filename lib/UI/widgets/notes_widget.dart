@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 
+import '../../utils/date_formatter.dart';
+
 class NotesWidget extends StatelessWidget {
   NotesWidget({
     super.key,
@@ -39,7 +41,7 @@ class NotesWidget extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               child: Text(
-                showDateFormatted(lastModificationDate),
+                DateFormatter.showDateFormatted(lastModificationDate),
                 style: TextStyle(fontSize: 13, color: Colors.grey[700]),
               ),
             ),
@@ -73,21 +75,5 @@ class NotesWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  // Formate the timestamp from firebase to a user friendly date
-  // Day, Month, Year, Hour, Minutes
-  String showDateFormatted(Timestamp lastModificationDate) {
-    final DateTime dateTime = lastModificationDate.toDate();
-    //final String formattedTime = DateFormat('d-M-y H:m').format(dateTime);
-
-    final day = dateTime.day.toString().padLeft(2, '0');
-    final month = dateTime.month.toString().padLeft(2, '0');
-    final hour = dateTime.hour.toString().padLeft(2, '0');
-    final minute = dateTime.minute.toString().padLeft(2, '0');
-
-    final String formattedTime = '$day-$month-${dateTime.year} $hour:$minute';
-
-    return formattedTime;
   }
 }
