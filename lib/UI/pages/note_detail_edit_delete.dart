@@ -280,7 +280,7 @@ class _NoteDetailState extends State<NoteDetail> {
           content: Column(
             children: [
               Text(
-                'Creation date: ${DateFormatter.showDateFormatted(note.lastModificationDate)}',
+                'Creation date: ${DateFormatter.showDateFormatted(note.createdDate)}',
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
               //Text('xd'),
