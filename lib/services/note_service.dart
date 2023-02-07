@@ -61,6 +61,8 @@ class NoteService {
         title: title,
         body: body,
         userId: userId,
+        lastModificationDate: Timestamp.now(),
+        createdDate: Timestamp.now(),
       );
 
       // Transform that note object into a map to store it.
@@ -82,11 +84,18 @@ class NoteService {
     required userId,
   }) async {
     try {
+      // Get the current 'created date' of the note to use the same.
+      final currentNote = await readOneNoteFirestore(noteId: noteId);
+      final existingCreatedDate = currentNote.createdDate;
+
+      // Create the new note to replace the other
       final note = Note(
         id: noteId,
         title: title,
         body: body,
         userId: userId,
+        lastModificationDate: Timestamp.now(),
+        createdDate: existingCreatedDate,
       );
       final db = FirebaseFirestore.instance;
 

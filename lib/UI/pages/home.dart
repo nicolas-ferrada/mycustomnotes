@@ -6,6 +6,7 @@ import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/UI/widgets/notes_widget.dart';
+import 'dart:developer' as log;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
