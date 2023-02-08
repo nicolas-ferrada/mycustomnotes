@@ -60,16 +60,11 @@ dependencies:
   # Date formatting (not currently used)
   intl: ^0.17.0
 
-# Splash screen configurationsflutter pub run flutter_native_splash:create
+# Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#fad85a"
   android_12:
     color: "#fad85a"
-
-
-
-
-
 
 dev_dependencies:
   flutter_test:
@@ -81,7 +76,7 @@ dev_dependencies:
   # lint rules
   flutter_lints: ^2.0.1
 
-# app icon config
+# app icon config flutter pub run flutter_launcher_icons
 flutter_icons:
   android: "launcher_icon"
   ios: true
