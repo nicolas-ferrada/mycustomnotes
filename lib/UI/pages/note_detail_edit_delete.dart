@@ -20,15 +20,35 @@ class _NoteDetailState extends State<NoteDetail> {
   late String newTitle;
   late String newBody;
   late Note note;
+  late bool isFavorite;
+  late Icon isFavoriteIcon;
+  late bool isFavoriteFirst;
 
   @override
   void initState() {
     super.initState();
-    updateTitleBody();
+    updateNote();
   }
 
-  // Show the title and the body on note detail
-  updateTitleBody() async {
+  @override
+  void dispose() {
+    //
+    try {
+      // Updates note isFavorite field if it changed
+      if (isFavoriteFirst != isFavorite) {
+        NoteService.updateNoteFavoriteDispose(
+          noteId: widget.noteId,
+          isFavorite: isFavorite,
+        );
+      }
+    } catch (errorMessage) {
+      ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
+    }
+    super.dispose();
+  }
+
+  // Update some attributes of the note beforehand
+  updateNote() async {
     try {
       await NoteService.readOneNoteFirestore(noteId: widget.noteId)
           .then((noteFromDB) {
@@ -36,6 +56,22 @@ class _NoteDetailState extends State<NoteDetail> {
           note = noteFromDB;
           newTitle = note.title;
           newBody = note.body;
+          isFavorite = note.isFavorite;
+          isFavoriteFirst =
+              note.isFavorite; // only modify the note favorite if changes
+
+          // If it's note favorite, var will be yellow start, if not, white star
+          note.isFavorite
+              ? isFavoriteIcon = const Icon(
+                  Icons.star,
+                  color: Colors.amberAccent,
+                  size: 28,
+                )
+              : isFavoriteIcon = const Icon(
+                  Icons.star_outlined,
+                  color: Colors.white,
+                  size: 28,
+                );
         });
       });
     } catch (errorMessage) {
@@ -118,7 +154,7 @@ class _NoteDetailState extends State<NoteDetail> {
                       body: newBody,
                       noteId: widget.noteId,
                       userId: currentUser.uid,
-                      isFavorite: false,
+                      isFavorite: isFavorite,
                       // need to update ids?
                     ).then((_) => Navigator.maybePop(context));
                   } catch (errorMessage) {
@@ -143,15 +179,36 @@ class _NoteDetailState extends State<NoteDetail> {
     return PopupMenuButton(
       onSelected: (value) {
         if (value == MenuItemNoteDetail.item1) {
-          // Delete note
-          deleteNoteDialog(context);
-        } else if (value == MenuItemNoteDetail.item2) {
           // Mark as favorite
-        } else if (value == MenuItemNoteDetail.item3) {
+          if (!isFavorite) {
+            setState(() {
+              isFavoriteIcon = const Icon(
+                Icons.star,
+                color: Colors.amberAccent,
+                size: 28,
+              );
+              isFavorite = true;
+            });
+            SnackBar snackBarIsFavoriteTrue = favoriteNoteSnackBarMessage();
+            ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavoriteTrue);
+          } else {
+            setState(() {
+              isFavoriteIcon = const Icon(
+                Icons.star_outlined,
+                color: Colors.white,
+                size: 28,
+              );
+              isFavorite = false;
+            });
+          }
+        } else if (value == MenuItemNoteDetail.item2) {
           // Share note
-        } else if (value == MenuItemNoteDetail.item4) {
+        } else if (value == MenuItemNoteDetail.item3) {
           // Note details
           noteDetailsDialog(context);
+        } else if (value == MenuItemNoteDetail.item4) {
+          // Delete note
+          deleteNoteDialog(context);
         }
       },
       itemBuilder: (context) => [
@@ -159,9 +216,10 @@ class _NoteDetailState extends State<NoteDetail> {
           value: MenuItemNoteDetail.item1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.delete, size: 30),
-              Text('Delete'),
+            children: [
+              // If it's favorite, show yellow icon, if not, white
+              isFavoriteIcon,
+              const Text('Favorite'),
             ],
           ),
         ),
@@ -170,8 +228,8 @@ class _NoteDetailState extends State<NoteDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
-              Icon(Icons.star, size: 30),
-              Text('Favorite'),
+              Icon(Icons.share, size: 28),
+              Text('Share'),
             ],
           ),
         ),
@@ -180,8 +238,8 @@ class _NoteDetailState extends State<NoteDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
-              Icon(Icons.share, size: 30),
-              Text('Share'),
+              Icon(Icons.info, size: 28),
+              Text('Details'),
             ],
           ),
         ),
@@ -190,8 +248,8 @@ class _NoteDetailState extends State<NoteDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
-              Icon(Icons.info, size: 30),
-              Text('Details'),
+              Icon(Icons.delete, size: 28),
+              Text('Delete'),
             ],
           ),
         ),
@@ -313,5 +371,19 @@ class _NoteDetailState extends State<NoteDetail> {
         );
       },
     );
+  }
+
+  SnackBar favoriteNoteSnackBarMessage() {
+    const snackBarIsFavoriteTrue = SnackBar(
+      duration: Duration(seconds: 1),
+      content: Center(
+        child: Text(
+          'Note marked as favorite',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+      backgroundColor: Colors.amberAccent,
+    );
+    return snackBarIsFavoriteTrue;
   }
 }

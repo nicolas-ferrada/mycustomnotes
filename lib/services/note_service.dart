@@ -125,6 +125,21 @@ class NoteService {
     await docNote.delete();
   }
 
+  // Update if note it's favorite on dispose note detail
+  static Future<void> updateNoteFavoriteDispose({
+    required String noteId,
+    required bool isFavorite,
+  }) async {
+    try {
+      final db = FirebaseFirestore.instance;
+
+      db.collection('note').doc(noteId).update({'isFavorite': isFavorite});
+    } catch (unexpectedException) {
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
+    }
+  }
+
   // After adding a new attribute to the model class, you need to update all other notes created.
   // Updates all documents created to add a new field to them, so stream won't return null.
   static Future<void> updateAllNotesFirestoreWithNewFields() async {
@@ -132,7 +147,8 @@ class NoteService {
     final snapshot = await db.collection('note').get();
 
     for (var document in snapshot.docs) {
-      await document.reference.update({'isFavorite': false}); // new field: default value.
+      await document.reference
+          .update({'isFavorite': false}); // new field: default value.
     }
   }
 }
