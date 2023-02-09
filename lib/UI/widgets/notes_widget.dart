@@ -1,20 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-
 import '../../utils/date_formatter.dart';
 
 class NotesWidget extends StatelessWidget {
+  final Note note;
+  final int index;
+  final Timestamp lastModificationDate;
+  final bool isFavorite;
+
   NotesWidget({
     super.key,
     required this.note,
     required this.index,
     required this.lastModificationDate,
+    required this.isFavorite,
   });
-
-  final Note note;
-  final int index;
-  final Timestamp lastModificationDate;
 
   final List<Color> _lightColors = [
     Colors.amber.shade300,
@@ -30,20 +31,44 @@ class NotesWidget extends StatelessWidget {
     final color = _lightColors[index % _lightColors.length];
 
     return Card(
+      // Color of the note
       color: color,
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
         child: Column(
-          //mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                DateFormatter.showDateFormatted(lastModificationDate),
-                style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-              ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    // Date of last modification
+                    DateFormatter.showDateFormatted(lastModificationDate),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, bottom: 10),
+                  // Icon is favorite, if true, shows yellow start, if false, shows nothing
+                  child: isFavorite
+                      ? const Stack(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Color.fromARGB(255, 255, 255, 0),
+                              size: 26,
+                            ),
+                            Icon(
+                              Icons.star_border,
+                              color: Colors.black,
+                              size: 26,
+                            ),
+                          ],
+                        )
+                      : null,
+                )
+              ],
             ),
             const SizedBox(height: 8),
             // Text title

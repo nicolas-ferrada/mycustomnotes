@@ -26,9 +26,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Welcome: ${currentUser.email}',
-          style: const TextStyle(fontSize: 14),
+        title: Row(
+          children: [
+            Text(
+              'Welcome: ${currentUser.email}',
+              style: const TextStyle(fontSize: 13),
+            ),
+            IconButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.replay_outlined,
+                  size: 30,
+                ))
+          ],
         ),
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -153,6 +165,8 @@ class _HomePageState extends State<HomePage> {
         ((context, index) {
           // ordered by date, first note created will show first
           notes.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+          // put favorites first using a custom boolean compare
+          notes.sort((a, b) => compareBooleans(a.isFavorite, b.isFavorite));
           Note note = notes[index];
           // Tapping on a note, opens the detailed version of it
           return GestureDetector(
@@ -160,15 +174,23 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context)
                     .push(MaterialPageRoute(
                         builder: (context) => NoteDetail(noteId: note.id)))
-                    .then((value) => _updateNotes());
+                    .then((_) => _updateNotes());
               },
               child: NotesWidget(
                 note: note,
                 lastModificationDate: note.lastModificationDate,
                 index: index,
+                isFavorite: note.isFavorite,
               ));
         }),
       ),
     );
+  }
+
+  int compareBooleans(bool a, bool b) {
+    if (a == b) {
+      return 0;
+    }
+    return a ? -1 : 1;
   }
 }

@@ -84,8 +84,13 @@ class _NoteDetailState extends State<NoteDetail> {
     return FutureBuilder(
       future: NoteService.readOneNoteFirestore(noteId: widget.noteId),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('An error has ocurred: ${snapshot.error.toString()}'),
+          );
+        }
         // If one note was returned
-        if (snapshot.hasData) {
+        else if (snapshot.hasData) {
           note = snapshot.data!;
           return Scaffold(
             // Note's title
@@ -137,40 +142,42 @@ class _NoteDetailState extends State<NoteDetail> {
               ),
             ),
             // Save button, only visible if user changes the note
-            floatingActionButton: Visibility(
-              visible: _isSaveButtonVisible,
-              child: FloatingActionButton.extended(
-                backgroundColor: Colors.amberAccent,
-                label: const Text(
-                  'Save\nchanges',
-                  style: TextStyle(fontSize: 12),
-                ),
-                icon: const Icon(Icons.save),
-                onPressed: () {
-                  // Edit the selected note
-                  try {
-                    NoteService.editOneNoteFirestore(
-                      title: newTitle,
-                      body: newBody,
-                      noteId: widget.noteId,
-                      userId: currentUser.uid,
-                      isFavorite: isFavorite,
-                      // need to update ids?
-                    ).then((_) => Navigator.maybePop(context));
-                  } catch (errorMessage) {
-                    ExceptionsAlertDialog.showErrorDialog(
-                        context, errorMessage.toString());
-                  }
-                },
-              ),
-            ),
+            floatingActionButton: saveButton(context),
           );
-        } else if (snapshot.hasError) {
-          return const Center(child: Text('An error has ocurred'));
         } else {
           return const Center(child: CircularProgressIndicator());
         }
       },
+    );
+  }
+
+  Visibility saveButton(BuildContext context) {
+    return Visibility(
+      visible: _isSaveButtonVisible,
+      child: FloatingActionButton.extended(
+        backgroundColor: Colors.amberAccent,
+        label: const Text(
+          'Save\nchanges',
+          style: TextStyle(fontSize: 12),
+        ),
+        icon: const Icon(Icons.save),
+        onPressed: () {
+          // Edit the selected note
+          try {
+            NoteService.editOneNoteFirestore(
+              title: newTitle,
+              body: newBody,
+              noteId: widget.noteId,
+              userId: currentUser.uid,
+              isFavorite: isFavorite,
+              // need to update ids?
+            ).then((_) => Navigator.maybePop(context));
+          } catch (errorMessage) {
+            ExceptionsAlertDialog.showErrorDialog(
+                context, errorMessage.toString());
+          }
+        },
+      ),
     );
   }
 
