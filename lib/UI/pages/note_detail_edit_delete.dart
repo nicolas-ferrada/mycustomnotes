@@ -170,6 +170,7 @@ class _NoteDetailState extends State<NoteDetail> {
               noteId: widget.noteId,
               userId: currentUser.uid,
               isFavorite: isFavorite,
+              color: note.color,
               // need to update ids?
             ).then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {

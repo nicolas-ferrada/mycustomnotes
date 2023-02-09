@@ -47,6 +47,7 @@ class NoteService {
     required String body,
     required String userId,
     required bool isFavorite,
+    required int color,
   }) async {
     try {
       // References to the firestore colletion.
@@ -65,6 +66,7 @@ class NoteService {
         lastModificationDate: Timestamp.now(),
         createdDate: Timestamp.now(),
         isFavorite: isFavorite,
+        color: color,
       );
 
       // Transform that note object into a map to store it.
@@ -85,6 +87,7 @@ class NoteService {
     required body,
     required userId,
     required isFavorite,
+    required int color,
   }) async {
     try {
       // Get the current 'created date' of the note to use the same.
@@ -100,6 +103,7 @@ class NoteService {
         lastModificationDate: Timestamp.now(),
         createdDate: existingCreatedDate,
         isFavorite: isFavorite,
+        color: color,
       );
       final db = FirebaseFirestore.instance;
 
@@ -148,7 +152,7 @@ class NoteService {
 
     for (var document in snapshot.docs) {
       await document.reference
-          .update({'isFavorite': false}); // new field: default value.
+          .update({'color': 0}); // new field: default value.
     }
   }
 }

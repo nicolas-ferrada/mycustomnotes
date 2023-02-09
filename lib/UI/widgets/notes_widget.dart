@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import '../../utils/date_formatter.dart';
 
-class NotesWidget extends StatelessWidget {
+class NotesWidget extends StatefulWidget {
   final Note note;
   final int index;
   final Timestamp lastModificationDate;
   final bool isFavorite;
 
-  NotesWidget({
+  const NotesWidget({
     super.key,
     required this.note,
     required this.index,
@@ -17,22 +17,18 @@ class NotesWidget extends StatelessWidget {
     required this.isFavorite,
   });
 
-  final List<Color> _lightColors = [
-    Colors.amber.shade300,
-    Colors.lightGreen.shade300,
-    Colors.lightBlue.shade300,
-    Colors.orange.shade300,
-    Colors.pinkAccent.shade100,
-    Colors.tealAccent.shade100
-  ];
+  @override
+  State<NotesWidget> createState() => _NotesWidgetState();
+}
+
+class _NotesWidgetState extends State<NotesWidget> {
+  Color noteColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
-    final color = _lightColors[index % _lightColors.length];
-
     return Card(
       // Color of the note
-      color: color,
+      color: pickNoteColor(),
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
@@ -44,14 +40,15 @@ class NotesWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
                     // Date of last modification
-                    DateFormatter.showDateFormatted(lastModificationDate),
+                    DateFormatter.showDateFormatted(
+                        widget.lastModificationDate),
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8, bottom: 10),
                   // Icon is favorite, if true, shows yellow start, if false, shows nothing
-                  child: isFavorite
+                  child: widget.isFavorite
                       ? const Stack(
                           children: [
                             Icon(
@@ -74,7 +71,7 @@ class NotesWidget extends StatelessWidget {
             // Text title
             Center(
               child: Text(
-                note.title,
+                widget.note.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -87,7 +84,7 @@ class NotesWidget extends StatelessWidget {
             // Text body
             Center(
               child: Text(
-                note.body,
+                widget.note.body,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -100,5 +97,59 @@ class NotesWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color pickNoteColor() {
+    switch (widget.note.color) {
+      case 1:
+        {
+          setState(() {
+            noteColor = Colors.amber.shade300;
+          });
+        }
+        return noteColor;
+      case 2:
+        {
+          setState(() {
+            noteColor = Colors.green.shade300;
+          });
+        }
+        return noteColor;
+      case 3:
+        {
+          setState(() {
+            noteColor = Colors.lightBlue.shade300;
+          });
+        }
+        return noteColor;
+      case 4:
+        {
+          setState(() {
+            noteColor = Colors.orange.shade300;
+          });
+        }
+        return noteColor;
+      case 5:
+        {
+          setState(() {
+            noteColor = Colors.pinkAccent.shade100;
+          });
+        }
+        return noteColor;
+      case 6:
+        {
+          setState(() {
+            noteColor = Colors.tealAccent.shade100;
+          });
+        }
+        return noteColor;
+      default:
+        {
+          setState(() {
+            noteColor = Colors.grey;
+          });
+        }
+        return noteColor;
+    }
   }
 }

@@ -10,6 +10,7 @@ class Note {
   final Timestamp
       createdDate; // Date of creation (can't be modified) displayed on details
   final bool isFavorite;
+  final int color;
 
   const Note({
     required this.id,
@@ -19,6 +20,7 @@ class Note {
     required this.lastModificationDate,
     required this.createdDate,
     required this.isFavorite,
+    required this.color,
   });
 
   // Convert the class model to a map
@@ -31,6 +33,7 @@ class Note {
       'lastModificationDate': lastModificationDate,
       'createdDate': createdDate,
       'isFavorite': isFavorite,
+      'color': color,
     };
   }
 
@@ -43,5 +46,6 @@ class Note {
         lastModificationDate: map['lastModificationDate'],
         createdDate: map['createdDate'],
         isFavorite: map['isFavorite'],
+        color: map['color'],
       );
 }
