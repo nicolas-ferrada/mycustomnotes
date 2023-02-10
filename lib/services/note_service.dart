@@ -144,6 +144,22 @@ class NoteService {
     }
   }
 
+  // Update if note's color changed on dispose note detail
+  static Future<void> updateNoteColorDispose({
+    required String noteId,
+    required int intNoteColor,
+  }) async {
+    try {
+      final db = FirebaseFirestore.instance;
+
+      db.collection('note').doc(noteId).update({'color': intNoteColor});
+    } catch (unexpectedException) {
+      throw Exception("There is an unexpected error:\n$unexpectedException")
+          .getMessage;
+    }
+  }
+  
+
   // After adding a new attribute to the model class, you need to update all other notes created.
   // Updates all documents created to add a new field to them, so stream won't return null.
   static Future<void> updateAllNotesFirestoreWithNewFields() async {

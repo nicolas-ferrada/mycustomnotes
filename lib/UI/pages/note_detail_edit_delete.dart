@@ -3,6 +3,7 @@ import 'package:mycustomnotes/enums/menu_item_note_detail.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
+import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import '../../services/auth_user_service.dart';
 import '../../utils/formatters/date_formatter.dart';
 
@@ -23,6 +24,8 @@ class _NoteDetailState extends State<NoteDetail> {
   late bool isFavorite;
   late Icon isFavoriteIcon;
   late bool isFavoriteFirst;
+  late int intNoteColor;
+  late int doesNoteColorChanged;
 
   @override
   void initState() {
@@ -41,6 +44,12 @@ class _NoteDetailState extends State<NoteDetail> {
           isFavorite: isFavorite,
         );
       }
+      if (doesNoteColorChanged != intNoteColor) {
+        NoteService.updateNoteColorDispose(
+          noteId: widget.noteId,
+          intNoteColor: intNoteColor,
+        );
+      }
     } catch (errorMessage) {
       ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
     }
@@ -57,8 +66,10 @@ class _NoteDetailState extends State<NoteDetail> {
           newTitle = note.title;
           newBody = note.body;
           isFavorite = note.isFavorite;
+          intNoteColor = note.color;
           isFavoriteFirst =
               note.isFavorite; // only modify the note favorite if changes
+          doesNoteColorChanged = note.color;
 
           // If it's note favorite, var will be yellow start, if not, white star
           note.isFavorite
@@ -170,7 +181,7 @@ class _NoteDetailState extends State<NoteDetail> {
               noteId: widget.noteId,
               userId: currentUser.uid,
               isFavorite: isFavorite,
-              color: note.color,
+              color: intNoteColor,
               // need to update ids?
             ).then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
@@ -217,6 +228,11 @@ class _NoteDetailState extends State<NoteDetail> {
         } else if (value == MenuItemNoteDetail.item4) {
           // Delete note
           deleteNoteDialog(context);
+        } else if (value == MenuItemNoteDetail.item5) {
+          // Gets the int note color and then applys to global var
+          getColorIntPickNote().then((int intColor) => setState(() {
+                intNoteColor = intColor;
+              }));
         }
       },
       itemBuilder: (context) => [
@@ -258,6 +274,16 @@ class _NoteDetailState extends State<NoteDetail> {
             children: const [
               Icon(Icons.delete, size: 28),
               Text('Delete'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item5,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.palette, size: 28),
+              Text('Color'),
             ],
           ),
         ),
@@ -393,5 +419,9 @@ class _NoteDetailState extends State<NoteDetail> {
       backgroundColor: Colors.amberAccent,
     );
     return snackBarIsFavoriteTrue;
+  }
+
+  Future<int> getColorIntPickNote() async {
+    return await NotesColors.colorIntPickNoteDialog(context);
   }
 }
