@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/models/note_model.dart';
-import '../../utils/date_formatter.dart';
+import '../../utils/dialogs/pick_note_color.dart';
+import '../../utils/formatters/date_formatter.dart';
 
 class NotesWidget extends StatefulWidget {
   final Note note;
@@ -22,13 +23,11 @@ class NotesWidget extends StatefulWidget {
 }
 
 class _NotesWidgetState extends State<NotesWidget> {
-  Color noteColor = Colors.grey;
-
   @override
   Widget build(BuildContext context) {
     return Card(
       // Color of the note
-      color: pickNoteColor(),
+      color: NotesColors.selectNoteColor(widget.note.color),
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
@@ -99,57 +98,4 @@ class _NotesWidgetState extends State<NotesWidget> {
     );
   }
 
-  Color pickNoteColor() {
-    switch (widget.note.color) {
-      case 1:
-        {
-          setState(() {
-            noteColor = Colors.amber.shade300;
-          });
-        }
-        return noteColor;
-      case 2:
-        {
-          setState(() {
-            noteColor = Colors.green.shade300;
-          });
-        }
-        return noteColor;
-      case 3:
-        {
-          setState(() {
-            noteColor = Colors.lightBlue.shade300;
-          });
-        }
-        return noteColor;
-      case 4:
-        {
-          setState(() {
-            noteColor = Colors.orange.shade300;
-          });
-        }
-        return noteColor;
-      case 5:
-        {
-          setState(() {
-            noteColor = Colors.pinkAccent.shade100;
-          });
-        }
-        return noteColor;
-      case 6:
-        {
-          setState(() {
-            noteColor = Colors.tealAccent.shade100;
-          });
-        }
-        return noteColor;
-      default:
-        {
-          setState(() {
-            noteColor = Colors.grey;
-          });
-        }
-        return noteColor;
-    }
-  }
 }

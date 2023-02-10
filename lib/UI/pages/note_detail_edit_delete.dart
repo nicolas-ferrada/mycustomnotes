@@ -4,7 +4,7 @@ import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import '../../services/auth_user_service.dart';
-import '../../utils/date_formatter.dart';
+import '../../utils/formatters/date_formatter.dart';
 
 class NoteDetail extends StatefulWidget {
   final String noteId;

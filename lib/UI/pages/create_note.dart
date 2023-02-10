@@ -3,6 +3,8 @@ import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 
+import '../../utils/dialogs/pick_note_color.dart';
+
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
 
@@ -21,12 +23,13 @@ class _CreateNoteState extends State<CreateNote> {
     color: Colors.grey,
     size: 28,
   );
-  int noteColor = 0;
+  int intNoteColor = 0;
   Icon noteColorIcon = const Icon(
     Icons.palette,
     color: Colors.grey,
     size: 28,
   );
+  Color noteColorPaletteIcon = Colors.grey;
 
   @override
   void dispose() {
@@ -43,14 +46,22 @@ class _CreateNoteState extends State<CreateNote> {
         actions: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
-            // Favorite star icon
             child: Row(
               children: [
                 IconButton(
-                  onPressed: () {
-                    colorPickNoteDialog(context);
+                  onPressed: () async {
+                    // Palette icon
+                    intNoteColor =
+                        await NotesColors.colorIntPickNoteDialog(context);
+                    setState(() {
+                      noteColorPaletteIcon = NotesColors.selectNoteColor(intNoteColor);
+                    });
                   },
-                  icon: noteColorIcon,
+                  icon: Icon(
+                    Icons.palette,
+                    color: noteColorPaletteIcon,
+                    size: 28,
+                  ),
                 ),
                 IconButton(
                   icon: isFavoriteIcon,
@@ -136,7 +147,7 @@ class _CreateNoteState extends State<CreateNote> {
                 body: _noteBodyController.text,
                 userId: currentUser.uid,
                 isFavorite: isFavorite,
-                color: noteColor,
+                color: intNoteColor,
               ).then((_) {
                 Navigator.maybePop(context);
               });
@@ -168,197 +179,5 @@ class _CreateNoteState extends State<CreateNote> {
       backgroundColor: Colors.amberAccent,
     );
     return snackBarIsFavoriteTrue;
-  }
-
-  Future colorPickNoteDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text("Pick the note's color"),
-          ),
-          content: Row(
-            children: [
-              // Yellow
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 1;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.amber.shade300,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.amber.shade300,
-                  ),
-                ),
-              ),
-              // Green
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 2;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.green.shade300,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.green.shade300,
-                  ),
-                ),
-              ),
-              // Blue
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 3;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.lightBlue.shade300,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.lightBlue.shade300,
-                  ),
-                ),
-              ),
-              // Orange
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 4;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.orange.shade300,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.orange.shade300,
-                  ),
-                ),
-              ),
-              // Pink
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 5;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.pinkAccent.shade100,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.pinkAccent.shade100,
-                  ),
-                ),
-              ),
-              // Sky-blue
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      noteColor = 6;
-                      noteColorIcon = Icon(
-                        Icons.palette,
-                        color: Colors.tealAccent.shade100,
-                        size: 28,
-                      );
-                    });
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: Colors.tealAccent.shade100,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () async {
-                      // log out firebase
-                    },
-                    child: const Text(
-                      'Apply color',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
