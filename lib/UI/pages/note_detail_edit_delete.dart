@@ -34,29 +34,6 @@ class _NoteDetailState extends State<NoteDetail> {
     updateNote();
   }
 
-  @override
-  void dispose() {
-    //
-    try {
-      // Updates note isFavorite field if it changed
-      if (isFavoriteFirst != isFavorite) {
-        NoteService.updateNoteFavoriteDispose(
-          noteId: widget.noteId,
-          isFavorite: isFavorite,
-        );
-      }
-      if (doesNoteColorChanged != intNoteColor) {
-        NoteService.updateNoteColorDispose(
-          noteId: widget.noteId,
-          intNoteColor: intNoteColor,
-        );
-      }
-    } catch (errorMessage) {
-      ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
-    }
-    super.dispose();
-  }
-
   // Update some attributes of the note beforehand
   updateNote() async {
     try {
@@ -107,6 +84,32 @@ class _NoteDetailState extends State<NoteDetail> {
           return Scaffold(
             // Note's title
             appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () async {
+                  // Back button (return to home page)
+                  // Update note favorite and color if it changed
+                  Navigator.maybePop(context);
+                  try {
+                    // Updates note isFavorite field if it changed
+                    if (isFavoriteFirst != isFavorite) {
+                      await NoteService.updateNoteFavoriteDispose(
+                        noteId: widget.noteId,
+                        isFavorite: isFavorite,
+                      );
+                    }
+                    if (doesNoteColorChanged != intNoteColor) {
+                      NoteService.updateNoteColorDispose(
+                        noteId: widget.noteId,
+                        intNoteColor: intNoteColor,
+                      );
+                    }
+                  } catch (errorMessage) {
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context, errorMessage.toString());
+                  }
+                },
+              ),
               actions: [
                 // Note three dots detais (delete, date)
                 menuButtonNote(),
@@ -239,7 +242,7 @@ class _NoteDetailState extends State<NoteDetail> {
                     intNoteColor = intColor;
                   }))
               .then((_) {
-                // Shows a snackbar with the background color of the selected color by user
+            // Shows a snackbar with the background color of the selected color by user
             Color noteColorPaletteIcon =
                 NotesColors.selectNoteColor(intNoteColor);
             SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(

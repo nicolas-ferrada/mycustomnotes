@@ -30,16 +30,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               'Welcome: ${currentUser.email}',
-              style: const TextStyle(fontSize: 13),
+              style: const TextStyle(fontSize: 15),
             ),
-            IconButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                icon: const Icon(
-                  Icons.replay_outlined,
-                  size: 30,
-                ))
           ],
         ),
         automaticallyImplyLeading: false,
