@@ -162,18 +162,6 @@ class NotesColors {
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
-                    onPressed: () async {
-                      // log out firebase
-                    },
-                    child: const Text(
-                      'Apply color',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
