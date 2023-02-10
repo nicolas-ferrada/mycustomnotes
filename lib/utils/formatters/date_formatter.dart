@@ -29,7 +29,6 @@ class DateFormatter {
     return formattedTime;
   }
 
-
   // Get the month of the note in
   static String getMonthName(DateTime date) {
     // final spanishMonth = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
