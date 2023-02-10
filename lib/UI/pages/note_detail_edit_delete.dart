@@ -4,6 +4,7 @@ import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
+import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import '../../services/auth_user_service.dart';
 import '../../utils/formatters/date_formatter.dart';
 
@@ -208,7 +209,10 @@ class _NoteDetailState extends State<NoteDetail> {
               );
               isFavorite = true;
             });
-            SnackBar snackBarIsFavoriteTrue = favoriteNoteSnackBarMessage();
+            SnackBar snackBarIsFavoriteTrue = SnackBarMessage.snackBarMessage(
+              message: 'Note marked as favorite',
+              backgroundColor: Colors.amber.shade300,
+            );
             ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavoriteTrue);
           } else {
             setState(() {
@@ -230,9 +234,19 @@ class _NoteDetailState extends State<NoteDetail> {
           deleteNoteDialog(context);
         } else if (value == MenuItemNoteDetail.item5) {
           // Gets the int note color and then applys to global var
-          getColorIntPickNote().then((int intColor) => setState(() {
-                intNoteColor = intColor;
-              }));
+          getColorIntPickNote()
+              .then((int intColor) => setState(() {
+                    intNoteColor = intColor;
+                  }))
+              .then((_) {
+                // Shows a snackbar with the background color of the selected color by user
+            Color noteColorPaletteIcon =
+                NotesColors.selectNoteColor(intNoteColor);
+            SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
+                message: "Your note's color has changed",
+                backgroundColor: noteColorPaletteIcon);
+            ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
+          });
         }
       },
       itemBuilder: (context) => [
@@ -405,20 +419,6 @@ class _NoteDetailState extends State<NoteDetail> {
         );
       },
     );
-  }
-
-  SnackBar favoriteNoteSnackBarMessage() {
-    const snackBarIsFavoriteTrue = SnackBar(
-      duration: Duration(seconds: 1),
-      content: Center(
-        child: Text(
-          'Note marked as favorite',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: Colors.amberAccent,
-    );
-    return snackBarIsFavoriteTrue;
   }
 
   Future<int> getColorIntPickNote() async {

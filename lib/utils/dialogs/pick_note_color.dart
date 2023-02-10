@@ -78,12 +78,6 @@ class NotesColors {
                 child: InkWell(
                   onTap: () {
                     noteColor = 2;
-                    // noteColorIcon = Icon(
-                    //   Icons.palette,
-                    //   color: Colors.green.shade300,
-                    //   size: 28,
-                    // );
-
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
