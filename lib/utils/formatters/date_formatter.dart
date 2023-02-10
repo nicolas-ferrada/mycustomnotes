@@ -13,6 +13,7 @@ class DateFormatter {
         dateTimeFromDatabase.minute.toString().padLeft(2, '0');
     String formattedDay = dateTimeFromDatabase.day.toString().padLeft(2, '0');
 
+
     // Formatted date if the day is today
     if (dateTimeFromDatabase.day == today.day &&
         dateTimeFromDatabase.month == today.month &&
@@ -27,6 +28,7 @@ class DateFormatter {
     }
     return formattedTime;
   }
+
 
   // Get the month of the note in
   static String getMonthName(DateTime date) {
