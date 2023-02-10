@@ -32,38 +32,40 @@ class _NotesWidgetState extends State<NotesWidget> {
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                Align(
+                  alignment: Alignment.topLeft,
                   child: Text(
                     // Date of last modification
-                    DateFormatter.showDateFormatted(
-                        widget.lastModificationDate),
+                    DateFormatter.showDateFormatted(widget.lastModificationDate),
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, bottom: 10),
-                  // Icon is favorite, if true, shows yellow start, if false, shows nothing
-                  child: widget.isFavorite
-                      ? const Stack(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Color.fromARGB(255, 255, 255, 0),
-                              size: 26,
-                            ),
-                            Icon(
-                              Icons.star_border,
-                              color: Colors.black,
-                              size: 26,
-                            ),
-                          ],
-                        )
-                      : null,
-                )
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: widget.isFavorite
+                        ? const Stack(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Color.fromARGB(255, 255, 255, 0),
+                                size: 26,
+                              ),
+                              Icon(
+                                Icons.star_border,
+                                color: Colors.black,
+                                size: 26,
+                              ),
+                            ],
+                          )
+                        : null,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -97,5 +99,4 @@ class _NotesWidgetState extends State<NotesWidget> {
       ),
     );
   }
-
 }
