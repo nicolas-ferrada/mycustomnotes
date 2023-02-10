@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DateFormatter {
-  
 // Formate the timestamp from firebase to a user friendly date
 // Day, Month, Year, Hour, Minutes
   static String showDateFormatted(Timestamp lastModificationDate) {
