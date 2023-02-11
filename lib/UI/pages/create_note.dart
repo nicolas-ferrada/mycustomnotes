@@ -51,10 +51,12 @@ class _CreateNoteState extends State<CreateNote> {
                 IconButton(
                   onPressed: () async {
                     // Palette icon
-                    intNoteColor =
-                        await NotesColors.colorIntPickNoteDialog(context);
+                    // Zero is grey color
+                    intNoteColor = await NotesColors.colorIntPickNoteDialog(
+                        noteColor: 0, context: context);
                     setState(() {
-                      noteColorPaletteIcon = NotesColors.selectNoteColor(intNoteColor);
+                      noteColorPaletteIcon =
+                          NotesColors.selectNoteColor(intNoteColor);
                     });
                   },
                   icon: Icon(

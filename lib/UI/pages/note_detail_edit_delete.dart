@@ -237,18 +237,24 @@ class _NoteDetailState extends State<NoteDetail> {
           deleteNoteDialog(context);
         } else if (value == MenuItemNoteDetail.item5) {
           // Gets the int note color and then applys to global var
-          getColorIntPickNote()
+          NotesColors.callColorIntPickNoteDialog(
+            noteColor: note.color,
+            context: context,
+          )
               .then((int intColor) => setState(() {
                     intNoteColor = intColor;
                   }))
               .then((_) {
-            // Shows a snackbar with the background color of the selected color by user
-            Color noteColorPaletteIcon =
-                NotesColors.selectNoteColor(intNoteColor);
-            SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
-                message: "Your note's color has changed",
-                backgroundColor: noteColorPaletteIcon);
-            ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
+            // If the colors picked by user is not the same as the current notes color, send message
+            if (intNoteColor != note.color) {
+              // Shows a snackbar with the background color of the selected color by user
+              Color noteColorPaletteIcon =
+                  NotesColors.selectNoteColor(intNoteColor);
+              SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
+                  message: "Your note's color has changed",
+                  backgroundColor: noteColorPaletteIcon);
+              ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
+            }
           });
         }
       },
@@ -373,11 +379,5 @@ class _NoteDetailState extends State<NoteDetail> {
         );
       },
     );
-  }
-
-
-
-  Future<int> getColorIntPickNote() async {
-    return await NotesColors.colorIntPickNoteDialog(context);
   }
 }

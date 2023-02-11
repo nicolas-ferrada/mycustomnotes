@@ -43,8 +43,10 @@ class NotesColors {
     }
   }
 
-  static Future<int> colorIntPickNoteDialog(BuildContext context) async {
-    int noteColor = 0;
+  static Future<int> colorIntPickNoteDialog({
+    required int noteColor,
+    required BuildContext context,
+  }) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -181,5 +183,15 @@ class NotesColors {
       },
     );
     return noteColor;
+  }
+
+  static Future<int> callColorIntPickNoteDialog({
+    required int noteColor,
+    required BuildContext context,
+  }) async {
+    return await NotesColors.colorIntPickNoteDialog(
+      noteColor: noteColor,
+      context: context,
+    );
   }
 }
