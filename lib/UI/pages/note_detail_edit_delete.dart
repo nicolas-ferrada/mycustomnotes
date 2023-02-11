@@ -19,14 +19,13 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
   bool _isSaveButtonVisible = false;
+  late Note note;
   late String newTitle;
   late String newBody;
-  late Note note;
   late bool isFavorite;
   late Icon isFavoriteIcon;
-  late bool isFavoriteFirst;
+  late Color colorPalette;
   late int intNoteColor;
-  late int doesNoteColorChanged;
 
   @override
   void initState() {
@@ -43,12 +42,9 @@ class _NoteDetailState extends State<NoteDetail> {
           note = noteFromDB;
           newTitle = note.title;
           newBody = note.body;
-          isFavorite = note.isFavorite;
           intNoteColor = note.color;
-          isFavoriteFirst =
-              note.isFavorite; // only modify the note favorite if changes
-          doesNoteColorChanged = note.color;
-
+          isFavorite = note.isFavorite;
+          colorPalette = NotesColors.selectNoteColor(intNoteColor);
           // If it's note favorite, var will be yellow start, if not, white star
           note.isFavorite
               ? isFavoriteIcon = const Icon(
@@ -84,32 +80,6 @@ class _NoteDetailState extends State<NoteDetail> {
           return Scaffold(
             // Note's title
             appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () async {
-                  // Back button (return to home page)
-                  // Update note favorite and color if it changed
-                  Navigator.maybePop(context);
-                  try {
-                    // Updates note isFavorite field if it changed
-                    if (isFavoriteFirst != isFavorite) {
-                      await NoteService.updateNoteFavoriteDispose(
-                        noteId: widget.noteId,
-                        isFavorite: isFavorite,
-                      );
-                    }
-                    if (doesNoteColorChanged != intNoteColor) {
-                      NoteService.updateNoteColorDispose(
-                        noteId: widget.noteId,
-                        intNoteColor: intNoteColor,
-                      );
-                    }
-                  } catch (errorMessage) {
-                    ExceptionsAlertDialog.showErrorDialog(
-                        context, errorMessage.toString());
-                  }
-                },
-              ),
               actions: [
                 // Note three dots detais (delete, date)
                 menuButtonNote(),
@@ -176,17 +146,16 @@ class _NoteDetailState extends State<NoteDetail> {
           style: TextStyle(fontSize: 12),
         ),
         icon: const Icon(Icons.save),
-        onPressed: () {
+        onPressed: () async {
           // Edit the selected note
           try {
-            NoteService.editOneNoteFirestore(
+            await NoteService.editOneNoteFirestore(
               title: newTitle,
               body: newBody,
               noteId: widget.noteId,
               userId: currentUser.uid,
               isFavorite: isFavorite,
               color: intNoteColor,
-              // need to update ids?
             ).then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
@@ -203,59 +172,18 @@ class _NoteDetailState extends State<NoteDetail> {
       onSelected: (value) {
         if (value == MenuItemNoteDetail.item1) {
           // Mark as favorite
-          if (!isFavorite) {
-            setState(() {
-              isFavoriteIcon = const Icon(
-                Icons.star,
-                color: Colors.amberAccent,
-                size: 28,
-              );
-              isFavorite = true;
-            });
-            SnackBar snackBarIsFavoriteTrue = SnackBarMessage.snackBarMessage(
-              message: 'Note marked as favorite',
-              backgroundColor: Colors.amber.shade300,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavoriteTrue);
-          } else {
-            setState(() {
-              isFavoriteIcon = const Icon(
-                Icons.star_outlined,
-                color: Colors.white,
-                size: 28,
-              );
-              isFavorite = false;
-            });
-          }
+          markAsFavoritePopupButton();
         } else if (value == MenuItemNoteDetail.item2) {
-          // Share note
+          // Pick color palette
+          pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
+          // Share note
+        } else if (value == MenuItemNoteDetail.item4) {
           // Note details
           NotesDetails.noteDetailsDialog(context, note);
-        } else if (value == MenuItemNoteDetail.item4) {
+        } else if (value == MenuItemNoteDetail.item5) {
           // Delete note
           deleteNoteDialog(context);
-        } else if (value == MenuItemNoteDetail.item5) {
-          // Gets the int note color and then applys to global var
-          NotesColors.callColorIntPickNoteDialog(
-            noteColor: note.color,
-            context: context,
-          )
-              .then((int intColor) => setState(() {
-                    intNoteColor = intColor;
-                  }))
-              .then((_) {
-            // If the colors picked by user is not the same as the current notes color, send message
-            if (intNoteColor != note.color) {
-              // Shows a snackbar with the background color of the selected color by user
-              Color noteColorPaletteIcon =
-                  NotesColors.selectNoteColor(intNoteColor);
-              SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
-                  message: "Your note's color has changed",
-                  backgroundColor: noteColorPaletteIcon);
-              ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
-            }
-          });
         }
       },
       itemBuilder: (context) => [
@@ -274,6 +202,20 @@ class _NoteDetailState extends State<NoteDetail> {
           value: MenuItemNoteDetail.item2,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.palette,
+                size: 28,
+                color: colorPalette,
+              ),
+              const Text('Color'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item3,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: const [
               Icon(Icons.share, size: 28),
               Text('Share'),
@@ -281,7 +223,7 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
         PopupMenuItem(
-          value: MenuItemNoteDetail.item3,
+          value: MenuItemNoteDetail.item4,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
@@ -291,7 +233,7 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
         PopupMenuItem(
-          value: MenuItemNoteDetail.item4,
+          value: MenuItemNoteDetail.item5,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
@@ -300,18 +242,75 @@ class _NoteDetailState extends State<NoteDetail> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: MenuItemNoteDetail.item5,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.palette, size: 28),
-              Text('Color'),
-            ],
-          ),
-        ),
       ],
     );
+  }
+
+  // PopupButton pick note color
+  void pickNoteColorPopupButton() {
+    // Gets the int note color and then applys to global var
+    NotesColors.callColorIntPickNoteDialog(
+      noteColor: note.color,
+      context: context,
+    )
+        .then((int intColor) => setState(() {
+              intNoteColor = intColor;
+            }))
+        .then((_) {
+      // If the colors picked by user is not the same as the current notes color, send message
+      if (intNoteColor != note.color) {
+        // Shows a snackbar with the background color of the selected color by user
+        Color noteColorPaletteIcon = NotesColors.selectNoteColor(intNoteColor);
+        SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
+            message: "Your note's color has changed",
+            backgroundColor: noteColorPaletteIcon);
+        ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
+        setState(() {
+          colorPalette =
+              noteColorPaletteIcon; // Changes the color of the icon to the new one
+          _isSaveButtonVisible = true; // Show the save button
+        });
+      }
+    });
+  }
+
+  // PopupButton favorite
+  void markAsFavoritePopupButton() {
+    if (!isFavorite) {
+      setState(() {
+        isFavoriteIcon = const Icon(
+          Icons.star,
+          color: Colors.amberAccent,
+          size: 28,
+        );
+        isFavorite = true;
+      });
+      SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
+        message: 'Note marked as favorite',
+        backgroundColor: Colors.amber.shade300,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
+      setState(() {
+        _isSaveButtonVisible = true;
+      });
+    } else {
+      setState(() {
+        isFavoriteIcon = const Icon(
+          Icons.star_outlined,
+          color: Colors.white,
+          size: 28,
+        );
+        isFavorite = false;
+      });
+      SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
+        message: 'Note removed from favorites',
+        backgroundColor: Colors.grey,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
+      setState(() {
+        _isSaveButtonVisible = true;
+      });
+    }
   }
 
   // Delete note dialog
