@@ -36,7 +36,8 @@ class NotesDetails {
                 style: TextStyle(color: Colors.white, fontSize: 17),
               ),
               Text(
-                DateFormatter.showDateFormattedAllFields(note.lastModificationDate),
+                DateFormatter.showDateFormattedAllFields(
+                    note.lastModificationDate),
                 style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
             ],
