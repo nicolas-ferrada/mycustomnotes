@@ -3,6 +3,7 @@ import 'package:mycustomnotes/enums/menu_item_note_detail.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
+import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
@@ -77,57 +78,69 @@ class _NoteDetailState extends State<NoteDetail> {
         // If one note was returned
         else if (snapshot.hasData) {
           note = snapshot.data!;
-          return Scaffold(
-            // Note's title
-            appBar: AppBar(
-              actions: [
-                // Note three dots detais (delete, date)
-                menuButtonNote(),
-              ],
-              title: TextFormField(
-                initialValue: note.title,
-                onChanged: (value) {
-                  setState(() {
-                    // Used to edit the note
-                    _isSaveButtonVisible = true;
-                    newTitle = value;
-                  });
-                },
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Title',
-                  hintStyle: TextStyle(color: Colors.white70),
-                ),
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            // Note's body
-            body: Padding(
-              padding: const EdgeInsets.all(8),
-              child: TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    // Used to edit the note
-                    _isSaveButtonVisible = true;
-                    newBody = value;
-                  });
-                },
-                initialValue: note.body,
-                textAlignVertical: TextAlignVertical.top,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                  hintText: 'Body',
-                  border: InputBorder.none,
+          return WillPopScope(
+            onWillPop: () async {
+              if (_isSaveButtonVisible) {
+                final bool? shouldPop =
+                    await ConfirmationDialog.discardChangesNoteDetails(context);
+                return shouldPop ??
+                    false; // If user tap outside dialog, then don't leave page
+              } else {
+                return true; // Come back to home page
+              }
+            },
+            child: Scaffold(
+              // Note's title
+              appBar: AppBar(
+                actions: [
+                  // Note three dots detais (delete, date)
+                  menuButtonNote(),
+                ],
+                title: TextFormField(
+                  initialValue: note.title,
+                  onChanged: (value) {
+                    setState(() {
+                      // Used to edit the note
+                      _isSaveButtonVisible = true;
+                      newTitle = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Title',
+                    hintStyle: TextStyle(color: Colors.white70),
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
                 ),
               ),
+              // Note's body
+              body: Padding(
+                padding: const EdgeInsets.all(8),
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      // Used to edit the note
+                      _isSaveButtonVisible = true;
+                      newBody = value;
+                    });
+                  },
+                  initialValue: note.body,
+                  textAlignVertical: TextAlignVertical.top,
+                  maxLines: null,
+                  expands: true,
+                  decoration: const InputDecoration(
+                    hintText: 'Body',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              // Save button, only visible if user changes the note
+              floatingActionButton: saveButton(context),
             ),
-            // Save button, only visible if user changes the note
-            floatingActionButton: saveButton(context),
           );
         } else {
           return const Center(child: CircularProgressIndicator());
@@ -149,6 +162,9 @@ class _NoteDetailState extends State<NoteDetail> {
         onPressed: () async {
           // Edit the selected note
           try {
+            setState(() {
+              _isSaveButtonVisible = false;
+            });
             await NoteService.editOneNoteFirestore(
               title: newTitle,
               body: newBody,
