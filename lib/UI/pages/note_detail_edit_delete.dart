@@ -3,10 +3,10 @@ import 'package:mycustomnotes/enums/menu_item_note_detail.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
+import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import '../../services/auth_user_service.dart';
-import '../../utils/formatters/date_formatter.dart';
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -231,7 +231,7 @@ class _NoteDetailState extends State<NoteDetail> {
           // Share note
         } else if (value == MenuItemNoteDetail.item3) {
           // Note details
-          noteDetailsDialog(context);
+          NotesDetails.noteDetailsDialog(context, note);
         } else if (value == MenuItemNoteDetail.item4) {
           // Delete note
           deleteNoteDialog(context);
@@ -375,54 +375,7 @@ class _NoteDetailState extends State<NoteDetail> {
     );
   }
 
-  // Show note detail
-  Future<void> noteDetailsDialog(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text('Note details'),
-          ),
-          content: Column(
-            children: [
-              Text(
-                'Creation date: ${DateFormatter.showDateFormatted(note.createdDate)}',
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-              ),
-              //Text('xd'),
-            ],
-          ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  // Close button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Close',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+
 
   Future<int> getColorIntPickNote() async {
     return await NotesColors.colorIntPickNoteDialog(context);

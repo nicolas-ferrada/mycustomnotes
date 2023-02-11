@@ -48,4 +48,20 @@ class DateFormatter {
     final index = date.month - 1;
     return englishMonths[index];
   }
+
+  static String showDateFormattedAllFields(Timestamp date) {
+    final DateTime dateTimeFromDatabase = date.toDate();
+    String monthName = DateFormatter.getMonthName(dateTimeFromDatabase);
+    late String formattedTime;
+    String formattedHour = dateTimeFromDatabase.hour.toString().padLeft(2, '0');
+    String formattedMinutes =
+        dateTimeFromDatabase.minute.toString().padLeft(2, '0');
+    String formattedDay = dateTimeFromDatabase.day.toString().padLeft(2, '0');
+
+    // Show all the fields
+    formattedTime =
+        '$formattedDay $monthName ${dateTimeFromDatabase.year} $formattedHour:$formattedMinutes';
+
+    return formattedTime;
+  }
 }
