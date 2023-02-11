@@ -65,22 +65,12 @@ class _NotesWidgetState extends State<NotesWidget> {
                             ],
                           )
                         : const Opacity(
-                          opacity: 0,
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Color.fromARGB(255, 255, 255, 0),
-                                size: 26,
-                              ),
-                              Icon(
-                                Icons.star_border,
-                                color: Colors.black,
-                                size: 26,
-                              ),
-                            ],
+                            opacity: 0,
+                            child: Icon(
+                              Icons.star,
+                              size: 26,
+                            ),
                           ),
-                        ),
                   ),
                 ),
               ],
