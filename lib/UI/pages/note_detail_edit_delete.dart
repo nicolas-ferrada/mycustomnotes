@@ -8,6 +8,7 @@ import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import '../../services/auth_user_service.dart';
+import 'dart:developer' as log;
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -19,7 +20,7 @@ class NoteDetail extends StatefulWidget {
 
 class _NoteDetailState extends State<NoteDetail> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
-  bool _isSaveButtonVisible = false;
+  bool didUserMadeChanges = false;
   late Note note;
   late String newTitle;
   late String newBody;
@@ -27,6 +28,7 @@ class _NoteDetailState extends State<NoteDetail> {
   late Icon isFavoriteIcon;
   late Color colorPalette;
   late int intNoteColor;
+  bool wasTheSaveButtonPressed = false;
 
   @override
   void initState() {
@@ -80,7 +82,9 @@ class _NoteDetailState extends State<NoteDetail> {
           note = snapshot.data!;
           return WillPopScope(
             onWillPop: () async {
-              if (_isSaveButtonVisible) {
+              // Triggers when user made changes and the save button is not pressed
+              if (didUserMadeChanges == true &&
+                  wasTheSaveButtonPressed == false) {
                 final bool? shouldPop =
                     await ConfirmationDialog.discardChangesNoteDetails(context);
                 return shouldPop ??
@@ -98,12 +102,19 @@ class _NoteDetailState extends State<NoteDetail> {
                 ],
                 title: TextFormField(
                   initialValue: note.title,
-                  onChanged: (value) {
-                    setState(() {
-                      // Used to edit the note
-                      _isSaveButtonVisible = true;
-                      newTitle = value;
-                    });
+                  onChanged: (newTitleChanges) {
+                    // Changes are being made
+                    if (newTitleChanges != note.title) {
+                      setState(() {
+                        didUserMadeChanges = true;
+                      });
+                      newTitle = newTitleChanges;
+                      // No changes
+                    } else {
+                      setState(() {
+                        didUserMadeChanges = false;
+                      });
+                    }
                   },
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -121,14 +132,20 @@ class _NoteDetailState extends State<NoteDetail> {
               body: Padding(
                 padding: const EdgeInsets.all(8),
                 child: TextFormField(
-                  onChanged: (value) {
-                    setState(() {
-                      // Used to edit the note
-                      _isSaveButtonVisible = true;
-                      newBody = value;
-                    });
-                  },
                   initialValue: note.body,
+                  onChanged: (newBodyChanges) {
+                    // Changes are being made
+                    if (newBodyChanges != note.body) {
+                      setState(() {
+                        didUserMadeChanges = true;
+                      });
+                      newBody = newBodyChanges;
+                    } else {
+                      setState(() {
+                        didUserMadeChanges = false;
+                      });
+                    }
+                  },
                   textAlignVertical: TextAlignVertical.top,
                   maxLines: null,
                   expands: true,
@@ -151,7 +168,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   Visibility saveButton(BuildContext context) {
     return Visibility(
-      visible: _isSaveButtonVisible,
+      visible: didUserMadeChanges,
       child: FloatingActionButton.extended(
         backgroundColor: Colors.amberAccent,
         label: const Text(
@@ -162,17 +179,18 @@ class _NoteDetailState extends State<NoteDetail> {
         onPressed: () async {
           // Edit the selected note
           try {
-            setState(() {
-              _isSaveButtonVisible = false;
-            });
+            wasTheSaveButtonPressed = true;
+
             await NoteService.editOneNoteFirestore(
               title: newTitle,
               body: newBody,
-              noteId: widget.noteId,
-              userId: currentUser.uid,
               isFavorite: isFavorite,
               color: intNoteColor,
-            ).then((_) => Navigator.maybePop(context));
+              noteId: widget.noteId,
+              userId: currentUser.uid,
+            ).then((_) {
+              Navigator.maybePop(context);
+            });
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
                 context, errorMessage.toString());
@@ -284,7 +302,11 @@ class _NoteDetailState extends State<NoteDetail> {
         setState(() {
           colorPalette =
               noteColorPaletteIcon; // Changes the color of the icon to the new one
-          _isSaveButtonVisible = true; // Show the save button
+          didUserMadeChanges = true; // Show the save button
+        });
+      } else {
+        setState(() {
+          didUserMadeChanges = false; // Hide the save button
         });
       }
     });
@@ -292,6 +314,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   // PopupButton favorite
   void markAsFavoritePopupButton() {
+    // It's not favorite, so change it to favorite
     if (!isFavorite) {
       setState(() {
         isFavoriteIcon = const Icon(
@@ -306,9 +329,17 @@ class _NoteDetailState extends State<NoteDetail> {
         backgroundColor: Colors.amber.shade300,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
-      setState(() {
-        _isSaveButtonVisible = true;
-      });
+      // Note now it's favorite, if it was favorite from the start, then user did not make any changes
+      if (note.isFavorite) {
+        setState(() {
+          didUserMadeChanges = false;
+        });
+        // Note now it's favorite, but it wasn't from the start, so user make a change
+      } else {
+        setState(() {
+          didUserMadeChanges = true;
+        });
+      }
     } else {
       setState(() {
         isFavoriteIcon = const Icon(
@@ -323,9 +354,17 @@ class _NoteDetailState extends State<NoteDetail> {
         backgroundColor: Colors.grey,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
-      setState(() {
-        _isSaveButtonVisible = true;
-      });
+      // Note now it's not favorite, if it was favorite from the start, then user did make a change
+      if (note.isFavorite) {
+        setState(() {
+          didUserMadeChanges = true;
+        });
+        // Note now it's favorite, but it wasn't from the start, so user make a change
+      } else {
+        setState(() {
+          didUserMadeChanges = false;
+        });
+      }
     }
   }
 
