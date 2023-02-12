@@ -81,7 +81,8 @@ class _NoteDetailState extends State<NoteDetail> {
           note = snapshot.data!;
           return WillPopScope(
             onWillPop: () async {
-              FocusScope.of(context).unfocus(); // Avoids the bug of the keyboard showing for a sec
+              FocusScope.of(context)
+                  .unfocus(); // Avoids the bug of the keyboard showing for a sec
               // Triggers when user made changes and the save button is not pressed
               if (didUserMadeChanges == true &&
                   wasTheSaveButtonPressed == false) {
@@ -296,7 +297,7 @@ class _NoteDetailState extends State<NoteDetail> {
         // Shows a snackbar with the background color of the selected color by user
         Color noteColorPaletteIcon = NotesColors.selectNoteColor(intNoteColor);
         SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
-            message: "Your note's color has changed",
+            message: "New color selected to be applied",
             backgroundColor: noteColorPaletteIcon);
         ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
         setState(() {
@@ -306,7 +307,13 @@ class _NoteDetailState extends State<NoteDetail> {
         });
       } else {
         setState(() {
+          // Changes the color of the icon to the old one
+          colorPalette = NotesColors.selectNoteColor(note.color);
           didUserMadeChanges = false; // Hide the save button
+          SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
+              message: "Your note already have this color",
+              backgroundColor: colorPalette);
+          ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
         });
       }
     });
