@@ -26,17 +26,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Row(
-          children: [
-            Text(
-              'Welcome: ${currentUser.email}',
-              style: const TextStyle(fontSize: 15),
-            ),
-          ],
+        title: Text(
+          '${currentUser.email}',
+          style: const TextStyle(fontSize: 16),
         ),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Transform.scale(
+            scaleX: -1,
+            child: const Icon(
+              Icons.logout,
+              size: 26,
+            ),
+          ),
           onPressed: () async {
             // Log out dialog
             ConfirmationDialog.logOutDialog(context);
