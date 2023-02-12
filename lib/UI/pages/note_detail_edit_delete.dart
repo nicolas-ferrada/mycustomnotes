@@ -8,7 +8,6 @@ import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import '../../services/auth_user_service.dart';
-import 'dart:developer' as log;
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -82,6 +81,7 @@ class _NoteDetailState extends State<NoteDetail> {
           note = snapshot.data!;
           return WillPopScope(
             onWillPop: () async {
+              FocusScope.of(context).unfocus(); // Avoids the bug of the keyboard showing for a sec
               // Triggers when user made changes and the save button is not pressed
               if (didUserMadeChanges == true &&
                   wasTheSaveButtonPressed == false) {
