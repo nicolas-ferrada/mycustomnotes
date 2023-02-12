@@ -6,7 +6,7 @@ class SnackBarMessage {
     required Color backgroundColor,
   }) {
     final snackBarMessage = SnackBar(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
       content: Center(
         child: Text(
           message,
