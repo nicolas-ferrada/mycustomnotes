@@ -80,7 +80,7 @@ class _NotesWidgetState extends State<NotesWidget> {
             Center(
               child: Text(
                 widget.note.title,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: Colors.black,
