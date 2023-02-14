@@ -7,6 +7,7 @@ import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../services/auth_user_service.dart';
 
 class NoteDetail extends StatefulWidget {
@@ -210,6 +211,7 @@ class _NoteDetailState extends State<NoteDetail> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
           // Share note
+          Share.share('${note.title}\n\n${note.body}');
         } else if (value == MenuItemNoteDetail.item4) {
           // Note details
           NotesDetails.noteDetailsDialog(context, note);
