@@ -59,6 +59,7 @@ dependencies:
 
   # Date formatting (not currently used)
   intl: ^0.17.0
+  connectivity_plus: ^3.0.3
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:

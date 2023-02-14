@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mycustomnotes/extensions/formatted_message.dart';
+import 'package:mycustomnotes/utils/internet/check_internet_connection.dart';
 import '../models/note_model.dart';
 
 class NoteService {
@@ -9,7 +10,21 @@ class NoteService {
   }) async {
     try {
       final db = FirebaseFirestore.instance;
-      final note = await db.collection('note').doc(noteId).get();
+      bool isDeviceConnected =
+          await CheckInternetConnection.checkInternetConnection();
+      DocumentSnapshot<Map<String, dynamic>> note;
+
+      if (isDeviceConnected) {
+        note = await db
+            .collection('note')
+            .doc(noteId)
+            .get(const GetOptions(source: Source.serverAndCache));
+      } else {
+        note = await db
+            .collection('note')
+            .doc(noteId)
+            .get(const GetOptions(source: Source.cache));
+      }
 
       if (note.exists) {
         return Note.fromMap(note.data()!);
@@ -28,8 +43,21 @@ class NoteService {
   }) async* {
     try {
       final db = FirebaseFirestore.instance;
-      final documents =
-          await db.collection('note').where('userId', isEqualTo: userId).get();
+      bool isDeviceConnected =
+          await CheckInternetConnection.checkInternetConnection();
+      QuerySnapshot<Map<String, dynamic>> documents;
+      if (isDeviceConnected) {
+        documents = await db
+            .collection('note')
+            .where('userId', isEqualTo: userId)
+            .get(const GetOptions(source: Source.serverAndCache));
+      } else {
+        documents = await db
+            .collection('note')
+            .where('userId', isEqualTo: userId)
+            .get(const GetOptions(source: Source.cache));
+      }
+
       List<Note> notes = [];
       for (var docSnapshots in documents.docs) {
         final data = Note.fromMap(docSnapshots.data());
@@ -129,37 +157,7 @@ class NoteService {
     await docNote.delete();
   }
 
-  // Update if note it's favorite on dispose note detail
-  static Future<void> updateNoteFavoriteDispose({
-    required String noteId,
-    required bool isFavorite,
-  }) async {
-    try {
-      final db = FirebaseFirestore.instance;
-
-      db.collection('note').doc(noteId).update({'isFavorite': isFavorite});
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
-
-  // Update if note's color changed on dispose note detail
-  static Future<void> updateNoteColorDispose({
-    required String noteId,
-    required int intNoteColor,
-  }) async {
-    try {
-      final db = FirebaseFirestore.instance;
-
-      db.collection('note').doc(noteId).update({'color': intNoteColor});
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
-  
-
+  // Dev
   // After adding a new attribute to the model class, you need to update all other notes created.
   // Updates all documents created to add a new field to them, so stream won't return null.
   static Future<void> updateAllNotesFirestoreWithNewFields() async {
