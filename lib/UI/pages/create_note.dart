@@ -143,7 +143,6 @@ class _CreateNoteState extends State<CreateNote> {
           onPressed: () async {
             // Create note button
             try {
-              Navigator.maybePop(context);
               // Create note on firebase
               await NoteService.createNoteFirestore(
                 title: _noteTitleController.text,
@@ -151,7 +150,7 @@ class _CreateNoteState extends State<CreateNote> {
                 userId: currentUser.uid,
                 isFavorite: isFavorite,
                 color: intNoteColor,
-              );
+              ).then((_) => Navigator.maybePop(context));
             } catch (errorMessage) {
               ExceptionsAlertDialog.showErrorDialog(
                   context, errorMessage.toString());

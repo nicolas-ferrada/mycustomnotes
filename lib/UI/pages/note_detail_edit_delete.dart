@@ -181,7 +181,6 @@ class _NoteDetailState extends State<NoteDetail> {
           // Edit the selected note
           try {
             wasTheSaveButtonPressed = true;
-            Navigator.maybePop(context);
             await NoteService.editOneNoteFirestore(
               title: newTitle,
               body: newBody,
@@ -189,7 +188,7 @@ class _NoteDetailState extends State<NoteDetail> {
               color: intNoteColor,
               noteId: widget.noteId,
               userId: currentUser.uid,
-            );
+            ).then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
                 context, errorMessage.toString());
@@ -410,10 +409,11 @@ class _NoteDetailState extends State<NoteDetail> {
                     onPressed: () async {
                       try {
                         // Delete a specified note
-                        Navigator.pop(context);
-                        Navigator.maybePop(context);
+
                         await NoteService.deleteOneNoteFirestore(
-                            noteId: widget.noteId);
+                                noteId: widget.noteId)
+                            .then((_) => Navigator.pop(context))
+                            .then((_) => Navigator.maybePop(context));
                       } catch (errorMessage) {
                         ExceptionsAlertDialog.showErrorDialog(
                             context, errorMessage.toString());
