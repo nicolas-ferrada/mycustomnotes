@@ -4,10 +4,12 @@ import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/models/note_model.dart';
 import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
+import 'package:mycustomnotes/utils/dialogs/insert_menu_options.dart';
 import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
 import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../services/auth_user_service.dart';
 
 class NoteDetail extends StatefulWidget {
@@ -29,6 +31,8 @@ class _NoteDetailState extends State<NoteDetail> {
   late Color colorPalette;
   late int intNoteColor;
   bool wasTheSaveButtonPressed = false;
+  late YoutubePlayerController _youtubeController;
+  String? youtubeUrl;
 
   @override
   void initState() {
@@ -60,6 +64,17 @@ class _NoteDetailState extends State<NoteDetail> {
                   color: Colors.white,
                   size: 28,
                 );
+          // If the note has a youtube url
+          if (note.youtubeUrl != null) {
+            _youtubeController = YoutubePlayerController(
+              initialVideoId: YoutubePlayer.convertUrlToId(note.youtubeUrl!)!,
+              flags: const YoutubePlayerFlags(
+                autoPlay: false,
+                loop: false,
+                mute: false,
+              ),
+            );
+          }
         });
       });
     } catch (errorMessage) {
@@ -131,31 +146,43 @@ class _NoteDetailState extends State<NoteDetail> {
                 ),
               ),
               // Note's body
-              body: Padding(
-                padding: const EdgeInsets.all(8),
-                child: TextFormField(
-                  initialValue: note.body,
-                  onChanged: (newBodyChanges) {
-                    // Changes are being made
-                    if (newBodyChanges != note.body) {
-                      setState(() {
-                        didUserMadeChanges = true;
-                      });
-                      newBody = newBodyChanges;
-                    } else {
-                      setState(() {
-                        didUserMadeChanges = false;
-                      });
-                    }
-                  },
-                  textAlignVertical: TextAlignVertical.top,
-                  maxLines: null,
-                  expands: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Body',
-                    border: InputBorder.none,
+              body: Column(
+                children: [
+                  // If the note has a url, then show it
+                  note.youtubeUrl != null
+                      ? YoutubePlayer(
+                          controller: _youtubeController,
+                        )
+                      : const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: note.body,
+                      textAlignVertical: TextAlignVertical.top,
+                      maxLines: null,
+                      expands: true,
+                      decoration: const InputDecoration(
+                        hintText: 'Body',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (newBodyChanges) {
+                        // Changes are being made
+                        if (newBodyChanges != note.body) {
+                          setState(() {
+                            didUserMadeChanges = true;
+                          });
+                          newBody = newBodyChanges;
+                        } else {
+                          setState(() {
+                            didUserMadeChanges = false;
+                          });
+                        }
+                      },
+                    ),
                   ),
-                ),
+                ],
               ),
               // Save button, only visible if user changes the note
               floatingActionButton: saveButton(context),
@@ -202,7 +229,7 @@ class _NoteDetailState extends State<NoteDetail> {
   // Menu note button (icon three dots)
   PopupMenuButton menuButtonNote() {
     return PopupMenuButton(
-      onSelected: (value) {
+      onSelected: (value) async {
         if (value == MenuItemNoteDetail.item1) {
           // Mark as favorite
           markAsFavoritePopupButton();
@@ -210,12 +237,20 @@ class _NoteDetailState extends State<NoteDetail> {
           // Pick color palette
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
+          // Insert video or image
+          youtubeUrl =
+              await InsertMenuOptions.selectImageVideoDialog(context: context);
+          if (youtubeUrl != null) {
+            _youtubeController.load(YoutubePlayer.convertUrlToId(youtubeUrl!)!);
+          }
+          // flags and load the url to database
+        } else if (value == MenuItemNoteDetail.item4) {
           // Share note
           Share.share('${note.title}\n\n${note.body}');
-        } else if (value == MenuItemNoteDetail.item4) {
+        } else if (value == MenuItemNoteDetail.item5) {
           // Note details
           NotesDetails.noteDetailsDialog(context, note);
-        } else if (value == MenuItemNoteDetail.item5) {
+        } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           deleteNoteDialog(context);
         }
@@ -251,13 +286,23 @@ class _NoteDetailState extends State<NoteDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
+              Icon(Icons.insert_drive_file, size: 28),
+              Text('Insert'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item4,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
               Icon(Icons.share, size: 28),
               Text('Share'),
             ],
           ),
         ),
         PopupMenuItem(
-          value: MenuItemNoteDetail.item4,
+          value: MenuItemNoteDetail.item5,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
@@ -267,7 +312,7 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
         PopupMenuItem(
-          value: MenuItemNoteDetail.item5,
+          value: MenuItemNoteDetail.item6,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [

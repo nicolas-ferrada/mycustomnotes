@@ -166,7 +166,7 @@ class NoteService {
 
     for (var document in snapshot.docs) {
       await document.reference
-          .update({'color': 0}); // new field: default value.
+          .update({'youtubeUrl': null}); // new field: default value.
     }
   }
 }

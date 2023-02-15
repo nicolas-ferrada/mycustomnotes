@@ -11,6 +11,7 @@ class Note {
       createdDate; // Date of creation (can't be modified) displayed on details
   final bool isFavorite;
   final int color;
+  final String? youtubeUrl;
 
   const Note({
     required this.id,
@@ -21,6 +22,7 @@ class Note {
     required this.createdDate,
     required this.isFavorite,
     required this.color,
+    this.youtubeUrl,
   });
 
   // Convert the class model to a map
@@ -34,6 +36,7 @@ class Note {
       'createdDate': createdDate,
       'isFavorite': isFavorite,
       'color': color,
+      'youtubeUrl': youtubeUrl,
     };
   }
 
@@ -47,5 +50,6 @@ class Note {
         createdDate: map['createdDate'],
         isFavorite: map['isFavorite'],
         color: map['color'],
+        youtubeUrl: map['youtubeUrl'],
       );
 }
