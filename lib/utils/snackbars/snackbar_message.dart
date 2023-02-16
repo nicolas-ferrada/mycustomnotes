@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class SnackBarMessage {
   static SnackBar snackBarMessage({
     required String message,
-    required Color backgroundColor,
+    Color? backgroundColor,
   }) {
     final snackBarMessage = SnackBar(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1500), // 1,5 secs
       content: Center(
         child: Text(
           message,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? Colors.grey,
     );
     return snackBarMessage;
   }
