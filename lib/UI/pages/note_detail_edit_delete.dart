@@ -11,6 +11,7 @@ import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../services/auth_user_service.dart';
+import 'dart:developer' as log;
 
 class NoteDetail extends StatefulWidget {
   final String noteId;
@@ -32,12 +33,22 @@ class _NoteDetailState extends State<NoteDetail> {
   late int intNoteColor;
   bool wasTheSaveButtonPressed = false;
   late YoutubePlayerController _youtubeController;
-  String? youtubeUrl;
+  late String? youtubeUrl;
+  bool isYoutubeplayerInitializated = false;
+  bool isVideoFullScreen = false;
 
   @override
   void initState() {
     super.initState();
     updateNote();
+  }
+
+  @override
+  void dispose() {
+    if (isYoutubeplayerInitializated) {
+      _youtubeController.dispose();
+    }
+    super.dispose();
   }
 
   // Update some attributes of the note beforehand
@@ -64,17 +75,22 @@ class _NoteDetailState extends State<NoteDetail> {
                   color: Colors.white,
                   size: 28,
                 );
-          // If the note has a youtube url
+          youtubeUrl = note.youtubeUrl;
           if (note.youtubeUrl != null) {
-            _youtubeController = YoutubePlayerController(
-              initialVideoId: YoutubePlayer.convertUrlToId(note.youtubeUrl!)!,
-              flags: const YoutubePlayerFlags(
-                autoPlay: false,
-                loop: false,
-                mute: false,
-              ),
-            );
+            setState(() {
+              _youtubeController = YoutubePlayerController(
+                initialVideoId: YoutubePlayer.convertUrlToId(youtubeUrl!)!,
+                flags: const YoutubePlayerFlags(
+                  autoPlay: false,
+                  loop: false,
+                  mute: false,
+                ),
+              );
+              isYoutubeplayerInitializated = true;
+            });
           }
+
+          // If the note has a youtube url
         });
       });
     } catch (errorMessage) {
@@ -112,78 +128,123 @@ class _NoteDetailState extends State<NoteDetail> {
             },
             child: Scaffold(
               // Note's title
-              appBar: AppBar(
-                actions: [
-                  // Note three dots detais (delete, date)
-                  menuButtonNote(),
-                ],
-                title: TextFormField(
-                  initialValue: note.title,
-                  onChanged: (newTitleChanges) {
-                    // Changes are being made
-                    if (newTitleChanges != note.title) {
-                      setState(() {
-                        didUserMadeChanges = true;
-                      });
-                      newTitle = newTitleChanges;
-                      // No changes
-                    } else {
-                      setState(() {
-                        didUserMadeChanges = false;
-                      });
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title',
-                    hintStyle: TextStyle(color: Colors.white70),
-                  ),
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
+              appBar: isVideoFullScreen
+                  ? null
+                  : AppBar(
+                      actions: [
+                        // Note three dots detais (delete, date)
+                        menuButtonNote(),
+                      ],
+                      title: TextFormField(
+                        initialValue: note.title,
+                        onChanged: (newTitleChanges) {
+                          // Changes are being made
+                          if (newTitleChanges != note.title) {
+                            setState(() {
+                              didUserMadeChanges = true;
+                            });
+                            newTitle = newTitleChanges;
+                            // No changes
+                          } else {
+                            setState(() {
+                              didUserMadeChanges = false;
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Title',
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
               // Note's body
               body: Column(
-                children: [
-                  // If the note has a url, then show it
-                  note.youtubeUrl != null
-                      ? YoutubePlayer(
-                          controller: _youtubeController,
-                        )
-                      : const SizedBox(
-                          width: 0,
-                          height: 0,
+                    children: [
+                      // If the note has a url, then show it
+                      youtubeUrl != null
+                          ? YoutubePlayerBuilder(
+                              onEnterFullScreen: () {
+                                setState(() {
+                                  setState(() {
+                                    log.log(
+                                        '${isVideoFullScreen.toString()} full scren');
+                                    isVideoFullScreen = true;
+                                  });
+                                });
+                              },
+                              onExitFullScreen: () {
+                                setState(() {
+                                  isVideoFullScreen = false;
+                                  log.log(
+                                      '${isVideoFullScreen.toString()} exit scren');
+                                });
+                              },
+                              player: YoutubePlayer(
+                                controller: _youtubeController,
+                                showVideoProgressIndicator: true,
+                              ),
+                              builder: (context, player) {
+                                return Container(
+                                  height: isVideoFullScreen
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.width *
+                                          9 /
+                                          16,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.zero,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(1),
+                                        spreadRadius: 2,
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: player,
+                                );
+                              })
+                          : const SizedBox(
+                              width: 0,
+                              height: 0,
+                            ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: TextFormField(
+                            initialValue: note.body,
+                            textAlignVertical: TextAlignVertical.top,
+                            maxLines: null,
+                            expands: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Body',
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (newBodyChanges) {
+                              // Changes are being made
+                              if (newBodyChanges != note.body) {
+                                setState(() {
+                                  didUserMadeChanges = true;
+                                });
+                                newBody = newBodyChanges;
+                              } else {
+                                setState(() {
+                                  didUserMadeChanges = false;
+                                });
+                              }
+                            },
+                          ),
                         ),
-                  Expanded(
-                    child: TextFormField(
-                      initialValue: note.body,
-                      textAlignVertical: TextAlignVertical.top,
-                      maxLines: null,
-                      expands: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Body',
-                        border: OutlineInputBorder(),
                       ),
-                      onChanged: (newBodyChanges) {
-                        // Changes are being made
-                        if (newBodyChanges != note.body) {
-                          setState(() {
-                            didUserMadeChanges = true;
-                          });
-                          newBody = newBodyChanges;
-                        } else {
-                          setState(() {
-                            didUserMadeChanges = false;
-                          });
-                        }
-                      },
-                    ),
+                    ],
                   ),
-                ],
-              ),
               // Save button, only visible if user changes the note
               floatingActionButton: saveButton(context),
             ),
@@ -216,6 +277,7 @@ class _NoteDetailState extends State<NoteDetail> {
               color: intNoteColor,
               noteId: widget.noteId,
               userId: currentUser.uid,
+              youtubeUrl: youtubeUrl,
             ).then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
@@ -238,10 +300,48 @@ class _NoteDetailState extends State<NoteDetail> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
           // Insert video or image
-          youtubeUrl =
-              await InsertMenuOptions.selectImageVideoDialog(context: context);
-          if (youtubeUrl != null) {
-            _youtubeController.load(YoutubePlayer.convertUrlToId(youtubeUrl!)!);
+          try {
+            youtubeUrl = await showDialog(
+                context: context,
+                builder: (_) {
+                  return InsertMenuOptions(
+                    context: context,
+                    noteCurrentUrl: note.youtubeUrl,
+                  );
+                });
+            if (youtubeUrl != null) {
+              // Database did not have any video url
+              if (isYoutubeplayerInitializated == false) {
+                setState(() {
+                  _youtubeController = YoutubePlayerController(
+                    initialVideoId: YoutubePlayer.convertUrlToId(youtubeUrl!)!,
+                    flags: const YoutubePlayerFlags(
+                      autoPlay: false,
+                      loop: false,
+                      mute: false,
+                    ),
+                  );
+                  isYoutubeplayerInitializated = true;
+                  // Only show save button if the url is different
+                  didUserMadeChanges = true;
+                });
+              } else {
+                // After controller it's initializated, then just load videos
+                setState(() {
+                  _youtubeController
+                      .load(YoutubePlayer.convertUrlToId(youtubeUrl!)!);
+                  // Only show save button if the url is different
+                  if (youtubeUrl != note.youtubeUrl) {
+                    didUserMadeChanges = true;
+                  } else {
+                    didUserMadeChanges = false;
+                  }
+                });
+              }
+            }
+          } catch (errorMessage) {
+            ExceptionsAlertDialog.showErrorDialog(
+                context, errorMessage.toString());
           }
           // flags and load the url to database
         } else if (value == MenuItemNoteDetail.item4) {

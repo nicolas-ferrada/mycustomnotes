@@ -1,154 +1,138 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 
-class InsertMenuOptions {
-  // Insert menu pick image/video
-  static Future<String> selectImageVideoDialog({
-    required BuildContext context,
-  }) async {
-    String newUrl = '';
-    await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text('Choose an option'),
+class InsertMenuOptions extends StatefulWidget {
+  final BuildContext context;
+  final String? noteCurrentUrl;
+  const InsertMenuOptions(
+      {super.key, required this.context, this.noteCurrentUrl});
+
+  @override
+  State<InsertMenuOptions> createState() => _InsertMenuOptionsState();
+}
+
+class _InsertMenuOptionsState extends State<InsertMenuOptions> {
+  String? newUrl;
+  bool isVideoSelected = false;
+  TextEditingController urlController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    newUrl = widget.noteCurrentUrl;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      elevation: 3,
+      backgroundColor: Colors.grey,
+      title: const Center(
+        child: Text('Choose an option'),
+      ),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () async {
+              setState(() {
+                isVideoSelected = false;
+                Navigator.maybePop(context);
+              });
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.image, size: 46),
+                Text('Image'),
+              ],
+            ),
           ),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          const SizedBox(
+            width: 36,
+          ),
+          InkWell(
+            onTap: () async {
+              setState(() {
+                isVideoSelected = true;
+              });
+              isVideoSelected = true;
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.play_circle, size: 46),
+                Text('Video'),
+              ],
+            ),
+          )
+        ],
+      ),
+      actions: [
+        Center(
+          child: Column(
             children: [
-              InkWell(
-                onTap: () async {
-                  Navigator.maybePop(context);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Icons.image, size: 46),
-                    Text('Image'),
-                  ],
+              // Text enter link
+              Visibility(
+                visible: isVideoSelected,
+                child: TextFormField(
+                  controller: urlController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter a youtube url',
+                    prefixIcon: Icon(Icons.link),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
               const SizedBox(
-                width: 36,
+                height: 8,
               ),
-              InkWell(
-                onTap: () async {
-                  await enterYoutubeUrlDialog(context: context).then((dbUrl) {
-                    newUrl = dbUrl;
-                    return newUrl;
-                  }).then((_) => Navigator.maybePop(context));
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Icons.play_circle, size: 46),
-                    Text('Video'),
-                  ],
-                ),
-              )
-            ],
-          ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  // Close button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
-                    ),
+              // Apply url button hidden
+              Visibility(
+                visible: isVideoSelected,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(200, 40),
+                      backgroundColor: Colors.white),
+                  onPressed: () {
+                    if (urlController.text.isEmpty) {
+                      // user did not type anything and accepted
+                      SnackBar snackbar = SnackBarMessage.snackBarMessage(
+                          message: 'You have to enter a youtube url',
+                          backgroundColor: Colors.grey);
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    } else {
+                      // User did type something
+                      newUrl = urlController.text;
+                      isVideoSelected = false;
+                      Navigator.of(context).pop(newUrl);
+                    }
+                  },
+                  child: const Text(
+                    'Use this video',
+                    style: TextStyle(color: Colors.black),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-    return newUrl;
-  }
-
-  // Enter youtube video url dialog
-  static Future<String> enterYoutubeUrlDialog({
-    required BuildContext context,
-  }) async {
-    TextEditingController urlController = TextEditingController();
-    String url = '';
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text('Youtube URL'),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: urlController,
-                decoration: const InputDecoration(
-                  hintText:
-                      'Paste link here',
-                  prefixIcon: Icon(Icons.link),
-                  border: OutlineInputBorder(),
                 ),
               ),
+              // Cancel button
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(200, 40),
+                    backgroundColor: Colors.white),
                 onPressed: () {
-                  if (urlController.text.isEmpty) {
-                    // user did not type anything and accepted
-                    SnackBarMessage.snackBarMessage(
-                        message: 'You have to type a youtube url',
-                        backgroundColor: Colors.grey);
-                  } else {
-                    // User did type something
-                    url = urlController.text;
-                    Navigator.pop(context);
-                  }
+                  Navigator.maybePop(context);
                 },
-                child: const Text('Use this video'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               )
             ],
           ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  // Close button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
+        ),
+      ],
     );
-    return url;
   }
 }

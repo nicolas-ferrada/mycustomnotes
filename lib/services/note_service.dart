@@ -116,6 +116,7 @@ class NoteService {
     required userId,
     required isFavorite,
     required int color,
+    required String? youtubeUrl,
   }) async {
     try {
       // Get the current 'created date' of the note to use the same.
@@ -132,6 +133,7 @@ class NoteService {
         createdDate: existingCreatedDate,
         isFavorite: isFavorite,
         color: color,
+        youtubeUrl: youtubeUrl,
       );
       final db = FirebaseFirestore.instance;
 
