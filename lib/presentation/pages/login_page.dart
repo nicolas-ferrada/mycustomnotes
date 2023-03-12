@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/constants/routes.dart';
+import 'package:mycustomnotes/presentation/pages/password_recover_page.dart';
+import 'package:mycustomnotes/presentation/routes/routes.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import '../../exceptions/exceptions_alert_dialog.dart';
 
@@ -114,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: 'Sign up',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushNamed(context, registerRoute);
+                              Navigator.pushNamed(context, registerPageRoute);
                             }),
                     ]),
               ),
@@ -134,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Recover it',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.pushNamed(context, recoverPasswordRoute);
+                          Navigator.pushNamed(context, recoverPasswordPageRoute);
                         },
                     ),
                   ],

@@ -8,7 +8,6 @@ import '../pages/note_details_page.dart';
 import '../pages/password_recover_page.dart';
 import '../pages/register_page.dart';
 
-
 // Routes
 const String homePageRoute = '/';
 const String noteCreatePageRoute = '/noteCreatePage';
@@ -26,7 +25,9 @@ class AppRoutes {
       case noteCreatePageRoute:
         return MaterialPageRoute(builder: (_) => const NoteCreatePage());
       case noteDetailsPageRoute:
-        return MaterialPageRoute(builder: (context) => NoteDetailsPage(noteId: ModalRoute.of(context)?.settings.arguments as String));
+        final noteId = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (context) => NoteDetailsPage(noteId: noteId));
       case loginPageRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case registerPageRoute:

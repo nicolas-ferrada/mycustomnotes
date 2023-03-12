@@ -7,8 +7,6 @@ import 'package:mycustomnotes/services/note_service.dart';
 import 'package:mycustomnotes/presentation/global_widgets/notes_widget.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 
-import 'note_details_page.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
