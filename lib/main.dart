@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My custom notes',
       theme: ThemeData.dark(),
-      initialRoute: loginPageRoute,
+      initialRoute: null,
       onGenerateRoute: AppRoutes.generateRoute,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
