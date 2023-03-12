@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mycustomnotes/extensions/formatted_message.dart';
+import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 
 class AuthUserService {
   // Register an user with email and password on firebase

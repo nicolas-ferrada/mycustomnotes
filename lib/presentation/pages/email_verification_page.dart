@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/home_page.dart';
-import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/services/auth_user_service.dart';
+import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
+import 'package:mycustomnotes/domain/services/auth_user_service.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   const EmailVerificationPage({super.key});

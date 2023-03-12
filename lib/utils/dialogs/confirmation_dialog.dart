@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/services/auth_user_service.dart';
+import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
+import 'package:mycustomnotes/domain/services/auth_user_service.dart';
 
 class ConfirmationDialog {
   // Log out from firebase confirmation

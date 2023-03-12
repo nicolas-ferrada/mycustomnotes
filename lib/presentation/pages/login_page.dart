@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/password_recover_page.dart';
 import 'package:mycustomnotes/presentation/routes/routes.dart';
-import 'package:mycustomnotes/services/auth_user_service.dart';
-import '../../exceptions/exceptions_alert_dialog.dart';
+import 'package:mycustomnotes/domain/services/auth_user_service.dart';
+import '../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

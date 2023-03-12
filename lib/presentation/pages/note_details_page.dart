@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/enums/menu_item_note_detail.dart';
-import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/models/note_model.dart';
-import 'package:mycustomnotes/services/note_service.dart';
+import 'package:mycustomnotes/utils/enums/menu_item_note_detail.dart';
+import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
+import 'package:mycustomnotes/data/models/note_model.dart';
+import 'package:mycustomnotes/domain/services/note_service.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 import 'package:mycustomnotes/utils/dialogs/insert_menu_options.dart';
 import 'package:mycustomnotes/utils/dialogs/note_details_info.dart';
@@ -10,7 +10,7 @@ import 'package:mycustomnotes/utils/dialogs/pick_note_color.dart';
 import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../../services/auth_user_service.dart';
+import '../../domain/services/auth_user_service.dart';
 import 'dart:developer' as log;
 
 class NoteDetailsPage extends StatefulWidget {

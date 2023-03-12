@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/note_model.dart';
+import '../../data/models/note_model.dart';
 import '../formatters/date_formatter.dart';
 
 class NotesDetails {

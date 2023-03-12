@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/note_create_page.dart';
-import 'package:mycustomnotes/models/note_model.dart';
+import 'package:mycustomnotes/data/models/note_model.dart';
 import 'package:mycustomnotes/presentation/routes/routes.dart';
-import 'package:mycustomnotes/services/auth_user_service.dart';
-import 'package:mycustomnotes/services/note_service.dart';
+import 'package:mycustomnotes/domain/services/auth_user_service.dart';
+import 'package:mycustomnotes/domain/services/note_service.dart';
 import 'package:mycustomnotes/presentation/global_widgets/notes_widget.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 
