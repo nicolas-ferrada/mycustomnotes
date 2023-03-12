@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 
-class RecoverPassword extends StatefulWidget {
-  const RecoverPassword({super.key});
+class PasswordRecoverPage extends StatefulWidget {
+  const PasswordRecoverPage({super.key});
 
   @override
-  State<RecoverPassword> createState() => _RecoverPasswordState();
+  State<PasswordRecoverPage> createState() => _PasswordRecoverPageState();
 }
 
-class _RecoverPasswordState extends State<RecoverPassword> {
+class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
   final _emailRecoverPasswordController = TextEditingController();
 
   @override
@@ -98,7 +98,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
             child: Text('Successful'),
           ),
           content: const Text(
-          'An email to recover your account was sent',
+            'An email to recover your account was sent',
             style: TextStyle(color: Colors.white),
           ),
           actions: [

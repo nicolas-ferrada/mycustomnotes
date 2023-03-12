@@ -50,8 +50,8 @@ class _NotesWidgetState extends State<NotesWidget> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: widget.isFavorite
-                        ? const Stack(
-                            children: [
+                        ? Stack(
+                            children: const [
                               Icon(
                                 Icons.star,
                                 color: Color.fromARGB(255, 255, 255, 0),

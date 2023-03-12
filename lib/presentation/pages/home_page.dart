@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/UI/pages/create_note.dart';
-import 'package:mycustomnotes/UI/pages/note_detail_edit_delete.dart';
+import 'package:mycustomnotes/presentation/pages/note_create_page.dart';
 import 'package:mycustomnotes/models/note_model.dart';
+import 'package:mycustomnotes/presentation/routes/routes.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 import 'package:mycustomnotes/services/note_service.dart';
-import 'package:mycustomnotes/UI/widgets/notes_widget.dart';
+import 'package:mycustomnotes/presentation/global_widgets/notes_widget.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
+
+import 'note_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context)
             .push(
               MaterialPageRoute(
-                builder: (context) => const CreateNote(),
+                builder: (context) => const NoteCreatePage(),
               ),
             )
             .then((_) => _updateNotes());
@@ -103,10 +105,13 @@ class _HomePageState extends State<HomePage> {
           // Tapping on a note, opens the detailed version of it
           return GestureDetector(
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(
-                        builder: (context) => NoteDetail(noteId: note.id)))
-                    .then((_) => _updateNotes());
+                Navigator.pushNamed(context, noteDetailsPageRoute,
+                        arguments: note.id)
+                    .then((value) => _updateNotes());
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(
+                //         builder: (context) => NoteDetailsPage(noteId: note.id)))
+                //     .then((_) => _updateNotes());
               },
               child: NotesWidget(
                 note: note,

@@ -5,14 +5,14 @@ import 'package:mycustomnotes/services/note_service.dart';
 
 import '../../utils/dialogs/pick_note_color.dart';
 
-class CreateNote extends StatefulWidget {
-  const CreateNote({super.key});
+class NoteCreatePage extends StatefulWidget {
+  const NoteCreatePage({super.key});
 
   @override
-  State<CreateNote> createState() => _CreateNoteState();
+  State<NoteCreatePage> createState() => _NoteCreatePageState();
 }
 
-class _CreateNoteState extends State<CreateNote> {
+class _NoteCreatePageState extends State<NoteCreatePage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
   final _noteTitleController = TextEditingController();
   final _noteBodyController = TextEditingController();

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/presentation/pages/email_verification_page.dart';
-import 'package:mycustomnotes/presentation/pages/home_page.dart';
-import 'package:mycustomnotes/presentation/pages/login_page.dart';
-import 'package:mycustomnotes/presentation/pages/note_create_page.dart';
-import 'package:mycustomnotes/presentation/pages/note_details_page.dart';
-import 'package:mycustomnotes/presentation/pages/recover_password_page.dart';
-import 'package:mycustomnotes/presentation/pages/register_page.dart';
+
+import '../pages/email_verification_page.dart';
+import '../pages/home_page.dart';
+import '../pages/login_page.dart';
+import '../pages/note_create_page.dart';
+import '../pages/note_details_page.dart';
+import '../pages/password_recover_page.dart';
+import '../pages/register_page.dart';
+
 
 // Routes
 const String homePageRoute = '/';
@@ -24,7 +26,7 @@ class AppRoutes {
       case noteCreatePageRoute:
         return MaterialPageRoute(builder: (_) => const NoteCreatePage());
       case noteDetailsPageRoute:
-        return MaterialPageRoute(builder: (_) => const NoteDetailsPage());
+        return MaterialPageRoute(builder: (context) => NoteDetailsPage(noteId: ModalRoute.of(context)?.settings.arguments as String));
       case loginPageRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case registerPageRoute:
@@ -32,7 +34,7 @@ class AppRoutes {
       case emailVerificationPageRoute:
         return MaterialPageRoute(builder: (_) => const EmailVerificationPage());
       case recoverPasswordPageRoute:
-        return MaterialPageRoute(builder: (_) => const RecoverPasswordPage());
+        return MaterialPageRoute(builder: (_) => const PasswordRecoverPage());
       default:
         return MaterialPageRoute(builder: (_) => const ErrorPage());
     }

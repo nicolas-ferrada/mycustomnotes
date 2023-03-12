@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/UI/pages/create_note.dart';
-import 'package:mycustomnotes/UI/pages/verification_email.dart';
-import 'package:mycustomnotes/constants/routes.dart';
-import 'UI/pages/home.dart';
-import 'UI/pages/login.dart';
-import 'UI/pages/recover_password.dart';
-import 'UI/pages/register.dart';
+import 'package:mycustomnotes/presentation/pages/email_verification_page.dart';
+import 'package:mycustomnotes/presentation/routes/routes.dart';
+
+import 'presentation/pages/login_page.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,20 +22,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My custom notes',
       theme: ThemeData.dark(),
-      initialRoute: null,
-      routes: {
-        loginRoute: (context) => const LoginPage(),
-        registerRoute: (context) => const RegisterPage(),
-        homeRoute: (context) => const HomePage(),
-        recoverPasswordRoute: (context) => const RecoverPassword(),
-        verificationEmailRoute: (context) => const VerificationEmail(),
-        createNoteRoute: (context) => const CreateNote(),
-      },
+      initialRoute: loginPageRoute,
+      onGenerateRoute: AppRoutes.generateRoute,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const VerificationEmail();
+            return const EmailVerificationPage();
           } else {
             return const LoginPage();
           }

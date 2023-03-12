@@ -13,15 +13,15 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../services/auth_user_service.dart';
 import 'dart:developer' as log;
 
-class NoteDetail extends StatefulWidget {
+class NoteDetailsPage extends StatefulWidget {
   final String noteId;
-  const NoteDetail({super.key, required this.noteId});
+  const NoteDetailsPage({super.key, required this.noteId});
 
   @override
-  State<NoteDetail> createState() => _NoteDetailState();
+  State<NoteDetailsPage> createState() => _NoteDetailsPageState();
 }
 
-class _NoteDetailState extends State<NoteDetail> {
+class _NoteDetailsPageState extends State<NoteDetailsPage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
   bool didUserMadeChanges = false;
   late Note note;
@@ -165,86 +165,84 @@ class _NoteDetailState extends State<NoteDetail> {
                     ),
               // Note's body
               body: Column(
-                    children: [
-                      // If the note has a url, then show it
-                      youtubeUrl != null
-                          ? YoutubePlayerBuilder(
-                              onEnterFullScreen: () {
-                                setState(() {
-                                  setState(() {
-                                    log.log(
-                                        '${isVideoFullScreen.toString()} full scren');
-                                    isVideoFullScreen = true;
-                                  });
-                                });
-                              },
-                              onExitFullScreen: () {
-                                setState(() {
-                                  isVideoFullScreen = false;
-                                  log.log(
-                                      '${isVideoFullScreen.toString()} exit scren');
-                                });
-                              },
-                              player: YoutubePlayer(
-                                controller: _youtubeController,
-                                showVideoProgressIndicator: true,
-                              ),
-                              builder: (context, player) {
-                                return Container(
-                                  height: isVideoFullScreen
-                                      ? MediaQuery.of(context).size.height
-                                      : MediaQuery.of(context).size.width *
-                                          9 /
-                                          16,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.zero,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(1),
-                                        spreadRadius: 2,
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: player,
-                                );
-                              })
-                          : const SizedBox(
-                              width: 0,
-                              height: 0,
-                            ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: TextFormField(
-                            initialValue: note.body,
-                            textAlignVertical: TextAlignVertical.top,
-                            maxLines: null,
-                            expands: true,
-                            decoration: const InputDecoration(
-                              hintText: 'Body',
-                              border: InputBorder.none,
-                            ),
-                            onChanged: (newBodyChanges) {
-                              // Changes are being made
-                              if (newBodyChanges != note.body) {
-                                setState(() {
-                                  didUserMadeChanges = true;
-                                });
-                                newBody = newBodyChanges;
-                              } else {
-                                setState(() {
-                                  didUserMadeChanges = false;
-                                });
-                              }
-                            },
+                children: [
+                  // If the note has a url, then show it
+                  youtubeUrl != null
+                      ? YoutubePlayerBuilder(
+                          onEnterFullScreen: () {
+                            setState(() {
+                              setState(() {
+                                log.log(
+                                    '${isVideoFullScreen.toString()} full scren');
+                                isVideoFullScreen = true;
+                              });
+                            });
+                          },
+                          onExitFullScreen: () {
+                            setState(() {
+                              isVideoFullScreen = false;
+                              log.log(
+                                  '${isVideoFullScreen.toString()} exit scren');
+                            });
+                          },
+                          player: YoutubePlayer(
+                            controller: _youtubeController,
+                            showVideoProgressIndicator: true,
                           ),
+                          builder: (context, player) {
+                            return Container(
+                              height: isVideoFullScreen
+                                  ? MediaQuery.of(context).size.height
+                                  : MediaQuery.of(context).size.width * 9 / 16,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.zero,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: player,
+                            );
+                          })
+                      : const SizedBox(
+                          width: 0,
+                          height: 0,
                         ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: TextFormField(
+                        initialValue: note.body,
+                        textAlignVertical: TextAlignVertical.top,
+                        maxLines: null,
+                        expands: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Body',
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (newBodyChanges) {
+                          // Changes are being made
+                          if (newBodyChanges != note.body) {
+                            setState(() {
+                              didUserMadeChanges = true;
+                            });
+                            newBody = newBodyChanges;
+                          } else {
+                            setState(() {
+                              didUserMadeChanges = false;
+                            });
+                          }
+                        },
                       ),
-                    ],
+                    ),
                   ),
+                ],
+              ),
               // Save button, only visible if user changes the note
               floatingActionButton: saveButton(context),
             ),

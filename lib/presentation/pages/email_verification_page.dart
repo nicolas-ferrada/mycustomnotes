@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/UI/pages/home.dart';
+import 'package:mycustomnotes/presentation/pages/home_page.dart';
 import 'package:mycustomnotes/exceptions/exceptions_alert_dialog.dart';
 import 'package:mycustomnotes/services/auth_user_service.dart';
 
-class VerificationEmail extends StatefulWidget {
-  const VerificationEmail({super.key});
+class EmailVerificationPage extends StatefulWidget {
+  const EmailVerificationPage({super.key});
 
   @override
-  State<VerificationEmail> createState() => _VerificationEmailState();
+  State<EmailVerificationPage> createState() => _EmailVerificationPageState();
 }
 
-class _VerificationEmailState extends State<VerificationEmail> {
+class _EmailVerificationPageState extends State<EmailVerificationPage> {
   late User currentUser;
   Timer? timer;
 
