@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nicolasferrada.mycustomnotes">
    <application
-        android:label="mycustomnotes"
+        android:label="My Custom notes"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
