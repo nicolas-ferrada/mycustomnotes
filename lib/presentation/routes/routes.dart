@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../pages/email_verification_page.dart';
+import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
-import '../pages/login_page.dart';
-import '../pages/note_create_page.dart';
-import '../pages/note_details_page.dart';
-import '../pages/password_recover_page.dart';
-import '../pages/register_page.dart';
+import '../pages/login_page/login_page.dart';
+import '../pages/note_create_page/note_create_page.dart';
+import '../pages/note_details_page/note_details_page.dart';
+import '../pages/password_recover_page/password_recover_page.dart';
+import '../pages/register_page/register_page.dart';
 
 // Routes
 const String homePageRoute = '/';
