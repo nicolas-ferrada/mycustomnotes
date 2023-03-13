@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/note_notifier.dart';
-import 'package:mycustomnotes/presentation/pages/email_verification_page/email_verification_page.dart';
-import 'package:mycustomnotes/presentation/routes/routes.dart';
+import 'data/models/Note/note_notifier.dart';
+import 'presentation/pages/email_verification_page/email_verification_page.dart';
+import 'presentation/routes/routes.dart';
 
 import 'presentation/pages/login_page/login_page.dart';
 

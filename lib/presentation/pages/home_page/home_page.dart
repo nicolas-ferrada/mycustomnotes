@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'home_page_widgets/home_page_app_bar_show_email_user.dart';
-
 import 'home_page_widgets/home_page_new_note_button_widget.dart';
 import 'home_page_widgets/home_page_read_notes_stream_consumer.dart';
 

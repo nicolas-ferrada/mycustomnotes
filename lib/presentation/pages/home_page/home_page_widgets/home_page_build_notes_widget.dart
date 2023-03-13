@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/note_model.dart';
+
+import '../../../../data/models/Note/note_model.dart';
 import '../../../../utils/dialogs/pick_note_color.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../../utils/formatters/date_formatter.dart';

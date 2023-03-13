@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/domain/services/auth_user_service.dart';
-import 'package:mycustomnotes/domain/services/note_service.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/note_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/note_notifier.dart';

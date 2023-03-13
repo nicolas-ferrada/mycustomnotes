@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'home_page_build_notes_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/models/Note/note_model.dart';
 import '../../../../data/models/Note/note_notifier.dart';
 import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_service.dart';
-import 'home_page_build_notes_widget.dart';
+
 
 final currentUser = AuthUserService.getCurrentUserFirebase(); // init state?
 

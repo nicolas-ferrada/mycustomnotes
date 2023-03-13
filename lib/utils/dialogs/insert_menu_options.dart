@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/utils/snackbars/snackbar_message.dart';
+
+import '../snackbars/snackbar_message.dart';
 
 class InsertMenuOptions extends StatefulWidget {
   final BuildContext context;

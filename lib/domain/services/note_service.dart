@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
-import 'package:mycustomnotes/utils/internet/check_internet_connection.dart';
+
 import '../../data/models/Note/note_model.dart';
+import '../../utils/extensions/formatted_message.dart';
+import '../../utils/internet/check_internet_connection.dart';
 
 class NoteService {
   // Read one note created by the user from Firebase

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/domain/services/auth_user_service.dart';
+
+import '../../../domain/services/auth_user_service.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
