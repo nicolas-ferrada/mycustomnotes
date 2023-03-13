@@ -6,7 +6,7 @@ class CheckInternetConnection {
     if (connectivityResult == ConnectivityResult.none) {
       return false; // Device not connected to any network
     } else {
-      return true; // Device connected to a network, it still might now work if network is bad
+      return true; // Device connected to a network, it still might not work if network is bad
     }
   }
 }
