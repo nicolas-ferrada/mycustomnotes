@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/enums/menu_item_note_detail.dart';
 import 'package:mycustomnotes/utils/exceptions/exceptions_alert_dialog.dart';
-import 'package:mycustomnotes/data/models/note_model.dart';
+import 'package:mycustomnotes/data/models/Note/note_model.dart';
 import 'package:mycustomnotes/domain/services/note_service.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 import 'package:mycustomnotes/utils/dialogs/insert_menu_options.dart';

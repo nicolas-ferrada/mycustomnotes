@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/email_verification_page.dart';
-import '../pages/home_page.dart';
+import '../pages/home_page/screen/home_page.dart';
 import '../pages/login_page.dart';
 import '../pages/note_create_page.dart';
 import '../pages/note_details_page.dart';

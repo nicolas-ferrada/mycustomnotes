@@ -1,33 +1,52 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/note_model.dart';
-import '../../utils/dialogs/pick_note_color.dart';
-import '../../utils/formatters/date_formatter.dart';
+import 'package:mycustomnotes/data/models/Note/note_model.dart';
+import '../../../../utils/dialogs/pick_note_color.dart';
+import '../../../../utils/extensions/compare_booleans.dart';
+import '../../../../utils/formatters/date_formatter.dart';
+import '../../../routes/routes.dart';
 
-class NotesWidget extends StatefulWidget {
-  final Note note;
-  final int index;
-  final Timestamp lastModificationDate;
-  final bool isFavorite;
+class HomePageBuildNotesWidget extends StatelessWidget {
+  final List<Note> notesList;
 
-  const NotesWidget({
+  const HomePageBuildNotesWidget({
+    required this.notesList,
     super.key,
-    required this.note,
-    required this.index,
-    required this.lastModificationDate,
-    required this.isFavorite,
   });
 
   @override
-  State<NotesWidget> createState() => _NotesWidgetState();
-}
-
-class _NotesWidgetState extends State<NotesWidget> {
-  @override
   Widget build(BuildContext context) {
+    // Build the notes
+    return GridView.custom(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      childrenDelegate: SliverChildBuilderDelegate(
+        childCount: notesList.length,
+        ((context, index) {
+          // Ordered by date, first note created will show first
+          notesList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+          // Put favorites first using a extension boolean compare
+          notesList.sort((a, b) =>
+              CompareBooleans.compareBooleans(a.isFavorite, b.isFavorite));
+          Note note = notesList[index];
+          // Tapping on a note, opens the detailed version of it
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, noteDetailsPageRoute,
+                  arguments: note.id);
+            },
+            child: showNotes(note: note),
+          );
+        }),
+      ),
+    );
+  }
+
+  // Show the notes
+  Card showNotes({required Note note}) {
     return Card(
       // Color of the note
-      color: NotesColors.selectNoteColor(widget.note.color),
+      color: NotesColors.selectNoteColor(note.color),
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
@@ -41,15 +60,14 @@ class _NotesWidgetState extends State<NotesWidget> {
                   alignment: Alignment.topLeft,
                   child: Text(
                     // Date of last modification
-                    DateFormatter.showDateFormatted(
-                        widget.lastModificationDate),
+                    DateFormatter.showDateFormatted(note.lastModificationDate),
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: widget.isFavorite
+                    child: note.isFavorite
                         ? Stack(
                             children: const [
                               Icon(
@@ -79,7 +97,7 @@ class _NotesWidgetState extends State<NotesWidget> {
             // Text title
             Center(
               child: Text(
-                widget.note.title,
+                note.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -92,7 +110,7 @@ class _NotesWidgetState extends State<NotesWidget> {
             // Text body
             Center(
               child: Text(
-                widget.note.body,
+                note.body,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(

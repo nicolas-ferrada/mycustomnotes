@@ -8,3 +8,4 @@ extension FormattedMessage on Exception {
     }
   }
 }
+
