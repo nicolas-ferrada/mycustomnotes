@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/Note/note_model.dart';
 import 'package:mycustomnotes/domain/services/auth_user_service.dart';
 import 'package:mycustomnotes/domain/services/note_service.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/widgets/home_page_build_notes_widget.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
 
-import '../widgets/home_page_new_note_button_widget.dart';
+import 'home_page_widgets/home_page_build_notes_widget.dart';
+import 'home_page_widgets/home_page_new_note_button_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
