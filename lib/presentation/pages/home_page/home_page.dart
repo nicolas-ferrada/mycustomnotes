@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/Note/note_model.dart';
+import 'package:mycustomnotes/data/models/Note/note_notifier.dart';
 import 'package:mycustomnotes/domain/services/auth_user_service.dart';
 import 'package:mycustomnotes/domain/services/note_service.dart';
 import 'package:mycustomnotes/utils/dialogs/confirmation_dialog.dart';
+import 'package:provider/provider.dart';
 
 import 'home_page_widgets/home_page_build_notes_widget.dart';
 import 'home_page_widgets/home_page_new_note_button_widget.dart';
@@ -42,7 +44,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       // Body to show the notes
-      body: StreamBuilder(
+      body: Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
+        return StreamBuilder(
           stream: NoteService.readAllNotesFirestore(userId: currentUser.uid),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -60,7 +63,9 @@ class _HomePageState extends State<HomePage> {
             } else {
               return const Center(child: CircularProgressIndicator());
             }
-          }),
+          },
+        );
+      }),
       // Button to create a new note
       floatingActionButton: newNoteButton(context),
     );
