@@ -1,156 +1,206 @@
 import 'package:flutter/material.dart';
 
-class NotesColors {
-  // Pick the correct color using an int value
-  static Color selectNoteColor(int intNoteColor) {
-    Color noteColor = Colors.grey;
-    switch (intNoteColor) {
-      case 1:
-        {
-          noteColor = Colors.amber.shade300;
-        }
-        return noteColor;
-      case 2:
-        {
-          noteColor = Colors.green.shade300;
-        }
-        return noteColor;
-      case 3:
-        {
-          noteColor = Colors.lightBlue.shade300;
-        }
-        return noteColor;
-      case 4:
-        {
-          noteColor = Colors.orange.shade300;
-        }
-        return noteColor;
-      case 5:
-        {
-          noteColor = Colors.pinkAccent.shade100;
-        }
-        return noteColor;
-      case 6:
-        {
-          noteColor = Colors.tealAccent.shade100;
-        }
-        return noteColor;
+enum NoteColor {
+  ambar,
+  green,
+  lightBlue,
+  orange,
+  pink,
+  teal,
+  lightRed,
+}
+
+extension GetNoteColor on NoteColor {
+  Color get getColor {
+    switch (this) {
+      case NoteColor.ambar:
+        return Colors.amber.shade300;
+      case NoteColor.green:
+        return Colors.green.shade300;
+      case NoteColor.lightBlue:
+        return Colors.lightBlue.shade300;
+      case NoteColor.orange:
+        return Colors.orange.shade400;
+      case NoteColor.pink:
+        return Colors.pinkAccent.shade100;
+      case NoteColor.teal:
+        return Colors.tealAccent.shade100;
+      case NoteColor.lightRed:
+        return Colors.red.shade400;
       default:
-        {
-          noteColor = Colors.grey;
-        }
-        return noteColor;
+        return Colors.grey;
+    }
+  }
+}
+
+class NoteColorOperations {
+  static int getNumberFromColor({required Color color}) {
+    if (color == NoteColor.ambar.getColor) {
+      return 1;
+    } else if (color == NoteColor.green.getColor) {
+      return 2;
+    } else if (color == NoteColor.lightBlue.getColor) {
+      return 3;
+    } else if (color == NoteColor.orange.getColor) {
+      return 4;
+    } else if (color == NoteColor.pink.getColor) {
+      return 5;
+    } else if (color == NoteColor.teal.getColor) {
+      return 6;
+    } else if (color == NoteColor.lightRed.getColor) {
+      return 7;
+    } else {
+      return 0;
     }
   }
 
-  static Future<int> colorIntPickNoteDialog({
-    required int noteColor,
+  static Color getColorFromNumber({required int colorNumber}) {
+    switch (colorNumber) {
+      case 1:
+        return NoteColor.ambar.getColor;
+      case 2:
+        return NoteColor.green.getColor;
+      case 3:
+        return NoteColor.lightBlue.getColor;
+      case 4:
+        return NoteColor.orange.getColor;
+      case 5:
+        return NoteColor.pink.getColor;
+      case 6:
+        return NoteColor.teal.getColor;
+      case 7:
+        return NoteColor.lightRed.getColor;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  static Future<Color> pickNoteColorDialog({
     required BuildContext context,
   }) async {
+    late Color noteColor;
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
+          contentPadding: const EdgeInsets.all(12),
           backgroundColor: Colors.grey,
           title: const Center(
             child: Text("Pick the note's color"),
           ),
           content: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Yellow
+              // YELLOW COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 1;
+                    noteColor = NoteColor.ambar.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.amber.shade300,
+                    color: NoteColor.ambar.getColor,
                   ),
                 ),
               ),
-              // Green
+              // GREEN COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 2;
+                    noteColor = NoteColor.green.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.green.shade300,
+                    color: NoteColor.green.getColor,
                   ),
                 ),
               ),
-              // Blue
+              // BLUE COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 3;
+                    noteColor = NoteColor.lightBlue.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.lightBlue.shade300,
+                    color: NoteColor.lightBlue.getColor,
                   ),
                 ),
               ),
-              // Orange
+              // ORANGE COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 4;
+                    noteColor = NoteColor.orange.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.orange.shade300,
+                    color: NoteColor.orange.getColor,
                   ),
                 ),
               ),
-              // Pink
+              // PINK COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 5;
+                    noteColor = NoteColor.pink.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.pinkAccent.shade100,
+                    color: NoteColor.pink.getColor,
                   ),
                 ),
               ),
-              // Sky-blue
+              // TEAL COLOR
               Expanded(
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    noteColor = 6;
+                    noteColor = NoteColor.teal.getColor;
                     Navigator.maybePop(context);
                   },
                   customBorder: const CircleBorder(),
                   child: Icon(
                     Icons.circle,
                     size: 38,
-                    color: Colors.tealAccent.shade100,
+                    color: NoteColor.teal.getColor,
+                  ),
+                ),
+              ),
+              // LIGHT RED COLOR
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () {
+                    noteColor = NoteColor.lightRed.getColor;
+                    Navigator.maybePop(context);
+                  },
+                  customBorder: const CircleBorder(),
+                  child: Icon(
+                    Icons.circle,
+                    size: 38,
+                    color: NoteColor.lightRed.getColor,
                   ),
                 ),
               ),
@@ -162,8 +212,9 @@ class NotesColors {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
+                      minimumSize: const Size(200, 40),
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
@@ -183,15 +234,5 @@ class NotesColors {
       },
     );
     return noteColor;
-  }
-
-  static Future<int> callColorIntPickNoteDialog({
-    required int noteColor,
-    required BuildContext context,
-  }) async {
-    return await NotesColors.colorIntPickNoteDialog(
-      noteColor: noteColor,
-      context: context,
-    );
   }
 }

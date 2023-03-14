@@ -6,7 +6,7 @@ import '../../../domain/services/note_service.dart';
 import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/insert_menu_options.dart';
 import '../../../utils/dialogs/note_details_info.dart';
-import '../../../utils/dialogs/pick_note_color.dart';
+import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -64,7 +64,8 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           newBody = note.body;
           intNoteColor = note.color;
           isFavorite = note.isFavorite;
-          colorPalette = NotesColors.selectNoteColor(intNoteColor);
+          colorPalette =
+              NoteColorOperations.getColorFromNumber(colorNumber: intNoteColor);
           // If it's note favorite, var will be yellow start, if not, white star
           note.isFavorite
               ? isFavoriteIcon = const Icon(
@@ -431,41 +432,45 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   }
 
   // PopupButton pick note color
-  void pickNoteColorPopupButton() {
+  void pickNoteColorPopupButton() async {
     // Gets the int note color and then applys to global var
-    NotesColors.callColorIntPickNoteDialog(
-      noteColor: note.color,
-      context: context,
-    )
-        .then((int intColor) => setState(() {
-              intNoteColor = intColor;
-            }))
-        .then((_) {
-      // If the colors picked by user is not the same as the current notes color, send message
-      if (intNoteColor != note.color) {
-        // Shows a snackbar with the background color of the selected color by user
-        Color noteColorPaletteIcon = NotesColors.selectNoteColor(intNoteColor);
-        SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
-            message: "New color selected to be applied",
-            backgroundColor: noteColorPaletteIcon);
-        ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
-        setState(() {
-          colorPalette =
-              noteColorPaletteIcon; // Changes the color of the icon to the new one
-          didUserMadeChanges = true; // Show the save button
-        });
-      } else {
-        setState(() {
-          // Changes the color of the icon to the old one
-          colorPalette = NotesColors.selectNoteColor(note.color);
-          didUserMadeChanges = false; // Hide the save button
-          SnackBar snackBarNoteColor = SnackBarMessage.snackBarMessage(
-              message: "Your note already have this color",
-              backgroundColor: colorPalette);
-          ScaffoldMessenger.of(context).showSnackBar(snackBarNoteColor);
-        });
+    Color colorPickedByUser =
+        await NoteColorOperations.pickNoteColorDialog(context: context);
+
+    intNoteColor =
+        NoteColorOperations.getNumberFromColor(color: colorPickedByUser);
+
+    // If the colors picked by user is not the same as the current notes color, send message
+    if (intNoteColor != note.color) {
+      // Shows a snackbar with the background color selected by user
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBarMessage.snackBarMessage(
+              message: "New color selected to be applied",
+              backgroundColor: colorPickedByUser),
+        );
       }
-    });
+      setState(() {
+        // Changes the color of the icon to the new one
+        colorPalette = colorPickedByUser;
+        // Show the save button
+        didUserMadeChanges = true;
+      });
+    } else {
+      // User picked the same color
+      setState(() {
+        // Changes the color of the icon to the current note color
+        colorPalette =
+            NoteColorOperations.getColorFromNumber(colorNumber: note.color);
+        // Hide the save button
+        didUserMadeChanges = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBarMessage.snackBarMessage(
+              message: "Your note already have this color",
+              backgroundColor: colorPalette),
+        );
+      });
+    }
   }
 
   // PopupButton favorite

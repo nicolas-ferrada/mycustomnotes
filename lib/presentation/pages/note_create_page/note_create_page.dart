@@ -5,7 +5,8 @@ import '../../../domain/services/note_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/note_notifier.dart';
-import '../../../utils/dialogs/pick_note_color.dart';
+import '../../../utils/note_color/note_color.dart';
+import '../../../utils/snackbars/snackbar_message.dart';
 
 class NoteCreatePage extends StatefulWidget {
   const NoteCreatePage({super.key});
@@ -16,22 +17,18 @@ class NoteCreatePage extends StatefulWidget {
 
 class _NoteCreatePageState extends State<NoteCreatePage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
+
   final _noteTitleController = TextEditingController();
   final _noteBodyController = TextEditingController();
-  bool isFavorite = false;
+
+  bool isNoteFavorite = false;
+
   bool _isCreateButtonVisible = false;
-  Icon isFavoriteIcon = const Icon(
-    Icons.star_outlined,
-    color: Colors.grey,
-    size: 28,
-  );
+
   int intNoteColor = 0;
-  Icon noteColorIcon = const Icon(
-    Icons.palette,
-    color: Colors.grey,
-    size: 28,
-  );
+
   Color noteColorPaletteIcon = Colors.grey;
+  Color noteColorFavoriteIcon = Colors.grey;
 
   @override
   void dispose() {
@@ -43,63 +40,8 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Note's title
+      // Note's title, favorite and pick color icons
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () async {
-                    // Palette icon
-                    // Zero is grey color
-                    intNoteColor = await NotesColors.colorIntPickNoteDialog(
-                        noteColor: 0, context: context);
-                    setState(() {
-                      noteColorPaletteIcon =
-                          NotesColors.selectNoteColor(intNoteColor);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.palette,
-                    color: noteColorPaletteIcon,
-                    size: 28,
-                  ),
-                ),
-                IconButton(
-                  icon: isFavoriteIcon,
-                  onPressed: () {
-                    setState(() {
-                      // if it's not favorite, changes it to yellow and to true
-                      // if it's favorite, then make it no favorite.
-                      if (!isFavorite) {
-                        isFavoriteIcon = const Icon(
-                          Icons.star,
-                          color: Colors.amberAccent,
-                          size: 28,
-                        );
-                        isFavorite = true;
-                        SnackBar snackBarIsFavoriteTrue =
-                            favoriteNoteSnackBarMessage();
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(snackBarIsFavoriteTrue);
-                      } else {
-                        isFavoriteIcon = const Icon(
-                          Icons.star_outlined,
-                          color: Colors.grey,
-                          size: 28,
-                        );
-                        isFavorite = false;
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-        // Note title
         title: TextFormField(
           controller: _noteTitleController,
           onChanged: (value) {
@@ -118,75 +60,122 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
             fontSize: 22,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    // Difine the palette color
+                    Color newColor =
+                        await NoteColorOperations.pickNoteColorDialog(
+                            context: context);
+                    // Difine the note color
+                    intNoteColor =
+                        NoteColorOperations.getNumberFromColor(color: newColor);
+                    setState(() {
+                      noteColorPaletteIcon = newColor;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.palette,
+                    color: noteColorPaletteIcon,
+                    size: 28,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.star,
+                    color: noteColorFavoriteIcon,
+                    size: 28,
+                  ),
+                  onPressed: () {
+                    if (!isNoteFavorite) {
+                      // It was not favorite, now it is
+                      setState(() {
+                        noteColorFavoriteIcon = Colors.amberAccent;
+                      });
+                      isNoteFavorite = true;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBarMessage.snackBarMessage(
+                              message: 'Note marked as favorite',
+                              backgroundColor: Colors.amberAccent));
+                    } else {
+                      // It was favorite, now it is not
+                      setState(() {
+                        noteColorFavoriteIcon = Colors.grey;
+                      });
+                      isNoteFavorite = false;
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       // Note's body
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: TextFormField(
-          onChanged: (value) {
-            setState(() {
-              _isCreateButtonVisible = true;
-            });
-          },
-          controller: _noteBodyController,
-          textAlignVertical: TextAlignVertical.top,
-          maxLines: null,
-          expands: true,
-          decoration: const InputDecoration(
-            hintText: "Body",
-            border: InputBorder.none,
-          ),
-        ),
-      ),
+      body: noteCreatePageBody(),
       // Save button, only visible if user changes the note
-      floatingActionButton: Visibility(
-        visible: _isCreateButtonVisible,
-        child: FloatingActionButton.extended(
-          onPressed: () async {
-            // Create note button
-            try {
-              // Create note on firebase
-              await NoteService.createNoteFirestore(
-                title: _noteTitleController.text,
-                body: _noteBodyController.text,
-                userId: currentUser.uid,
-                isFavorite: isFavorite,
-                color: intNoteColor,
-              );
+      floatingActionButton: noteCreatePageFloatingActionButton(context),
+    );
+  }
 
-              if (context.mounted) {
-                Provider.of<NoteNotifier>(context, listen: false)
-                    .refreshNotes();
-              }
+  Visibility noteCreatePageFloatingActionButton(BuildContext context) {
+    return Visibility(
+      visible: _isCreateButtonVisible,
+      child: FloatingActionButton.extended(
+        onPressed: () async {
+          // Create note button
+          try {
+            // Create note on firebase
+            await NoteService.createNoteFirestore(
+              title: _noteTitleController.text,
+              body: _noteBodyController.text,
+              userId: currentUser.uid,
+              isFavorite: isNoteFavorite,
+              color: intNoteColor,
+            );
 
-              if (context.mounted) Navigator.maybePop(context);
-            } catch (errorMessage) {
-              ExceptionsAlertDialog.showErrorDialog(
-                  context, errorMessage.toString());
+            if (context.mounted) {
+              Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
             }
-          },
-          backgroundColor: Colors.amberAccent,
-          label: const Text(
-            'Create\nnote',
-            style: TextStyle(fontSize: 12),
-          ),
-          icon: const Icon(Icons.save),
+
+            if (context.mounted) Navigator.maybePop(context);
+          } catch (errorMessage) {
+            ExceptionsAlertDialog.showErrorDialog(
+                context, errorMessage.toString());
+          }
+        },
+        backgroundColor: Colors.amberAccent,
+        label: const Text(
+          'Create\nnote',
+          style: TextStyle(fontSize: 12),
         ),
+        icon: const Icon(Icons.save),
       ),
     );
   }
 
-  SnackBar favoriteNoteSnackBarMessage() {
-    const snackBarIsFavoriteTrue = SnackBar(
-      duration: Duration(seconds: 1),
-      content: Center(
-        child: Text(
-          'Note marked as favorite',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  Padding noteCreatePageBody() {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: TextFormField(
+        onChanged: (value) {
+          setState(() {
+            _isCreateButtonVisible = true;
+          });
+        },
+        controller: _noteBodyController,
+        textAlignVertical: TextAlignVertical.top,
+        maxLines: null,
+        expands: true,
+        decoration: const InputDecoration(
+          hintText: "Body",
+          border: InputBorder.none,
         ),
       ),
-      backgroundColor: Colors.amberAccent,
     );
-    return snackBarIsFavoriteTrue;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../data/models/Note/note_model.dart';
-import '../../../../utils/dialogs/pick_note_color.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../../utils/formatters/date_formatter.dart';
+import '../../../../utils/note_color/note_color.dart';
 import '../../../routes/routes.dart';
 
 class HomePageBuildNotesWidget extends StatelessWidget {
@@ -47,7 +47,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
   Card showNotes({required Note note}) {
     return Card(
       // Color of the note
-      color: NotesColors.selectNoteColor(note.color),
+      color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
