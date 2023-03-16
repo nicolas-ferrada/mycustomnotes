@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../domain/services/auth_user_service.dart';
-import 'dart:developer' as log;
 
 class NoteDetailsPage extends StatefulWidget {
   final Note note;
@@ -26,7 +25,11 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
   // Makes the save button to show up
-  bool didUserMadeChanges = false;
+  bool didTitleChanged = false;
+  bool didBodyChanged = false;
+  bool didColorChanged = false;
+  bool didFavoriteChanged = false;
+  bool didUrlChanged = false;
 
   // Avoids dialog of leaving page confirmation to triggers if the save button was pressed
   bool wasTheSaveButtonPressed = false;
@@ -45,6 +48,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   }
 
   void updateNote() {
+    // Copy the original object to create the a new note, which attributes will be modified by user
     newNote = widget.note.copyWith();
     if (widget.note.isFavorite) {
       isFavoriteIconColor = Colors.amber;
@@ -59,9 +63,14 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        FocusScope.of(context)
-            .unfocus(); // Avoids the bug of the keyboard showing for a sec
-        // Triggers when user made changes and the save button is not pressed
+        // Avoids the bug of the keyboard showing for a sec
+        FocusScope.of(context).unfocus();
+        // Triggers when user made changes and the save button was not pressed
+        bool didUserMadeChanges = (didTitleChanged ||
+            didBodyChanged ||
+            didFavoriteChanged ||
+            didColorChanged ||
+            didUrlChanged);
         if (didUserMadeChanges == true && wasTheSaveButtonPressed == false) {
           final bool? shouldPop =
               await ConfirmationDialog.discardChangesNoteDetails(context);
@@ -84,13 +93,13 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
               // Changes are being made
               if (newTitleChanged != widget.note.title) {
                 setState(() {
-                  didUserMadeChanges = true;
+                  didTitleChanged = true;
                 });
-                newNote.title = newTitleChanged;
+                newNote.title = newTitleChanged.trim();
                 // No changes
               } else {
                 setState(() {
-                  didUserMadeChanges = false;
+                  didTitleChanged = false;
                 });
               }
             },
@@ -125,13 +134,13 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
                   onChanged: (newBodyChanged) {
                     // Changes are being made
                     if (newBodyChanged != widget.note.body) {
-                      newNote.body = newBodyChanged;
+                      newNote.body = newBodyChanged.trim();
                       setState(() {
-                        didUserMadeChanges = true;
+                        didBodyChanged = true;
                       });
                     } else {
                       setState(() {
-                        didUserMadeChanges = false;
+                        didBodyChanged = false;
                       });
                     }
                   },
@@ -147,7 +156,13 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   }
 
   Visibility saveButton(BuildContext context) {
+    bool didUserMadeChanges = (didTitleChanged ||
+        didBodyChanged ||
+        didFavoriteChanged ||
+        didColorChanged ||
+        didUrlChanged);
     return Visibility(
+      // Button will be visible if any field changed
       visible: didUserMadeChanges,
       child: FloatingActionButton.extended(
         backgroundColor: Colors.amberAccent,
@@ -188,6 +203,9 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
           // Load an url
+          setState(() {
+            didBodyChanged = true;
+          });
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
           Share.share('${widget.note.title}\n\n${widget.note.body}');
@@ -291,9 +309,9 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didUserMadeChanges = false;
+          didFavoriteChanged = false;
         });
-        // Note now it's favorite, but it wasn't from the start, so user make a change
+        // Note now it's favorite, but it wasn't from the start, so user made a change
       } else {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
           message: 'Note selected as favorite.',
@@ -301,7 +319,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didUserMadeChanges = true;
+          didFavoriteChanged = true;
         });
       }
     } else {
@@ -314,11 +332,11 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
       if (widget.note.isFavorite) {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
           message: 'Note removed from favorite.',
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey,
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didUserMadeChanges = true;
+          didFavoriteChanged = true;
         });
         // Note now it's favorite, but it wasn't from the start, so user make a change
       } else {
@@ -328,7 +346,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didUserMadeChanges = false;
+          didFavoriteChanged = false;
         });
       }
     }
@@ -363,13 +381,13 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         // Changes the color of the icon to the new one
         colorIconPalette = colorPickedByUser;
         // Show the save button
-        didUserMadeChanges = true;
+        didColorChanged = true;
       });
     } else {
       // User picked the same color
       setState(() {
         // Changes the color of the icon to the current note color
-        didUserMadeChanges = false;
+        didColorChanged = false;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBarMessage.snackBarMessage(
               message: "Your note already have this color",
