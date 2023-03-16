@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/Note/note_model.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
@@ -25,9 +26,9 @@ class AppRoutes {
       case noteCreatePageRoute:
         return MaterialPageRoute(builder: (_) => const NoteCreatePage());
       case noteDetailsPageRoute:
-        final noteId = settings.arguments as String;
+        final note = settings.arguments as Note;
         return MaterialPageRoute(
-            builder: (context) => NoteDetailsPage(noteId: noteId));
+            builder: (context) => NoteDetailsPage(note: note));
       case loginPageRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case registerPageRoute:

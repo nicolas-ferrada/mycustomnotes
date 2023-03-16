@@ -75,10 +75,10 @@ class NoteColorOperations {
     }
   }
 
-  static Future<Color> pickNoteColorDialog({
+  static Future<Color?> pickNoteColorDialog({
     required BuildContext context,
   }) async {
-    late Color noteColor;
+    Color? noteColor;
     await showDialog(
       context: context,
       builder: (BuildContext context) {

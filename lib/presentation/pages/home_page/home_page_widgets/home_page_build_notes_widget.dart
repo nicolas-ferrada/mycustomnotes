@@ -34,7 +34,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, noteDetailsPageRoute,
-                  arguments: note.id);
+                  arguments: note);
             },
             child: showNotes(note: note),
           );
@@ -43,7 +43,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
     );
   }
 
-  // Show the notes
+  // Show the notes cards in home screen
   Card showNotes({required Note note}) {
     return Card(
       // Color of the note

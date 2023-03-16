@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Note {
@@ -50,4 +51,28 @@ class Note {
         color: map['color'],
         url: map['url'],
       );
+
+  Note copyWith({
+    String? id,
+    String? userId,
+    Timestamp? createdDate,
+    Timestamp? lastModificationDate,
+    String? title,
+    String? body,
+    bool? isFavorite,
+    int? color,
+    String? url,
+  }) {
+    return Note(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      createdDate: createdDate ?? this.createdDate,
+      lastModificationDate: lastModificationDate ?? this.lastModificationDate,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      isFavorite: isFavorite ?? this.isFavorite,
+      color: color ?? this.color,
+      url: url ?? this.url,
+    );
+  }
 }

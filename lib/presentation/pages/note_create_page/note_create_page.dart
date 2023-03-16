@@ -68,9 +68,27 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
                 IconButton(
                   onPressed: () async {
                     // Difine the palette color
-                    Color newColor =
+                    // late Color colorPickedByUser;
+                    // Color? getColorFromDialog =
+                    //     await NoteColorOperations.pickNoteColorDialog(
+                    //         context: context);
+                    // if (getColorFromDialog != null) {
+                    //   colorPickedByUser = getColorFromDialog;
+                    // } else {
+                    //   colorPickedByUser =
+                    //       NoteColorOperations.getColorFromNumber(
+                    //           colorNumber: widget.note.color);
+                    // }
+                    late Color newColor;
+                    Color? getColorFromDialog =
                         await NoteColorOperations.pickNoteColorDialog(
                             context: context);
+                    if (getColorFromDialog != null) {
+                      newColor = getColorFromDialog;
+                    } else {
+                      newColor = NoteColorOperations.getColorFromNumber(
+                          colorNumber: intNoteColor);
+                    }
                     // Difine the note color
                     intNoteColor =
                         NoteColorOperations.getNumberFromColor(color: newColor);

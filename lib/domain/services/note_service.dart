@@ -110,37 +110,25 @@ class NoteService {
   }
 
   // Update a note in firebase
-  static Future<void> editOneNoteFirestore({
-    required noteId,
-    required title,
-    required body,
-    required userId,
-    required isFavorite,
-    required int color,
-    required String? youtubeUrl,
-  }) async {
+  static Future<void> editNote({required Note note}) async {
     try {
-      // Get the current 'created date' of the note to use the same.
-      final currentNote = await readOneNoteFirestore(noteId: noteId);
-      final existingCreatedDate = currentNote.createdDate;
-
       // Create the new note to replace the other
-      final note = Note(
-        id: noteId,
-        title: title,
-        body: body,
-        userId: userId,
+      final finalNote = Note(
+        id: note.id,
+        title: note.title,
+        body: note.body,
+        userId: note.userId,
         lastModificationDate: Timestamp.now(),
-        createdDate: existingCreatedDate,
-        isFavorite: isFavorite,
-        color: color,
-        youtubeUrl: youtubeUrl,
+        createdDate: note.createdDate,
+        isFavorite: note.isFavorite,
+        color: note.color,
+        url: note.url,
       );
       final db = FirebaseFirestore.instance;
 
-      final docNote = db.collection('note').doc(noteId);
+      final docNote = db.collection('note').doc(note.id);
 
-      final mapNote = note.toMap();
+      final mapNote = finalNote.toMap();
 
       await docNote.set(mapNote);
     } catch (unexpectedException) {
@@ -150,7 +138,7 @@ class NoteService {
   }
 
   // Delete a note in firebase
-  static Future<void> deleteOneNoteFirestore({
+  static Future<void> deleteNote({
     required noteId,
   }) async {
     final db = FirebaseFirestore.instance;
