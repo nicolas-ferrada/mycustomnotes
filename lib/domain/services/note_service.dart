@@ -5,48 +5,18 @@ import '../../utils/extensions/formatted_message.dart';
 import '../../utils/internet/check_internet_connection.dart';
 
 class NoteService {
-  // Read one note created by the user from Firebase
-  static Future<Note> readOneNote({
-    required String noteId,
-  }) async {
-    try {
-      final db = FirebaseFirestore.instance;
-      bool isDeviceConnected =
-          await CheckInternetConnection.checkInternetConnection();
-      DocumentSnapshot<Map<String, dynamic>> note;
-
-      if (isDeviceConnected) {
-        note = await db
-            .collection('note')
-            .doc(noteId)
-            .get(const GetOptions(source: Source.serverAndCache));
-      } else {
-        note = await db
-            .collection('note')
-            .doc(noteId)
-            .get(const GetOptions(source: Source.cache));
-      }
-
-      if (note.exists) {
-        return Note.fromMap(note.data()!);
-      } else {
-        throw Exception("Can't find the note").getMessage;
-      }
-    } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
-    }
-  }
-
   // Read all notes from one user in firebase
   static Stream<List<Note>> readAllNotes({
     required String userId,
   }) async* {
     try {
       final db = FirebaseFirestore.instance;
+
       bool isDeviceConnected =
           await CheckInternetConnection.checkInternetConnection();
+
       QuerySnapshot<Map<String, dynamic>> documents;
+
       if (isDeviceConnected) {
         documents = await db
             .collection('note')
@@ -147,6 +117,43 @@ class NoteService {
 
     await docNote.delete();
   }
+
+  // Read one note created by the user from Firebase (Not used at this moment)
+  // static Future<Note> readOneNote({
+  //   required String noteId,
+  // }) async {
+  //   try {
+  //     final db = FirebaseFirestore.instance;
+
+  //     // True if device it's connected to any network, false if it is not
+  //     bool isDeviceConnected =
+  //         await CheckInternetConnection.checkInternetConnection();
+
+  //     // Used to store the incoming note
+  //     DocumentSnapshot<Map<String, dynamic>> note;
+
+  //     if (isDeviceConnected) {
+  //       note = await db
+  //           .collection('note')
+  //           .doc(noteId)
+  //           .get(const GetOptions(source: Source.serverAndCache));
+  //     } else {
+  //       note = await db
+  //           .collection('note')
+  //           .doc(noteId)
+  //           .get(const GetOptions(source: Source.cache));
+  //     }
+
+  //     if (note.exists) {
+  //       return Note.fromMap(note.data()!);
+  //     } else {
+  //       throw Exception("Can't find the note").getMessage;
+  //     }
+  //   } catch (unexpectedException) {
+  //     throw Exception("There is an unexpected error:\n$unexpectedException")
+  //         .getMessage;
+  //   }
+  // }
 
   // Dev
   // After adding a new attribute to the model class, you need to update all other notes created.

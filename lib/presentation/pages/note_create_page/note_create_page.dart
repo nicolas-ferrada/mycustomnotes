@@ -5,6 +5,7 @@ import '../../../domain/services/note_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/note_notifier.dart';
+import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
 
@@ -67,18 +68,6 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    // Difine the palette color
-                    // late Color colorPickedByUser;
-                    // Color? getColorFromDialog =
-                    //     await NoteColorOperations.pickNoteColorDialog(
-                    //         context: context);
-                    // if (getColorFromDialog != null) {
-                    //   colorPickedByUser = getColorFromDialog;
-                    // } else {
-                    //   colorPickedByUser =
-                    //       NoteColorOperations.getColorFromNumber(
-                    //           colorNumber: widget.note.color);
-                    // }
                     late Color newColor;
                     Color? getColorFromDialog =
                         await NoteColorOperations.pickNoteColorDialog(
@@ -147,20 +136,39 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
         onPressed: () async {
           // Create note button
           try {
-            // Create note on firebase
+            // Check if device it's connected to any network
+            bool isDeviceConnected =
+                await CheckInternetConnection.checkInternetConnection();
+            int waitingConnection = 5;
+
+            // If device is connected, wait 5 seconds, if is not connected, dont wait.
+            if (isDeviceConnected) {
+              waitingConnection = 5;
+            } else {
+              waitingConnection = 0;
+            }
+
+            // Create note on firebase, it will wait depending if the device it's connected to a network
             await NoteService.createNote(
               title: _noteTitleController.text,
               body: _noteBodyController.text,
               userId: currentUser.uid,
               isFavorite: isNoteFavorite,
               color: intNoteColor,
-            );
+            ).timeout(
+              Duration(seconds: waitingConnection),
+              onTimeout: () {
+                Provider.of<NoteNotifier>(context, listen: false)
+                    .refreshNotes();
 
+                Navigator.of(context).maybePop();
+              },
+            );
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
-            }
 
-            if (context.mounted) Navigator.maybePop(context);
+              Navigator.of(context).maybePop();
+            }
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
                 context, errorMessage.toString());

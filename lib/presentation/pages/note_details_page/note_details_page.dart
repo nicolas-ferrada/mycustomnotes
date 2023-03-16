@@ -5,6 +5,7 @@ import '../../../data/models/Note/note_model.dart';
 import '../../../domain/services/note_service.dart';
 import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/note_details_info.dart';
+import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
 import 'package:provider/provider.dart';
@@ -175,13 +176,32 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           // Edit the selected note
           try {
             wasTheSaveButtonPressed = true;
-            await NoteService.editNote(note: newNote);
+
+            // Check if device it's connected to any network
+            bool isDeviceConnected =
+                await CheckInternetConnection.checkInternetConnection();
+            int waitingToConnectiong = 5;
+
+            // If device is connected, wait 5 seconds, if is not connected, dont wait.
+            if (isDeviceConnected) {
+              waitingToConnectiong = 5;
+            } else {
+              waitingToConnectiong = 0;
+            }
+            await NoteService.editNote(note: newNote).timeout(
+              Duration(seconds: waitingToConnectiong),
+              onTimeout: () {
+                Provider.of<NoteNotifier>(context, listen: false)
+                    .refreshNotes();
+
+                Navigator.maybePop(context);
+              },
+            );
 
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+              Navigator.maybePop(context);
             }
-
-            if (context.mounted) Navigator.maybePop(context);
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
                 context, errorMessage.toString());
@@ -422,19 +442,40 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
                     onPressed: () async {
+                      // Check if device it's connected to any network
+                      bool isDeviceConnected = await CheckInternetConnection
+                          .checkInternetConnection();
+                      int waitingConnection = 5;
+
+                      // If device is connected, wait 5 seconds, if is not connected, dont wait.
+                      if (isDeviceConnected) {
+                        waitingConnection = 5;
+                      } else {
+                        waitingConnection = 0;
+                      }
                       try {
                         // Delete a specified note
-                        await NoteService.deleteNote(noteId: widget.note.id);
+                        await NoteService.deleteNote(noteId: widget.note.id)
+                            .timeout(
+                          Duration(seconds: waitingConnection),
+                          onTimeout: () {
+                            Provider.of<NoteNotifier>(context, listen: false)
+                                .refreshNotes();
+                            Navigator.pop(context);
+                            Navigator.maybePop(context);
+                          },
+                        );
                         if (context.mounted) {
                           Provider.of<NoteNotifier>(context, listen: false)
                               .refreshNotes();
+                          Navigator.pop(context);
+                          Navigator.maybePop(context);
                         }
-
-                        if (context.mounted) Navigator.pop(context);
-                        if (context.mounted) Navigator.maybePop(context);
                       } catch (errorMessage) {
-                        ExceptionsAlertDialog.showErrorDialog(
-                            context, errorMessage.toString());
+                        if (context.mounted) {
+                          ExceptionsAlertDialog.showErrorDialog(
+                              context, errorMessage.toString());
+                        }
                       }
                     },
                     child: const Text(
