@@ -13,7 +13,7 @@ final currentUser = AuthUserService.getCurrentUserFirebase(); // init state?
 Consumer<NoteNotifier> readNotesStreamConsumer() {
   return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
     return StreamBuilder(
-      stream: NoteService.readAllNotesFirestore(userId: currentUser.uid),
+      stream: NoteService.readAllNotes(userId: currentUser.uid),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong ${snapshot.error.toString()}');

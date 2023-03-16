@@ -148,7 +148,7 @@ class _NoteCreatePageState extends State<NoteCreatePage> {
           // Create note button
           try {
             // Create note on firebase
-            await NoteService.createNoteFirestore(
+            await NoteService.createNote(
               title: _noteTitleController.text,
               body: _noteBodyController.text,
               userId: currentUser.uid,

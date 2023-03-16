@@ -6,7 +6,7 @@ import '../../utils/internet/check_internet_connection.dart';
 
 class NoteService {
   // Read one note created by the user from Firebase
-  static Future<Note> readOneNoteFirestore({
+  static Future<Note> readOneNote({
     required String noteId,
   }) async {
     try {
@@ -39,7 +39,7 @@ class NoteService {
   }
 
   // Read all notes from one user in firebase
-  static Stream<List<Note>> readAllNotesFirestore({
+  static Stream<List<Note>> readAllNotes({
     required String userId,
   }) async* {
     try {
@@ -71,7 +71,7 @@ class NoteService {
   }
 
   // Create a note in firebase
-  static Future<void> createNoteFirestore({
+  static Future<void> createNote({
     required String title,
     required String body,
     required String userId,
@@ -151,13 +151,13 @@ class NoteService {
   // Dev
   // After adding a new attribute to the model class, you need to update all other notes created.
   // Updates all documents created to add a new field to them, so stream won't return null.
-  static Future<void> updateAllNotesFirestoreWithNewFields() async {
-    final db = FirebaseFirestore.instance;
-    final snapshot = await db.collection('note').get();
+  // static Future<void> updateAllNotesFirestoreWithNewFields() async {
+  //   final db = FirebaseFirestore.instance;
+  //   final snapshot = await db.collection('note').get();
 
-    for (var document in snapshot.docs) {
-      await document.reference
-          .update({'youtubeUrl': null}); // new field: default value.
-    }
-  }
+  //   for (var document in snapshot.docs) {
+  //     await document.reference
+  //         .update({'youtubeUrl': null}); // new field: default value.
+  //   }
+  // }
 }
