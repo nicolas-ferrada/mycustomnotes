@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // AppBar shows the user's mail and a button to log out
-      appBar: appBarShowEmailUser(context: context),
+      appBar: appBarHomePage(context: context),
       // Stream to read the notes and a builder notes widget
       body: readNotesStreamConsumer(),
       // Button to create a new note

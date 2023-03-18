@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../../../../domain/services/auth_user_service.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 
-final currentUser = AuthUserService.getCurrentUserFirebase(); // init state?
-
-AppBar appBarShowEmailUser({required BuildContext context}) {
+AppBar appBarHomePage({required BuildContext context}) {
   return AppBar(
     centerTitle: true,
-    title: Text(
-      '${currentUser.email}',
-      style: const TextStyle(fontSize: 16),
+    title: const Text(
+      'My Custom Notes',
+      style: TextStyle(fontSize: 20),
     ),
+    actions: [
+      IconButton(
+        icon: const Icon(
+          Icons.settings,
+          size: 26,
+        ),
+        onPressed: () async {
+          // User settings
+        },
+      ),
+    ],
     automaticallyImplyLeading: false,
     leading: IconButton(
       icon: Transform.scale(

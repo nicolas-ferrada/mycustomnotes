@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       create: (context) => NoteNotifier(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'My custom notes',
+        title: 'My Custom Notes',
         theme: ThemeData.dark(),
         initialRoute: null,
         onGenerateRoute: AppRoutes.generateRoute,
