@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../data/models/Note/note_model.dart';
@@ -234,7 +235,8 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           NotesDetails.noteDetailsDialog(context, widget.note);
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
-          deleteNoteDialog(context);
+          DeleteNoteConfirmation.deleteNoteDialog(
+              context: context, noteId: widget.note.id);
         }
       },
       itemBuilder: (context) => [
@@ -415,96 +417,5 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         );
       });
     }
-  }
-
-  // Delete note dialog
-  Future<void> deleteNoteDialog(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: const Color.fromARGB(220, 250, 215, 90),
-          title: const Center(
-            child: Text('Confirmation'),
-          ),
-          content: const Text(
-            'Do you really want to permanently delete this note?',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  // Delete button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () async {
-                      // Check if device it's connected to any network
-                      bool isDeviceConnected = await CheckInternetConnection
-                          .checkInternetConnection();
-                      int waitingConnection = 5;
-
-                      // If device is connected, wait 5 seconds, if is not connected, dont wait.
-                      if (isDeviceConnected) {
-                        waitingConnection = 5;
-                      } else {
-                        waitingConnection = 0;
-                      }
-                      try {
-                        // Delete a specified note
-                        await NoteService.deleteNote(noteId: widget.note.id)
-                            .timeout(
-                          Duration(seconds: waitingConnection),
-                          onTimeout: () {
-                            Provider.of<NoteNotifier>(context, listen: false)
-                                .refreshNotes();
-                            Navigator.pop(context);
-                            Navigator.maybePop(context);
-                          },
-                        );
-                        if (context.mounted) {
-                          Provider.of<NoteNotifier>(context, listen: false)
-                              .refreshNotes();
-                          Navigator.pop(context);
-                          Navigator.maybePop(context);
-                        }
-                      } catch (errorMessage) {
-                        if (context.mounted) {
-                          ExceptionsAlertDialog.showErrorDialog(
-                              context, errorMessage.toString());
-                        }
-                      }
-                    },
-                    child: const Text(
-                      'Delete',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  // Cancel button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
