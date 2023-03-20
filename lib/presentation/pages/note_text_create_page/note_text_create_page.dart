@@ -9,14 +9,14 @@ import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
 
-class NoteCreatePage extends StatefulWidget {
-  const NoteCreatePage({super.key});
+class NoteTextCreatePage extends StatefulWidget {
+  const NoteTextCreatePage({super.key});
 
   @override
-  State<NoteCreatePage> createState() => _NoteCreatePageState();
+  State<NoteTextCreatePage> createState() => _NoteTextCreatePageState();
 }
 
-class _NoteCreatePageState extends State<NoteCreatePage> {
+class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
   final _noteTitleController = TextEditingController();

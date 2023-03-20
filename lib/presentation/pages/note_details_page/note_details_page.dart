@@ -214,6 +214,9 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
 
   // Menu note button (icon three dots)
   PopupMenuButton menuButtonNote() {
+    // Required
+    // IMPORTANT: Current note, didUserMadeChanges so to know when ask the user to save
+    // Less important: Icons colors
     return PopupMenuButton(
       onSelected: (value) async {
         if (value == MenuItemNoteDetail.item1) {

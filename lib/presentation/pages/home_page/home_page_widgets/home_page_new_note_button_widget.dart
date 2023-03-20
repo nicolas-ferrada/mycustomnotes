@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../routes/routes.dart';
+import '../../../../utils/dialogs/select_create_note_type.dart';
 
 // Create a new note button
 FloatingActionButton newNoteButton({required BuildContext context}) {
@@ -9,7 +9,7 @@ FloatingActionButton newNoteButton({required BuildContext context}) {
     label: const Text('New note'),
     icon: const Icon(Icons.create),
     onPressed: () {
-      Navigator.pushNamed(context, noteCreatePageRoute);
+      SelectCreateNoteType.noteDetailsDialog(context);
     },
   );
 }

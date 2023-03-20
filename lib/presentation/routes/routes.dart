@@ -4,14 +4,16 @@ import '../../data/models/Note/note_model.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
-import '../pages/note_create_page/note_create_page.dart';
+import '../pages/note_tasks_create_page.dart/note_tasks_create_page.dart';
+import '../pages/note_text_create_page/note_text_create_page.dart';
 import '../pages/note_details_page/note_details_page.dart';
 import '../pages/password_recover_page/password_recover_page.dart';
 import '../pages/register_page/register_page.dart';
 
 // Routes
 const String homePageRoute = '/';
-const String noteCreatePageRoute = '/noteCreatePage';
+const String noteTextCreatePageRoute = '/noteTextCreatePage';
+const String noteTasksCreatePageRoute = '/noteTasksCreatePage';
 const String noteDetailsPageRoute = '/noteDetailsPage';
 const String loginPageRoute = '/loginPage';
 const String registerPageRoute = '/registerPage';
@@ -23,8 +25,10 @@ class AppRoutes {
     switch (settings.name) {
       case homePageRoute:
         return MaterialPageRoute(builder: (_) => const HomePage());
-      case noteCreatePageRoute:
-        return MaterialPageRoute(builder: (_) => const NoteCreatePage());
+      case noteTextCreatePageRoute:
+        return MaterialPageRoute(builder: (_) => const NoteTextCreatePage());
+      case noteTasksCreatePageRoute:
+        return MaterialPageRoute(builder: (_) => const NoteTasksCreatePage());
       case noteDetailsPageRoute:
         final note = settings.arguments as Note;
         return MaterialPageRoute(
