@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../data/models/Note/note_task_model.dart';
+import '../../../../domain/services/note_tasks_service.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import 'home_page_build_notes_widget.dart';
 import 'package:provider/provider.dart';
@@ -12,22 +14,38 @@ final currentUser = AuthUserService.getCurrentUserFirebase(); // init state?
 Consumer<NoteNotifier> readNotesStreamConsumer() {
   return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
     return StreamBuilder(
-      stream: NoteTextService.readAllNotesText(userId: currentUser.uid),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong ${snapshot.error.toString()}');
-        } else if (snapshot.hasData) {
-          final List<NoteText> notes = snapshot.data!;
-          return Center(
-            // If notes are empty, show 'no notes message', if theres notes, build them
-            child: notes.isEmpty
-                ? const Text('No notes to show')
-                : HomePageBuildNotesWidget(
-                    notesTextList: notes,
-                  ), // Show all notes of the user in screen
-          );
+      stream: NoteTasksService.readAllNotesTasks(userId: currentUser.uid),
+      builder: (context, snapshotNoteTasks) {
+        if (snapshotNoteTasks.hasError) {
+          return Text(
+              'Something went wrong reading tasks notes ${snapshotNoteTasks.error.toString()}');
         } else {
-          return const Center(child: CircularProgressIndicator());
+          final List<NoteTasks> tasksNotes = snapshotNoteTasks.data!;
+          return StreamBuilder(
+            stream: NoteTextService.readAllNotesText(userId: currentUser.uid),
+            builder: (context, snapshotNoteText) {
+              if (snapshotNoteText.hasError) {
+                return Text(
+                    'Something went wrong reading text notes ${snapshotNoteText.error.toString()}');
+              } else if (snapshotNoteText.connectionState ==
+                      ConnectionState.waiting ||
+                  snapshotNoteTasks.connectionState ==
+                      ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                final List<NoteText> textNotes = snapshotNoteText.data!;
+                return Center(
+                  // If notes are empty, show 'no notes message', if theres notes, build them
+                  child: textNotes.isEmpty && tasksNotes.isEmpty
+                      ? const Text("You don't have any note created")
+                      : HomePageBuildNotesWidget(
+                          notesTextList: textNotes,
+                          notesTasksList: tasksNotes,
+                        ), // Show all notes of the user in screen
+                );
+              }
+            },
+          );
         }
       },
     );

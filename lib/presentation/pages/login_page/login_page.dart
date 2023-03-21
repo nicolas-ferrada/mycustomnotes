@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../routes/routes.dart';
+
 import '../../../domain/services/auth_user_service.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../routes/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

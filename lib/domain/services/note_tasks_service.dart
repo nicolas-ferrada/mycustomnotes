@@ -1,9 +1,10 @@
+import 'dart:developer' as log;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 
 import '../../data/models/Note/note_task_model.dart';
+import '../../utils/extensions/formatted_message.dart';
 import '../../utils/internet/check_internet_connection.dart';
-import 'dart:developer' as log;
 
 class NoteTasksService {
   // Read all tasks notes from one user in firebase

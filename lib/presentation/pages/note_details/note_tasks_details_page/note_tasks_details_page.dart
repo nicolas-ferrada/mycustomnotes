@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/note_text_model.dart';
-import '../../../utils/dialogs/delete_note_confirmation.dart';
-import '../../../utils/enums/menu_item_note_detail.dart';
-import '../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../domain/services/note_text_service.dart';
-import '../../../utils/dialogs/confirmation_dialog.dart';
-import '../../../utils/dialogs/note_details_info.dart';
-import '../../../utils/internet/check_internet_connection.dart';
-import '../../../utils/note_color/note_color.dart';
-import '../../../utils/snackbars/snackbar_message.dart';
+import '../../../../data/models/Note/note_notifier.dart';
+import '../../../../data/models/Note/note_task_model.dart';
+import '../../../../domain/services/auth_user_service.dart';
+
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../../data/models/Note/note_notifier.dart';
-import '../../../domain/services/auth_user_service.dart';
 
-class NoteDetailsPage extends StatefulWidget {
-  final NoteText note;
-  const NoteDetailsPage({super.key, required this.note});
+import '../../../../domain/services/note_tasks_service.dart';
+import '../../../../utils/dialogs/confirmation_dialog.dart';
+import '../../../../utils/dialogs/delete_note_confirmation.dart';
+import '../../../../utils/dialogs/note_details_info.dart';
+import '../../../../utils/enums/menu_item_note_detail.dart';
+import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../../utils/internet/check_internet_connection.dart';
+import '../../../../utils/note_color/note_color.dart';
+import '../../../../utils/snackbars/snackbar_message.dart';
+
+class NoteTasksDetailsPage extends StatefulWidget {
+  final NoteTasks noteTasks;
+  const NoteTasksDetailsPage({super.key, required this.noteTasks});
 
   @override
-  State<NoteDetailsPage> createState() => _NoteDetailsPageState();
+  State<NoteTasksDetailsPage> createState() => _NoteTasksDetailsPageState();
 }
 
-class _NoteDetailsPageState extends State<NoteDetailsPage> {
+class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // Access firebase user
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
@@ -41,7 +43,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   late Color colorIconPalette;
 
   // New note object which is going to be modified so it can be stored later with the new data
-  late NoteText newNote;
+  late NoteTasks newNote;
 
   @override
   void initState() {
@@ -51,14 +53,14 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
 
   void updateNote() {
     // Copy the original object to create the a new note, which attributes will be modified by user
-    newNote = widget.note.copyWith();
-    if (widget.note.isFavorite) {
+    newNote = widget.noteTasks.copyWith();
+    if (widget.noteTasks.isFavorite) {
       isFavoriteIconColor = Colors.amber;
     } else {
       isFavoriteIconColor = Colors.white;
     }
-    colorIconPalette =
-        NoteColorOperations.getColorFromNumber(colorNumber: widget.note.color);
+    colorIconPalette = NoteColorOperations.getColorFromNumber(
+        colorNumber: widget.noteTasks.color);
   }
 
   @override
@@ -90,10 +92,10 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           ],
           // Note's title
           title: TextFormField(
-            initialValue: widget.note.title,
+            initialValue: widget.noteTasks.title,
             onChanged: (newTitleChanged) {
               // Changes are being made
-              if (newTitleChanged != widget.note.title) {
+              if (newTitleChanged != widget.noteTasks.title) {
                 setState(() {
                   didTitleChanged = true;
                 });
@@ -125,7 +127,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: TextFormField(
-                  initialValue: widget.note.body,
+                  initialValue: 'tasks',
                   textAlignVertical: TextAlignVertical.top,
                   maxLines: null,
                   expands: true,
@@ -133,19 +135,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
                     hintText: 'Body',
                     border: InputBorder.none,
                   ),
-                  onChanged: (newBodyChanged) {
-                    // Changes are being made
-                    if (newBodyChanged != widget.note.body) {
-                      newNote.body = newBodyChanged.trim();
-                      setState(() {
-                        didBodyChanged = true;
-                      });
-                    } else {
-                      setState(() {
-                        didBodyChanged = false;
-                      });
-                    }
-                  },
+                  onChanged: (newBodyChanged) {},
                 ),
               ),
             ),
@@ -189,7 +179,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
             } else {
               waitingToConnectiong = 0;
             }
-            await NoteTextService.editNoteText(note: newNote).timeout(
+            await NoteTasksService.editNoteTasks(note: newNote).timeout(
               Duration(seconds: waitingToConnectiong),
               onTimeout: () {
                 Provider.of<NoteNotifier>(context, listen: false)
@@ -232,14 +222,14 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
           });
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
-          Share.share('${widget.note.title}\n\n${widget.note.body}');
+          Share.share('${widget.noteTasks.title}\n\n${widget.noteTasks.tasks}');
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
-          NotesDetails.noteDetailsDialog(context, widget.note);
+          // NotesDetails.noteDetailsDialog(context, widget.noteTasks);
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           DeleteNoteConfirmation.deleteNoteDialog(
-              context: context, noteId: widget.note.id);
+              context: context, noteId: widget.noteTasks.id);
         }
       },
       itemBuilder: (context) => [
@@ -327,7 +317,8 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         isFavoriteIconColor = Colors.amber;
       });
       // Note now it's favorite, if it was favorite from the start, then user did not make any changes
-      if (widget.note.isFavorite) {
+      if (widget.noteTasks.isFavorite) {
+        
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
           message: 'Note marked as favorite again, no changes were made.',
           backgroundColor: Colors.amber.shade300,
@@ -354,7 +345,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
         isFavoriteIconColor = Colors.white;
       });
       // Note now it's not favorite, if it was favorite from the start, then user did make a change
-      if (widget.note.isFavorite) {
+      if (widget.noteTasks.isFavorite) {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
           message: 'Note removed from favorite.',
           backgroundColor: Colors.grey,
@@ -387,13 +378,13 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
       colorPickedByUser = getColorFromDialog;
     } else {
       colorPickedByUser = NoteColorOperations.getColorFromNumber(
-          colorNumber: widget.note.color);
+          colorNumber: widget.noteTasks.color);
     }
 
     newNote.color =
         NoteColorOperations.getNumberFromColor(color: colorPickedByUser);
     // If the colors picked by user is not the same as the current notes color, send message
-    if (newNote.color != widget.note.color) {
+    if (newNote.color != widget.noteTasks.color) {
       // Shows a snackbar with the background color selected by user
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

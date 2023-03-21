@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../utils/extensions/formatted_message.dart';
 
 class AuthUserService {

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'note_model_abstract.dart';
 
 class NoteTasks extends NoteModel {
@@ -10,8 +11,9 @@ class NoteTasks extends NoteModel {
     required super.title,
     required super.isFavorite,
     required super.color,
-    required this.tasks,
-  });
+    required List<dynamic>? tasks,
+    // Transform the tasks field from the List<dynamic> (firestore returns that) to List<String>
+  }) : tasks = tasks?.map((task) => task.toString()).toList() ?? [];
 
   // Convert the map coming from the database to the class model
   static NoteTasks fromMap(Map<String, dynamic> map) {
@@ -22,9 +24,8 @@ class NoteTasks extends NoteModel {
       lastModificationDate: map['lastModificationDate'],
       title: map['title'],
       isFavorite: map['isFavorite'],
-      color: map['color'], 
+      color: map['color'],
       tasks: map['tasks'],
-
     );
   }
 
@@ -40,5 +41,20 @@ class NoteTasks extends NoteModel {
       'color': color,
       'tasks': tasks,
     };
+  }
+
+  NoteTasks copyWith({
+    List<String>? tasks,
+  }) {
+    return NoteTasks(
+      id: super.id,
+      userId: super.userId,
+      color: super.color,
+      createdDate: super.createdDate,
+      isFavorite: super.isFavorite,
+      lastModificationDate: super.lastModificationDate,
+      title: super.title,
+      tasks: tasks ?? this.tasks,
+    );
   }
 }

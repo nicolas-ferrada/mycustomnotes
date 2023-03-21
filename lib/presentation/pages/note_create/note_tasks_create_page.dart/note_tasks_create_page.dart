@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../domain/services/auth_user_service.dart';
-import '../../../domain/services/note_text_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../../data/models/Note/note_notifier.dart';
-import '../../../utils/internet/check_internet_connection.dart';
-import '../../../utils/note_color/note_color.dart';
-import '../../../utils/snackbars/snackbar_message.dart';
+import '../../../../data/models/Note/note_notifier.dart';
+import '../../../../domain/services/auth_user_service.dart';
+import '../../../../domain/services/note_tasks_service.dart';
+import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../../utils/internet/check_internet_connection.dart';
+import '../../../../utils/note_color/note_color.dart';
+import '../../../../utils/snackbars/snackbar_message.dart';
 
-class NoteTextCreatePage extends StatefulWidget {
-  const NoteTextCreatePage({super.key});
+class NoteTasksCreatePage extends StatefulWidget {
+  const NoteTasksCreatePage({super.key});
 
   @override
-  State<NoteTextCreatePage> createState() => _NoteTextCreatePageState();
+  State<NoteTasksCreatePage> createState() => _NoteTasksCreatePageState();
 }
 
-class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
+class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
   final _noteTitleController = TextEditingController();
@@ -149,9 +149,9 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
             }
 
             // Create note on firebase, it will wait depending if the device it's connected to a network
-            await NoteTextService.createNoteText(
+            await NoteTasksService.createNoteTasks(
               title: _noteTitleController.text,
-              body: _noteBodyController.text,
+              tasks: ['task1, task2, task3'],
               userId: currentUser.uid,
               isFavorite: isNoteFavorite,
               color: intNoteColor,
@@ -198,7 +198,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         maxLines: null,
         expands: true,
         decoration: const InputDecoration(
-          hintText: "Body",
+          hintText: "Tasks",
           border: InputBorder.none,
         ),
       ),
