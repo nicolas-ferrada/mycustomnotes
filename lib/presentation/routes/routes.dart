@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/Note/note_task_model.dart';
 import '../../data/models/Note/note_text_model.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
-import '../pages/note_tasks_create_page.dart/note_tasks_create_page.dart';
-import '../pages/note_text_create_page/note_text_create_page.dart';
-import '../pages/note_details_page/note_details_page.dart';
+import '../pages/note_create/note_tasks_create_page.dart/note_tasks_create_page.dart';
+import '../pages/note_create/note_text_create_page/note_text_create_page.dart';
+import '../pages/note_details/note_tasks_details_page/note_tasks_details_page.dart';
+import '../pages/note_details/note_text_details_page/note_text_details_page.dart';
 import '../pages/password_recover_page/password_recover_page.dart';
 import '../pages/register_page/register_page.dart';
 
@@ -14,7 +16,8 @@ import '../pages/register_page/register_page.dart';
 const String homePageRoute = '/';
 const String noteTextCreatePageRoute = '/noteTextCreatePage';
 const String noteTasksCreatePageRoute = '/noteTasksCreatePage';
-const String noteDetailsPageRoute = '/noteDetailsPage';
+const String noteTextDetailsPageRoute = '/noteTextDetailsPage';
+const String noteTasksDetailsPageRoute = '/noteTasksDetailsPage';
 const String loginPageRoute = '/loginPage';
 const String registerPageRoute = '/registerPage';
 const String emailVerificationPageRoute = '/emailVerificationPage';
@@ -29,10 +32,14 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const NoteTextCreatePage());
       case noteTasksCreatePageRoute:
         return MaterialPageRoute(builder: (_) => const NoteTasksCreatePage());
-      case noteDetailsPageRoute:
-        final note = settings.arguments as NoteText;
+      case noteTextDetailsPageRoute:
+        final noteText = settings.arguments as NoteText;
         return MaterialPageRoute(
-            builder: (context) => NoteDetailsPage(note: note));
+            builder: (context) => NoteTextDetailsPage(noteText: noteText));
+      case noteTasksDetailsPageRoute:
+        final noteTasks = settings.arguments as NoteTasks;
+        return MaterialPageRoute(
+            builder: (context) => NoteTasksDetailsPage(noteTasks: noteTasks));
       case loginPageRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case registerPageRoute:
