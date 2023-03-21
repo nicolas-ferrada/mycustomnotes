@@ -1,8 +1,8 @@
 import 'note_model_abstract.dart';
 
-class NoteTask extends NoteModel {
+class NoteTasks extends NoteModel {
   List<String> tasks;
-  NoteTask({
+  NoteTasks({
     required super.id,
     required super.userId,
     required super.createdDate,
@@ -14,8 +14,8 @@ class NoteTask extends NoteModel {
   });
 
   // Convert the map coming from the database to the class model
-  static NoteTask fromMap(Map<String, dynamic> map) {
-    return NoteTask(
+  static NoteTasks fromMap(Map<String, dynamic> map) {
+    return NoteTasks(
       id: map['id'],
       userId: map['userId'],
       createdDate: map['createdDate'],

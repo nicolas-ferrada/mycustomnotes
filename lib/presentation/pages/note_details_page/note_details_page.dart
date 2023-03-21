@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/Note/note_text_model.dart';
 import '../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../data/models/Note/note_model.dart';
-import '../../../domain/services/note_service.dart';
+import '../../../domain/services/note_text_service.dart';
 import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/note_details_info.dart';
 import '../../../utils/internet/check_internet_connection.dart';
@@ -15,7 +15,7 @@ import '../../../data/models/Note/note_notifier.dart';
 import '../../../domain/services/auth_user_service.dart';
 
 class NoteDetailsPage extends StatefulWidget {
-  final Note note;
+  final NoteText note;
   const NoteDetailsPage({super.key, required this.note});
 
   @override
@@ -41,7 +41,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
   late Color colorIconPalette;
 
   // New note object which is going to be modified so it can be stored later with the new data
-  late Note newNote;
+  late NoteText newNote;
 
   @override
   void initState() {
@@ -189,7 +189,7 @@ class _NoteDetailsPageState extends State<NoteDetailsPage> {
             } else {
               waitingToConnectiong = 0;
             }
-            await NoteService.editNote(note: newNote).timeout(
+            await NoteTextService.editNoteText(note: newNote).timeout(
               Duration(seconds: waitingToConnectiong),
               onTimeout: () {
                 Provider.of<NoteNotifier>(context, listen: false)

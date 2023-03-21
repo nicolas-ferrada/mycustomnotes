@@ -1,8 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'note_model_abstract.dart';
 
 class NoteText extends NoteModel {
   String body;
-  String url;
+  String? url;
   NoteText({
     required super.id,
     required super.userId,
@@ -12,11 +13,11 @@ class NoteText extends NoteModel {
     required super.isFavorite,
     required super.color,
     required this.body,
-    required this.url,
+    this.url,
   });
 
   // Convert the map coming from the database to the class model
-  NoteText fromMap(Map<String, dynamic> map) {
+  static NoteText fromMap(Map<String, dynamic> map) {
     return NoteText(
       id: map['id'],
       userId: map['userId'],
@@ -41,7 +42,24 @@ class NoteText extends NoteModel {
       'isFavorite': isFavorite,
       'color': color,
       'body': body,
-      'youtubeUrl': url,
+      'url': url,
     };
+  }
+
+  NoteText copyWith({
+    String? body,
+    String? url,
+  }) {
+    return NoteText(
+      id: super.id,
+      userId: super.userId,
+      title: super.title,
+      color: super.color,
+      createdDate: super.createdDate,
+      isFavorite: super.isFavorite,
+      lastModificationDate: super.lastModificationDate,
+      body: body ?? this.body,
+      url: url ?? this.url,
+    );
   }
 }

@@ -8,7 +8,7 @@ FloatingActionButton newNoteButton({required BuildContext context}) {
     backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
     label: const Text('New note'),
     icon: const Icon(Icons.create),
-    onPressed: () {
+    onPressed: () async {
       SelectCreateNoteType.noteDetailsDialog(context);
     },
   );

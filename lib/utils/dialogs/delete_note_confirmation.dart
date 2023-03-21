@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/Note/note_notifier.dart';
-import '../../domain/services/note_service.dart';
+import '../../domain/services/note_text_service.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../internet/check_internet_connection.dart';
 
@@ -48,7 +48,7 @@ class DeleteNoteConfirmation {
                       }
                       try {
                         // Delete a specified note
-                        await NoteService.deleteNote(noteId: noteId)
+                        await NoteTextService.deleteNoteText(noteId: noteId)
                             .timeout(
                           Duration(seconds: waitingConnection),
                           onTimeout: () {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/Note/note_model.dart';
+import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../../utils/formatters/date_formatter.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../routes/routes.dart';
 
 class HomePageBuildNotesWidget extends StatelessWidget {
-  final List<Note> notesList;
+  final List<NoteText> notesTextList;
 
   const HomePageBuildNotesWidget({
-    required this.notesList,
+    required this.notesTextList,
     super.key,
   });
 
@@ -22,21 +22,21 @@ class HomePageBuildNotesWidget extends StatelessWidget {
         crossAxisCount: 2,
       ),
       childrenDelegate: SliverChildBuilderDelegate(
-        childCount: notesList.length,
+        childCount: notesTextList.length,
         ((context, index) {
           // Ordered by date, first note created will show first
-          notesList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+          notesTextList.sort((a, b) => a.createdDate.compareTo(b.createdDate));
           // Put favorites first using a extension boolean compare
-          notesList.sort((a, b) =>
+          notesTextList.sort((a, b) =>
               CompareBooleans.compareBooleans(a.isFavorite, b.isFavorite));
-          Note note = notesList[index];
+          NoteText noteText = notesTextList[index];
           // Tapping on a note, opens the detailed version of it
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, noteDetailsPageRoute,
-                  arguments: note);
+                  arguments: noteText);
             },
-            child: showNotes(note: note),
+            child: showNotes(noteText: noteText),
           );
         }),
       ),
@@ -44,10 +44,11 @@ class HomePageBuildNotesWidget extends StatelessWidget {
   }
 
   // Show the notes cards in home screen
-  Card showNotes({required Note note}) {
+  Card showNotes({required NoteText noteText}) {
     return Card(
       // Color of the note
-      color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
+      color:
+          NoteColorOperations.getColorFromNumber(colorNumber: noteText.color),
       child: Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
@@ -61,14 +62,15 @@ class HomePageBuildNotesWidget extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     // Date of last modification
-                    DateFormatter.showDateFormatted(note.lastModificationDate),
+                    DateFormatter.showDateFormatted(
+                        noteText.lastModificationDate),
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: note.isFavorite
+                    child: noteText.isFavorite
                         ? Stack(
                             children: const [
                               Icon(
@@ -98,7 +100,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
             // Text title
             Center(
               child: Text(
-                note.title,
+                noteText.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -111,7 +113,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
             // Text body
             Center(
               child: Text(
-                note.body,
+                noteText.body,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
