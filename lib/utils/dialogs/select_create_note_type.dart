@@ -21,6 +21,7 @@ class SelectCreateNoteType {
                     child: ListTile(
                       title: const Text('Text note'),
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.pushNamed(context, noteTextCreatePageRoute);
                       },
                     ),
@@ -31,6 +32,7 @@ class SelectCreateNoteType {
                     child: ListTile(
                       title: const Text('Tasks note'),
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.pushNamed(context, noteTasksCreatePageRoute);
                       },
                     ),
