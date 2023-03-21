@@ -65,7 +65,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
                     arguments: noteTasks);
               }
             },
-            // child: showNotes(allNotes: allNotes),
+            child: showNotes(note: allNotes[index]),
           );
         }),
       ),
@@ -73,87 +73,172 @@ class HomePageBuildNotesWidget extends StatelessWidget {
   }
 
   // Show the notes cards in home screen
-  // Card showNotes({required List<dynamic> allNotes}) {
-  //   return Card(
-  //     // Color of the note
-  //     color:
-  //         NoteColorOperations.getColorFromNumber(colorNumber: noteText.color),
-  //     child: Container(
-  //       padding: const EdgeInsets.all(8),
-  //       alignment: Alignment.center,
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.start,
-  //             children: [
-  //               Align(
-  //                 alignment: Alignment.topLeft,
-  //                 child: Text(
-  //                   // Date of last modification
-  //                   DateFormatter.showDateFormatted(
-  //                       noteText.lastModificationDate),
-  //                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-  //                 ),
-  //               ),
-  //               Expanded(
-  //                 child: Align(
-  //                   alignment: Alignment.topRight,
-  //                   child: noteText.isFavorite
-  //                       ? Stack(
-  //                           children: const [
-  //                             Icon(
-  //                               Icons.star,
-  //                               color: Color.fromARGB(255, 255, 255, 0),
-  //                               size: 26,
-  //                             ),
-  //                             Icon(
-  //                               Icons.star_border,
-  //                               color: Colors.black,
-  //                               size: 26,
-  //                             ),
-  //                           ],
-  //                         )
-  //                       : const Opacity(
-  //                           opacity: 0,
-  //                           child: Icon(
-  //                             Icons.star,
-  //                             size: 26,
-  //                           ),
-  //                         ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           const SizedBox(height: 8),
-  //           // Text title
-  //           Center(
-  //             child: Text(
-  //               noteText.title,
-  //               maxLines: 1,
-  //               overflow: TextOverflow.ellipsis,
-  //               style: const TextStyle(
-  //                   color: Colors.black,
-  //                   fontSize: 20,
-  //                   fontWeight: FontWeight.bold),
-  //             ),
-  //           ),
-  //           const SizedBox(height: 16),
-  //           // Text body
-  //           Center(
-  //             child: Text(
-  //               noteText.body,
-  //               maxLines: 4,
-  //               overflow: TextOverflow.ellipsis,
-  //               style: const TextStyle(
-  //                 color: Colors.black,
-  //                 fontSize: 12,
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Card showNotes({required dynamic note}) {
+    // Note is a Text Note
+    if (note is NoteText) {
+      return Card(
+        // Color of the note
+        color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      // Date of last modification
+                      DateFormatter.showDateFormatted(
+                          note.lastModificationDate),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: note.isFavorite
+                          ? Stack(
+                              children: const [
+                                Icon(
+                                  Icons.star,
+                                  color: Color.fromARGB(255, 255, 255, 0),
+                                  size: 26,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  color: Colors.black,
+                                  size: 26,
+                                ),
+                              ],
+                            )
+                          : const Opacity(
+                              opacity: 0,
+                              child: Icon(
+                                Icons.star,
+                                size: 26,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              // Text title
+              Center(
+                child: Text(
+                  note.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Text body
+              Center(
+                child: Text(
+                  note.body,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+      // The note tapped is a Note Tasks
+    } else if (note is NoteTasks) {
+      return Card(
+        // Color of the note
+        color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      // Date of last modification
+                      DateFormatter.showDateFormatted(
+                          note.lastModificationDate),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: note.isFavorite
+                          ? Stack(
+                              children: const [
+                                Icon(
+                                  Icons.star,
+                                  color: Color.fromARGB(255, 255, 255, 0),
+                                  size: 26,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  color: Colors.black,
+                                  size: 26,
+                                ),
+                              ],
+                            )
+                          : const Opacity(
+                              opacity: 0,
+                              child: Icon(
+                                Icons.star,
+                                size: 26,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              // Text title
+              Center(
+                child: Text(
+                  note.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Text body
+              Center(
+                child: SafeArea(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return Text(note.tasks[index]);
+                      }),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      throw Exception('That type of note does not exist');
+    }
+  }
 }
