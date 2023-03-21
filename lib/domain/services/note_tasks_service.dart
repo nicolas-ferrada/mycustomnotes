@@ -3,6 +3,7 @@ import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 
 import '../../data/models/Note/note_task_model.dart';
 import '../../utils/internet/check_internet_connection.dart';
+import 'dart:developer' as log;
 
 class NoteTasksService {
   // Read all tasks notes from one user in firebase
@@ -19,12 +20,12 @@ class NoteTasksService {
 
       if (isDeviceConnected) {
         documents = await db
-            .collection('note')
+            .collection('noteTasks')
             .where('userId', isEqualTo: userId)
             .get(const GetOptions(source: Source.serverAndCache));
       } else {
         documents = await db
-            .collection('note')
+            .collection('noteTasks')
             .where('userId', isEqualTo: userId)
             .get(const GetOptions(source: Source.cache));
       }
@@ -68,6 +69,8 @@ class NoteTasksService {
         isFavorite: isFavorite,
         color: color,
       );
+      log.log(noteTasks.id);
+      log.log(noteTasks.userId);
 
       // Transform that note object into a map to store it.
       final mapNote = noteTasks.toMap();
@@ -96,7 +99,7 @@ class NoteTasksService {
       );
       final db = FirebaseFirestore.instance;
 
-      final docNote = db.collection('note').doc(note.id);
+      final docNote = db.collection('noteTasks').doc(note.id);
 
       final mapNote = finalNoteTasks.toMap();
 

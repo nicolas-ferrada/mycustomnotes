@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../data/models/Note/note_task_model.dart';
 import '../../data/models/Note/note_text_model.dart';
 import '../../utils/extensions/formatted_message.dart';
 import '../../utils/internet/check_internet_connection.dart';
@@ -98,7 +97,7 @@ class NoteTextService {
       );
       final db = FirebaseFirestore.instance;
 
-      final docNote = db.collection('note').doc(note.id);
+      final docNote = db.collection('noteText').doc(note.id);
 
       final mapNote = finalNoteText.toMap();
 

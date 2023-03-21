@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../domain/services/note_tasks_service.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../domain/services/auth_user_service.dart';
-import '../../../domain/services/note_text_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/note_notifier.dart';
@@ -149,9 +149,9 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
             }
 
             // Create note on firebase, it will wait depending if the device it's connected to a network
-            await NoteTextService.createNoteText(
+            await NoteTasksService.createNoteTasks(
               title: _noteTitleController.text,
-              body: _noteBodyController.text,
+              tasks: ['task1, task2, task3'],
               userId: currentUser.uid,
               isFavorite: isNoteFavorite,
               color: intNoteColor,
@@ -198,7 +198,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
         maxLines: null,
         expands: true,
         decoration: const InputDecoration(
-          hintText: "Body",
+          hintText: "Tasks",
           border: InputBorder.none,
         ),
       ),
