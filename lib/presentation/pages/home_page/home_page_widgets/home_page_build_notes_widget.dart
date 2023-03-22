@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../../data/models/Note/note_task_model.dart';
@@ -88,13 +90,32 @@ class HomePageBuildNotesWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        // Date of last modification
+                        DateFormatter.showDateFormatted(
+                            note.lastModificationDate),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      ),
+                    ),
+                  ),
                   Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      // Date of last modification
-                      DateFormatter.showDateFormatted(
-                          note.lastModificationDate),
-                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black54,
+                      ),
+                      child: Icon(
+                        Icons.text_snippet,
+                        color: NoteColorOperations.getColorFromNumber(
+                            colorNumber: note.color),
+                        size: 18,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -170,13 +191,32 @@ class HomePageBuildNotesWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        // Date of last modification
+                        DateFormatter.showDateFormatted(
+                            note.lastModificationDate),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      ),
+                    ),
+                  ),
                   Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      // Date of last modification
-                      DateFormatter.showDateFormatted(
-                          note.lastModificationDate),
-                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black54,
+                      ),
+                      child: Icon(
+                        Icons.check_box,
+                        color: NoteColorOperations.getColorFromNumber(
+                            colorNumber: note.color),
+                        size: 18,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -223,13 +263,21 @@ class HomePageBuildNotesWidget extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               // Text body
-              Center(
+              Expanded(
                 child: SafeArea(
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 1,
+                      itemCount: min(note.tasks.length, 4),
                       itemBuilder: (context, index) {
-                        return Text(note.tasks[index]);
+                        return Center(
+                          child: Text(note.tasks[index],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                              )),
+                        );
                       }),
                 ),
               ),
