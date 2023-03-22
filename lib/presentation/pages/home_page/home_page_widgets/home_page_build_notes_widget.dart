@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/Note/note_task_model.dart';
+import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../../utils/formatters/date_formatter.dart';
@@ -262,21 +262,43 @@ class HomePageBuildNotesWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              // Text body
               Expanded(
                 child: SafeArea(
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: min(note.tasks.length, 4),
+                      itemCount: min(
+                          (note.tasks.length < 4 ? note.tasks.length : 4), 4),
                       itemBuilder: (context, index) {
-                        return Center(
-                          child: Text(note.tasks[index],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                        Map<String, dynamic> task = note.tasks[index];
+                        String taskName = task['taskName'];
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Transform.translate(
+                              offset: const Offset(
+                                  -6, 0), // Adjust the offset as needed
+                              child: const Icon(
+                                Icons.circle_outlined,
+                                size: 8,
                                 color: Colors.black,
-                                fontSize: 12,
-                              )),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Transform.translate(
+                              offset: const Offset(-6, 0),
+                              child: Text(
+                                taskName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       }),
                 ),
