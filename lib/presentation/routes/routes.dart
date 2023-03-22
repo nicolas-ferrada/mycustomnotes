@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/Note/note_task_model.dart';
+import '../../data/models/Note/note_tasks_model.dart';
 import '../../data/models/Note/note_text_model.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';

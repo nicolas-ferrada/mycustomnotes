@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../data/models/Note/note_task_model.dart';
+import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../domain/services/note_tasks_service.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import 'home_page_build_notes_widget.dart';

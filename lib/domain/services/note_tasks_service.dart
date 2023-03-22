@@ -2,7 +2,7 @@ import 'dart:developer' as log;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../data/models/Note/note_task_model.dart';
+import '../../data/models/Note/note_tasks_model.dart';
 import '../../utils/extensions/formatted_message.dart';
 import '../../utils/internet/check_internet_connection.dart';
 
@@ -63,7 +63,7 @@ class NoteTasksService {
       final noteTasks = NoteTasks(
         id: noteId,
         title: title,
-        tasks: tasks,
+        tasks: null,
         userId: userId,
         lastModificationDate: Timestamp.now(),
         createdDate: Timestamp.now(),

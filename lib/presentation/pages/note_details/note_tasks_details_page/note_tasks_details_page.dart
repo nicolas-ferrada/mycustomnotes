@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../data/models/Note/note_task_model.dart';
+import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../domain/services/auth_user_service.dart';
 
 import 'package:provider/provider.dart';

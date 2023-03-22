@@ -2,7 +2,7 @@
 import 'note_model_abstract.dart';
 
 class NoteTasks extends NoteModel {
-  List<String> tasks;
+  List<Map<String, dynamic>> tasks;
   NoteTasks({
     required super.id,
     required super.userId,
@@ -11,9 +11,15 @@ class NoteTasks extends NoteModel {
     required super.title,
     required super.isFavorite,
     required super.color,
-    required List<dynamic>? tasks,
+    required List<Map<String, dynamic>>? tasks,
     // Transform the tasks field from the List<dynamic> (firestore returns that) to List<String>
-  }) : tasks = tasks?.map((task) => task.toString()).toList() ?? [];
+  }) : tasks = tasks
+                ?.map((task) => {
+                      'taskName': task['taskName'] ?? '',
+                      'isTaskCompleted': task['isTaskCompleted'] ?? false,
+                    })
+                .toList() ??
+            [];
 
   // Convert the map coming from the database to the class model
   static NoteTasks fromMap(Map<String, dynamic> map) {
@@ -25,7 +31,12 @@ class NoteTasks extends NoteModel {
       title: map['title'],
       isFavorite: map['isFavorite'],
       color: map['color'],
-      tasks: map['tasks'],
+      tasks: (map['tasks'] as List<dynamic>?)
+          ?.map((task) => {
+                'taskName': task['taskName'] ?? '',
+                'isCompleted': task['isCompleted'] ?? false,
+              })
+          .toList(),
     );
   }
 
@@ -44,7 +55,7 @@ class NoteTasks extends NoteModel {
   }
 
   NoteTasks copyWith({
-    List<String>? tasks,
+    List<Map<String, dynamic>>? tasks,
   }) {
     return NoteTasks(
       id: super.id,
