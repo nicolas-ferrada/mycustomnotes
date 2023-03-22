@@ -229,7 +229,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           DeleteNoteConfirmation.deleteNoteDialog(
-              context: context, noteId: widget.noteTasks.id);
+              context: context, note: widget.noteTasks);
         }
       },
       itemBuilder: (context) => [
@@ -318,7 +318,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       });
       // Note now it's favorite, if it was favorite from the start, then user did not make any changes
       if (widget.noteTasks.isFavorite) {
-        
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
           message: 'Note marked as favorite again, no changes were made.',
           backgroundColor: Colors.amber.shade300,

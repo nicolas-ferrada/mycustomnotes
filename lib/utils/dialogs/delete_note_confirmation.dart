@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/Note/note_tasks_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/Note/note_notifier.dart';
+import '../../data/models/Note/note_text_model.dart';
+import '../../domain/services/note_tasks_service.dart';
 import '../../domain/services/note_text_service.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../internet/check_internet_connection.dart';
@@ -10,7 +13,7 @@ class DeleteNoteConfirmation {
   // Delete note dialog
   static Future<void> deleteNoteDialog({
     required BuildContext context,
-    required String noteId,
+    required dynamic note,
   }) {
     return showDialog<void>(
       context: context,
@@ -48,16 +51,34 @@ class DeleteNoteConfirmation {
                       }
                       try {
                         // Delete a specified note
-                        await NoteTextService.deleteNoteText(noteId: noteId)
-                            .timeout(
-                          Duration(seconds: waitingConnection),
-                          onTimeout: () {
-                            Provider.of<NoteNotifier>(context, listen: false)
-                                .refreshNotes();
-                            Navigator.pop(context);
-                            Navigator.maybePop(context);
-                          },
-                        );
+                        if (note is NoteTasks) {
+                          await NoteTasksService.deleteNoteTasks(
+                                  noteId: note.id)
+                              .timeout(
+                            Duration(seconds: waitingConnection),
+                            onTimeout: () {
+                              Provider.of<NoteNotifier>(context, listen: false)
+                                  .refreshNotes();
+                              Navigator.pop(context);
+                              Navigator.maybePop(context);
+                            },
+                          );
+                        } else if (note is NoteText) {
+                          await NoteTextService.deleteNoteText(noteId: note.id)
+                              .timeout(
+                            Duration(seconds: waitingConnection),
+                            onTimeout: () {
+                              Provider.of<NoteNotifier>(context, listen: false)
+                                  .refreshNotes();
+                              Navigator.pop(context);
+                              Navigator.maybePop(context);
+                            },
+                          );
+                        } else {
+                          throw Exception(
+                              "Note type not found, can't delete it");
+                        }
+
                         if (context.mounted) {
                           Provider.of<NoteNotifier>(context, listen: false)
                               .refreshNotes();

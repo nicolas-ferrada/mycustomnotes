@@ -241,7 +241,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           DeleteNoteConfirmation.deleteNoteDialog(
-              context: context, noteId: widget.noteText.id);
+              context: context, note: widget.noteText);
         }
       },
       itemBuilder: (context) => [
