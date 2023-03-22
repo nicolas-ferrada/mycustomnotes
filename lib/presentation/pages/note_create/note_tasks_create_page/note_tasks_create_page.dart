@@ -9,6 +9,16 @@ import '../../../../utils/internet/check_internet_connection.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../../utils/snackbars/snackbar_message.dart';
 
+class Tasks {
+  bool isTaskCompleted;
+  String taskName;
+
+  Tasks({
+    required this.isTaskCompleted,
+    required this.taskName,
+  });
+}
+
 class NoteTasksCreatePage extends StatefulWidget {
   const NoteTasksCreatePage({super.key});
 
@@ -20,7 +30,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
   final _noteTitleController = TextEditingController();
-  final _noteBodyController = TextEditingController();
+
+  final List<Tasks> _textFormFieldValues = [];
 
   bool isNoteFavorite = false;
 
@@ -34,7 +45,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   @override
   void dispose() {
     _noteTitleController.dispose();
-    _noteBodyController.dispose();
     super.dispose();
   }
 
@@ -52,7 +62,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           },
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: "Title",
+            hintText: "Tasks title",
             hintStyle: TextStyle(color: Colors.white70),
           ),
           style: const TextStyle(
@@ -129,79 +139,125 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     );
   }
 
-  Visibility noteCreatePageFloatingActionButton(BuildContext context) {
-    return Visibility(
-      visible: _isCreateButtonVisible,
-      child: FloatingActionButton.extended(
-        onPressed: () async {
-          // Create note button
-          try {
-            // Check if device it's connected to any network
-            bool isDeviceConnected =
-                await CheckInternetConnection.checkInternetConnection();
-            int waitingConnection = 5;
-
-            // If device is connected, wait 5 seconds, if is not connected, dont wait.
-            if (isDeviceConnected) {
-              waitingConnection = 5;
-            } else {
-              waitingConnection = 0;
-            }
-
-            // Create note on firebase, it will wait depending if the device it's connected to a network
-            await NoteTasksService.createNoteTasks(
-              title: _noteTitleController.text,
-              tasks: ['task1, task2, task3'],
-              userId: currentUser.uid,
-              isFavorite: isNoteFavorite,
-              color: intNoteColor,
-            ).timeout(
-              Duration(seconds: waitingConnection),
-              onTimeout: () {
-                Provider.of<NoteNotifier>(context, listen: false)
-                    .refreshNotes();
-
-                Navigator.of(context).maybePop();
-              },
-            );
-            if (context.mounted) {
-              Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
-
-              Navigator.of(context).maybePop();
-            }
-          } catch (errorMessage) {
-            ExceptionsAlertDialog.showErrorDialog(
-                context, errorMessage.toString());
-          }
-        },
-        backgroundColor: Colors.amberAccent,
-        label: const Text(
-          'Create\nnote',
-          style: TextStyle(fontSize: 12),
-        ),
-        icon: const Icon(Icons.save),
-      ),
-    );
-  }
-
   Padding noteCreatePageBody() {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: TextFormField(
-        onChanged: (value) {
-          setState(() {
-            _isCreateButtonVisible = true;
-          });
-        },
-        controller: _noteBodyController,
-        textAlignVertical: TextAlignVertical.top,
-        maxLines: null,
-        expands: true,
-        decoration: const InputDecoration(
-          hintText: "Tasks",
-          border: InputBorder.none,
-        ),
-      ),
+      child: ListView.builder(
+          itemCount: _textFormFieldValues.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(8),
+              child: ListTile(
+                trailing: Checkbox(
+                  value: _textFormFieldValues[index].isTaskCompleted,
+                  onChanged: (value) => setState(() {
+                    _textFormFieldValues[index].isTaskCompleted = value!;
+                  }),
+                ),
+                title: TextFormField(
+                  initialValue: _textFormFieldValues[index].taskName,
+                  onChanged: (value) =>
+                      _textFormFieldValues[index].taskName = value,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Task',
+                  ),
+                ),
+              ),
+            );
+          }),
     );
+  }
+
+  Row noteCreatePageFloatingActionButton(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton.extended(
+              heroTag: null,
+              tooltip: 'Add a new task',
+              onPressed: () async {
+                setState(() {
+                  _textFormFieldValues
+                      .add(Tasks(isTaskCompleted: false, taskName: ''));
+                });
+              },
+              backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+              label: const Text(
+                'New task',
+              ),
+              icon: const Icon(Icons.add),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton.extended(
+              heroTag: null,
+              tooltip: 'Create the note',
+              onPressed: () async {
+                // Create note button
+                try {
+                  // Check if device it's connected to any network
+                  bool isDeviceConnected =
+                      await CheckInternetConnection.checkInternetConnection();
+                  int waitingConnection = 5;
+
+                  // If device is connected, wait 5 seconds, if is not connected, dont wait.
+                  if (isDeviceConnected) {
+                    waitingConnection = 5;
+                  } else {
+                    waitingConnection = 0;
+                  }
+
+                  // Create note on firebase, it will wait depending if the device it's connected to a network
+                  await NoteTasksService.createNoteTasks(
+                    title: _noteTitleController.text,
+                    tasks: getTextFormFieldValues(),
+                    userId: currentUser.uid,
+                    isFavorite: isNoteFavorite,
+                    color: intNoteColor,
+                  ).timeout(
+                    Duration(seconds: waitingConnection),
+                    onTimeout: () {
+                      Provider.of<NoteNotifier>(context, listen: false)
+                          .refreshNotes();
+
+                      Navigator.of(context).maybePop();
+                    },
+                  );
+                  if (context.mounted) {
+                    Provider.of<NoteNotifier>(context, listen: false)
+                        .refreshNotes();
+
+                    Navigator.of(context).maybePop();
+                  }
+                } catch (errorMessage) {
+                  ExceptionsAlertDialog.showErrorDialog(
+                      context, errorMessage.toString());
+                }
+              },
+              backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+              label: const Text(
+                'Create note',
+              ),
+              icon: const Icon(Icons.add),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Map<String, dynamic>> getTextFormFieldValues() {
+    return _textFormFieldValues
+        .map((task) => {
+              'isTaskCompleted': task.isTaskCompleted,
+              'taskName': task.taskName
+            })
+        .toList();
   }
 }

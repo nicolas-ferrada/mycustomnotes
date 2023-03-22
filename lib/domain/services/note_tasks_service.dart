@@ -63,7 +63,7 @@ class NoteTasksService {
       final noteTasks = NoteTasks(
         id: noteId,
         title: title,
-        tasks: null,
+        tasks: tasks,
         userId: userId,
         lastModificationDate: Timestamp.now(),
         createdDate: Timestamp.now(),
