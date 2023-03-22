@@ -45,7 +45,7 @@ class NoteTasksService {
   // Create a note in firebase
   static Future<void> createNoteTasks({
     required String title,
-    required List<String> tasks,
+    required List<Map<String, dynamic>> tasks,
     required String userId,
     required bool isFavorite,
     required int color,
@@ -70,8 +70,6 @@ class NoteTasksService {
         isFavorite: isFavorite,
         color: color,
       );
-      log.log(noteTasks.id);
-      log.log(noteTasks.userId);
 
       // Transform that note object into a map to store it.
       final mapNote = noteTasks.toMap();
