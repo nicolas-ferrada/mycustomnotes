@@ -5,7 +5,7 @@ import '../../data/models/Note/note_text_model.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
-import '../pages/note_create/note_tasks_create_page.dart/note_tasks_create_page.dart';
+import '../pages/note_create/note_tasks_create_page/note_tasks_create_page.dart';
 import '../pages/note_create/note_text_create_page/note_text_create_page.dart';
 import '../pages/note_details/note_tasks_details_page/note_tasks_details_page.dart';
 import '../pages/note_details/note_text_details_page/note_text_details_page.dart';
