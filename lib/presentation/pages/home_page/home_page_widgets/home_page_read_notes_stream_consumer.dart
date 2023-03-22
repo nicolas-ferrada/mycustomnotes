@@ -19,16 +19,17 @@ Consumer<NoteNotifier> readNotesStreamConsumer() {
         if (snapshotNoteTasks.hasError) {
           return Text(
               'Something went wrong reading tasks notes ${snapshotNoteTasks.error.toString()}');
-        } else if (snapshotNoteTasks.hasData) {
-          final List<NoteTasks> tasksNotes = snapshotNoteTasks.data!;
+        } else {
           return StreamBuilder(
             stream: NoteTextService.readAllNotesText(userId: currentUser.uid),
             builder: (context, snapshotNoteText) {
               if (snapshotNoteText.hasError) {
                 return Text(
                     'Something went wrong reading text notes ${snapshotNoteText.error.toString()}');
-              } else if (snapshotNoteText.hasData) {
+              } else if (snapshotNoteText.hasData &&
+                  snapshotNoteTasks.hasData) {
                 final List<NoteText> textNotes = snapshotNoteText.data!;
+                final List<NoteTasks> tasksNotes = snapshotNoteTasks.data!;
                 return Center(
                   // If notes are empty, show 'no notes message', if theres notes, build them
                   child: textNotes.isEmpty && tasksNotes.isEmpty
@@ -43,8 +44,6 @@ Consumer<NoteNotifier> readNotesStreamConsumer() {
               }
             },
           );
-        } else {
-          return const Center(child: CircularProgressIndicator());
         }
       },
     );
