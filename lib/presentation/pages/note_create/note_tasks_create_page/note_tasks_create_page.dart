@@ -42,6 +42,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   Color noteColorPaletteIcon = Colors.grey;
   Color noteColorFavoriteIcon = Colors.grey;
 
+  String taskNameOnCreate = '';
+
   @override
   void dispose() {
     _noteTitleController.dispose();
@@ -62,7 +64,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           },
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: "Tasks title",
+            hintText: "Title",
             hintStyle: TextStyle(color: Colors.white70),
           ),
           style: const TextStyle(
@@ -141,27 +143,27 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
 
   Padding noteCreatePageBody() {
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: ListView.builder(
+      padding: const EdgeInsets.only(top: 16),
+      child: ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
           itemCount: _textFormFieldValues.length,
           itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.all(8),
-              child: ListTile(
-                trailing: Checkbox(
-                  value: _textFormFieldValues[index].isTaskCompleted,
-                  onChanged: (value) => setState(() {
-                    _textFormFieldValues[index].isTaskCompleted = value!;
-                  }),
-                ),
-                title: TextFormField(
-                  initialValue: _textFormFieldValues[index].taskName,
-                  onChanged: (value) =>
-                      _textFormFieldValues[index].taskName = value,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Task',
-                  ),
+            return ListTile(
+              leading: Checkbox(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                value: _textFormFieldValues[index].isTaskCompleted,
+                onChanged: (value) => setState(() {
+                  _textFormFieldValues[index].isTaskCompleted = value!;
+                }),
+              ),
+              title: TextFormField(
+                maxLines: null,
+                initialValue: _textFormFieldValues[index].taskName,
+                onChanged: (value) =>
+                    _textFormFieldValues[index].taskName = value,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Task',
                 ),
               ),
             );
@@ -169,87 +171,155 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     );
   }
 
-  Row noteCreatePageFloatingActionButton(BuildContext context) {
-    return Row(
+  Column noteCreatePageFloatingActionButton(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton.extended(
-              heroTag: null,
-              tooltip: 'Add a new task',
-              onPressed: () async {
-                setState(() {
-                  _textFormFieldValues
-                      .add(Tasks(isTaskCompleted: false, taskName: ''));
-                });
-              },
-              backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-              label: const Text(
-                'New task',
-              ),
-              icon: const Icon(Icons.add),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton.extended(
-              heroTag: null,
-              tooltip: 'Create the note',
-              onPressed: () async {
-                // Create note button
-                try {
-                  // Check if device it's connected to any network
-                  bool isDeviceConnected =
-                      await CheckInternetConnection.checkInternetConnection();
-                  int waitingConnection = 5;
+        Visibility(
+          visible: _isCreateButtonVisible,
+          child: FloatingActionButton(
+            heroTag: null,
+            tooltip: 'Create the note',
+            onPressed: () async {
+              // Create note button
+              try {
+                // Check if device it's connected to any network
+                bool isDeviceConnected =
+                    await CheckInternetConnection.checkInternetConnection();
+                int waitingConnection = 5;
 
-                  // If device is connected, wait 5 seconds, if is not connected, dont wait.
-                  if (isDeviceConnected) {
-                    waitingConnection = 5;
-                  } else {
-                    waitingConnection = 0;
-                  }
+                // If device is connected, wait 5 seconds, if is not connected, dont wait.
+                if (isDeviceConnected) {
+                  waitingConnection = 5;
+                } else {
+                  waitingConnection = 0;
+                }
 
-                  // Create note on firebase, it will wait depending if the device it's connected to a network
-                  await NoteTasksService.createNoteTasks(
-                    title: _noteTitleController.text,
-                    tasks: getTextFormFieldValues(),
-                    userId: currentUser.uid,
-                    isFavorite: isNoteFavorite,
-                    color: intNoteColor,
-                  ).timeout(
-                    Duration(seconds: waitingConnection),
-                    onTimeout: () {
-                      Provider.of<NoteNotifier>(context, listen: false)
-                          .refreshNotes();
-
-                      Navigator.of(context).maybePop();
-                    },
-                  );
-                  if (context.mounted) {
+                // Create note on firebase, it will wait depending if the device it's connected to a network
+                await NoteTasksService.createNoteTasks(
+                  title: _noteTitleController.text,
+                  tasks: getTextFormFieldValues(),
+                  userId: currentUser.uid,
+                  isFavorite: isNoteFavorite,
+                  color: intNoteColor,
+                ).timeout(
+                  Duration(seconds: waitingConnection),
+                  onTimeout: () {
                     Provider.of<NoteNotifier>(context, listen: false)
                         .refreshNotes();
 
                     Navigator.of(context).maybePop();
-                  }
-                } catch (errorMessage) {
-                  ExceptionsAlertDialog.showErrorDialog(
-                      context, errorMessage.toString());
+                  },
+                );
+                if (context.mounted) {
+                  Provider.of<NoteNotifier>(context, listen: false)
+                      .refreshNotes();
+
+                  Navigator.of(context).maybePop();
                 }
-              },
-              backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-              label: const Text(
-                'Create note',
-              ),
-              icon: const Icon(Icons.add),
-            ),
+              } catch (errorMessage) {
+                ExceptionsAlertDialog.showErrorDialog(
+                    context, errorMessage.toString());
+              }
+            },
+            backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+            child: const Icon(Icons.save),
           ),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        FloatingActionButton(
+          heroTag: null,
+          tooltip: 'Add a new task',
+          onPressed: () async {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              isDismissible: true,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: TextField(
+                                autofocus: true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    taskNameOnCreate = value;
+                                  });
+                                },
+                                onSubmitted: (_) {
+                                  if (taskNameOnCreate.isNotEmpty) {
+                                    addNewTask();
+                                    taskNameOnCreate = ''; // restart text value
+                                    Navigator.pop(context);
+                                    _isCreateButtonVisible = true;
+                                  } else {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBarMessage.snackBarMessage(
+                                          message:
+                                              "You can't create an empty task",
+                                          backgroundColor: Colors.red),
+                                    );
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Create a new task',
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              if (taskNameOnCreate.isNotEmpty) {
+                                addNewTask();
+                                taskNameOnCreate = ''; // restart text value
+                                Navigator.pop(context);
+                                _isCreateButtonVisible = true;
+                              } else {
+                                Navigator.pop(context);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBarMessage.snackBarMessage(
+                                      message: "You can't create an empty task",
+                                      backgroundColor: Colors.red),
+                                );
+                              }
+                            },
+                            icon: const Icon(Icons.done),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+          child: const Icon(Icons.add),
         ),
       ],
     );
+  }
+
+  void addNewTask() {
+    setState(() {
+      _textFormFieldValues
+          .add(Tasks(isTaskCompleted: false, taskName: taskNameOnCreate));
+    });
   }
 
   List<Map<String, dynamic>> getTextFormFieldValues() {
