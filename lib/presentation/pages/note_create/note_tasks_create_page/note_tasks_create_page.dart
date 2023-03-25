@@ -44,8 +44,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
 
   String taskNameOnCreate = '';
 
-  final _listKey = GlobalKey<AnimatedListState>();
-
   @override
   void dispose() {
     _noteTitleController.dispose();
@@ -144,10 +142,11 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   }
 
   ReorderableListView noteCreatePageBody() {
+    final listKey = GlobalKey<AnimatedListState>();
     List<FocusNode> focusNodes =
         List.generate(_textFormFieldValues.length, (index) => FocusNode());
     return ReorderableListView.builder(
-      key: _listKey,
+      key: listKey,
       onReorder: _reorderList,
       itemCount: _textFormFieldValues.length,
       itemBuilder: (BuildContext context, int index) {
@@ -158,24 +157,28 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
             child: ListTile(
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              title: TextFormField(
-                maxLines: null,
-                initialValue: _textFormFieldValues[index].taskName,
-                onChanged: (value) => setState(
-                    () => _textFormFieldValues[index].taskName = value),
-                focusNode: focusNodes[index],
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(28),
-                  prefixIcon: Checkbox(
-                    shape: const CircleBorder(),
-                    value: _textFormFieldValues[index].isTaskCompleted,
-                    onChanged: (value) => setState(() {
-                      _textFormFieldValues[index].isTaskCompleted = value!;
-                    }),
-                  ),
-                  border: const OutlineInputBorder(),
-                  labelText: 'Task',
-                ),
+              title: StatefulBuilder(
+                builder: (context, setState) {
+                  return TextFormField(
+                    maxLines: null,
+                    initialValue: _textFormFieldValues[index].taskName,
+                    onChanged: (value) => setState(
+                        () => _textFormFieldValues[index].taskName = value),
+                    focusNode: focusNodes[index],
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(28),
+                      prefixIcon: Checkbox(
+                        shape: const CircleBorder(),
+                        value: _textFormFieldValues[index].isTaskCompleted,
+                        onChanged: (value) => setState(() {
+                          _textFormFieldValues[index].isTaskCompleted = value!;
+                        }),
+                      ),
+                      border: const OutlineInputBorder(),
+                      labelText: 'Task',
+                    ),
+                  );
+                },
               ),
             ),
           ),
