@@ -203,13 +203,20 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                       focusNode: focusNodes[index],
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(28),
-                        prefixIcon: Checkbox(
-                          shape: const CircleBorder(),
-                          value: _textFormFieldValues[index].isTaskCompleted,
-                          onChanged: (value) => setState(() {
-                            _textFormFieldValues[index].isTaskCompleted =
-                                value!;
-                          }),
+                        prefixIcon: Transform.scale(
+                          scale: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Checkbox(
+                              shape: const CircleBorder(),
+                              value:
+                                  _textFormFieldValues[index].isTaskCompleted,
+                              onChanged: (value) => setState(() {
+                                _textFormFieldValues[index].isTaskCompleted =
+                                    value!;
+                              }),
+                            ),
+                          ),
                         ),
                         border: const OutlineInputBorder(),
                         labelText: 'Task',
