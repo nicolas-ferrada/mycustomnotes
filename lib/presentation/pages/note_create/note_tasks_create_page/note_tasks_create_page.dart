@@ -145,10 +145,20 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     final listKey = GlobalKey<AnimatedListState>();
     List<FocusNode> focusNodes =
         List.generate(_textFormFieldValues.length, (index) => FocusNode());
+    FocusNode? currentFocusNode;
+
+    void unfocusCurrentNode() {
+      if (currentFocusNode != null) {
+        currentFocusNode!.unfocus();
+        currentFocusNode = null;
+      }
+    }
+
     return ReorderableListView.builder(
       key: listKey,
       onReorder: (oldIndex, newIndex) {
         setState(() {
+          unfocusCurrentNode();
           if (newIndex > oldIndex) newIndex--;
 
           // Create a new FocusNode for the TextFormField being moved
@@ -170,7 +180,11 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       itemCount: _textFormFieldValues.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-          onTap: () => focusNodes[index].requestFocus(),
+          onTap: () {
+            unfocusCurrentNode();
+            currentFocusNode = focusNodes[index];
+            currentFocusNode!.requestFocus();
+          },
           key: ValueKey(_textFormFieldValues[index]),
           child: AbsorbPointer(
             child: ReorderableDragStartListener(
