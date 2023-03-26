@@ -147,52 +147,68 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
         List.generate(_textFormFieldValues.length, (index) => FocusNode());
     return ReorderableListView.builder(
       key: listKey,
-      onReorder: _reorderList,
+      onReorder: (oldIndex, newIndex) {
+        setState(() {
+          if (newIndex > oldIndex) newIndex--;
+
+          // Create a new FocusNode for the TextFormField being moved
+          final newFocusNode = FocusNode();
+
+          // Delay the unfocus call to ensure the current render operation is complete
+          Future.delayed(Duration.zero, () {
+            // Assign focus to the new FocusNode to unfocus the old TextFormField
+            FocusScope.of(context).requestFocus(newFocusNode);
+
+            // Replace the old FocusNode with the new one
+            focusNodes[oldIndex] = newFocusNode;
+          });
+
+          final item = _textFormFieldValues.removeAt(oldIndex);
+          _textFormFieldValues.insert(newIndex, item);
+        });
+      },
       itemCount: _textFormFieldValues.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () => focusNodes[index].requestFocus(),
           key: ValueKey(_textFormFieldValues[index]),
           child: AbsorbPointer(
-            child: ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              title: StatefulBuilder(
-                builder: (context, setState) {
-                  return TextFormField(
-                    maxLines: null,
-                    initialValue: _textFormFieldValues[index].taskName,
-                    onChanged: (value) => setState(
-                        () => _textFormFieldValues[index].taskName = value),
-                    focusNode: focusNodes[index],
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(28),
-                      prefixIcon: Checkbox(
-                        shape: const CircleBorder(),
-                        value: _textFormFieldValues[index].isTaskCompleted,
-                        onChanged: (value) => setState(() {
-                          _textFormFieldValues[index].isTaskCompleted = value!;
-                        }),
+            child: ReorderableDragStartListener(
+              index: index,
+              key: UniqueKey(),
+              child: ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                title: StatefulBuilder(
+                  builder: (context, setState) {
+                    return TextFormField(
+                      maxLines: null,
+                      initialValue: _textFormFieldValues[index].taskName,
+                      onChanged: (value) => setState(
+                          () => _textFormFieldValues[index].taskName = value),
+                      focusNode: focusNodes[index],
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(28),
+                        prefixIcon: Checkbox(
+                          shape: const CircleBorder(),
+                          value: _textFormFieldValues[index].isTaskCompleted,
+                          onChanged: (value) => setState(() {
+                            _textFormFieldValues[index].isTaskCompleted =
+                                value!;
+                          }),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Task',
                       ),
-                      border: const OutlineInputBorder(),
-                      labelText: 'Task',
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),
         );
       },
     );
-  }
-
-  void _reorderList(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) newIndex--;
-      final item = _textFormFieldValues.removeAt(oldIndex);
-      _textFormFieldValues.insert(newIndex, item);
-    });
   }
 
   Column noteCreatePageFloatingActionButton(BuildContext context) {
