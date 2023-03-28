@@ -186,45 +186,45 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
             currentFocusNode!.requestFocus();
           },
           key: ValueKey(_textFormFieldValues[index]),
-          child: AbsorbPointer(
-            child: ReorderableDragStartListener(
-              index: index,
-              key: UniqueKey(),
-              child: ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                title: StatefulBuilder(
-                  builder: (context, setState) {
-                    return TextFormField(
-                      maxLines: null,
-                      initialValue: _textFormFieldValues[index].taskName,
-                      onChanged: (value) => setState(
-                          () => _textFormFieldValues[index].taskName = value),
-                      focusNode: focusNodes[index],
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(28),
-                        prefixIcon: Transform.scale(
-                          scale: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Checkbox(
-                              shape: const CircleBorder(),
-                              value:
-                                  _textFormFieldValues[index].isTaskCompleted,
-                              onChanged: (value) => setState(() {
-                                _textFormFieldValues[index].isTaskCompleted =
-                                    value!;
-                              }),
-                            ),
-                          ),
-                        ),
-                        border: const OutlineInputBorder(),
-                        labelText: 'Task',
-                      ),
-                    );
-                  },
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            title: Row(
+              children: [
+                Transform.scale(
+                  scale: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Checkbox(
+                      shape: const CircleBorder(),
+                      value: _textFormFieldValues[index].isTaskCompleted,
+                      onChanged: (value) => setState(() {
+                        _textFormFieldValues[index].isTaskCompleted = value!;
+                      }),
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: ReorderableDragStartListener(
+                    index: index,
+                    key: UniqueKey(),
+                    child: StatefulBuilder(builder: (context, setState) {
+                      return TextFormField(
+                        maxLines: null,
+                        initialValue: _textFormFieldValues[index].taskName,
+                        onChanged: (value) => setState(
+                            () => _textFormFieldValues[index].taskName = value),
+                        focusNode: focusNodes[index],
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(28),
+                          border: OutlineInputBorder(),
+                          labelText: 'Task',
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ],
             ),
           ),
         );
