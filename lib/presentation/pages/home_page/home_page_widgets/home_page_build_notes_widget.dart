@@ -114,7 +114,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
                         Icons.text_snippet,
                         color: NoteColorOperations.getColorFromNumber(
                             colorNumber: note.color),
-                        size: 18,
+                        size: 20,
                       ),
                     ),
                   ),
@@ -212,10 +212,10 @@ class HomePageBuildNotesWidget extends StatelessWidget {
                         color: Colors.black54,
                       ),
                       child: Icon(
-                        Icons.check_box,
+                        Icons.view_list,
                         color: NoteColorOperations.getColorFromNumber(
                             colorNumber: note.color),
-                        size: 18,
+                        size: 20,
                       ),
                     ),
                   ),

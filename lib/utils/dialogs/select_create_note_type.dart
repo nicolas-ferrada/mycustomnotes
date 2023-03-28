@@ -61,8 +61,7 @@ class SelectCreateNoteType {
                 ),
                 Flexible(
                   child: Card(
-                    color:
-                        Colors.grey.shade800.withOpacity(0.9),
+                    color: Colors.grey.shade800.withOpacity(0.9),
                     child: InkWell(
                       onTap: () {
                         Navigator.pop(context);
@@ -74,7 +73,7 @@ class SelectCreateNoteType {
                         children: const [
                           SizedBox(height: 8),
                           Icon(
-                            Icons.check_box,
+                            Icons.view_list,
                             size: 46,
                             color: Colors.white,
                           ),
