@@ -316,7 +316,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                                 autofocus: true,
                                 onChanged: (value) {
                                   setState(() {
-                                    taskNameOnCreate = value;
+                                    taskNameOnCreate = value.trim();
                                   });
                                 },
                                 onSubmitted: (_) {
