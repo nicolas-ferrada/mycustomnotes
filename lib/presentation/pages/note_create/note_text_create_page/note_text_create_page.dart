@@ -176,8 +176,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         },
         backgroundColor: Colors.amberAccent,
         label: const Text(
-          'Create\nnote',
-          style: TextStyle(fontSize: 12),
+          'Save',
         ),
         icon: const Icon(Icons.save),
       ),

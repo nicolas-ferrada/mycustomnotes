@@ -239,7 +239,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       children: [
         Visibility(
           visible: _isCreateButtonVisible,
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
             heroTag: null,
             tooltip: 'Create the note',
             onPressed: () async {
@@ -285,13 +285,14 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
               }
             },
             backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-            child: const Icon(Icons.save),
+            icon: const Icon(Icons.save),
+            label: const Text('Save'),
           ),
         ),
         const SizedBox(
           height: 8,
         ),
-        FloatingActionButton(
+        FloatingActionButton.extended(
           heroTag: null,
           tooltip: 'Add a new task',
           onPressed: () async {
@@ -374,7 +375,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
             );
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-          child: const Icon(Icons.add),
+          icon: const Icon(Icons.add),
+          label: const Text('New task'),
         ),
       ],
     );
