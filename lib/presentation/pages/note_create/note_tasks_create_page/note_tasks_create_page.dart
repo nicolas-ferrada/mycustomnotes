@@ -187,25 +187,22 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           },
           key: ValueKey(_textFormFieldValues[index]),
           child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            contentPadding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
             title: Row(
               children: [
                 Transform.scale(
-                  scale: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Checkbox(
-                      shape: const CircleBorder(),
-                      value: _textFormFieldValues[index].isTaskCompleted,
-                      onChanged: (value) => setState(() {
-                        _textFormFieldValues[index].isTaskCompleted = value!;
-                      }),
-                    ),
+                  scale: 1.6,
+                  child: Checkbox(
+                    activeColor: const Color.fromRGBO(250, 216, 90, 0.9),
+                    shape: const CircleBorder(),
+                    value: _textFormFieldValues[index].isTaskCompleted,
+                    onChanged: (value) => setState(() {
+                      _textFormFieldValues[index].isTaskCompleted = value!;
+                    }),
                   ),
                 ),
                 Expanded(
-                  child: ReorderableDragStartListener(
+                  child: ReorderableDelayedDragStartListener(
                     index: index,
                     key: UniqueKey(),
                     child: StatefulBuilder(builder: (context, setState) {
@@ -218,7 +215,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(28),
                           border: OutlineInputBorder(),
-                          labelText: 'Task',
                         ),
                       );
                     }),
