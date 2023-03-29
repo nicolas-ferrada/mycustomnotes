@@ -460,7 +460,19 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
-          Share.share('${widget.noteTasks.title}\n\n${widget.noteTasks.tasks}');
+          String getTasksFormat() {
+            String tasksFormat = '';
+            for (int i = 0; i < widget.noteTasks.tasks.length; i++) {
+              String taskStatus = widget.noteTasks.tasks[i]['isTaskCompleted']
+                  ? 'completed'
+                  : 'not completed';
+              tasksFormat +=
+                  '${i + 1}) ${widget.noteTasks.tasks[i]['taskName']}, $taskStatus\n';
+            }
+            return tasksFormat;
+          }
+
+          Share.share('${widget.noteTasks.title}\n\n${getTasksFormat()}');
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
           NotesDetails.noteDetailsDialog(context, widget.noteTasks);
