@@ -34,7 +34,7 @@ class NoteTasks extends NoteModel {
       tasks: (map['tasks'] as List<dynamic>?)
           ?.map((task) => {
                 'taskName': task['taskName'] ?? '',
-                'isCompleted': task['isCompleted'] ?? false,
+                'isTaskCompleted': task['isTaskCompleted'] ?? false,
               })
           .toList(),
     );
@@ -65,7 +65,7 @@ class NoteTasks extends NoteModel {
       isFavorite: super.isFavorite,
       lastModificationDate: super.lastModificationDate,
       title: super.title,
-      tasks: tasks ?? this.tasks,
+      tasks: this.tasks,
     );
   }
 }
