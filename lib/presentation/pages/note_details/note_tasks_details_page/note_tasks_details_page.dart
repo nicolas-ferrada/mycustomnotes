@@ -16,8 +16,6 @@ import '../../../../utils/internet/check_internet_connection.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../../utils/snackbars/snackbar_message.dart';
 
-import 'dart:developer' as log;
-
 class Tasks {
   bool isTaskCompleted;
   String taskName;

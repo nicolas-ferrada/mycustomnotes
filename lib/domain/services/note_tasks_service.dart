@@ -1,5 +1,3 @@
-import 'dart:developer' as log;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../data/models/Note/note_tasks_model.dart';
