@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/Note/note_text_model.dart';
 import '../formatters/date_formatter.dart';
 
 class NotesDetails {
   // Show note detail
-  static Future<void> noteDetailsDialog(BuildContext context, NoteText noteText) {
+  static Future<void> noteDetailsDialog(BuildContext context, dynamic note) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -24,7 +23,7 @@ class NotesDetails {
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               Text(
-                DateFormatter.showDateFormattedAllFields(noteText.createdDate),
+                DateFormatter.showDateFormattedAllFields(note.createdDate),
                 style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
               const SizedBox(
@@ -36,7 +35,7 @@ class NotesDetails {
               ),
               Text(
                 DateFormatter.showDateFormattedAllFields(
-                    noteText.lastModificationDate),
+                    note.lastModificationDate),
                 style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
             ],
