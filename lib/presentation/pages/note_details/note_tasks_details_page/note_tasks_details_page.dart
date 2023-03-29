@@ -16,6 +16,8 @@ import '../../../../utils/internet/check_internet_connection.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../../utils/snackbars/snackbar_message.dart';
 
+import 'dart:developer' as log;
+
 class Tasks {
   bool isTaskCompleted;
   String taskName;
@@ -58,7 +60,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // List of tasks of textformfields
   late final List<Tasks> _textFormFieldValues;
 
-  late String taskNameOnCreate;
+  String taskNameOnCreate = '';
 
   @override
   void initState() {
@@ -191,6 +193,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
 
           final item = _textFormFieldValues.removeAt(oldIndex);
           _textFormFieldValues.insert(newIndex, item);
+          setState(() {
+            wasATaskEditted = true;
+          });
+          newNote.tasks = getTextFormFieldValues();
         });
       },
       itemCount: _textFormFieldValues.length,
@@ -214,6 +220,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     value: _textFormFieldValues[index].isTaskCompleted,
                     onChanged: (value) => setState(() {
                       _textFormFieldValues[index].isTaskCompleted = value!;
+                      wasATaskEditted = true;
+                      newNote.tasks = getTextFormFieldValues();
                     }),
                   ),
                 ),
@@ -222,6 +230,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     onDismissed: (direction) {
                       setState(() {
                         _textFormFieldValues.removeAt(index);
+                        wasATaskEditted = true;
+                        newNote.tasks = getTextFormFieldValues();
                       });
                     },
                     background: Container(
@@ -236,8 +246,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                         return TextFormField(
                           maxLines: null,
                           initialValue: _textFormFieldValues[index].taskName,
-                          onChanged: (value) => setState(() =>
-                              _textFormFieldValues[index].taskName = value),
+                          onChanged: (value) {
+                            setState(() {
+                              _textFormFieldValues[index].taskName = value;
+                              wasATaskEditted = true;
+                              newNote.tasks = getTextFormFieldValues();
+                            });
+                          },
                           focusNode: focusNodes[index],
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.all(28),
@@ -275,6 +290,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             onPressed: () async {
               // Create note button
               try {
+                wasTheSaveButtonPressed = true;
                 // Check if device it's connected to any network
                 bool isDeviceConnected =
                     await CheckInternetConnection.checkInternetConnection();
@@ -351,7 +367,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                                     addNewTask();
                                     taskNameOnCreate = ''; // restart text value
                                     Navigator.pop(context);
-                                    wasANewTaskAdded = true;
+                                    setState(() {
+                                      wasANewTaskAdded = true;
+                                      newNote.tasks = getTextFormFieldValues();
+                                    });
+
                                     FocusScope.of(context).unfocus();
                                   } else {
                                     Navigator.pop(context);
@@ -377,7 +397,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                                 addNewTask();
                                 taskNameOnCreate = ''; // restart text value
                                 Navigator.pop(context);
-                                wasANewTaskAdded = true;
+                                setState(() {
+                                  wasANewTaskAdded = true;
+                                  newNote.tasks = getTextFormFieldValues();
+                                });
                                 FocusScope.of(context).unfocus();
                               } else {
                                 Navigator.pop(context);
