@@ -202,22 +202,34 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                   ),
                 ),
                 Expanded(
-                  child: ReorderableDelayedDragStartListener(
-                    index: index,
-                    key: UniqueKey(),
-                    child: StatefulBuilder(builder: (context, setState) {
-                      return TextFormField(
-                        maxLines: null,
-                        initialValue: _textFormFieldValues[index].taskName,
-                        onChanged: (value) => setState(
-                            () => _textFormFieldValues[index].taskName = value),
-                        focusNode: focusNodes[index],
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(28),
-                          border: OutlineInputBorder(),
-                        ),
-                      );
-                    }),
+                  child: Dismissible(
+                    onDismissed: (direction) {
+                      setState(() {
+                        _textFormFieldValues.removeAt(index);
+                      });
+                    },
+                    background: Container(
+                      color: Colors.redAccent,
+                      child: const Icon(Icons.delete),
+                    ),
+                    key: ValueKey(_textFormFieldValues[index]),
+                    child: ReorderableDelayedDragStartListener(
+                      index: index,
+                      key: UniqueKey(),
+                      child: StatefulBuilder(builder: (context, setState) {
+                        return TextFormField(
+                          maxLines: null,
+                          initialValue: _textFormFieldValues[index].taskName,
+                          onChanged: (value) => setState(() =>
+                              _textFormFieldValues[index].taskName = value),
+                          focusNode: focusNodes[index],
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.all(28),
+                            border: OutlineInputBorder(),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ],
