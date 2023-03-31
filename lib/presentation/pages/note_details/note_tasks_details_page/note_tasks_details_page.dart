@@ -45,6 +45,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   bool didColorChanged = false;
   bool didFavoriteChanged = false;
 
+  // Only set state once to make the save button show
+  bool didUserModifiedTaskForFirstTime = false;
+
   // Avoids dialog of leaving page confirmation to triggers if the save button was pressed
   bool wasTheSaveButtonPressed = false;
 
@@ -240,24 +243,26 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     child: ReorderableDelayedDragStartListener(
                       index: index,
                       key: UniqueKey(),
-                      child: StatefulBuilder(builder: (context, setState) {
-                        return TextFormField(
-                          maxLines: null,
-                          initialValue: _textFormFieldValues[index].taskName,
-                          onChanged: (value) {
-                            setState(() {
-                              _textFormFieldValues[index].taskName = value;
-                              wasATaskEditted = true;
-                              newNote.tasks = getTextFormFieldValues();
-                            });
-                          },
-                          focusNode: focusNodes[index],
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(28),
-                            border: OutlineInputBorder(),
-                          ),
-                        );
-                      }),
+                      child: StatefulBuilder(
+                        builder: (context, setStatee) {
+                          return TextFormField(
+                            maxLines: null,
+                            initialValue: _textFormFieldValues[index].taskName,
+                            onChanged: (value) {
+                              setStatee(() {
+                                wasATaskEditted = true;
+                                _textFormFieldValues[index].taskName = value;
+                                newNote.tasks = getTextFormFieldValues();
+                              });
+                            },
+                            focusNode: focusNodes[index],
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(28),
+                              border: OutlineInputBorder(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -271,63 +276,54 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
 
   Column noteTasksDetailsPageCreateNoteFloatingActionButton(
       BuildContext context) {
-    bool didUserMadeChanges = (didTitleChanged ||
-        wasANewTaskAdded ||
-        didFavoriteChanged ||
-        didColorChanged ||
-        wasATaskEditted);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Visibility(
-          visible: didUserMadeChanges,
-          child: FloatingActionButton.extended(
-            heroTag: null,
-            tooltip: 'Edit the note',
-            onPressed: () async {
-              // Create note button
-              try {
-                wasTheSaveButtonPressed = true;
-                // Check if device it's connected to any network
-                bool isDeviceConnected =
-                    await CheckInternetConnection.checkInternetConnection();
-                int waitingConnection = 5;
+        FloatingActionButton(
+          heroTag: null,
+          tooltip: 'Edit the note',
+          onPressed: () async {
+            // Create note button
+            try {
+              wasTheSaveButtonPressed = true;
+              // Check if device it's connected to any network
+              bool isDeviceConnected =
+                  await CheckInternetConnection.checkInternetConnection();
+              int waitingConnection = 5;
 
-                // If device is connected, wait 5 seconds, if is not connected, dont wait.
-                if (isDeviceConnected) {
-                  waitingConnection = 5;
-                } else {
-                  waitingConnection = 0;
-                }
+              // If device is connected, wait 5 seconds, if is not connected, dont wait.
+              if (isDeviceConnected) {
+                waitingConnection = 5;
+              } else {
+                waitingConnection = 0;
+              }
 
-                // Create note on firebase, it will wait depending if the device it's connected to a network
-                await NoteTasksService.editNoteTasks(
-                  note: newNote,
-                ).timeout(
-                  Duration(seconds: waitingConnection),
-                  onTimeout: () {
-                    Provider.of<NoteNotifier>(context, listen: false)
-                        .refreshNotes();
-
-                    Navigator.of(context).maybePop();
-                  },
-                );
-                if (context.mounted) {
+              // Create note on firebase, it will wait depending if the device it's connected to a network
+              await NoteTasksService.editNoteTasks(
+                note: newNote,
+              ).timeout(
+                Duration(seconds: waitingConnection),
+                onTimeout: () {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();
 
                   Navigator.of(context).maybePop();
-                }
-              } catch (errorMessage) {
-                ExceptionsAlertDialog.showErrorDialog(
-                    context, errorMessage.toString());
+                },
+              );
+              if (context.mounted) {
+                Provider.of<NoteNotifier>(context, listen: false)
+                    .refreshNotes();
+
+                Navigator.of(context).maybePop();
               }
-            },
-            backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-            icon: const Icon(Icons.save),
-            label: const Text('Save'),
-          ),
+            } catch (errorMessage) {
+              ExceptionsAlertDialog.showErrorDialog(
+                  context, errorMessage.toString());
+            }
+          },
+          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+          child: const Icon(Icons.save),
         ),
         const SizedBox(
           height: 8,
