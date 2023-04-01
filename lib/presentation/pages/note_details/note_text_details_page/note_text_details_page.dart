@@ -15,7 +15,6 @@ import '../../../../utils/internet/check_internet_connection.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../../utils/snackbars/snackbar_message.dart';
 
-
 class NoteTextDetailsPage extends StatefulWidget {
   final NoteText noteText;
   const NoteTextDetailsPage({super.key, required this.noteText});
@@ -59,8 +58,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     } else {
       isFavoriteIconColor = Colors.white;
     }
-    colorIconPalette =
-        NoteColorOperations.getColorFromNumber(colorNumber: widget.noteText.color);
+    colorIconPalette = NoteColorOperations.getColorFromNumber(
+        colorNumber: widget.noteText.color);
   }
 
   @override
@@ -169,10 +168,9 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       // Button will be visible if any field changed
       visible: didUserMadeChanges,
       child: FloatingActionButton.extended(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
         label: const Text(
-          'Save\nchanges',
-          style: TextStyle(fontSize: 12),
+          'Save',
         ),
         icon: const Icon(Icons.save),
         onPressed: () async {
@@ -396,7 +394,6 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         NoteColorOperations.getNumberFromColor(color: colorPickedByUser);
     // If the colors picked by user is not the same as the current notes color, send message
     if (newNote.color != widget.noteText.color) {
-
       // Shows a snackbar with the background color selected by user
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
