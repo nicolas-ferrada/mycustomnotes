@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/models/Note/note_notifier.dart';
 import '../../../../data/models/Note/note_text_model.dart';
@@ -8,6 +9,7 @@ import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_text_service.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/delete_note_confirmation.dart';
+import '../../../../utils/dialogs/insert_menu_options.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
 import '../../../../utils/enums/menu_item_note_detail.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -44,6 +46,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   // New note object which is going to be modified so it can be stored later with the new data
   late NoteText newNote;
 
+  bool isUrlVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -60,6 +64,37 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
     colorIconPalette = NoteColorOperations.getColorFromNumber(
         colorNumber: widget.noteText.color);
+    if (widget.noteText.url != null) {
+      isUrlVisible = true;
+    }
+  }
+
+  Future<void> saveNewUrl({
+    required String urlStr,
+  }) async {
+    try {
+      final Uri url = Uri.parse(urlStr);
+      // if it's valid, then apply it to the newNote object
+      await launchUrl(url).then((_) => newNote.url = url.toString());
+      setState(() {
+        didUrlChanged = true;
+      });
+    } catch (_) {
+      await ExceptionsAlertDialog.showErrorDialog(
+          context, 'Invalid URL, try again');
+    }
+  }
+
+  Future<void> launchingUrl({
+    required String url,
+  }) async {
+    try {
+      final Uri toLaunchUrl = Uri.parse(url);
+      await launchUrl(toLaunchUrl);
+    } catch (e) {
+      await ExceptionsAlertDialog.showErrorDialog(
+          context, 'Could not launch this URL, try adding other one');
+    }
   }
 
   @override
@@ -121,6 +156,24 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
 
         body: Column(
           children: [
+            // Url if exists
+            GestureDetector(
+              onTap: () {
+                final String? url = widget.noteText.url;
+                if (url != null) {
+                  launchingUrl(url: url);
+                }
+              },
+              child: Visibility(
+                visible: isUrlVisible,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Container(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ),
             // Note's body
             Expanded(
               child: Padding(
@@ -227,9 +280,12 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
           // Load an url
-          setState(() {
-            didBodyChanged = true;
-          });
+          final String? url = await showUrlDialogAndGetResult();
+          if (url != null) {
+            saveNewUrl(urlStr: url);
+          }
+
+          // load url to firestore
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
           Share.share('${widget.noteText.title}\n\n${widget.noteText.body}');
@@ -420,5 +476,16 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         );
       });
     }
+  }
+
+  Future<String?> showUrlDialogAndGetResult() async {
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        return InsertMenuOptions(
+          context: context,
+        );
+      },
+    );
   }
 }

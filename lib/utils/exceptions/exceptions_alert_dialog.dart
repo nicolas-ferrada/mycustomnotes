@@ -15,9 +15,14 @@ class ExceptionsAlertDialog {
           title: const Center(
             child: Text('Error'),
           ),
-          content: Text(
-            errorMessage.toString(),
-            style: const TextStyle(color: Colors.white),
+          content: SizedBox(
+            height: 50,
+            child: Center(
+              child: Text(
+                errorMessage.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
           ),
           actions: [
             ElevatedButton(
