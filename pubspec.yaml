@@ -59,7 +59,11 @@ dependencies:
 
   # Used to share notes
   share_plus: ^6.3.1
+
+  # Used to launch urls stored in firestore
   url_launcher: ^6.1.10
+
+  # Used to have an image preview of a url
   any_link_preview: ^3.0.0
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
