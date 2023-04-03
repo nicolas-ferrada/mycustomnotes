@@ -78,7 +78,8 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.maybePop(context, null);
+                      Navigator.maybePop(context, 'deletecurrenturl');
+
                     },
                     child: const Text(
                       'Remove current url',

@@ -302,9 +302,17 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         } else if (value == MenuItemNoteDetail.item3) {
           // Load an url
           final String? url = await showUrlDialogAndGetResult();
-          if (url != null) {
-            saveNewUrl(urlStr: url);
-          }
+          setState(() {
+            if (url != null) {
+              // if user tap on delete current url button, it will return that string
+              if (url == 'deletecurrenturl') {
+                newNote.url = null;
+                didUrlChanged = true;
+              } else {
+                saveNewUrl(urlStr: url);
+              }
+            }
+          });
 
           // load url to firestore
         } else if (value == MenuItemNoteDetail.item4) {
