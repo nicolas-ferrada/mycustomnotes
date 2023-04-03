@@ -60,6 +60,7 @@ dependencies:
   # Used to share notes
   share_plus: ^6.3.1
   url_launcher: ^6.1.10
+  any_link_preview: ^3.0.0
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:

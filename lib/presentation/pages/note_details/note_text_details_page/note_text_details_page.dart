@@ -1,3 +1,4 @@
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -75,7 +76,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     try {
       final Uri url = Uri.parse(urlStr);
       // if it's valid, then apply it to the newNote object
-      await launchUrl(url).then((_) => newNote.url = url.toString());
+      await canLaunchUrl(url).then((_) => newNote.url = url.toString());
       setState(() {
         didUrlChanged = true;
       });
@@ -90,7 +91,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   }) async {
     try {
       final Uri toLaunchUrl = Uri.parse(url);
-      await launchUrl(toLaunchUrl);
+      await launchUrl(toLaunchUrl, mode: LaunchMode.externalApplication);
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
           context, 'Could not launch this URL, try adding other one');
@@ -168,8 +169,28 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 visible: isUrlVisible,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Container(
-                    color: Colors.red,
+                  child: AnyLinkPreview(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    link: widget.noteText.url ?? '',
+                    borderRadius: 0,
+                    displayDirection: UIDirection.uiDirectionVertical,
+                    backgroundColor: Colors.white70,
+                    errorTitle: "Error: can't load the title..",
+                    errorBody: "Error: can't load the content..",
+                    errorWidget: Container(
+                      color: Colors.red.shade900,
+                      child: const Center(
+                        child: Text("Error: can't load any image.."),
+                      ),
+                    ),
                   ),
                 ),
               ),
