@@ -78,8 +78,8 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                       if (urlController.text.isEmpty) {
                         // User did not type anything and accepted
                         SnackBar snackbar = SnackBarMessage.snackBarMessage(
-                          message: 'You have to enter a valid url!',
-                          backgroundColor: Colors.red,
+                          message: 'You have to enter a valid url',
+                          backgroundColor: Colors.red.shade500,
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       } else {
