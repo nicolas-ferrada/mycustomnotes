@@ -29,6 +29,7 @@ class SelectCreateNoteType {
               children: [
                 Flexible(
                   child: Card(
+                    elevation: 10,
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: InkWell(
                       onTap: () {
@@ -61,6 +62,7 @@ class SelectCreateNoteType {
                 ),
                 Flexible(
                   child: Card(
+                    elevation: 10,
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: InkWell(
                       onTap: () {
@@ -101,6 +103,7 @@ class SelectCreateNoteType {
                   // Close button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                        elevation: 10,
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.grey.shade800.withOpacity(0.9)),
                     onPressed: () {

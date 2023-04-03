@@ -24,22 +24,41 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
       builder: (context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text(
-              'Insert an URL',
+          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          title: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              color: Colors.grey.shade800.withOpacity(0.9),
+              child: const Text(
+                'Insert a URL',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: TextFormField(
-                  controller: urlController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter a url',
-                    prefixIcon: Icon(Icons.link),
-                    border: OutlineInputBorder(),
+                child: Container(
+                  color: Colors.grey.shade800.withOpacity(0.7),
+                  child: TextFormField(
+                    controller: urlController,
+                    decoration: const InputDecoration(
+                      hintStyle: TextStyle(color: Colors.white),
+                      fillColor: Colors.red,
+                      hintText: 'Enter your url',
+                      prefixIcon: Icon(
+                        Icons.link,
+                        color: Colors.white,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -51,8 +70,9 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
                     ),
                     onPressed: () {
                       if (urlController.text.isEmpty) {
@@ -69,35 +89,42 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                     },
                     child: const Text(
                       'Use this url',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 8,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
                     ),
                     onPressed: () {
                       Navigator.maybePop(context, 'deletecurrenturl');
-
                     },
                     child: const Text(
                       'Remove current url',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 8,
                   ),
                   // Cancel button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
                     ),
                     onPressed: () {
                       Navigator.maybePop(context, null);
                     },
                     child: const Text(
                       'Cancel',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                   const SizedBox(
