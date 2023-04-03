@@ -76,10 +76,14 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     try {
       final Uri url = Uri.parse(urlStr);
       // if it's valid, then apply it to the newNote object
-      await canLaunchUrl(url).then((_) => newNote.url = url.toString());
-      setState(() {
-        didUrlChanged = true;
-      });
+      if (await canLaunchUrl(url)) {
+        setState(() {
+          didUrlChanged = true;
+          newNote.url = urlStr;
+        });
+      } else {
+        throw Exception();
+      }
     } catch (_) {
       await ExceptionsAlertDialog.showErrorDialog(
           context, 'Invalid URL, try again');
@@ -91,7 +95,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   }) async {
     try {
       final Uri toLaunchUrl = Uri.parse(url);
-      await launchUrl(toLaunchUrl, mode: LaunchMode.externalApplication);
+      await launchUrl(toLaunchUrl, mode: LaunchMode.inAppWebView);
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
           context, 'Could not launch this URL, try adding other one');
