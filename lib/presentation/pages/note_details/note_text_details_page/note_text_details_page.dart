@@ -95,7 +95,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   }) async {
     try {
       final Uri toLaunchUrl = Uri.parse(url);
-      await launchUrl(toLaunchUrl, mode: LaunchMode.inAppWebView);
+      await launchUrl(toLaunchUrl);
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
           context, 'Could not launch this URL, try adding other one');
@@ -183,6 +183,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                             const Offset(0, 3), // changes position of shadow
                       ),
                     ],
+                    urlLaunchMode: LaunchMode.externalApplication,
                     link: widget.noteText.url ?? '',
                     borderRadius: 0,
                     displayDirection: UIDirection.uiDirectionVertical,
