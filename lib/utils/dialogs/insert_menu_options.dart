@@ -56,7 +56,7 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                         color: Colors.white,
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
                   ),
