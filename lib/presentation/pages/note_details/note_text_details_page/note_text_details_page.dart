@@ -70,7 +70,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 
-  Future<void> saveNewUrl({
+  Future<void> validateUrl({
     required String urlStr,
   }) async {
     try {
@@ -183,6 +183,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                             const Offset(0, 3), // changes position of shadow
                       ),
                     ],
+                    
                     urlLaunchMode: LaunchMode.externalApplication,
                     link: widget.noteText.url ?? '',
                     borderRadius: 0,
@@ -314,7 +315,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 newNote.url = null;
                 didUrlChanged = true;
               } else {
-                saveNewUrl(urlStr: url);
+                validateUrl(urlStr: url);
               }
             }
           });
@@ -512,7 +513,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 
-  Future<String?> showUrlDialogAndGetResult() async {
+  Future<String> showUrlDialogAndGetResult() async {
     return await showDialog(
       context: context,
       builder: (context) {
