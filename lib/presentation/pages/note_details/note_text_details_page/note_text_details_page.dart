@@ -321,11 +321,16 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           if (url != null) {
             // if user tap on delete current url button, it will return that string
             if (url == 'deletecurrenturl') {
-              newNote.url = null;
-              didUrlChanged = true;
+              setState(() {
+                newNote.url = null;
+                didUrlChanged = true;
+                previewKey = UniqueKey();
+                isUrlVisible = false;
+              });
             } else {
               validateUrl(urlStr: url).then((finalUrl) {
                 setState(() {
+                  isUrlVisible = true;
                   newNote.url = finalUrl;
                   previewKey = UniqueKey();
                 });
