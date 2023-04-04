@@ -49,9 +49,13 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
 
   bool isUrlVisible = false;
 
+  // Force the preview URL image to update
+  late Key previewKey;
+
   @override
   void initState() {
     super.initState();
+    previewKey = UniqueKey();
     updateNote();
   }
 
@@ -70,7 +74,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 
-  Future<void> validateUrl({
+  Future<String> validateUrl({
     required String urlStr,
   }) async {
     try {
@@ -79,8 +83,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       if (await canLaunchUrl(url)) {
         setState(() {
           didUrlChanged = true;
-          newNote.url = urlStr;
         });
+        return urlStr;
       } else {
         throw Exception();
       }
@@ -88,6 +92,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       await ExceptionsAlertDialog.showErrorDialog(
           context, 'Invalid URL, try again');
     }
+    return urlStr;
   }
 
   Future<void> launchingUrl({
@@ -162,40 +167,37 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         body: Column(
           children: [
             // Url if exists
-            GestureDetector(
-              onTap: () {
-                final String? url = widget.noteText.url;
-                if (url != null) {
-                  launchingUrl(url: url);
-                }
-              },
-              child: Visibility(
-                visible: isUrlVisible,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: AnyLinkPreview(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                    
-                    urlLaunchMode: LaunchMode.externalApplication,
-                    link: widget.noteText.url ?? '',
-                    borderRadius: 0,
-                    displayDirection: UIDirection.uiDirectionVertical,
-                    backgroundColor: Colors.white70,
-                    errorTitle: "Error: can't load the title..",
-                    errorBody: "Error: can't load the content..",
-                    errorWidget: Container(
-                      color: Colors.red.shade900,
-                      child: const Center(
-                        child: Text("Error: can't load any image.."),
-                      ),
+            Visibility(
+              visible: isUrlVisible,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: AnyLinkPreview(
+                  onTap: () {
+                    String? url = newNote.url;
+                    if (url != null) {
+                      launchingUrl(url: url);
+                    }
+                  },
+                  key: previewKey,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                  urlLaunchMode: LaunchMode.externalApplication,
+                  link: newNote.url ?? '',
+                  borderRadius: 0,
+                  displayDirection: UIDirection.uiDirectionVertical,
+                  backgroundColor: Colors.white70,
+                  errorTitle: "Error: can't load the title..",
+                  errorBody: "Error: can't load the content..",
+                  errorWidget: Container(
+                    color: Colors.red.shade900,
+                    child: const Center(
+                      child: Text("Error: can't load any image.."),
                     ),
                   ),
                 ),
@@ -307,18 +309,29 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item3) {
           // Load an url
-          final String? url = await showUrlDialogAndGetResult();
-          setState(() {
-            if (url != null) {
-              // if user tap on delete current url button, it will return that string
-              if (url == 'deletecurrenturl') {
-                newNote.url = null;
-                didUrlChanged = true;
-              } else {
-                validateUrl(urlStr: url);
-              }
+          final String? url = await showDialog<String?>(
+            context: context,
+            builder: (context) {
+              return InsertMenuOptions(
+                context: context,
+              );
+            },
+          );
+
+          if (url != null) {
+            // if user tap on delete current url button, it will return that string
+            if (url == 'deletecurrenturl') {
+              newNote.url = null;
+              didUrlChanged = true;
+            } else {
+              validateUrl(urlStr: url).then((finalUrl) {
+                setState(() {
+                  newNote.url = finalUrl;
+                  previewKey = UniqueKey();
+                });
+              });
             }
-          });
+          }
 
           // load url to firestore
         } else if (value == MenuItemNoteDetail.item4) {
@@ -513,7 +526,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 
-  Future<String> showUrlDialogAndGetResult() async {
+  Future<String?> showUrlDialogAndGetResult() async {
     return await showDialog(
       context: context,
       builder: (context) {
