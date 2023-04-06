@@ -29,21 +29,26 @@ class NavigationDrawerHomePage extends StatelessWidget {
 
   Widget buildMenuItems(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(12),
       child: Wrap(
-        runSpacing: 12,
+        runSpacing: 20,
         children: [
           // Title
           const ListTile(
             title: Text(
               'Settings menu',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
           ), // Change language
+          const Divider(thickness: 1),
           changeLanguage(),
+          const Divider(thickness: 1),
           dateAndHourStyle(),
+          const Divider(thickness: 1),
           notesStyleVisualization(),
+          const Divider(thickness: 1),
           logout(context: context),
+          const Divider(thickness: 1),
         ],
       ),
     );
@@ -51,7 +56,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
 
   Widget changeLanguage() {
     return const ListTile(
-      leading: Icon(Icons.language),
+      leading: Icon(Icons.language, size: 28),
       title: Text(
         'Language',
         style: TextStyle(fontSize: 16),
@@ -61,7 +66,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
 
   Widget dateAndHourStyle() {
     return const ListTile(
-      leading: Icon(Icons.date_range),
+      leading: Icon(Icons.date_range, size: 28),
       title: Text(
         'Date and time format',
         style: TextStyle(fontSize: 16),
@@ -71,7 +76,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
 
   Widget notesStyleVisualization() {
     return const ListTile(
-      leading: Icon(Icons.grid_view),
+      leading: Icon(Icons.grid_view, size: 28),
       title: Text(
         'Notes view',
         style: TextStyle(fontSize: 16),
@@ -88,7 +93,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
         scaleX: -1,
         child: const Icon(
           Icons.logout,
-          size: 26,
+          size: 28,
         ),
       ),
       title: const Text(
