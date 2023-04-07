@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/user_configuration_service.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../home_page/home_page.dart';
 
@@ -40,8 +41,11 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
               currentUser = AuthUserService
                   .getCurrentUserFirebase(); // Get a new instace after reload.
             } else {
+              // User is verified for the first time, so create it's configuration
+              await UserConfigurationService.createUserConfigurations(
+                  userId: currentUser.uid);
               timer?.cancel();
-              setState(() {}); // Re-build UI
+              setState(() {});
             }
           },
         );
