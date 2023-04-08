@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../utils/extensions/formatted_message.dart';
@@ -67,6 +68,8 @@ class AuthUserService {
   static Future<void> logOutUserFirebase() async {
     try {
       await FirebaseAuth.instance.signOut();
+      await FirebaseFirestore.instance.terminate();
+      await FirebaseFirestore.instance.clearPersistence();
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
           .getMessage;
