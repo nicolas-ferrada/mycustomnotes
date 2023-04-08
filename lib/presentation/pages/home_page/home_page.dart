@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       // Sidebar menu to log out and user's configurations
       drawer: const NavigationDrawerHomePage(),
       // Stream to read the notes and a builder notes widget
-      body: const ReadNotesStreamConsumer(),
+      body: ReadNotesStreamConsumer(),
       // Button to create a new note
       floatingActionButton: newNoteButton(context: context),
     );

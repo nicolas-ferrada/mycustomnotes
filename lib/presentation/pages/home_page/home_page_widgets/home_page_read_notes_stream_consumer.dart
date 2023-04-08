@@ -10,23 +10,9 @@ import '../../../../data/models/Note/note_notifier.dart';
 import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_text_service.dart';
 
-class ReadNotesStreamConsumer extends StatefulWidget {
-  const ReadNotesStreamConsumer({super.key});
-
-  @override
-  State<ReadNotesStreamConsumer> createState() =>
-      _ReadNotesStreamConsumerState();
-}
-
-class _ReadNotesStreamConsumerState extends State<ReadNotesStreamConsumer> {
-  late final User currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-    currentUser = AuthUserService.getCurrentUserFirebase();
-  }
-
+class ReadNotesStreamConsumer extends StatelessWidget {
+  ReadNotesStreamConsumer({super.key});
+  final User currentUser = AuthUserService.getCurrentUserFirebase();
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
