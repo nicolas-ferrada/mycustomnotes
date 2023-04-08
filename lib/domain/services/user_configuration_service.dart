@@ -47,13 +47,7 @@ class UserConfigurationService {
     required String userId,
   }) async {
     try {
-      // References to the firestore colletion.
-      final userConfigurationCollection =
-          FirebaseFirestore.instance.collection('userConfiguration');
-
-      // Generate the document id
-      final documentReference = userConfigurationCollection.doc();
-
+      // Default first time configuration
       final userConfiguration = UserConfiguration(
         userId: userId,
         language: 'EN',
@@ -61,10 +55,22 @@ class UserConfigurationService {
         notesView: 2,
       );
 
-      final mapUserConfiguration = userConfiguration.toMap();
+      // References to the firestore colletion.
+      final CollectionReference userConfigurationCollection =
+          FirebaseFirestore.instance.collection('userConfiguration');
+
+      // Generate the document reference
+      final DocumentSnapshot documentReference =
+          await userConfigurationCollection.doc(userId).get();
+
+      if (!documentReference.exists) {
+        final mapUserConfiguration = userConfiguration.toMap();
+        await userConfigurationCollection
+            .doc(userId)
+            .set(mapUserConfiguration, SetOptions(merge: true));
+      }
 
       // Store the note object in firestore
-      await documentReference.set(mapUserConfiguration);
     } catch (e) {
       throw Exception("Error creating user initial configuration").getMessage;
     }
