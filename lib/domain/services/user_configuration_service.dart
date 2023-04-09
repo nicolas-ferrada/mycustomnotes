@@ -1,78 +1,55 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
-import '../../utils/internet/check_internet_connection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserConfigurationService {
-  // Get user language
-  static Future<UserConfiguration> getUserConfigurations({
-    required String userId,
-  }) async {
-    try {
-      final db = FirebaseFirestore.instance;
-
-      late final UserConfiguration userConfiguration;
-
-      bool isDeviceConnected =
-          await CheckInternetConnection.checkInternetConnection();
-
-      QuerySnapshot<Map<String, dynamic>> documents;
-
-      if (isDeviceConnected) {
-        documents = await db
-            .collection('userConfiguration')
-            .where('userId', isEqualTo: userId)
-            .get(const GetOptions(source: Source.serverAndCache));
-      } else {
-        documents = await db
-            .collection('userConfiguration')
-            .where('userId', isEqualTo: userId)
-            .get(const GetOptions(source: Source.cache));
-      }
-
-      if (documents.docs.isEmpty) {
-        throw Exception('No user configuration found');
-      } else {
-        userConfiguration =
-            UserConfiguration.fromMap(documents.docs.first.data());
-      }
-
-      return userConfiguration;
-    } catch (e) {
-      throw Exception('Error reading user language $e');
-    }
-  }
-
+  // Get user app configuration
   static Future<void> createUserConfigurations({
     required String userId,
   }) async {
     try {
-      // Default first time configuration
-      final userConfiguration = UserConfiguration(
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+
+      final UserConfiguration userConfiguration = UserConfiguration(
         userId: userId,
         language: 'EN',
         dateTimeFormat: 'DD/MM/YYYY',
         notesView: 2,
       );
 
-      // References to the firestore colletion.
-      final CollectionReference userConfigurationCollection =
-          FirebaseFirestore.instance.collection('userConfiguration');
+      final userConfigurationJson = json.encode(userConfiguration.toMap());
 
-      // Generate the document reference
-      final DocumentSnapshot documentReference =
-          await userConfigurationCollection.doc(userId).get();
+      await preferences.setString(userId, userConfigurationJson);
+    } catch (e) {
+      throw Exception('Error reading user language $e').getMessage;
+    }
+  }
 
-      if (!documentReference.exists) {
-        final mapUserConfiguration = userConfiguration.toMap();
-        await userConfigurationCollection
-            .doc(userId)
-            .set(mapUserConfiguration, SetOptions(merge: true));
+  static Future<UserConfiguration> getUserConfigurations({
+    required String userId,
+  }) async {
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+
+      late final UserConfiguration userConfiguration;
+
+      final String? userConfigurationJson = preferences.getString(userId);
+
+      if (userConfigurationJson == null) {
+        // if the config does not exists, create one
+        await createUserConfigurations(userId: userId);
+      } else {
+        userConfiguration =
+            UserConfiguration.fromMap(json.decode(userConfigurationJson));
       }
 
-      // Store the note object in firestore
+      return userConfiguration;
     } catch (e) {
-      throw Exception("Error creating user initial configuration").getMessage;
+      throw Exception('Error reading user language $e').getMessage;
     }
   }
 }

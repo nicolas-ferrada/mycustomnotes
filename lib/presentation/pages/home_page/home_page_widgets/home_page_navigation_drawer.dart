@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
-  const NavigationDrawerHomePage({super.key});
+  final UserConfiguration userConfiguration;
+
+  const NavigationDrawerHomePage({
+    super.key,
+    required this.userConfiguration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +46,11 @@ class NavigationDrawerHomePage extends StatelessWidget {
             ),
           ), // Change language
           const Divider(thickness: 1),
-          changeLanguage(),
+          changeLanguage(context: context),
           const Divider(thickness: 1),
-          dateAndHourStyle(),
+          dateAndHourStyle(context: context),
           const Divider(thickness: 1),
-          notesStyleVisualization(),
+          notesStyleVisualization(context: context),
           const Divider(thickness: 1),
           logout(context: context),
           const Divider(thickness: 1),
@@ -54,37 +59,48 @@ class NavigationDrawerHomePage extends StatelessWidget {
     );
   }
 
-  Widget changeLanguage() {
-    return const ListTile(
-      leading: Icon(Icons.language, size: 28),
-      title: Text(
+  Widget changeLanguage({
+    required BuildContext context,
+  }) {
+    return ListTile(
+      leading: const Icon(Icons.language, size: 28),
+      onTap: () {},
+      title: const Text(
         'Language',
         style: TextStyle(fontSize: 16),
       ),
     );
   }
 
-  Widget dateAndHourStyle() {
-    return const ListTile(
-      leading: Icon(Icons.date_range, size: 28),
-      title: Text(
+  Widget dateAndHourStyle({
+    required BuildContext context,
+  }) {
+    return ListTile(
+      onTap: () {},
+      leading: const Icon(Icons.date_range, size: 28),
+      title: const Text(
         'Date and time format',
         style: TextStyle(fontSize: 16),
       ),
     );
   }
 
-  Widget notesStyleVisualization() {
-    return const ListTile(
-      leading: Icon(Icons.grid_view, size: 28),
-      title: Text(
+  Widget notesStyleVisualization({
+    required BuildContext context,
+  }) {
+    return ListTile(
+      onTap: () {},
+      leading: const Icon(Icons.grid_view, size: 28),
+      title: const Text(
         'Notes view',
         style: TextStyle(fontSize: 16),
       ),
     );
   }
 
-  Widget logout({required BuildContext context}) {
+  Widget logout({
+    required BuildContext context,
+  }) {
     return ListTile(
       onTap: () {
         ConfirmationDialog.logOutDialog(context);

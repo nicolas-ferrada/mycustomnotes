@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../domain/services/note_tasks_service.dart';
@@ -7,12 +7,11 @@ import 'home_page_build_notes_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_text_service.dart';
 
 class ReadNotesStreamConsumer extends StatelessWidget {
-  ReadNotesStreamConsumer({super.key});
-  final User currentUser = AuthUserService.getCurrentUserFirebase();
+  final User currentUser;
+  const ReadNotesStreamConsumer({super.key, required this.currentUser});
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
