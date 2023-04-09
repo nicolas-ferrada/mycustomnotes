@@ -36,7 +36,7 @@ class ReadNotesStreamConsumer extends StatelessWidget {
                   return Center(
                     // If notes are empty, show 'no notes message', if theres notes, build them
                     child: textNotes.isEmpty && tasksNotes.isEmpty
-                        ? const Text("You don't have any note created")
+                        ? const Text("You don't have any note created.")
                         : HomePageBuildNotesWidget(
                             notesTextList: textNotes,
                             notesTasksList: tasksNotes,
