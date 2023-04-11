@@ -5,7 +5,7 @@ import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserConfigurationService {
-  // Get user app configuration
+  // Only used for the first time, on account creation/email verification.
   static Future<void> createUserConfigurations({
     required String userId,
   }) async {
@@ -24,7 +24,7 @@ class UserConfigurationService {
 
       await preferences.setString(userId, userConfigurationJson);
     } catch (e) {
-      throw Exception('Error reading user language $e').getMessage;
+      throw Exception('Error creating the user configuration $e').getMessage;
     }
   }
 
@@ -34,6 +34,8 @@ class UserConfigurationService {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
+
+      await preferences.reload();
 
       late final UserConfiguration userConfiguration;
 
@@ -49,7 +51,40 @@ class UserConfigurationService {
 
       return userConfiguration;
     } catch (e) {
-      throw Exception('Error reading user language $e').getMessage;
+      throw Exception('Error reading the user configuration $e').getMessage;
+    }
+  }
+
+  static Future<void> editUserConfigurations({
+    required String userId,
+    String? language,
+    String? dateTimeFormat,
+    required int notesView,
+  }) async {
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+
+      await preferences.reload();
+
+      // Get the current configuration to fill the not given fields of the new configuration.
+      final UserConfiguration currentConfiguration =
+          await UserConfigurationService.getUserConfigurations(userId: userId);
+
+      // The new edited version of the configurations, if one field was not given, the rest is
+      // equal to the previous versions.
+      final UserConfiguration newConfiguration = UserConfiguration(
+        userId: userId,
+        language: language ?? currentConfiguration.language,
+        dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
+        notesView: notesView
+      );
+
+      final userConfigurationJson = json.encode(newConfiguration.toMap());
+
+      await preferences.setString(userId, userConfigurationJson);
+    } catch (e) {
+      throw Exception('Error editing the user configurations $e').getMessage;
     }
   }
 }

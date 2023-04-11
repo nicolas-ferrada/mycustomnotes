@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../domain/services/note_tasks_service.dart';
 import '../../../../data/models/Note/note_text_model.dart';
@@ -11,7 +12,12 @@ import '../../../../domain/services/note_text_service.dart';
 
 class ReadNotesStreamConsumer extends StatelessWidget {
   final User currentUser;
-  const ReadNotesStreamConsumer({super.key, required this.currentUser});
+  final UserConfiguration userConfiguration;
+  const ReadNotesStreamConsumer({
+    super.key,
+    required this.currentUser,
+    required this.userConfiguration,
+  });
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
@@ -39,6 +45,7 @@ class ReadNotesStreamConsumer extends StatelessWidget {
                         : HomePageBuildNotesWidget(
                             notesTextList: textNotes,
                             notesTasksList: tasksNotes,
+                            userConfiguration: userConfiguration,
                           ), // Show all notes of the user in screen
                   );
                 } else {

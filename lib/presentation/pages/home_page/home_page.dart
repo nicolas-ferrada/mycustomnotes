@@ -18,11 +18,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final User currentUser = AuthUserService.getCurrentUserFirebase();
+  late UserConfiguration userConfiguration;
 
   @override
   void initState() {
     super.initState();
     getUserConfiguration();
+  }
+
+  void updateUserConfiguration() async {
+    userConfiguration = await getUserConfiguration();
+    setState(() {});
   }
 
   Future<UserConfiguration> getUserConfiguration() async {
@@ -32,26 +38,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // AppBar shows the app name and the search bar. Also handles the drawer icon.
-      appBar: appBarHomePage(context: context),
-      // Sidebar menu to log out and user's configurations
-      drawer: FutureBuilder<UserConfiguration>(
-        future: getUserConfiguration(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return NavigationDrawerHomePage(userConfiguration: snapshot.data!);
-          } else if (snapshot.hasError) {
-            return const Text('Error loading user configuration...');
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      // Stream to read the notes and a builder notes widget
-      body: ReadNotesStreamConsumer(currentUser: currentUser),
-      // Button to create a new note
-      floatingActionButton: newNoteButton(context: context),
+    return FutureBuilder<UserConfiguration>(
+      future: getUserConfiguration(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          userConfiguration = snapshot.data!;
+          return Scaffold(
+            // AppBar shows the app name and the search bar. Also handles the drawer icon.
+            appBar: appBarHomePage(context: context),
+            // Sidebar menu to log out and user's configurations
+            drawer: NavigationDrawerHomePage(
+              currentUser: currentUser,
+              userConfiguration: userConfiguration,
+              updateUserConfiguration: updateUserConfiguration,
+            ),
+            // Stream to read the notes and a builder notes widget
+            body: ReadNotesStreamConsumer(
+                currentUser: currentUser, userConfiguration: userConfiguration),
+            // Button to create a new note
+            floatingActionButton: newNoteButton(context: context),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Error: please, restart the app...'),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

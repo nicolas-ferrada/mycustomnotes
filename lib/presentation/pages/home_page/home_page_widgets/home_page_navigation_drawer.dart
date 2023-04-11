@@ -1,13 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import 'package:mycustomnotes/domain/services/user_configuration_service.dart';
+import 'package:mycustomnotes/utils/dialogs/user_configuration_notes_view.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
+  final User currentUser;
   final UserConfiguration userConfiguration;
+  final Function updateUserConfiguration;
 
   const NavigationDrawerHomePage({
     super.key,
+    required this.currentUser,
     required this.userConfiguration,
+    required this.updateUserConfiguration,
   });
 
   @override
@@ -89,7 +96,19 @@ class NavigationDrawerHomePage extends StatelessWidget {
     required BuildContext context,
   }) {
     return ListTile(
-      onTap: () {},
+      onTap: () async {
+        int? userNoteView = await UserConfigurationNotesView.changeNotesView(
+            context: context,
+            userConfigurationNotesView: userConfiguration.notesView);
+        if (userNoteView != null) {
+          UserConfigurationService.editUserConfigurations(
+                  userId: currentUser.uid, notesView: userNoteView)
+              .then((_) async {
+            updateUserConfiguration();
+            Navigator.maybePop(context);
+          });
+        }
+      },
       leading: const Icon(Icons.grid_view, size: 28),
       title: const Text(
         'Notes view',
