@@ -12,7 +12,8 @@ import 'presentation/routes/routes.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true);
   runApp(const MyApp());
 }
 
@@ -26,7 +27,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'My Custom Notes',
-        theme: ThemeData.dark(),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.dark(
+            background: Colors.grey.shade900,
+            primary: Colors.white60,
+          ),
+        ),
         initialRoute: null,
         onGenerateRoute: AppRoutes.generateRoute,
         home: StreamBuilder<User?>(
