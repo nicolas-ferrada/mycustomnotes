@@ -33,7 +33,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
     }
     // Third option: big notes
     else if (userConfiguration.notesView == 3) {
-      return [1, 1.0];
+      return [1, 1.1];
     } else {
       return [1, 2.5];
     }

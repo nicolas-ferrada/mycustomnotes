@@ -14,15 +14,11 @@ class NoteTextView3Large extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(width: 0.5),
-        borderRadius: BorderRadius.circular(10),
-      ),
+      elevation: 2,
       // Color of the note
       color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -49,24 +45,25 @@ class NoteTextView3Large extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: note.isFavorite
                         ? Stack(
-                            children: const [
+                            children: [
                               Icon(
-                                Icons.star,
-                                color: Color.fromARGB(255, 255, 255, 0),
-                                size: 26,
+                                Icons.circle,
+                                color: NoteColorOperations.getColorFromNumber(
+                                    colorNumber: note.color),
+                                size: 46,
                               ),
                               Icon(
-                                Icons.star_border,
-                                color: Colors.black,
-                                size: 26,
+                                Icons.star_rounded,
+                                color: Colors.amberAccent.shade100,
+                                size: 46,
                               ),
                             ],
                           )
                         : const Opacity(
                             opacity: 0,
                             child: Icon(
-                              Icons.star,
-                              size: 26,
+                              Icons.circle,
+                              size: 46,
                             ),
                           ),
                   ),
@@ -81,10 +78,10 @@ class NoteTextView3Large extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 36,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 22),
             // Text body
             Text(
               note.body,
@@ -92,7 +89,7 @@ class NoteTextView3Large extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.black,
-                fontSize: 12,
+                fontSize: 24,
               ),
             ),
           ],

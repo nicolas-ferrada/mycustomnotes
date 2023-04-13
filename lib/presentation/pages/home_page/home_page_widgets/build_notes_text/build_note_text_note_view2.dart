@@ -14,10 +14,11 @@ class NoteTextView2Split extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
       // Color of the note
       color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
       child: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -32,25 +33,10 @@ class NoteTextView2Split extends StatelessWidget {
                       // Date of last modification
                       DateFormatter.showDateFormatted(
                           note.lastModificationDate),
-                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black54,
-                      ),
-                      child: Icon(
-                        Icons.text_snippet,
-                        color: NoteColorOperations.getColorFromNumber(
-                            colorNumber: note.color),
-                        size: 20,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -60,24 +46,19 @@ class NoteTextView2Split extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: note.isFavorite
                         ? Stack(
-                            children: const [
+                            children: [
                               Icon(
-                                Icons.star,
-                                color: Color.fromARGB(255, 255, 255, 0),
-                                size: 26,
-                              ),
-                              Icon(
-                                Icons.star_border,
-                                color: Colors.black,
-                                size: 26,
+                                Icons.star_rounded,
+                                color: Colors.amberAccent.shade400,
+                                size: 28,
                               ),
                             ],
                           )
                         : const Opacity(
                             opacity: 0,
                             child: Icon(
-                              Icons.star,
-                              size: 26,
+                              Icons.circle,
+                              size: 28,
                             ),
                           ),
                   ),
@@ -95,14 +76,14 @@ class NoteTextView2Split extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             // Text body
             Text(
               note.body,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.black,
+              style: TextStyle(
+                color: Colors.grey.shade900,
                 fontSize: 12,
               ),
             ),

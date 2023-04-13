@@ -73,7 +73,7 @@ class NoteTextView1Small extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.star_rounded,
-                                  color: Colors.amberAccent.shade100,
+                                  color: Colors.amberAccent.shade200,
                                   size: 28,
                                 ),
                               ],
@@ -90,7 +90,7 @@ class NoteTextView1Small extends StatelessWidget {
                         DateFormatter.showDateFormatted(
                             note.lastModificationDate),
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 14,
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w600),
                       ),
@@ -98,7 +98,7 @@ class NoteTextView1Small extends StatelessWidget {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+                      padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
                       child: Container(
                         decoration: BoxDecoration(
                           color: NoteColorOperations.getColorFromNumber(
