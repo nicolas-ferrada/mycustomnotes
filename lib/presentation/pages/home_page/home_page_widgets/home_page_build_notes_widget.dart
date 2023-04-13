@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view1.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view1.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view2.dart';
+import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view1_small.dart';
+import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view2_split.dart';
+import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view3_large.dart';
+import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view1_small.dart';
+import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view2_split.dart';
 
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../routes/routes.dart';
-import 'build_notes_text/build_note_text_note_view3.dart';
+import 'build_notes_text/build_note_text_note_view3_large.dart';
 
 class HomePageBuildNotesWidget extends StatelessWidget {
   final List<NoteText> notesTextList;
@@ -102,9 +104,11 @@ class HomePageBuildNotesWidget extends StatelessWidget {
     }
     // Note tasks
     else if (note is NoteTasks && notesViewConfiguration == 1) {
-      return NoteTasksView1(note: note);
+      return NoteTasksView1Small(note: note);
     } else if (note is NoteTasks && notesViewConfiguration == 2) {
+      return NoteTasksView2Split(note: note);
     } else if (note is NoteTasks && notesViewConfiguration == 3) {
+      return NoteTasksView3Large(note: note);
     } else {
       throw Exception(
           'Something went wrong, that type of Note or Note view does not exists');
