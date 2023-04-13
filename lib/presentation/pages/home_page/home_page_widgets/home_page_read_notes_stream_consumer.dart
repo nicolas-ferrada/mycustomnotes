@@ -38,16 +38,14 @@ class ReadNotesStreamConsumer extends StatelessWidget {
                     snapshotNoteTasks.hasData) {
                   final List<NoteText> textNotes = snapshotNoteText.data!;
                   final List<NoteTasks> tasksNotes = snapshotNoteTasks.data!;
-                  return Center(
-                    // If notes are empty, show 'no notes message', if theres notes, build them
-                    child: textNotes.isEmpty && tasksNotes.isEmpty
-                        ? const Text("You don't have any note created.")
-                        : HomePageBuildNotesWidget(
-                            notesTextList: textNotes,
-                            notesTasksList: tasksNotes,
-                            userConfiguration: userConfiguration,
-                          ), // Show all notes of the user in screen
-                  );
+                  return textNotes.isEmpty && tasksNotes.isEmpty
+                      ? const Center(
+                          child: Text("You don't have any note created."))
+                      : HomePageBuildNotesWidget(
+                          notesTextList: textNotes,
+                          notesTasksList: tasksNotes,
+                          userConfiguration: userConfiguration,
+                        );
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }

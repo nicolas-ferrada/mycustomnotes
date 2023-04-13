@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/User/user_configuration.dart';
+import '../icons/notes_view_icons_icons.dart';
+
 class UserConfigurationNotesView {
   static Future<int?> changeNotesView({
     required BuildContext context,
-    required int userConfigurationNotesView,
+    required UserConfiguration userConfiguration,
   }) async {
     int? userSelectedNotesViewNumber;
     userSelectedNotesViewNumber = await showDialog<int>(
@@ -49,17 +52,17 @@ class UserConfigurationNotesView {
                             children: const [
                               SizedBox(height: 8),
                               Icon(
-                                Icons.format_list_numbered,
-                                size: 46,
+                                NotesViewIcons.smallList,
+                                size: 38,
                                 color: Colors.white,
                               ),
                               SizedBox(height: 8),
                               Padding(
                                 padding: EdgeInsets.all(12),
                                 child: Text(
-                                  '1x1',
+                                  'Small',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -83,17 +86,17 @@ class UserConfigurationNotesView {
                             children: const [
                               SizedBox(height: 8),
                               Icon(
-                                Icons.view_comfy_alt,
-                                size: 46,
+                                NotesViewIcons.splitList,
+                                size: 38,
                                 color: Colors.white,
                               ),
                               SizedBox(height: 8),
                               Padding(
                                 padding: EdgeInsets.all(12),
                                 child: Text(
-                                  '2x2',
+                                  'Split',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -117,17 +120,17 @@ class UserConfigurationNotesView {
                             children: const [
                               SizedBox(height: 8),
                               Icon(
-                                Icons.grid_3x3,
-                                size: 46,
+                                Icons.square,
+                                size: 42,
                                 color: Colors.white,
                               ),
                               SizedBox(height: 8),
                               Padding(
                                 padding: EdgeInsets.all(12),
                                 child: Text(
-                                  '3x3',
+                                  'Large',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -145,7 +148,7 @@ class UserConfigurationNotesView {
                           horizontal: 8, vertical: 8),
                       color: Colors.grey.shade800.withOpacity(0.9),
                       child: Text(
-                        'Current view selected: ${userConfigurationNotesView}x$userConfigurationNotesView',
+                        'Current view selected: ${getUserCurrentSelectedView(userConfiguration: userConfiguration)}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -190,5 +193,22 @@ class UserConfigurationNotesView {
       },
     );
     return userSelectedNotesViewNumber;
+  }
+
+  static String getUserCurrentSelectedView({
+    required UserConfiguration userConfiguration,
+  }) {
+    int notesView = userConfiguration.notesView;
+
+    switch (notesView) {
+      case 1:
+        return 'Small';
+      case 2:
+        return 'Split';
+      case 3:
+        return 'Large';
+      default:
+        return 'Error';
+    }
   }
 }

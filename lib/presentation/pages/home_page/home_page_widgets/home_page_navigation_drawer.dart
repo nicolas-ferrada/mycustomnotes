@@ -98,8 +98,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return ListTile(
       onTap: () async {
         int? userNoteView = await UserConfigurationNotesView.changeNotesView(
-            context: context,
-            userConfigurationNotesView: userConfiguration.notesView);
+            context: context, userConfiguration: userConfiguration);
         if (userNoteView != null) {
           UserConfigurationService.editUserConfigurations(
                   userId: currentUser.uid, notesView: userNoteView)
