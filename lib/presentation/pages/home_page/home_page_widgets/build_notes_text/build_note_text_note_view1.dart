@@ -60,17 +60,11 @@ class NoteTextView1Small extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       const SizedBox(
-                        height: 18,
+                        height: 14,
                       ),
                       note.isFavorite
                           ? Stack(
                               children: [
-                                Icon(
-                                  Icons.circle,
-                                  color: NoteColorOperations.getColorFromNumber(
-                                      colorNumber: note.color),
-                                  size: 28,
-                                ),
                                 Icon(
                                   Icons.star_rounded,
                                   color: Colors.amberAccent.shade200,
@@ -81,7 +75,7 @@ class NoteTextView1Small extends StatelessWidget {
                           : const Opacity(
                               opacity: 0,
                               child: Icon(
-                                Icons.circle,
+                                Icons.star_rounded,
                                 size: 28,
                               ),
                             ),
