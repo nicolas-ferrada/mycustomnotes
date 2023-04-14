@@ -148,7 +148,7 @@ class UserConfigurationNotesView {
                           horizontal: 8, vertical: 8),
                       color: Colors.grey.shade800.withOpacity(0.9),
                       child: Text(
-                        'Current view selected: ${getUserCurrentSelectedView(userConfiguration: userConfiguration)}',
+                        'View selected: ${getUserCurrentSelectedView(userConfiguration: userConfiguration)}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
