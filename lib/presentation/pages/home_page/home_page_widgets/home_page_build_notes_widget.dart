@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view1_small.dart';
@@ -82,7 +83,7 @@ class HomePageBuildNotesWidget extends StatelessWidget {
             // build each note per type/view
             child: whatNoteToShow(
               note: allNotes[index],
-              notesViewConfiguration: userConfiguration.notesView,
+              userConfiguration: userConfiguration,
             ),
           );
         }),
@@ -92,23 +93,41 @@ class HomePageBuildNotesWidget extends StatelessWidget {
 
   whatNoteToShow({
     required dynamic note,
-    required int notesViewConfiguration,
+    required UserConfiguration userConfiguration,
   }) {
     // Note text
-    if (note is NoteText && notesViewConfiguration == 1) {
-      return NoteTextView1Small(note: note);
-    } else if (note is NoteText && notesViewConfiguration == 2) {
-      return NoteTextView2Split(note: note);
-    } else if (note is NoteText && notesViewConfiguration == 3) {
-      return NoteTextView3Large(note: note);
+    if (note is NoteText && userConfiguration.notesView == 1) {
+      return NoteTextView1Small(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
+    } else if (note is NoteText && userConfiguration.notesView == 2) {
+      return NoteTextView2Split(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
+    } else if (note is NoteText && userConfiguration.notesView == 3) {
+      return NoteTextView3Large(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
     }
     // Note tasks
-    else if (note is NoteTasks && notesViewConfiguration == 1) {
-      return NoteTasksView1Small(note: note);
-    } else if (note is NoteTasks && notesViewConfiguration == 2) {
-      return NoteTasksView2Split(note: note);
-    } else if (note is NoteTasks && notesViewConfiguration == 3) {
-      return NoteTasksView3Large(note: note);
+    else if (note is NoteTasks && userConfiguration.notesView == 1) {
+      return NoteTasksView1Small(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
+    } else if (note is NoteTasks && userConfiguration.notesView == 2) {
+      return NoteTasksView2Split(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
+    } else if (note is NoteTasks && userConfiguration.notesView == 3) {
+      return NoteTasksView3Large(
+        note: note,
+        userConfiguration: userConfiguration,
+      );
     } else {
       throw Exception(
           'Something went wrong, that type of Note or Note view does not exists');

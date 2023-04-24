@@ -59,7 +59,7 @@ class UserConfigurationService {
     required String userId,
     String? language,
     String? dateTimeFormat,
-    required int notesView,
+    int? notesView,
   }) async {
     try {
       final SharedPreferences preferences =
@@ -77,7 +77,7 @@ class UserConfigurationService {
         userId: userId,
         language: language ?? currentConfiguration.language,
         dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
-        notesView: notesView
+        notesView: notesView ?? currentConfiguration.notesView,
       );
 
       final userConfigurationJson = json.encode(newConfiguration.toMap());

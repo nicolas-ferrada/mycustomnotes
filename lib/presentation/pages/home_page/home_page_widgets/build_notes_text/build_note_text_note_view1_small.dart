@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_text_model.dart';
+import '../../../../../utils/enums/last_modification_date_formats_enum.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
 class NoteTextView1Small extends StatelessWidget {
   final NoteText note;
-  const NoteTextView1Small({
-    super.key,
-    required this.note,
-  });
+  final UserConfiguration userConfiguration;
+  const NoteTextView1Small(
+      {super.key, required this.note, required this.userConfiguration});
 
   @override
   Widget build(BuildContext context) {
@@ -52,65 +53,113 @@ class NoteTextView1Small extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      note.isFavorite
-                          ? Stack(
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: Colors.amberAccent.shade200,
-                                  size: 28,
-                                ),
-                              ],
-                            )
-                          : const Opacity(
-                              opacity: 0,
-                              child: Icon(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    note.isFavorite
+                        ? Stack(
+                            children: [
+                              Icon(
                                 Icons.star_rounded,
+                                color: Colors.amberAccent.shade200,
                                 size: 28,
                               ),
+                            ],
+                          )
+                        : const Opacity(
+                            opacity: 0,
+                            child: Icon(
+                              Icons.star_rounded,
+                              size: 28,
                             ),
-                      Text(
-                        // Date of last modification
-                        DateFormatter.showDateFormatted(
-                            note.lastModificationDate),
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: NoteColorOperations.getColorFromNumber(
-                              colorNumber: note.color),
-                          shape: BoxShape.rectangle,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
                           ),
+                    Stack(
+                      children: [
+                        // show max length if is 12 hours format (so rectangles are all the same size)
+                        Visibility(
+                          visible: is12HoursFormat(),
+                          child: Opacity(
+                            opacity: 0,
+                            child: Text(
+                              '12:00 AM',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        // show max length if is 24 hours format
+                        Visibility(
+                          visible: !is12HoursFormat(),
+                          child: Opacity(
+                            opacity: 0,
+                            child: Text(
+                              'Jan 01',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          // Date of last modification
+                          DateFormatter.showLastModificationDateFormatted(
+                            lastModificationDate: note.lastModificationDate,
+                            userConfiguration: userConfiguration,
+                          ),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: NoteColorOperations.getColorFromNumber(
+                            colorNumber: note.color),
+                        shape: BoxShape.rectangle,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  bool is12HoursFormat() {
+    if (userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.dayMonthYear.date +
+                LastModificationTimeFormat.hours12.time ||
+        userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.yearMonthDay.date +
+                LastModificationTimeFormat.hours12.time ||
+        userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.monthDayYear.date +
+                LastModificationTimeFormat.hours12.time) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

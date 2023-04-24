@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/User/user_configuration.dart';
-import '../icons/notes_view_icons_icons.dart';
+import '../../../data/models/User/user_configuration.dart';
+import '../../icons/notes_view_icons_icons.dart';
 
 class UserConfigurationNotesView {
   static Future<int?> changeNotesView({

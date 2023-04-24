@@ -471,7 +471,15 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           Share.share('${widget.noteTasks.title}\n\n${getTasksFormat()}');
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
-          NotesDetails.noteDetailsDialog(context, widget.noteTasks);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return NotesDetails(
+                context: context,
+                note: widget.noteTasks,
+              );
+            },
+          );
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           DeleteNoteConfirmation.deleteNoteDialog(

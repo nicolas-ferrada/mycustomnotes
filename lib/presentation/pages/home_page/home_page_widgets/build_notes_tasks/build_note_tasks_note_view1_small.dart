@@ -1,16 +1,20 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_tasks_model.dart';
+import '../../../../../utils/enums/last_modification_date_formats_enum.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
 class NoteTasksView1Small extends StatelessWidget {
   final NoteTasks note;
+  final UserConfiguration userConfiguration;
   const NoteTasksView1Small({
     super.key,
     required this.note,
+    required this.userConfiguration,
   });
   @override
   Widget build(BuildContext context) {
@@ -105,14 +109,34 @@ class NoteTasksView1Small extends StatelessWidget {
                                 size: 28,
                               ),
                             ),
-                      Text(
-                        // Date of last modification
-                        DateFormatter.showDateFormatted(
-                            note.lastModificationDate),
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w600),
+                      Stack(
+                        children: [
+                          // if it's 24 hrs, dont show it, if its 12 hours, show it
+                          Visibility(
+                            visible: is12HoursFormat(),
+                            child: Opacity(
+                              opacity: 0,
+                              child: Text(
+                                '12:00 PM',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            // Date of last modification
+                            DateFormatter.showLastModificationDateFormatted(
+                              lastModificationDate: note.lastModificationDate,
+                              userConfiguration: userConfiguration,
+                            ),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -138,5 +162,21 @@ class NoteTasksView1Small extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool is12HoursFormat() {
+    if (userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.dayMonthYear.date +
+                LastModificationTimeFormat.hours12.time ||
+        userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.yearMonthDay.date +
+                LastModificationTimeFormat.hours12.time ||
+        userConfiguration.dateTimeFormat ==
+            LastModificationDateFormat.monthDayYear.date +
+                LastModificationTimeFormat.hours12.time) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

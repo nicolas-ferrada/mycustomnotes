@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_text_model.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
@@ -6,9 +7,11 @@ import '../../../../../utils/note_color/note_color.dart';
 
 class NoteTextView2Split extends StatelessWidget {
   final NoteText note;
+  final UserConfiguration userConfiguration;
   const NoteTextView2Split({
     super.key,
     required this.note,
+    required this.userConfiguration,
   });
 
   @override
@@ -31,8 +34,10 @@ class NoteTextView2Split extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: Text(
                       // Date of last modification
-                      DateFormatter.showDateFormatted(
-                          note.lastModificationDate),
+                      DateFormatter.showLastModificationDateFormatted(
+                        lastModificationDate: note.lastModificationDate,
+                        userConfiguration: userConfiguration,
+                      ),
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],

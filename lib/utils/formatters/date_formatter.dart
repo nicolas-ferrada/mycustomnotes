@@ -1,67 +1,250 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
+import '../../domain/services/auth_user_service.dart';
+import '../../domain/services/user_configuration_service.dart';
+import '../enums/last_modification_date_formats_enum.dart';
+
+// Formatter from firebase to a readable form
 class DateFormatter {
-// Formate the timestamp from firebase to a user friendly date
-// Day, Month, Year, Hour, Minutes
-  static String showDateFormatted(Timestamp lastModificationDate) {
-    final DateTime dateTimeFromDatabase = lastModificationDate.toDate();
-    String monthName = DateFormatter.getMonthName(dateTimeFromDatabase);
-    final today = DateTime.now();
-    late String formattedTime;
-    String formattedHour = dateTimeFromDatabase.hour.toString().padLeft(2, '0');
-    String formattedMinutes =
-        dateTimeFromDatabase.minute.toString().padLeft(2, '0');
-    String formattedDay = dateTimeFromDatabase.day.toString().padLeft(2, '0');
+  static String showLastModificationDateFormatted({
+    required Timestamp lastModificationDate,
+    required UserConfiguration userConfiguration,
+  }) {
+    // This variable will take the final date ready to be returned depending on the conditions.
+    late String finalDate;
 
-    // Formatted date if the day is today
-    if (dateTimeFromDatabase.day == today.day &&
-        dateTimeFromDatabase.month == today.month &&
-        dateTimeFromDatabase.year == today.year) {
-      formattedTime = '$formattedHour:$formattedMinutes';
+    // Get the user configuration of date time format
+    String dateFormat = userConfiguration.dateTimeFormat;
+
+    // Transform the firestore Timestamp to DateTime
+    final DateTime lastModificationDateToDateTime =
+        lastModificationDate.toDate();
+
+    // If the last note modification was today, this year or another year
+    final WhenItWasLastModification whenItWasTheLastModification =
+        whenItWasTheLastNoteModification(date: lastModificationDateToDateTime);
+
+    finalDate = getFinalDate(
+      whenWasLastMod: whenItWasTheLastModification,
+      dateFormat: dateFormat,
+      lastModificationDateTime: lastModificationDateToDateTime,
+    );
+    return finalDate;
+  }
+
+  static String getFinalDate({
+    required WhenItWasLastModification whenWasLastMod,
+    required String dateFormat,
+    required DateTime lastModificationDateTime,
+  }) {
+    late String finalDate;
+
+    // 24 hours - day/month/year
+    if (dateFormat ==
+        LastModificationDateFormat.dayMonthYear.date +
+            LastModificationTimeFormat.hours24.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('d MMM').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+    // 24 hours - year/month/day
+    if (dateFormat ==
+        LastModificationDateFormat.yearMonthDay.date +
+            LastModificationTimeFormat.hours24.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+
+    // 24 hours - month/day/year
+    if (dateFormat ==
+        LastModificationDateFormat.monthDayYear.date +
+            LastModificationTimeFormat.hours24.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+
+    // 12 hours - day/month/year
+    if (dateFormat ==
+        LastModificationDateFormat.dayMonthYear.date +
+            LastModificationTimeFormat.hours12.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('d MMM').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+
+    // 12 hours - year/month/day
+    if (dateFormat ==
+        LastModificationDateFormat.yearMonthDay.date +
+            LastModificationTimeFormat.hours12.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+
+    // 12 hours - month/day/year
+    if (dateFormat ==
+        LastModificationDateFormat.monthDayYear.date +
+            LastModificationTimeFormat.hours12.time) {
+      // Last modification was today
+      if (whenWasLastMod == WhenItWasLastModification.today) {
+        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was this year
+      } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
+        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        return finalDate;
+        // Last modification was another year
+      } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
+      finalDate = DateFormat('y').format(lastModificationDateTime);
+      return finalDate;
+    }
+
+    return 'Error: Format not found';
+  }
+
+  static WhenItWasLastModification whenItWasTheLastNoteModification({
+    required DateTime date,
+  }) {
+    final today = DateTime.now();
+
+    // Formatted date if last modification was today
+    if (date.day == today.day &&
+        date.month == today.month &&
+        date.year == today.year) {
+      return WhenItWasLastModification.today;
       // Formatted date if the date is from the current year
-    } else if (dateTimeFromDatabase.year == DateTime.now().year) {
-      formattedTime = '$formattedDay $monthName';
+    } else if (date.year == DateTime.now().year) {
+      return WhenItWasLastModification.thisYear;
     } else {
       // If is not today and not this year, show the year of the note.
-      formattedTime = '$formattedDay $monthName ${dateTimeFromDatabase.year}';
+      return WhenItWasLastModification.anotherYear;
     }
-    return formattedTime;
   }
 
-  // Get the month of the note in
-  static String getMonthName(DateTime date) {
-    // final spanishMonth = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    final englishMonths = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final index = date.month - 1;
-    return englishMonths[index];
-  }
+  static Future<String> showDateFormattedAllFields({
+    required Timestamp dateDB,
+  }) async {
+    final User currentUser = AuthUserService.getCurrentUserFirebase();
 
-  static String showDateFormattedAllFields(Timestamp date) {
-    final DateTime dateTimeFromDatabase = date.toDate();
-    String monthName = DateFormatter.getMonthName(dateTimeFromDatabase);
+    late UserConfiguration userConfiguration;
+
+    // get user configuration
+    userConfiguration = await UserConfigurationService.getUserConfigurations(
+        userId: currentUser.uid);
+
     late String formattedTime;
-    String formattedHour = dateTimeFromDatabase.hour.toString().padLeft(2, '0');
-    String formattedMinutes =
-        dateTimeFromDatabase.minute.toString().padLeft(2, '0');
-    String formattedDay = dateTimeFromDatabase.day.toString().padLeft(2, '0');
 
-    // Show all the fields
-    formattedTime =
-        '$formattedDay $monthName ${dateTimeFromDatabase.year} $formattedHour:$formattedMinutes';
+    final DateTime date = dateDB.toDate();
+    // Get the user configuration of date time format
+    String dateFormat = userConfiguration.dateTimeFormat;
 
-    return formattedTime;
+    // 24 hours - day/month/year
+    if (dateFormat ==
+        LastModificationDateFormat.dayMonthYear.date +
+            LastModificationTimeFormat.hours24.time) {
+      formattedTime =
+          DateFormat('d MMMM y ').format(date) + DateFormat.Hm().format(date);
+      return formattedTime;
+    }
+
+    // 24 hours - month/day/year
+    if (dateFormat ==
+        LastModificationDateFormat.monthDayYear.date +
+            LastModificationTimeFormat.hours24.time) {
+      formattedTime =
+          DateFormat('MMMM d y ').format(date) + DateFormat.Hm().format(date);
+      return formattedTime;
+    }
+
+    // 24 hours - year/month/day
+    if (dateFormat ==
+        LastModificationDateFormat.yearMonthDay.date +
+            LastModificationTimeFormat.hours24.time) {
+      formattedTime =
+          DateFormat('y MMMM d ').format(date) + DateFormat.Hm().format(date);
+      return formattedTime;
+    }
+
+    // 12 hours - day/month/year
+    if (dateFormat ==
+        LastModificationDateFormat.dayMonthYear.date +
+            LastModificationTimeFormat.hours12.time) {
+      formattedTime =
+          DateFormat('d MMMM y ').format(date) + DateFormat.jm().format(date);
+      return formattedTime;
+    }
+
+    // 12 hours - year/month/day
+    if (dateFormat ==
+        LastModificationDateFormat.yearMonthDay.date +
+            LastModificationTimeFormat.hours12.time) {
+      formattedTime =
+          DateFormat('y MMMM d ').format(date) + DateFormat.jm().format(date);
+      return formattedTime;
+    }
+
+    // 12 hours - month/day/year
+    if (dateFormat ==
+        LastModificationDateFormat.monthDayYear.date +
+            LastModificationTimeFormat.hours12.time) {
+      formattedTime =
+          DateFormat('MMMM d y ').format(date) + DateFormat.jm().format(date);
+      return formattedTime;
+    }
+
+    return 'Error: Format not found';
   }
 }
+
+// formattedTime =
+//           '$formattedDay $monthName ${dateTimeFromDatabase.year} $formattedHour:$formattedMinutes';

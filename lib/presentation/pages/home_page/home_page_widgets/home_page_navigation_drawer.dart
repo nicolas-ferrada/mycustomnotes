@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/domain/services/user_configuration_service.dart';
-import 'package:mycustomnotes/utils/dialogs/user_configuration_notes_view.dart';
+import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_date_time_format.dart';
+import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
@@ -70,8 +71,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
     required BuildContext context,
   }) {
     return ListTile(
+      onTap: () async {},
       leading: const Icon(Icons.language, size: 28),
-      onTap: () {},
       title: const Text(
         'Language',
         style: TextStyle(fontSize: 16),
@@ -83,7 +84,25 @@ class NavigationDrawerHomePage extends StatelessWidget {
     required BuildContext context,
   }) {
     return ListTile(
-      onTap: () {},
+      onTap: () async {
+        final String? dateTimeFormat = await showDialog<String?>(
+          context: context,
+          builder: (context) {
+            return ChangeNoteDateTimeFormat(
+              userConfiguration: userConfiguration,
+              context: context,
+            );
+          },
+        );
+        if (dateTimeFormat != null) {
+          UserConfigurationService.editUserConfigurations(
+                  userId: currentUser.uid, dateTimeFormat: dateTimeFormat)
+              .then((_) async {
+            updateUserConfiguration();
+            Navigator.maybePop(context);
+          });
+        }
+      },
       leading: const Icon(Icons.date_range, size: 28),
       title: const Text(
         'Date and time format',

@@ -344,7 +344,12 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           Share.share('${widget.noteText.title}\n\n${widget.noteText.body}');
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
-          NotesDetails.noteDetailsDialog(context, widget.noteText);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return NotesDetails(context: context, note: widget.noteText);
+            },
+          );
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           DeleteNoteConfirmation.deleteNoteDialog(
