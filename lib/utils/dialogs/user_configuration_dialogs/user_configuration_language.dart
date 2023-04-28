@@ -17,6 +17,28 @@ class ChangeLanguage extends StatefulWidget {
 }
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
+  SelectLanguage? currentLanguage;
+
+  @override
+  void initState() {
+    super.initState();
+    currentLanguage =
+        getCurrentLanguage(languageId: widget.userConfiguration.language);
+  }
+
+  getCurrentLanguage({
+    required String languageId,
+  }) {
+    switch (languageId) {
+      case 'EN':
+        return SelectLanguage.english;
+      case 'ES':
+        return SelectLanguage.spanish;
+      default:
+        return Exception('Language not found...');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -48,7 +70,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   Flexible(
                     child: Card(
                       elevation: 10,
-                      color: Colors.grey.shade800.withOpacity(0.9),
+                      color: (currentLanguage?.languageIndex == 1)
+                          ? Colors.red
+                          : Colors.grey.shade800.withOpacity(0.9),
                       child: InkWell(
                         onTap: () {
                           Navigator.maybePop(context, SelectLanguage.english);
@@ -80,7 +104,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                   Flexible(
                     child: Card(
                       elevation: 10,
-                      color: Colors.grey.shade800.withOpacity(0.9),
+                      color: (currentLanguage?.languageIndex == 2)
+                          ? Colors.red
+                          : Colors.grey.shade800.withOpacity(0.9),
                       child: InkWell(
                         onTap: () {
                           Navigator.maybePop(context, SelectLanguage.spanish);
@@ -119,7 +145,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: Text(
-                      'Current language selected:\n${widget.userConfiguration.language}',
+                      (currentLanguage != null)
+                          ? 'Current language selected:\n${currentLanguage!.languageName}'
+                          : 'No language selected',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,

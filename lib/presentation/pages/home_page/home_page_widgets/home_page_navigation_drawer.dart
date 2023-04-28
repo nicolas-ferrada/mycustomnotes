@@ -7,6 +7,7 @@ import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_conf
 import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_language.dart';
+import '../../../../utils/enums/notes_view_enum.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
   final User currentUser;
@@ -85,7 +86,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
         );
         if (language != null) {
           UserConfigurationService.editUserConfigurations(
-                  userId: currentUser.uid, language: language.value)
+                  userId: currentUser.uid, language: language.lenguageId)
               .then((_) async {
             updateUserConfiguration();
             Navigator.maybePop(context);
@@ -136,11 +137,18 @@ class NavigationDrawerHomePage extends StatelessWidget {
   }) {
     return ListTile(
       onTap: () async {
-        int? userNoteView = await UserConfigurationNotesView.changeNotesView(
-            context: context, userConfiguration: userConfiguration);
+        NotesView? userNoteView = await showDialog<NotesView?>(
+          context: context,
+          builder: (context) {
+            return ChangeNotesView(
+              userConfiguration: userConfiguration,
+              context: context,
+            );
+          },
+        );
         if (userNoteView != null) {
           UserConfigurationService.editUserConfigurations(
-                  userId: currentUser.uid, notesView: userNoteView)
+                  userId: currentUser.uid, notesView: userNoteView.notesViewId)
               .then((_) async {
             updateUserConfiguration();
             Navigator.maybePop(context);
