@@ -4,7 +4,9 @@ import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/domain/services/user_configuration_service.dart';
 import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_date_time_format.dart';
 import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
+import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
+import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_language.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
   final User currentUser;
@@ -71,7 +73,25 @@ class NavigationDrawerHomePage extends StatelessWidget {
     required BuildContext context,
   }) {
     return ListTile(
-      onTap: () async {},
+      onTap: () async {
+        final SelectLanguage? language = await showDialog<SelectLanguage?>(
+          context: context,
+          builder: (context) {
+            return ChangeLanguage(
+              userConfiguration: userConfiguration,
+              context: context,
+            );
+          },
+        );
+        if (language != null) {
+          UserConfigurationService.editUserConfigurations(
+                  userId: currentUser.uid, language: language.value)
+              .then((_) async {
+            updateUserConfiguration();
+            Navigator.maybePop(context);
+          });
+        }
+      },
       leading: const Icon(Icons.language, size: 28),
       title: const Text(
         'Language',
