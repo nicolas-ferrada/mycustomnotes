@@ -59,12 +59,16 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: newNoteButton(context: context),
           );
         } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('Error: please, restart the app...'),
+          return const Scaffold(
+            body: Center(
+              child: Text('Error: please, restart the app...'),
+            ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
       },
