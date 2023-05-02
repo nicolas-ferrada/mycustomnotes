@@ -40,7 +40,6 @@ class NoteTextService {
     }
   }
 
-
   // Create a note in firebase
   static Future<void> createNoteText({
     required String title,
@@ -76,7 +75,7 @@ class NoteTextService {
       await documentReference.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -104,7 +103,7 @@ class NoteTextService {
       await docNote.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 

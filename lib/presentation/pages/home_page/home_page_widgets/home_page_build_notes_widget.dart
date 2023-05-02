@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view1_small.dart';

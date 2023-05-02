@@ -8,6 +8,7 @@ import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_language.dart';
 import '../../../../utils/enums/notes_view_enum.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
   final User currentUser;

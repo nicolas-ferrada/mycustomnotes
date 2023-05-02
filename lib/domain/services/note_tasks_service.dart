@@ -76,7 +76,7 @@ class NoteTasksService {
       await documentReference.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -103,7 +103,7 @@ class NoteTasksService {
       await docNote.set(mapNote);
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 

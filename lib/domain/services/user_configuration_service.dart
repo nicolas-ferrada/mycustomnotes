@@ -24,7 +24,8 @@ class UserConfigurationService {
 
       await preferences.setString(userId, userConfigurationJson);
     } catch (e) {
-      throw Exception('Error creating the user configuration $e').getMessage;
+      throw Exception('Error creating the user configuration $e')
+          .removeExceptionWord;
     }
   }
 
@@ -51,7 +52,8 @@ class UserConfigurationService {
 
       return userConfiguration;
     } catch (e) {
-      throw Exception('Error reading the user configuration $e').getMessage;
+      throw Exception('Error reading the user configuration $e')
+          .removeExceptionWord;
     }
   }
 
@@ -84,7 +86,8 @@ class UserConfigurationService {
 
       await preferences.setString(userId, userConfigurationJson);
     } catch (e) {
-      throw Exception('Error editing the user configurations $e').getMessage;
+      throw Exception('Error editing the user configurations $e')
+          .removeExceptionWord;
     }
   }
 }

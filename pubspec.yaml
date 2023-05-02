@@ -31,6 +31,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   #Firebase core functions
   firebase_core: ^2.3.0
@@ -65,7 +67,11 @@ dependencies:
 
   # Used to have an image preview of a url
   any_link_preview: ^3.0.0
+
+  # Local storage (user configuration)
   shared_preferences: ^2.1.0
+
+  # Date format and internationalization
   intl: ^0.17.0
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
@@ -96,7 +102,7 @@ flutter_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

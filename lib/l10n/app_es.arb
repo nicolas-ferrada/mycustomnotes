@@ -1,0 +1,20 @@
+{
+    "@_GENERIC_UNEXPECTED_EXCEPTION": {},
+    "unexpectedException_dialog": "Lo sentimos, se encontró un error no esperado, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
+    "@_LOGIN_PAGE": {},
+    "email_textformfield": "Ingresa tu correo",
+    "login_button": "Iniciar sesión",
+    "passwordRecover_richText": "Recuperar",
+    "passwordRecover_text_info": "¿Olvidaste tu contraseña? ",
+    "password_textformfield": "Ingresa tu contraseña",
+    "signUp_richText": "Regístrate",
+    "signUp_text_info": "¿Necesitas una cuenta? ",
+    "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
+    "wrongPassword_dialog": "Has ingresado una contraseña incorrecta.",
+    "userNotFound_dialog": "La cuenta ingresada no existe.",
+    "invalidEmail_dialog": "El correo ingresado no es válido.",
+    "unknown_empty_dialog": "Debes ingresar un correo y contraseña.",
+    "networkRequestFailed_dialog": "Debes estar conectado a internet para iniciar sesión.",
+    "genericLoginException_dialog": "Hay un problema con el inicio de sesión, corrobora los datos que estás escribiendo, también puedes intentar reiniciando la aplicación o intentar nuevamente más tarde."
+
+}

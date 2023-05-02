@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
+import '../../l10n/l10n_export.dart';
 import '../../utils/extensions/formatted_message.dart';
 
 class AuthUserService {
@@ -17,21 +19,23 @@ class AuthUserService {
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'email-already-in-use') {
         throw Exception('You have entered an email that is already in use')
-            .getMessage;
+            .removeExceptionWord;
       } else if (firebaseException.code == 'invalid-email') {
-        throw Exception("You have entered an invalid email").getMessage;
+        throw Exception("You have entered an invalid email")
+            .removeExceptionWord;
       } else if (firebaseException.code == 'weak-password') {
-        throw Exception("You have entered a weak password").getMessage;
+        throw Exception("You have entered a weak password").removeExceptionWord;
       } else if (firebaseException.code == 'unknown') {
-        throw Exception("You have to type an email and password").getMessage;
+        throw Exception("You have to type an email and password")
+            .removeExceptionWord;
       } else {
         throw Exception(
                 "There's a problem in your register process:\n$firebaseException")
-            .getMessage;
+            .removeExceptionWord;
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -39,28 +43,36 @@ class AuthUserService {
   static Future<void> loginUserFirebase({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'wrong-password') {
-        throw Exception('You have entered a wrong password').getMessage;
+        throw Exception(AppLocalizations.of(context)!.wrongPassword_dialog)
+            .removeExceptionWord;
       } else if (exception.code == 'user-not-found') {
-        throw Exception("The entered account doesn't exist").getMessage;
+        throw Exception(AppLocalizations.of(context)!.userNotFound_dialog)
+            .removeExceptionWord;
       } else if (exception.code == 'invalid-email') {
-        throw Exception("The entered email is not valid").getMessage;
+        throw Exception(AppLocalizations.of(context)!.invalidEmail_dialog)
+            .removeExceptionWord;
       } else if (exception.code == 'unknown') {
-        throw Exception("You have to type an email and password").getMessage;
+        throw Exception(AppLocalizations.of(context)!.unknown_empty_dialog)
+            .removeExceptionWord;
       } else if (exception.code == 'network-request-failed') {
-        throw Exception("You have to be connected to internet").getMessage;
+        throw Exception(
+                AppLocalizations.of(context)!.networkRequestFailed_dialog)
+            .removeExceptionWord;
       } else {
-        throw Exception("There is an problem with your login:\n$exception")
-            .getMessage;
+        throw Exception(
+                AppLocalizations.of(context)!.genericLoginException_dialog)
+            .removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+      throw Exception()
+          .removeExceptionWord;
     }
   }
 
@@ -72,7 +84,7 @@ class AuthUserService {
       await FirebaseFirestore.instance.clearPersistence();
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -87,7 +99,7 @@ class AuthUserService {
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -99,21 +111,24 @@ class AuthUserService {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'invalid-email') {
-        throw Exception("You have entered an invalid email").getMessage;
+        throw Exception("You have entered an invalid email")
+            .removeExceptionWord;
       }
       if (firebaseException.code == 'user-not-found') {
-        throw Exception("The entered account doesn't exist").getMessage;
+        throw Exception("The entered account doesn't exist")
+            .removeExceptionWord;
       }
       if (firebaseException.code == 'unknown') {
-        throw Exception("You have to type an email and password").getMessage;
+        throw Exception("You have to type an email and password")
+            .removeExceptionWord;
       } else {
         throw Exception(
                 "There is a problem recovering your password:\n$firebaseException")
-            .getMessage;
+            .removeExceptionWord;
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 
@@ -124,11 +139,11 @@ class AuthUserService {
       if (currentUser != null) {
         return currentUser;
       } else {
-        throw Exception("There is no user logged in").getMessage;
+        throw Exception("There is no user logged in").removeExceptionWord;
       }
     } catch (unexpectedException) {
       throw Exception("There is an unexpected error:\n$unexpectedException")
-          .getMessage;
+          .removeExceptionWord;
     }
   }
 }

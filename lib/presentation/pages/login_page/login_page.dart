@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../routes/routes.dart';
 
@@ -44,10 +45,10 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _emailLoginController,
                 keyboardType: TextInputType.emailAddress,
                 autofillHints: const [AutofillHints.email],
-                decoration: const InputDecoration(
-                  hintText: 'Enter your email',
-                  prefixIcon: Icon(Icons.mail),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.email_textformfield,
+                  prefixIcon: const Icon(Icons.mail),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -59,9 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your password',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText:
+                      AppLocalizations.of(context)!.password_textformfield,
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -73,9 +75,9 @@ class _LoginPageState extends State<LoginPage> {
                   Icons.lock_open,
                   size: 32,
                 ),
-                label: const Text(
-                  'Login',
-                  style: TextStyle(fontSize: 30),
+                label: Text(
+                  AppLocalizations.of(context)!.login_button,
+                  style: const TextStyle(fontSize: 30),
                 ),
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
@@ -92,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     await AuthUserService.loginUserFirebase(
                       email: _emailLoginController.text,
                       password: _passwordLoginController.text,
+                      context: context,
                     );
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
@@ -100,19 +103,22 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
             //Rich text 'need an account?' Sign up
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: RichText(
                 text: TextSpan(
-                    style: const TextStyle(color: Colors.grey, fontSize: 20),
-                    text: 'Need an account? ',
+                    style: const TextStyle(color: Colors.grey, fontSize: 18),
+                    text: AppLocalizations.of(context)!.signUp_text_info,
                     children: [
                       TextSpan(
                           style: const TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.white),
-                          text: 'Sign up',
+                          text: AppLocalizations.of(context)!.signUp_richText,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(context, registerPageRoute);
@@ -120,19 +126,23 @@ class _LoginPageState extends State<LoginPage> {
                     ]),
               ),
             ),
+            const SizedBox(
+              height: 4,
+            ),
             //Rich text text Forgot your password? Recover it
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: RichText(
                 text: TextSpan(
-                  style: const TextStyle(color: Colors.grey, fontSize: 20),
-                  text: 'Forgot your password? ',
+                  style: const TextStyle(color: Colors.grey, fontSize: 18),
+                  text: AppLocalizations.of(context)!.passwordRecover_text_info,
                   children: [
                     TextSpan(
                       style: const TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.white),
-                      text: 'Recover it',
+                      text: AppLocalizations.of(context)!
+                          .passwordRecover_richText,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.pushNamed(
