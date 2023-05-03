@@ -8,7 +8,6 @@ import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_language.dart';
 import '../../../../utils/enums/notes_view_enum.dart';
-import 'dart:developer' as log;
 
 class NavigationDrawerHomePage extends StatelessWidget {
   final User currentUser;
@@ -107,7 +106,6 @@ class NavigationDrawerHomePage extends StatelessWidget {
   }) {
     return ListTile(
       onTap: () async {
-        log.log(userConfiguration.dateTimeFormat);
         final String? dateTimeFormat = await showDialog<String?>(
           context: context,
           builder: (context) {
