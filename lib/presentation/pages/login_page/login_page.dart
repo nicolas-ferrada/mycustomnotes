@@ -84,9 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
                   minimumSize: const Size(220, 70),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  padding: const EdgeInsets.all(10),
+                      borderRadius: BorderRadius.circular(25)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                 ),
                 onPressed: () async {
                   // Login firebase.
