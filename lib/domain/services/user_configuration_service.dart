@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/enums/last_modification_date_formats_enum.dart';
+import '../../utils/enums/notes_view_enum.dart';
 
 class UserConfigurationService {
   // Only used for the first time, on account creation/email verification.
@@ -15,9 +19,10 @@ class UserConfigurationService {
 
       final UserConfiguration userConfiguration = UserConfiguration(
         userId: userId,
-        language: 'EN',
-        dateTimeFormat: 'DD/MM/YYYY',
-        notesView: 2,
+        language: SelectLanguage.english.lenguageId,
+        dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours24.value,
+        notesView: NotesView.small.notesViewId,
       );
 
       final userConfigurationJson = json.encode(userConfiguration.toMap());

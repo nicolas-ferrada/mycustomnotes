@@ -44,8 +44,8 @@ class DateFormatter {
 
     // 24 hours - day/month/year
     if (dateFormat ==
-        LastModificationDateFormat.dayMonthYear.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('Hm').format(lastModificationDateTime);
@@ -61,8 +61,8 @@ class DateFormatter {
     }
     // 24 hours - year/month/day
     if (dateFormat ==
-        LastModificationDateFormat.yearMonthDay.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.yearMonthDay.value +
+            LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('Hm').format(lastModificationDateTime);
@@ -79,8 +79,8 @@ class DateFormatter {
 
     // 24 hours - month/day/year
     if (dateFormat ==
-        LastModificationDateFormat.monthDayYear.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.monthDayYear.value +
+            LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('Hm').format(lastModificationDateTime);
@@ -97,8 +97,8 @@ class DateFormatter {
 
     // 12 hours - day/month/year
     if (dateFormat ==
-        LastModificationDateFormat.dayMonthYear.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('jm').format(lastModificationDateTime);
@@ -115,8 +115,8 @@ class DateFormatter {
 
     // 12 hours - year/month/day
     if (dateFormat ==
-        LastModificationDateFormat.yearMonthDay.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.yearMonthDay.value +
+            LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('jm').format(lastModificationDateTime);
@@ -133,8 +133,8 @@ class DateFormatter {
 
     // 12 hours - month/day/year
     if (dateFormat ==
-        LastModificationDateFormat.monthDayYear.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.monthDayYear.value +
+            LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
         finalDate = DateFormat('jm').format(lastModificationDateTime);
@@ -190,8 +190,8 @@ class DateFormatter {
 
     // 24 hours - day/month/year
     if (dateFormat ==
-        LastModificationDateFormat.dayMonthYear.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours24.value) {
       formattedTime =
           DateFormat('d MMMM y ').format(date) + DateFormat.Hm().format(date);
       return formattedTime;
@@ -199,8 +199,8 @@ class DateFormatter {
 
     // 24 hours - month/day/year
     if (dateFormat ==
-        LastModificationDateFormat.monthDayYear.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.monthDayYear.value +
+            LastModificationTimeFormat.hours24.value) {
       formattedTime =
           DateFormat('MMMM d y ').format(date) + DateFormat.Hm().format(date);
       return formattedTime;
@@ -208,8 +208,8 @@ class DateFormatter {
 
     // 24 hours - year/month/day
     if (dateFormat ==
-        LastModificationDateFormat.yearMonthDay.date +
-            LastModificationTimeFormat.hours24.time) {
+        LastModificationDateFormat.yearMonthDay.value +
+            LastModificationTimeFormat.hours24.value) {
       formattedTime =
           DateFormat('y MMMM d ').format(date) + DateFormat.Hm().format(date);
       return formattedTime;
@@ -217,8 +217,8 @@ class DateFormatter {
 
     // 12 hours - day/month/year
     if (dateFormat ==
-        LastModificationDateFormat.dayMonthYear.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours12.value) {
       formattedTime =
           DateFormat('d MMMM y ').format(date) + DateFormat.jm().format(date);
       return formattedTime;
@@ -226,8 +226,8 @@ class DateFormatter {
 
     // 12 hours - year/month/day
     if (dateFormat ==
-        LastModificationDateFormat.yearMonthDay.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.yearMonthDay.value +
+            LastModificationTimeFormat.hours12.value) {
       formattedTime =
           DateFormat('y MMMM d ').format(date) + DateFormat.jm().format(date);
       return formattedTime;
@@ -235,8 +235,8 @@ class DateFormatter {
 
     // 12 hours - month/day/year
     if (dateFormat ==
-        LastModificationDateFormat.monthDayYear.date +
-            LastModificationTimeFormat.hours12.time) {
+        LastModificationDateFormat.monthDayYear.value +
+            LastModificationTimeFormat.hours12.value) {
       formattedTime =
           DateFormat('MMMM d y ').format(date) + DateFormat.jm().format(date);
       return formattedTime;

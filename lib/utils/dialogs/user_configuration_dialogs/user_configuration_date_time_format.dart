@@ -87,7 +87,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           onTap: () {
                             setState(() {
                               userSelectedDateFormat =
-                                  LastModificationDateFormat.dayMonthYear.date;
+                                  LastModificationDateFormat.dayMonthYear.value;
                               selectedDateCard = 1;
                             });
                           },
@@ -126,7 +126,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           onTap: () {
                             setState(() {
                               userSelectedDateFormat =
-                                  LastModificationDateFormat.yearMonthDay.date;
+                                  LastModificationDateFormat.yearMonthDay.value;
                               selectedDateCard = 2;
                             });
                           },
@@ -165,7 +165,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           onTap: () {
                             setState(() {
                               userSelectedDateFormat =
-                                  LastModificationDateFormat.monthDayYear.date;
+                                  LastModificationDateFormat.monthDayYear.value;
                               selectedDateCard = 3;
                             });
                           },
@@ -214,7 +214,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           onTap: () {
                             setState(() {
                               userSelectedTimeFormat =
-                                  LastModificationTimeFormat.hours12.time;
+                                  LastModificationTimeFormat.hours12.value;
                               selectedTimeCard = 1;
                             });
                           },
@@ -253,7 +253,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           onTap: () {
                             setState(() {
                               userSelectedTimeFormat =
-                                  LastModificationTimeFormat.hours24.time;
+                                  LastModificationTimeFormat.hours24.value;
                               selectedTimeCard = 2;
                             });
                           },

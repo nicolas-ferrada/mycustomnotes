@@ -149,14 +149,14 @@ class NoteTextView1Small extends StatelessWidget {
 
   bool is12HoursFormat() {
     if (userConfiguration.dateTimeFormat ==
-            LastModificationDateFormat.dayMonthYear.date +
-                LastModificationTimeFormat.hours12.time ||
+            LastModificationDateFormat.dayMonthYear.value +
+                LastModificationTimeFormat.hours12.value ||
         userConfiguration.dateTimeFormat ==
-            LastModificationDateFormat.yearMonthDay.date +
-                LastModificationTimeFormat.hours12.time ||
+            LastModificationDateFormat.yearMonthDay.value +
+                LastModificationTimeFormat.hours12.value ||
         userConfiguration.dateTimeFormat ==
-            LastModificationDateFormat.monthDayYear.date +
-                LastModificationTimeFormat.hours12.time) {
+            LastModificationDateFormat.monthDayYear.value +
+                LastModificationTimeFormat.hours12.value) {
       return true;
     } else {
       return false;

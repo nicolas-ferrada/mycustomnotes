@@ -3,16 +3,16 @@ enum LastModificationDateFormat {
   yearMonthDay('YYYY/MM/DD'),
   monthDayYear('MM/DD/YYYY');
 
-  const LastModificationDateFormat(this.date);
-  final String date;
+  const LastModificationDateFormat(this.value);
+  final String value;
 }
 
 enum LastModificationTimeFormat {
   hours12('12hrs'),
   hours24('24hrs');
 
-  const LastModificationTimeFormat(this.time);
-  final String time;
+  const LastModificationTimeFormat(this.value);
+  final String value;
 }
 
 enum WhenItWasLastModification {
