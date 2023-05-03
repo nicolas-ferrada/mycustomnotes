@@ -48,7 +48,8 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.email_textformfield,
+                    hintText: AppLocalizations.of(context)!
+                        .email_textformfield_loginPage,
                     prefixIcon: const Icon(Icons.mail),
                     border: const OutlineInputBorder(),
                   ),
@@ -63,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
-                    hintText:
-                        AppLocalizations.of(context)!.password_textformfield,
+                    hintText: AppLocalizations.of(context)!
+                        .password_textformfield_loginPage,
                     prefixIcon: const Icon(Icons.lock),
                     border: const OutlineInputBorder(),
                   ),
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     size: 32,
                   ),
                   label: Text(
-                    AppLocalizations.of(context)!.login_button,
+                    AppLocalizations.of(context)!.login_button_loginPage,
                     style: const TextStyle(fontSize: 30),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -115,13 +116,15 @@ class _LoginPageState extends State<LoginPage> {
                 child: RichText(
                   text: TextSpan(
                       style: const TextStyle(color: Colors.grey, fontSize: 18),
-                      text: AppLocalizations.of(context)!.signUp_text_info,
+                      text: AppLocalizations.of(context)!
+                          .signUp_text_info_loginPage,
                       children: [
                         TextSpan(
                             style: const TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: Colors.white),
-                            text: AppLocalizations.of(context)!.signUp_richText,
+                            text: AppLocalizations.of(context)!
+                                .signUp_richText_loginPage,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pushNamed(context, registerPageRoute);
@@ -138,15 +141,15 @@ class _LoginPageState extends State<LoginPage> {
                 child: RichText(
                   text: TextSpan(
                     style: const TextStyle(color: Colors.grey, fontSize: 18),
-                    text:
-                        AppLocalizations.of(context)!.passwordRecover_text_info,
+                    text: AppLocalizations.of(context)!
+                        .passwordRecover_text_info_loginPage,
                     children: [
                       TextSpan(
                         style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.white),
                         text: AppLocalizations.of(context)!
-                            .passwordRecover_richText,
+                            .passwordRecover_richText_loginPage,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.pushNamed(

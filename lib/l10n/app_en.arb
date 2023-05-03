@@ -5,56 +5,56 @@
         "description": "A unexpected exception was caught in the login process"
     },
     "@_LOGIN_PAGE_SCREEN": {},
-    "email_textformfield": "Enter your email",
+    "email_textformfield_loginPage": "Enter your email",
     "@email_textformfield": {
         "description": "User input to type your email for login."
     },
-    "login_button": "Login",
+    "login_button_loginPage": "Login",
     "@login_button": {
         "description": "The button that allows the user to log in after its pressed"
     },
-    "passwordRecover_richText": "Recover it",
+    "passwordRecover_richText_loginPage": "Recover it",
     "@passwordRecover_richText": {
         "description": "User can tap to recover password"
     },
-    "passwordRecover_text_info": "Forgot your password? ",
+    "passwordRecover_text_info_loginPage": "Forgot your password? ",
     "@passwordRecover_text_info": {
         "description": "Telling the user why and when to tap the right rich text"
     },
-    "password_textformfield": "Enter your password",
+    "password_textformfield_loginPage": "Enter your password",
     "@password_textformfield": {
         "description": "User into to type your password for login"
     },
-    "signUp_richText": "Sign up",
+    "signUp_richText_loginPage": "Sign up",
     "@signUp_richText": {
         "description": "User can tap to create an account"
     },
-    "signUp_text_info": "Need an account? ",
+    "signUp_text_info_loginPage": "Need an account? ",
     "@signUp_text_info": {
         "description": "Telling the user why and when to tap the right rich text"
     },
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
-    "wrongPassword_dialog": "You have entered a wrong password.",
+    "wrongPassword_dialog_loginPage": "You have entered a wrong password.",
     "@wrongPassword_dialog": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "userNotFound_dialog": "The entered account does not exist.",
+    "userNotFound_dialog_loginPage": "The entered account does not exist.",
     "@userNotFound_dialog": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "invalidEmail_dialog": "The entered email is not valid.",
+    "invalidEmail_dialog_loginPage": "The entered email is not valid.",
     "@invalidEmail_dialog": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "unknown_empty_dialog": "You have to type an email and password.",
+    "unknown_empty_dialog_loginPage": "You have to type an email and password.",
     "@unknown_empty_dialog": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "networkRequestFailed_dialog": "You must to be connected to internet for logging in.",
+    "networkRequestFailed_dialog_loginPage": "You must to be connected to internet for logging in.",
     "@networkRequestFailed_dialog": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "genericLoginException_dialog": "There is an problem with your login, try double checking the data you are writing, also you can try restarting the application or trying again later.",
+    "genericLoginException_dialog_loginPage": "There is an problem with your login, try double checking the data you are writing, also you can try restarting the application or trying again later.",
     "@genericLoginException_dialog": {
         "description": "One of the login exceptions was not caught"
     }

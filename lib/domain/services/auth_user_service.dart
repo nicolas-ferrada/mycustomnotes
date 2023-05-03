@@ -50,29 +50,32 @@ class AuthUserService {
           email: email.trim(), password: password.trim());
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'wrong-password') {
-        throw Exception(AppLocalizations.of(context)!.wrongPassword_dialog)
+        throw Exception(
+                AppLocalizations.of(context)!.wrongPassword_dialog_loginPage)
             .removeExceptionWord;
       } else if (exception.code == 'user-not-found') {
-        throw Exception(AppLocalizations.of(context)!.userNotFound_dialog)
+        throw Exception(
+                AppLocalizations.of(context)!.userNotFound_dialog_loginPage)
             .removeExceptionWord;
       } else if (exception.code == 'invalid-email') {
-        throw Exception(AppLocalizations.of(context)!.invalidEmail_dialog)
+        throw Exception(
+                AppLocalizations.of(context)!.invalidEmail_dialog_loginPage)
             .removeExceptionWord;
       } else if (exception.code == 'unknown') {
-        throw Exception(AppLocalizations.of(context)!.unknown_empty_dialog)
+        throw Exception(
+                AppLocalizations.of(context)!.unknown_empty_dialog_loginPage)
             .removeExceptionWord;
       } else if (exception.code == 'network-request-failed') {
-        throw Exception(
-                AppLocalizations.of(context)!.networkRequestFailed_dialog)
+        throw Exception(AppLocalizations.of(context)!
+                .networkRequestFailed_dialog_loginPage)
             .removeExceptionWord;
       } else {
-        throw Exception(
-                AppLocalizations.of(context)!.genericLoginException_dialog)
+        throw Exception(AppLocalizations.of(context)!
+                .genericLoginException_dialog_loginPage)
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception()
-          .removeExceptionWord;
+      throw Exception().removeExceptionWord;
     }
   }
 
