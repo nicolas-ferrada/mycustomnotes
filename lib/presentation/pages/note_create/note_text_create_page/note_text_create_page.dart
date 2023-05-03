@@ -174,7 +174,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
                 context, errorMessage.toString());
           }
         },
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
         label: const Text(
           'Save',
         ),
