@@ -9,7 +9,8 @@ class AuthUserService {
   // Register an user with email and password on firebase
   static Future<void> registerUserEmailPasswordFirebase({
     required String email,
-    required String password, // Used to register the user, but is not stored
+    required String password,
+    required BuildContext context,
   }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -18,23 +19,28 @@ class AuthUserService {
       );
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'email-already-in-use') {
-        throw Exception('You have entered an email that is already in use')
+        throw Exception(AppLocalizations.of(context)!
+                .emailAlreadyInUse_dialog_registerPage)
             .removeExceptionWord;
       } else if (firebaseException.code == 'invalid-email') {
-        throw Exception("You have entered an invalid email")
+        throw Exception(
+                AppLocalizations.of(context)!.invalidEmail_dialog_registerPage)
             .removeExceptionWord;
       } else if (firebaseException.code == 'weak-password') {
-        throw Exception("You have entered a weak password").removeExceptionWord;
+        throw Exception(
+                AppLocalizations.of(context)!.weakPassword_dialog_registerPage)
+            .removeExceptionWord;
       } else if (firebaseException.code == 'unknown') {
-        throw Exception("You have to type an email and password")
+        throw Exception(
+                AppLocalizations.of(context)!.unknown_empty_dialog_registerPage)
             .removeExceptionWord;
       } else {
-        throw Exception(
-                "There's a problem in your register process:\n$firebaseException")
+        throw Exception(AppLocalizations.of(context)!
+                .genericRegisterException_dialog_registerPage)
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
   }

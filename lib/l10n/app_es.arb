@@ -15,6 +15,19 @@
     "invalidEmail_dialog_loginPage": "El correo ingresado no es válido.",
     "unknown_empty_dialog_loginPage": "Debes ingresar un correo y contraseña.",
     "networkRequestFailed_dialog_loginPage": "Debes estar conectado a internet para iniciar sesión.",
-    "genericLoginException_dialog_loginPage": "Hay un problema con el inicio de sesión, corrobora los datos que estás escribiendo, también puedes intentar reiniciando la aplicación o intentar nuevamente más tarde."
-
+    "genericLoginException_dialog_loginPage": "Hay un problema con el inicio de sesión, corrobora los datos que estás escribiendo. También puedes intentar reiniciando la aplicación o intentar nuevamente más tarde.",
+    "@_REGISTER_PAGE_SCREEN": {},
+    "title_appbar_registerPage": "Crea una cuenta",
+    "email_textformfield_registerPage": "Ingresa tu correo",
+    "password_textformfield_registerPage": "Ingresa una contraseña",
+    "confirmPassword_textformfield_registerPage": "Confirma tu contraseña",
+    "createAccount_button_registerPage": "Crear cuenta",
+    "@_REGISTER_PAGE_EXCEPTIONS": {},
+    "confirmPasswordInvalid_dialog_registerPage": "Las dos contraseñas ingresadas no coinciden, por favor, intenta escribiendolas nuevamente.",
+    "emailAlreadyInUse_dialog_registerPage": "El correo ingresado está en uso.",
+    "invalidEmail_dialog_registerPage": "El correo ingresado es inválido.",
+    "weakPassword_dialog_registerPage": "Has ingresado una contraseña muy débil.",
+    "unknown_empty_dialog_registerPage": "Debes ingresar un correo y contraseña.",
+    "genericRegisterException_dialog_registerPage": "Hay un problema al crear tu cuenta, corrobora los datos que estás escribiendo. También puedes intentar reiniciar la aplicación o intentar nuevamente más tarde."
+                                                        
 }

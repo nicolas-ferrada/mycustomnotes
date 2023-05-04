@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Create an account'),
+        title: Text(AppLocalizations.of(context)!.title_appbar_registerPage),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -41,9 +42,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextField(
                   controller: _emailRegisterController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!
+                        .email_textformfield_registerPage,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -56,9 +58,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your password',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!
+                        .password_textformfield_registerPage,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -70,9 +73,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration: const InputDecoration(
-                    hintText: 'Confirm your password',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!
+                        .confirmPassword_textformfield_registerPage,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -85,9 +89,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     Icons.account_circle,
                     size: 32,
                   ),
-                  label: const Text(
-                    'Create account',
-                    style: TextStyle(fontSize: 30),
+                  label: Text(
+                    AppLocalizations.of(context)!
+                        .createAccount_button_registerPage,
+                    style: const TextStyle(fontSize: 30),
                   ),
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 30),
@@ -107,14 +112,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         await AuthUserService.registerUserEmailPasswordFirebase(
                           email: _emailRegisterController.text,
                           password: _passwordRegisterController.text,
+                          context: context,
                         ).then((_) => Navigator.maybePop(context));
                       } catch (errorMessage) {
                         ExceptionsAlertDialog.showErrorDialog(
                             context, errorMessage.toString());
                       }
                     } else {
-                      ExceptionsAlertDialog.showErrorDialog(context,
-                          'The two passwords entered  do not match, please try writing your password again.');
+                      ExceptionsAlertDialog.showErrorDialog(
+                          context,
+                          AppLocalizations.of(context)!
+                              .confirmPasswordInvalid_dialog_registerPage);
                     }
                   },
                 ),

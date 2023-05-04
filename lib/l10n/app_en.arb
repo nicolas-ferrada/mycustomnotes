@@ -6,57 +6,103 @@
     },
     "@_LOGIN_PAGE_SCREEN": {},
     "email_textformfield_loginPage": "Enter your email",
-    "@email_textformfield": {
+    "@email_textformfield_loginPage": {
         "description": "User input to type your email for login."
     },
     "login_button_loginPage": "Login",
-    "@login_button": {
+    "@login_button_loginPage": {
         "description": "The button that allows the user to log in after its pressed"
     },
     "passwordRecover_richText_loginPage": "Recover it",
-    "@passwordRecover_richText": {
+    "@passwordRecover_richText_loginPage": {
         "description": "User can tap to recover password"
     },
     "passwordRecover_text_info_loginPage": "Forgot your password? ",
-    "@passwordRecover_text_info": {
+    "@passwordRecover_text_info_loginPage": {
         "description": "Telling the user why and when to tap the right rich text"
     },
     "password_textformfield_loginPage": "Enter your password",
-    "@password_textformfield": {
+    "@password_textformfield_loginPage": {
         "description": "User into to type your password for login"
     },
     "signUp_richText_loginPage": "Sign up",
-    "@signUp_richText": {
+    "@signUp_richText_loginPage": {
         "description": "User can tap to create an account"
     },
     "signUp_text_info_loginPage": "Need an account? ",
-    "@signUp_text_info": {
+    "@signUp_text_info_loginPage": {
         "description": "Telling the user why and when to tap the right rich text"
     },
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "You have entered a wrong password.",
-    "@wrongPassword_dialog": {
+    "@wrongPassword_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
     "userNotFound_dialog_loginPage": "The entered account does not exist.",
-    "@userNotFound_dialog": {
+    "@userNotFound_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
     "invalidEmail_dialog_loginPage": "The entered email is not valid.",
-    "@invalidEmail_dialog": {
+    "@invalidEmail_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
     "unknown_empty_dialog_loginPage": "You have to type an email and password.",
-    "@unknown_empty_dialog": {
+    "@unknown_empty_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
     "networkRequestFailed_dialog_loginPage": "You must to be connected to internet for logging in.",
-    "@networkRequestFailed_dialog": {
+    "@networkRequestFailed_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
     "genericLoginException_dialog_loginPage": "There is an problem with your login, try double checking the data you are writing, also you can try restarting the application or trying again later.",
-    "@genericLoginException_dialog": {
+    "@genericLoginException_dialog_loginPage": {
         "description": "One of the login exceptions was not caught"
+    },
+    "@_REGISTER_PAGE_SCREEN": {},
+    "title_appbar_registerPage": "Create an account",
+    "@title_appbar_registerPage": {
+        "description": "The title of the register screen"
+    },
+    "email_textformfield_registerPage": "Enter your email",
+    "@email_textformfield_registerPage": {
+        "description": "User input to type the email for creating an account."
+    },
+    "password_textformfield_registerPage": "Enter a password",
+    "@password_textformfield_registerPage": {
+        "description": "User input to type the password for creating an account."
+    },
+    "confirmPassword_textformfield_registerPage": "Confirm your password",
+    "@confirmPassword_textformfield_registerPage": {
+        "description": "User input to type the password to confirm is not misspelled"
+    },
+    "createAccount_button_registerPage": "Create account",
+    "@createAccount_button_registerPage": {
+        "description": "Button to trigger the create account funcionality using email and password"
+    },
+    "@_REGISTER_PAGE_EXCEPTIONS": {},
+    "confirmPasswordInvalid_dialog_registerPage": "The two passwords entered  do not match, please try writing your password again.",
+    "@confirmPasswordInvalid_dialog_registerPage": {
+        "description": "User pressed the create account button and the two password entered do not match"
+    },
+    "emailAlreadyInUse_dialog_registerPage": "You have entered an email that is already in use.",
+    "@emailAlreadyInUse_dialog_registerPage": {
+        "description": "User is trying to create an account with an email that is in use"
+    },
+    "invalidEmail_dialog_registerPage": "You have entered an invalid email.",
+    "@invalidEmail_dialog_registerPage": {
+        "description": "User is trying to create an account with an invalid email"
+    },
+    "weakPassword_dialog_registerPage": "You have entered a weak password.",
+    "@weakPassword_dialog_registerPage": {
+        "description": "User is trying to create an account with a weak password"
+    },
+    "unknown_empty_dialog_registerPage": "You have to type an email and password.",
+    "@unknown_empty_dialog_registerPage": {
+        "description": "Exception to indicate the user what is doing wrong in the register process."
+    },
+    "genericRegisterException_dialog_registerPage": "There is a problem creating your account, try double checking the data you are writing, also you can try restarting the application or trying again later.",
+    "@genericRegisterException_dialog_registerPage": {
+        "description": "One of the register exceptions was not caught"
     }
 
 }
