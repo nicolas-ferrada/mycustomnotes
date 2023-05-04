@@ -101,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                         context: context,
                       );
                     } catch (errorMessage) {
+                      // errorMessage is the custom message sent by the firebase function.
                       ExceptionsAlertDialog.showErrorDialog(
                           context, errorMessage.toString());
                     }

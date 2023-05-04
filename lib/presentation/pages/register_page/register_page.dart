@@ -115,6 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           context: context,
                         ).then((_) => Navigator.maybePop(context));
                       } catch (errorMessage) {
+                        // errorMessage is the custom message sent by the firebase function.
                         ExceptionsAlertDialog.showErrorDialog(
                             context, errorMessage.toString());
                       }

@@ -24,12 +24,23 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Recover password'),
+        title: const Text('Reset password'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Explanation to the user
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                'Enter your email to reset your password.',
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
             //Mail user input
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -50,32 +61,34 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
                 icon: const Icon(
-                  Icons.lock_open,
+                  Icons.lock,
                   size: 32,
                 ),
-                label: const Text(
-                  'Recover password',
-                  style: TextStyle(fontSize: 20),
+                label: Text(
+                  'Reset password',
+                  style: const TextStyle(fontSize: 24),
                 ),
                 style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 30),
                   backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-                  minimumSize: const Size(220, 75),
+                  minimumSize: const Size(220, 70),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  padding: const EdgeInsets.all(10),
+                      borderRadius: BorderRadius.circular(25)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // Send a email to recover the access of the account of the specified mail
                   try {
-                    AuthUserService.recoverPasswordUserFirebase(
-                            email: _emailRecoverPasswordController.text)
-                        .then(
+                    await AuthUserService.recoverPasswordUserFirebase(
+                      email: _emailRecoverPasswordController.text,
+                      context: context,
+                    ).then(
                       (_) => Navigator.maybePop(context)
                           .then((_) => dialogSucessfulMailSent(context)),
                     );
                   } catch (errorMessage) {
+                    // errorMessage is the custom message sent by the firebase function.
                     ExceptionsAlertDialog.showErrorDialog(
                         context, errorMessage.toString());
                   }
@@ -94,13 +107,13 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromARGB(255, 66, 253, 162),
+          backgroundColor: const Color.fromARGB(255, 7, 202, 40),
           title: const Center(
             child: Text('Successful'),
           ),
           content: const Text(
-            'An email to recover your account was sent',
-            style: TextStyle(color: Colors.white),
+            'An email to reset your password was sent.',
+            style: TextStyle(color: Colors.white, fontSize: 16),
           ),
           actions: [
             ElevatedButton(
@@ -109,7 +122,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                 Navigator.maybePop(context);
               },
               child: const Text(
-                'Close',
+                'Ok',
                 style: TextStyle(color: Colors.black),
               ),
             ),

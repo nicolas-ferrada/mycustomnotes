@@ -115,6 +115,7 @@ class AuthUserService {
   // Recover password user firebase
   static Future<void> recoverPasswordUserFirebase({
     required String email,
+    required BuildContext context,
   }) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
@@ -122,12 +123,10 @@ class AuthUserService {
       if (firebaseException.code == 'invalid-email') {
         throw Exception("You have entered an invalid email")
             .removeExceptionWord;
-      }
-      if (firebaseException.code == 'user-not-found') {
+      } else if (firebaseException.code == 'user-not-found') {
         throw Exception("The entered account doesn't exist")
             .removeExceptionWord;
-      }
-      if (firebaseException.code == 'unknown') {
+      } else if (firebaseException.code == 'unknown') {
         throw Exception("You have to type an email and password")
             .removeExceptionWord;
       } else {
