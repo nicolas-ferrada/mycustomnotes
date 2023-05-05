@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
@@ -24,7 +25,8 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Reset password'),
+        title: Text(
+            AppLocalizations.of(context)!.title_appbar_recoverPasswordPage),
       ),
       body: Center(
         child: Column(
@@ -34,7 +36,8 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
             Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                'Enter your email to reset your password.',
+                AppLocalizations.of(context)!
+                    .instructions_text_recoverPasswordPage,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -48,10 +51,11 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                 controller: _emailRecoverPasswordController,
                 keyboardType: TextInputType.emailAddress,
                 autofillHints: const [AutofillHints.email],
-                decoration: const InputDecoration(
-                  hintText: 'Enter your email',
-                  prefixIcon: Icon(Icons.mail),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!
+                      .email_textformfield_recoverPasswordPage,
+                  prefixIcon: const Icon(Icons.mail),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -65,7 +69,8 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                   size: 32,
                 ),
                 label: Text(
-                  'Reset password',
+                  AppLocalizations.of(context)!
+                      .resetPassword_button_recoverPasswordPage,
                   style: const TextStyle(fontSize: 24),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -107,13 +112,15 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromARGB(255, 7, 202, 40),
-          title: const Center(
-            child: Text('Successful'),
+          backgroundColor: const Color.fromARGB(255, 13, 255, 53),
+          title: Center(
+            child: Text(AppLocalizations.of(context)!
+                .sucessfulMailSent_title_dialog_recoverPasswordPage),
           ),
-          content: const Text(
-            'An email to reset your password was sent.',
-            style: TextStyle(color: Colors.white, fontSize: 16),
+          content: Text(
+            AppLocalizations.of(context)!
+                .sucessfulMailSent_body_dialog_recoverPasswordPage,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
           actions: [
             ElevatedButton(

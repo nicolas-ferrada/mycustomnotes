@@ -103,6 +103,47 @@
     "genericRegisterException_dialog_registerPage": "There is a problem creating your account, try double checking the data you are writing, also you can try restarting the application or trying again later.",
     "@genericRegisterException_dialog_registerPage": {
         "description": "One of the register exceptions was not caught"
+    },
+    "@_PASSWORD_RECOVER_PAGE_SCREEN": {},
+    "title_appbar_recoverPasswordPage": "Reset password",
+    "@title_appbar_recoverPasswordPage": {
+        "description": "The title of the password reset screen"
+    },
+    "instructions_text_recoverPasswordPage": "Enter your email to reset your password.",
+    "@instructions_text_recoverPasswordPage": {
+        "description": "The instructions to the user for the password resetting"
+    },
+    "email_textformfield_recoverPasswordPage": "Enter your email",
+    "@email_textformfield_recoverPasswordPage": {
+        "description": "User input to type the email for resetting the password."
+    },
+    "resetPassword_button_recoverPasswordPage": "Reset password",
+    "@resetPassword_button_recoverPasswordPage": {
+        "description": "User input to continue resetting the password once the email is written."
+    },
+    "sucessfulMailSent_title_dialog_recoverPasswordPage": "Successful",
+    "@sucessfulMailSent_title_dialog_recoverPasswordPage": {
+        "description": "Dialog to let the user know that the email for password resetting was sent."
+    },
+    "sucessfulMailSent_body_dialog_recoverPasswordPage": "An email to reset your password was sent.",
+    "@sucessfulMailSent_body_dialog_recoverPasswordPage": {
+        "description": "Dialog to let the user know that the email for password resetting was sent."
+    },
+    "@_PASSWORD_RECOVER_PAGE_SCREEN_EXCEPTIONS": {},
+    "invalidEmail_dialog_recoverPasswordPage": "You have entered an invalid email.",
+    "@invalidEmail_dialog_recoverPasswordPage": {
+        "description": "Exception to indicate the user what is doing wrong trying to reset their password."
+    },
+    "userNotFound_dialog_recoverPassword": "The entered account does not exist.",
+    "@userNotFound_dialog_recoverPassword": {
+        "description": "Exception to indicate the user what is doing wrong trying to reset their password."
+    },
+    "unknown_empty_dialog_recoverPassword": "You have to type an email and password.",
+    "@unknown_empty_dialog_recoverPassword": {
+        "description": "Exception to indicate the user what is doing wrong trying to reset their password."
+    },
+    "genericRecoverPasswordException_dialog_recoverPasswordPage": "There is a problem resetting your password, you can try restarting the application or trying again later.",
+    "@genericRecoverPasswordException_dialog_recoverPasswordPage": {
+        "description": "One of the reset password exceptions was not caught"
     }
-
 }

@@ -121,21 +121,24 @@ class AuthUserService {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'invalid-email') {
-        throw Exception("You have entered an invalid email")
+        throw Exception(AppLocalizations.of(context)!
+                .invalidEmail_dialog_recoverPasswordPage)
             .removeExceptionWord;
       } else if (firebaseException.code == 'user-not-found') {
-        throw Exception("The entered account doesn't exist")
+        throw Exception(AppLocalizations.of(context)!
+                .userNotFound_dialog_recoverPassword)
             .removeExceptionWord;
       } else if (firebaseException.code == 'unknown') {
-        throw Exception("You have to type an email and password")
+        throw Exception(AppLocalizations.of(context)!
+                .unknown_empty_dialog_recoverPassword)
             .removeExceptionWord;
       } else {
-        throw Exception(
-                "There is a problem recovering your password:\n$firebaseException")
+        throw Exception(AppLocalizations.of(context)!
+                .genericRecoverPasswordException_dialog_recoverPasswordPage)
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
   }
