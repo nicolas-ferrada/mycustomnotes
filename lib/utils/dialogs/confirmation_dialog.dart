@@ -29,7 +29,8 @@ class ConfirmationDialog {
                     onPressed: () async {
                       // log out firebase
                       try {
-                        await AuthUserService.logOutUserFirebase()
+                        await AuthUserService.logOutUserFirebase(
+                                context: context)
                             .then((value) => Navigator.maybePop(context));
                       } catch (errorMessage) {
                         ExceptionsAlertDialog.showErrorDialog(

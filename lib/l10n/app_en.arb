@@ -1,4 +1,5 @@
 {
+    "@_FORMAT_FUNCTION_WIDGET_PAGE": {},
     "@_GENERIC_UNEXPECTED_EXCEPTION": {},
     "unexpectedException_dialog": "Sorry, an unexpected error found, please try restarting the application or try again later.",
     "@unexpectedLoginException_dialog": {
@@ -145,5 +146,33 @@
     "genericRecoverPasswordException_dialog_recoverPasswordPage": "There is a problem resetting your password, you can try restarting the application or trying again later.",
     "@genericRecoverPasswordException_dialog_recoverPasswordPage": {
         "description": "One of the reset password exceptions was not caught"
+    },
+    "@_EMAIL_VERIFICATION_PAGE_SCREEN": {},
+    "title_appbar_emailVerificationPage": "Email verification",
+    "@title_appbar_emailVerificationPage": {
+        "description": "Email verification screen title in appbar."
+    },
+    "infoMailSentTo_text_emailVerificationPage": "The verification email was sent to:",
+    "@infoMailSentTo_text_emailVerificationPage": {
+        "description": "Let the user know where the email of verification was sent"
+    },
+    "userEmail_text_emailVerificationPage": "{userEmail}",
+    "@userEmail_text_emailVerificationPage": {
+        "description": "Email of the user displayed",
+        "placeholders": {
+            "userEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "signOut_button_emailVerificationPage": "Can't verify the email? sign out",
+    "@signOut_button_emailVerificationPage": {
+        "description": "Sign out button in case user can't verify the email"
+    },
+    "@_EMAIL_VERIFICATION_PAGE_EXCEPTIONS": {},
+    "emailAlreadyVerified_dialog_emailVerificationPage": "The email is already verified",
+    "@emailAlreadyVerified_dialog_emailVerificationPage": {
+        "description": "Somehow user is trying to verify it's already verified email"
     }
+
 }

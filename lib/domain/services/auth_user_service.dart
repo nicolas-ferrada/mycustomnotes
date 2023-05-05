@@ -81,33 +81,39 @@ class AuthUserService {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception().removeExceptionWord;
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
+          .removeExceptionWord;
     }
   }
 
   // Log out user firebase
-  static Future<void> logOutUserFirebase() async {
+  static Future<void> logOutUserFirebase({
+    required BuildContext context,
+  }) async {
     try {
       await FirebaseAuth.instance.signOut();
       await FirebaseFirestore.instance.terminate();
       await FirebaseFirestore.instance.clearPersistence();
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
   }
 
   // Email verification user firebase
-  static Future<void> emailVerificationUserFirebase() async {
+  static Future<void> emailVerificationUserFirebase({
+    required BuildContext context,
+  }) async {
     try {
       final currentUser = AuthUserService.getCurrentUserFirebase();
       if (currentUser.emailVerified == false) {
         await currentUser.sendEmailVerification();
       } else {
-        throw Exception('The email is already verified');
+        throw Exception(AppLocalizations.of(context)!
+            .emailAlreadyVerified_dialog_emailVerificationPage);
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
   }
@@ -150,11 +156,10 @@ class AuthUserService {
       if (currentUser != null) {
         return currentUser;
       } else {
-        throw Exception("There is no user logged in").removeExceptionWord;
+        throw Exception("No user logged").removeExceptionWord;
       }
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
-          .removeExceptionWord;
+      throw Exception("Error").removeExceptionWord;
     }
   }
 }

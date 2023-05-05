@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../home_page/home_page.dart';
 
@@ -30,8 +31,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     // If current user's email is not verified, send the email verification to it's email
     if (currentUser.emailVerified == false) {
       try {
-        AuthUserService
-            .emailVerificationUserFirebase(); // Sends the email verification
+        AuthUserService.emailVerificationUserFirebase(
+            context: context); // Sends the email verification
         // Check every three seconds if the user is verified or not, when it is, stop checking.
         timer = Timer.periodic(
           const Duration(seconds: 3),
@@ -70,22 +71,27 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Email verification'),
+          title: Text(
+              AppLocalizations.of(context)!.title_appbar_emailVerificationPage),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "The verification mail was sent to:",
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
               Text(
-                '${currentUser.email}',
+                AppLocalizations.of(context)!
+                    .infoMailSentTo_text_emailVerificationPage,
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppLocalizations.of(context)!
+                    .userEmail_text_emailVerificationPage(
+                        currentUser.email ?? 'Error: No email found'),
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 22),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
@@ -93,16 +99,18 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                 onPressed: () async {
                   // Log out firebase
                   try {
-                    await AuthUserService.logOutUserFirebase();
+                    await AuthUserService.logOutUserFirebase(context: context);
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
                         context, errorMessage.toString());
                   }
                 },
                 icon: const Icon(Icons.arrow_back),
-                label: const Text(
-                  "Can't verify the email? sign out",
-                  style: TextStyle(fontSize: 18),
+                label: Text(
+                  textAlign: TextAlign.center,
+                  AppLocalizations.of(context)!
+                      .signOut_button_emailVerificationPage,
+                  style: const TextStyle(fontSize: 18),
                 ),
               )
             ],
