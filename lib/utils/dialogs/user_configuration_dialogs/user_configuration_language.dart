@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/User/user_configuration.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../enums/select_language_enum.dart';
 
 class ChangeLanguage extends StatefulWidget {
@@ -22,12 +23,13 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   @override
   void initState() {
     super.initState();
-    currentLanguage =
-        getCurrentLanguage(languageId: widget.userConfiguration.language);
+    currentLanguage = getCurrentLanguage(
+        languageId: widget.userConfiguration.language, context: context);
   }
 
   getCurrentLanguage({
     required String languageId,
+    required BuildContext context,
   }) {
     switch (languageId) {
       case 'EN':
@@ -35,7 +37,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       case 'ES':
         return SelectLanguage.spanish;
       default:
-        return Exception('Language not found...');
+        return Exception(
+            AppLocalizations.of(context)!.unexpectedException_dialog);
     }
   }
 
@@ -50,10 +53,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               color: Colors.grey.shade800.withOpacity(0.9),
-              child: const Text(
-                'Select language',
+              child: Text(
+                AppLocalizations.of(context)!
+                    .languageTitle_drawerDialog_homePage,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -125,7 +129,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                             Padding(
                               padding: EdgeInsets.all(12),
                               child: Text(
-                                'Spanish',
+                                'Español',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 18),
                               ),
@@ -146,7 +150,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: Text(
                       (currentLanguage != null)
-                          ? 'Current language selected:\n${currentLanguage!.languageName}'
+                          ? '${AppLocalizations.of(context)!.languageCurrentLanguageSelected_drawerDialog_homePage}\n${currentLanguage!.languageName(context: context, currentLanguage: currentLanguage!)}'
                           : 'No language selected',
                       textAlign: TextAlign.center,
                       style: const TextStyle(

@@ -112,6 +112,7 @@ class NoteTextView1Small extends StatelessWidget {
                         Text(
                           // Date of last modification
                           DateFormatter.showLastModificationDateFormatted(
+                            context: context,
                             lastModificationDate: note.lastModificationDate,
                             userConfiguration: userConfiguration,
                           ),

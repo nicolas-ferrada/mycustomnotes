@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../../../data/models/User/user_configuration.dart';
 import '../../enums/last_modification_date_formats_enum.dart';
@@ -46,6 +47,38 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
     }
   }
 
+  String getUserCurrentSelectedView({
+    required UserConfiguration userConfiguration,
+    required BuildContext context,
+  }) {
+    String userDateTimeFormat = userConfiguration.dateTimeFormat;
+
+    switch (userDateTimeFormat) {
+      // 12 HRS
+      case 'DD/MM/YYYY12hrs':
+        return AppLocalizations.of(context)!
+            .dayMonthYear12hoursCurrentFormatSelected_drawerDialog_homePage;
+      case 'YYYY/MM/DD12hrs':
+        return AppLocalizations.of(context)!
+            .yearMonthDay12hoursCurrentFormatSelected_drawerDialog_homePage;
+      case 'MM/DD/YYYY12hrs':
+        return AppLocalizations.of(context)!
+            .monthDayYear12hoursCurrentFormatSelected_drawerDialog_homePage;
+      // 24 HRS
+      case 'DD/MM/YYYY24hrs':
+        return AppLocalizations.of(context)!
+            .dayMonthYear24hoursCurrentFormatSelected_drawerDialog_homePage;
+      case 'YYYY/MM/DD24hrs':
+        return AppLocalizations.of(context)!
+            .yearMonthDay24hoursCurrentFormatSelected_drawerDialog_homePage;
+      case 'MM/DD/YYYY24hrs':
+        return AppLocalizations.of(context)!
+            .monthDayYear24hoursCurrentFormatSelected_drawerDialog_homePage;
+      default:
+        return AppLocalizations.of(context)!.unexpectedException_dialog;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -57,10 +90,11 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               color: Colors.grey.shade800.withOpacity(0.9),
-              child: const Text(
-                'Date and time\n format',
+              child: Text(
+                AppLocalizations.of(context)!
+                    .dateTimeTitle_drawerDialog_homePage,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -94,20 +128,21 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(height: 4),
-                              Icon(
+                            children: [
+                              const SizedBox(height: 4),
+                              const Icon(
                                 Icons.calendar_today,
                                 size: 38,
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  'Day\nMonth\nYear',
+                                  AppLocalizations.of(context)!
+                                      .dayMonthYearOption_drawerDialog_homePage,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                             ],
@@ -133,20 +168,21 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(height: 4),
-                              Icon(
+                            children: [
+                              const SizedBox(height: 4),
+                              const Icon(
                                 Icons.calendar_month,
                                 size: 38,
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  'Year\nMonth\nDay',
+                                  AppLocalizations.of(context)!
+                                      .yearMonthDayOption_drawerDialog_homePage,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                             ],
@@ -172,20 +208,21 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(height: 4),
-                              Icon(
+                            children: [
+                              const SizedBox(height: 4),
+                              const Icon(
                                 Icons.calendar_today_outlined,
                                 size: 38,
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  'Month\nDay\nYear',
+                                  AppLocalizations.of(context)!
+                                      .monthDayYearOption_drawerDialog_homePage,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                             ],
@@ -221,20 +258,21 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(height: 4),
-                              Icon(
+                            children: [
+                              const SizedBox(height: 4),
+                              const Icon(
                                 Icons.access_time_filled,
                                 size: 38,
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  '12 hours',
+                                  AppLocalizations.of(context)!
+                                      .hours12option_drawerDialog_homePage,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 14),
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -260,20 +298,21 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(height: 4),
-                              Icon(
+                            children: [
+                              const SizedBox(height: 4),
+                              const Icon(
                                 Icons.access_time_rounded,
                                 size: 38,
                                 color: Colors.white,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Padding(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  '24 hours',
+                                  AppLocalizations.of(context)!
+                                      .hours24option_drawerDialog_homePage,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 14),
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -292,7 +331,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                       color: Colors.grey.shade800.withOpacity(0.9),
                       child: Center(
                         child: Text(
-                          'Current format selected:\n${getUserCurrentSelectedView(userConfiguration: widget.userConfiguration)}',
+                          '${AppLocalizations.of(context)!.currentFormatSelectedInfo_drawerDialog_homePage}${getUserCurrentSelectedView(userConfiguration: widget.userConfiguration, context: context)}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -325,9 +364,10 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                             context, userFinalSelectedTimeDateFormat);
                       }
                     },
-                    child: const Text(
-                      'Apply changes',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .applyChanges_button_drawerDialog_homePage,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
@@ -345,9 +385,9 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
@@ -363,31 +403,6 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
         );
       },
     );
-  }
-
-  String getUserCurrentSelectedView({
-    required UserConfiguration userConfiguration,
-  }) {
-    String userDateTimeFormat = userConfiguration.dateTimeFormat;
-
-    switch (userDateTimeFormat) {
-      // 12 HRS
-      case 'DD/MM/YYYY12hrs':
-        return 'Day/Month/Year 12 hours';
-      case 'YYYY/MM/DD12hrs':
-        return 'Year/Month/Day 12 hours';
-      case 'MM/DD/YYYY12hrs':
-        return 'Month/Day/Year 12 hours';
-      // 24 HRS
-      case 'DD/MM/YYYY24hrs':
-        return 'Day/Month/Year 24 hours';
-      case 'YYYY/MM/DD24hrs':
-        return 'Year/Month/Day 24 hours';
-      case 'MM/DD/YYYY24hrs':
-        return 'Month/Day/Year 24 hours';
-      default:
-        return 'No format selected found...';
-    }
   }
 
   String? getDate({

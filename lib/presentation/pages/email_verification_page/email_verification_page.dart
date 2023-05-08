@@ -44,7 +44,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             } else {
               // User is verified for the first time, so create it's configuration
               await UserConfigurationService.createUserConfigurations(
-                  userId: currentUser.uid);
+                  context: context, userId: currentUser.uid);
               timer?.cancel();
               setState(() {});
             }

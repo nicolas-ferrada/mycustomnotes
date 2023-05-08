@@ -35,6 +35,7 @@ class NoteTextView3Large extends StatelessWidget {
                     child: Text(
                       // Date of last modification
                       DateFormatter.showLastModificationDateFormatted(
+                        context: context,
                         lastModificationDate: note.lastModificationDate,
                         userConfiguration: userConfiguration,
                       ),

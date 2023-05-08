@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n_export.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../../domain/services/auth_user_service.dart';
 
@@ -11,12 +12,25 @@ class ConfirmationDialog {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
-          title: const Center(
-            child: Text('Log out'),
+          title: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              color: Colors.grey.shade800.withOpacity(0.9),
+              child: Text(
+                textAlign: TextAlign.center,
+                AppLocalizations.of(context)!.logOutTitle_drawerDialog_homePage,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
-          content: const Text(
-            'Do you really want to log out?',
-            style: TextStyle(color: Colors.white),
+          content: Text(
+            textAlign: TextAlign.center,
+            AppLocalizations.of(context)!.logOutInfo_drawerDialog_homePage,
+            style: const TextStyle(color: Colors.white, fontSize: 18),
           ),
           actions: [
             Center(
@@ -37,9 +51,10 @@ class ConfirmationDialog {
                             context, errorMessage.toString());
                       }
                     },
-                    child: const Text(
-                      'Log out',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .logOut_button_drawerDialog_homePage,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ElevatedButton(
@@ -49,13 +64,13 @@ class ConfirmationDialog {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 8,
                   )
                 ],
               ),

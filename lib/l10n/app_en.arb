@@ -1,9 +1,13 @@
 {
     "@_FORMAT_FUNCTION_WIDGET_PAGE": {},
-    "@_GENERIC_UNEXPECTED_EXCEPTION": {},
+    "@_GENERIC": {},
     "unexpectedException_dialog": "Sorry, an unexpected error found, please try restarting the application or try again later.",
-    "@unexpectedLoginException_dialog": {
-        "description": "A unexpected exception was caught in the login process"
+    "@unexpectedException_dialog": {
+        "description": "A unexpected exception was caught"
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+        "description": "A generic cancel button generally used in dialogs"
     },
     "@_LOGIN_PAGE_SCREEN": {},
     "email_textformfield_loginPage": "Enter your email",
@@ -165,7 +169,7 @@
             }
         }
     },
-    "signOut_button_emailVerificationPage": "Can't verify the email? sign out",
+    "signOut_button_emailVerificationPage": "Can't verify the email? Sign out",
     "@signOut_button_emailVerificationPage": {
         "description": "Sign out button in case user can't verify the email"
     },
@@ -173,6 +177,153 @@
     "emailAlreadyVerified_dialog_emailVerificationPage": "The email is already verified",
     "@emailAlreadyVerified_dialog_emailVerificationPage": {
         "description": "Somehow user is trying to verify it's already verified email"
+    },
+    "@_HOME_PAGE_PAGE_EXCEPTIONS": {},
+    "getUserConfigurationError_snapshotHasError_homePage": "Error reading the user configuration, please, restart the app...",
+    "@getUserConfigurationError_snapshotHasError_homePage": {
+        "description": "Getting the user configration future resolved with an error"
+    },
+    "@_HOME_PAGE_DRAWER_MENU": {},
+    "title_drawer_homePage": "Setting menu",
+    "@title_drawer_homePage": {
+        "description": "Drawer title"
+    },
+    "language_drawer_homePage": "Language",
+    "@language_drawer_homePage": {
+        "description": "Allow the user to select app's language"
+    },
+    "dateAndTime_drawer_homePage": "Date and time format",
+    "@dateAndTime_drawer_homePage": {
+        "description": "Allow the user select the date and time formats"
+    },
+    "notesView_drawer_homePage": "Notes view",
+    "@notesView_drawer_homePage": {
+        "description": "Allow the user to select in what way they want to display the notes"
+    },
+    "logOut_drawer_homePage": "Log out",
+    "@logOut_drawer_homePage": {
+        "description": "Allow the user to close their account's session"
+    },
+    "@_HOME_PAGE_DRAWER_DIALOG_SELECT_LANGUAGE": {},
+    "languageTitle_drawerDialog_homePage": "Select language",
+    "@languageTitle_drawerDialog_homePage": {
+        "description": "Title of the dialog from the language drawer"
+    },
+    "languageEnglishOption_drawerDialog_homePage": "English",
+    "@languageEnglishOption_drawerDialog_homePage": {
+        "description": "English option of the dialog from the language drawer"
+    },
+    "languageSpanishOption_drawerDialog_homePage": "Spanish",
+    "@languageSpanishOption_drawerDialog_homePage": {
+        "description": "Spanish option of the dialog from the language drawer"
+    },
+    "languageCurrentLanguageSelected_drawerDialog_homePage": "Current language selected:",
+    "@languageCurrentLanguageSelected_drawerDialog_homePage": {
+        "description": "Let the user know which language is currently selected"
+    },
+    "@_HOME_PAGE_DRAWER_DIALOG_DATE_AND_TIME_FORMAT": {},
+    "dateTimeTitle_drawerDialog_homePage": "Date and time format",
+    "@dateTimeTitle_drawerDialog_homePage": {
+        "description": "Title of the dialog from the date and time formats drawer"
+    },
+    "dayMonthYearOption_drawerDialog_homePage": "Day\nMonth\nYear",
+    "@dayMonthYearOption_drawerDialog_homePage": {
+        "description": "One of the options for formatting date in the date and time format dialog from the drawer home_page"
+    },
+    "yearMonthDayOption_drawerDialog_homePage": "Year\nMonth\nDay",
+    "@yearMonthDayOption_drawerDialog_homePage": {
+        "description": "One of the options for formatting date in the date and time format dialog from the drawer home_page"
+    },
+    "monthDayYearOption_drawerDialog_homePage": "Month\nDay\nYear",
+    "@MonthDayYearOption_drawerDialog_homePage": {
+        "description": "One of the options for formatting date in the date and time format dialog from the drawer home_page"
+    },
+    "hours12option_drawerDialog_homePage": "12 hours",
+    "@12hoursOption_drawerDialog_homePage": {
+        "description": "One of the options for formatting time in the date and time format dialog from the drawer home_page"
+    },
+    "hours24option_drawerDialog_homePage": "24 hours",
+    "@24hoursOption_drawerDialog_homePage": {
+        "description": "One of the options for formatting time in the date and time format dialog from the drawer home_page"
+    },
+    "currentFormatSelectedInfo_drawerDialog_homePage": "Current format selected:\n",
+    "@currentFormatSelectedInfo_drawerDialog_homePage": {
+        "description": "Showing the options selected in the formatting date and time dialog from the drawer home_page"
+    },
+    "dayMonthYear12hoursCurrentFormatSelected_drawerDialog_homePage": "Day/Month/Year 12 hours",
+    "@dayMonthYear12hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "yearMonthDay12hoursCurrentFormatSelected_drawerDialog_homePage": "Year/Month/Day 12 hours",
+    "@yearMonthDay12hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "monthDayYear12hoursCurrentFormatSelected_drawerDialog_homePage": "Month/Day/Year 12 hours",
+    "@monthDayYear12hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "dayMonthYear24hoursCurrentFormatSelected_drawerDialog_homePage": "Day/Month/Year 24 hours",
+    "@dayMonthYear24hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "yearMonthDay24hoursCurrentFormatSelected_drawerDialog_homePage": "Year/Month/Day 24 hours",
+    "@yearMonthDay24hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "monthDayYear24hoursCurrentFormatSelected_drawerDialog_homePage": "Month/Day/Year 24 hours",
+    "@monthDayYear24hoursCurrentFormatSelected_drawerDialog_homePage": {
+        "description": "One of the options to be displayed to user to check what format is selected in the date and time format dialog in drawer"
+    },
+    "applyChanges_button_drawerDialog_homePage": "Apply changes",
+    "@applyChanges_button_drawerDialog_homePage": {
+        "description": "A button to apply date and format changes"
+    },
+    "@_HOME_PAGE_DRAWER_DIALOG_NOTES_VIEW": {},
+    "notesViewTitle_drawerDialog_homePage": "Notes view",
+    "@notesViewTitle_drawerDialog_homePage": {
+        "description": "Title of the dialog from the note view drawer"
+    },
+    "smallNotesViewOption_drawerDialog_homePage": " Small ",
+    "@smallNotesViewOption_drawerDialog_homePage": {
+        "description": "One of the options for changing the notes view from the dialog's home_page drawer"
+    },
+    "splitNotesViewOption_drawerDialog_homePage": " Split ",
+    "@splitNotesViewOption_drawerDialog_homePage": {
+        "description": "One of the options for changing the notes view from the dialog's home_page drawer"
+    },
+    "largeNotesViewOption_drawerDialog_homePage": " Large ",
+    "@largeNotesViewOption_drawerDialog_homePage": {
+        "description": "One of the options for changing the notes view from the dialog's home_page drawer"
+    },
+    "viewSelectedNotesViewInfo_drawerDialog_homePage": "View selected: ",
+    "@currentFormatSelectedInfo_drawerDialog_homePage": {
+        "description": "Showing the option selected in the notes view dialog from the drawer home_page"
+    },
+    "@_HOME_PAGE_DRAWER_DIALOG_LOG_OUT": {},
+    "logOutTitle_drawerDialog_homePage": "Log out",
+    "@notesViewTitle_drawerDialog_homePage": {
+        "description": "Title of the dialog from the log out drawer"
+    },
+    "logOutInfo_drawerDialog_homePage": "Do you really want to log out?",
+    "@logOutInfo_drawerDialog_homePage": {
+        "description": "Subtitle info to confirm if they user really want to log out"
+    },
+    "logOut_button_drawerDialog_homePage": "Log out",
+    "@logOut_button_drawerDialog_homePage": {
+        "description": "Log out button in the drawer dialog"
+    },
+    "@_HOME_PAGE_USER_CONFIGURATION_EXCEPTIONS": {},
+    "editing_dialog_userConfiguration": "Error editing the user configurations, please try restarting the app",
+    "@editing_dialog_userConfiguration": {
+        "description": "Error trying to do operations to the user configurations"
+    },
+    "reading_dialog_userConfiguration": "Error reading the user configurations, please try restarting the app",
+    "@reading_dialog_userConfiguration": {
+        "description": "Error trying to do operations to the user configurations"
+    },
+    "creating_dialog_userConfiguration": "Error creating the user configurations, please try restarting the app",
+    "@creating_dialog_userConfiguration": {
+        "description": "Error trying to do operations to the user configurations"
     }
 
 }

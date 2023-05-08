@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../data/models/User/user_configuration.dart';
 import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
+import '../../../l10n/l10n_export.dart';
 import 'home_page_widgets/home_page_app_bar.dart';
 import 'home_page_widgets/home_page_navigation_drawer.dart';
 import 'home_page_widgets/home_page_new_note_button_widget.dart';
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<UserConfiguration> getUserConfiguration() async {
     return await UserConfigurationService.getUserConfigurations(
-        userId: currentUser.uid);
+        userId: currentUser.uid, context: context);
   }
 
   @override
@@ -59,9 +60,10 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: newNoteButton(context: context),
           );
         } else if (snapshot.hasError) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Text('Error: please, restart the app...'),
+              child: Text(AppLocalizations.of(context)!
+                  .getUserConfigurationError_snapshotHasError_homePage),
             ),
           );
         } else {

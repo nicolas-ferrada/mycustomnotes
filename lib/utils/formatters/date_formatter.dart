@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
@@ -12,6 +13,7 @@ class DateFormatter {
   static String showLastModificationDateFormatted({
     required Timestamp lastModificationDate,
     required UserConfiguration userConfiguration,
+    required BuildContext context,
   }) {
     // This variable will take the final date ready to be returned depending on the conditions.
     late String finalDate;
@@ -25,7 +27,8 @@ class DateFormatter {
 
     // If the last note modification was today, this year or another year
     final WhenItWasLastModification whenItWasTheLastModification =
-        whenItWasTheLastNoteModification(date: lastModificationDateToDateTime);
+        whenItWasTheLastNoteModification(
+            date: lastModificationDateToDateTime, context: context);
 
     finalDate = getFinalDate(
       whenWasLastMod: whenItWasTheLastModification,
@@ -154,6 +157,7 @@ class DateFormatter {
 
   static WhenItWasLastModification whenItWasTheLastNoteModification({
     required DateTime date,
+    required BuildContext context,
   }) {
     final today = DateTime.now();
 
@@ -173,6 +177,7 @@ class DateFormatter {
 
   static Future<String> showDateFormattedAllFields({
     required Timestamp dateDB,
+    required BuildContext context,
   }) async {
     final User currentUser = AuthUserService.getCurrentUserFirebase();
 
@@ -180,7 +185,7 @@ class DateFormatter {
 
     // get user configuration
     userConfiguration = await UserConfigurationService.getUserConfigurations(
-        userId: currentUser.uid);
+        context: context, userId: currentUser.uid);
 
     late String formattedTime;
 

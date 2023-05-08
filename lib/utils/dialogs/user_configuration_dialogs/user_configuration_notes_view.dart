@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/User/user_configuration.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../enums/notes_view_enum.dart';
 import '../../icons/notes_view_icons_icons.dart';
 
@@ -23,12 +24,13 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
   @override
   void initState() {
     super.initState();
-    notesView =
-        getCurrentLanguage(noteView: widget.userConfiguration.notesView);
+    notesView = getCurrentLanguage(
+        noteView: widget.userConfiguration.notesView, context: context);
   }
 
   NotesView getCurrentLanguage({
     required int noteView,
+    required BuildContext context,
   }) {
     switch (noteView) {
       case 1:
@@ -38,7 +40,8 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
       case 3:
         return NotesView.large;
       default:
-        throw Exception('View not found...');
+        throw Exception(
+            AppLocalizations.of(context)!.unexpectedException_dialog);
     }
   }
 
@@ -52,9 +55,11 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             color: Colors.grey.shade800.withOpacity(0.9),
-            child: const Text(
-              'Notes view',
-              style: TextStyle(
+            child: Text(
+              textAlign: TextAlign.center,
+              AppLocalizations.of(context)!
+                  .notesViewTitle_drawerDialog_homePage,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 34,
                 fontWeight: FontWeight.bold,
@@ -83,20 +88,21 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            SizedBox(height: 8),
-                            Icon(
+                          children: [
+                            const SizedBox(height: 8),
+                            const Icon(
                               NotesViewIcons.smallList,
                               size: 38,
                               color: Colors.white,
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Padding(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(8),
                               child: Text(
-                                'Small',
+                                AppLocalizations.of(context)!
+                                    .smallNotesViewOption_drawerDialog_homePage,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 11),
                               ),
                             ),
                           ],
@@ -118,20 +124,21 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            SizedBox(height: 8),
-                            Icon(
+                          children: [
+                            const SizedBox(height: 8),
+                            const Icon(
                               NotesViewIcons.splitList,
                               size: 38,
                               color: Colors.white,
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Padding(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(8),
                               child: Text(
-                                'Split',
+                                AppLocalizations.of(context)!
+                                    .splitNotesViewOption_drawerDialog_homePage,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ),
                           ],
@@ -153,20 +160,21 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            SizedBox(height: 8),
-                            Icon(
+                          children: [
+                            const SizedBox(height: 8),
+                            const Icon(
                               Icons.square,
                               size: 42,
                               color: Colors.white,
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Padding(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(8),
                               child: Text(
-                                'Large',
+                                AppLocalizations.of(context)!
+                                    .largeNotesViewOption_drawerDialog_homePage,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ),
                           ],
@@ -184,9 +192,10 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: Text(
+                      textAlign: TextAlign.center,
                       (notesView != null)
-                          ? 'View selected: ${notesView!.notesViewName}'
-                          : 'No view selected',
+                          ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage} ${notesView!.noteViewName(currentView: notesView!, context: context)}'
+                          : 'No view selected/No hay vista seleccionada',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -212,9 +221,9 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                   onPressed: () {
                     Navigator.maybePop(context);
                   },
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.cancelButton,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                     ),

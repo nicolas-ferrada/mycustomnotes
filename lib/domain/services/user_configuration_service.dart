@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,7 @@ class UserConfigurationService {
   // Only used for the first time, on account creation/email verification.
   static Future<void> createUserConfigurations({
     required String userId,
+    required BuildContext context,
   }) async {
     try {
       final SharedPreferences preferences =
@@ -29,12 +32,14 @@ class UserConfigurationService {
 
       await preferences.setString(userId, userConfigurationJson);
     } catch (e) {
-      throw Exception('Error creating the user configuration $e')
+      throw Exception(
+              AppLocalizations.of(context)!.creating_dialog_userConfiguration)
           .removeExceptionWord;
     }
   }
 
   static Future<UserConfiguration> getUserConfigurations({
+    required BuildContext context,
     required String userId,
   }) async {
     try {
@@ -47,22 +52,24 @@ class UserConfigurationService {
 
       final String? userConfigurationJson = preferences.getString(userId);
 
-      if (userConfigurationJson == null) {
+      if (userConfigurationJson == null && context.mounted) {
         // if the config does not exists, create one
-        await createUserConfigurations(userId: userId);
+        await createUserConfigurations(userId: userId, context: context);
       } else {
         userConfiguration =
-            UserConfiguration.fromMap(json.decode(userConfigurationJson));
+            UserConfiguration.fromMap(json.decode(userConfigurationJson!));
       }
 
       return userConfiguration;
     } catch (e) {
-      throw Exception('Error reading the user configuration $e')
+      throw Exception(
+              AppLocalizations.of(context)!.reading_dialog_userConfiguration)
           .removeExceptionWord;
     }
   }
 
   static Future<void> editUserConfigurations({
+    required BuildContext context,
     required String userId,
     String? language,
     String? dateTimeFormat,
@@ -75,23 +82,29 @@ class UserConfigurationService {
       await preferences.reload();
 
       // Get the current configuration to fill the not given fields of the new configuration.
-      final UserConfiguration currentConfiguration =
-          await UserConfigurationService.getUserConfigurations(userId: userId);
+      if (context.mounted) {
+        final UserConfiguration currentConfiguration =
+            await UserConfigurationService.getUserConfigurations(
+                userId: userId, context: context);
 
-      // The new edited version of the configurations, if one field was not given, the rest is
-      // equal to the previous versions.
-      final UserConfiguration newConfiguration = UserConfiguration(
-        userId: userId,
-        language: language ?? currentConfiguration.language,
-        dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
-        notesView: notesView ?? currentConfiguration.notesView,
-      );
+        // The new edited version of the configurations, if one field was not given, the rest is
+        // equal to the previous versions.
+        final UserConfiguration newConfiguration = UserConfiguration(
+          userId: userId,
+          language: language ?? currentConfiguration.language,
+          dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
+          notesView: notesView ?? currentConfiguration.notesView,
+        );
 
-      final userConfigurationJson = json.encode(newConfiguration.toMap());
+        final userConfigurationJson = json.encode(newConfiguration.toMap());
 
-      await preferences.setString(userId, userConfigurationJson);
+        await preferences.setString(userId, userConfigurationJson);
+      } else {
+        throw Exception();
+      }
     } catch (e) {
-      throw Exception('Error editing the user configurations $e')
+      throw Exception(
+              AppLocalizations.of(context)!.editing_dialog_userConfiguration)
           .removeExceptionWord;
     }
   }
