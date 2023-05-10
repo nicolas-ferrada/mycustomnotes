@@ -58,6 +58,8 @@
     "emailAlreadyVerified_dialog_emailVerificationPage": "Este correo ya está verificado",
     "@_HOME_PAGE_PAGE_EXCEPTIONS": {},
     "getUserConfigurationError_snapshotHasError_homePage": "Hubo un problema al leer las configuraciones del usuario, por favor, reinicie la aplicación...",
+    "getNotesError_snapshotHasError_homePage": "Error al leer las notas, por favor, reinicia la aplicación...",
+    "noNotesCreated_text_homePage": "No tienes ninguna nota creada.",
     "@_HOME_PAGE_DRAWER_MENU": {},
     "title_drawer_homePage": "Menú de configuración",
     "language_drawer_homePage": "Idioma",
@@ -93,5 +95,18 @@
     "@_HOME_PAGE_DRAWER_DIALOG_LOG_OUT": {},
     "logOutTitle_drawerDialog_homePage": "Cerrar sesión",
     "logOutInfo_drawerDialog_homePage": "¿Realmente quieres cerrar sesión?",
-    "logOut_button_drawerDialog_homePage": "Cerrar sesión"
+    "logOut_button_drawerDialog_homePage": "Cerrar sesión",
+    "editing_dialog_userConfiguration": "Error al editar la configuración del usuario, por favor, intenta reiniciando la aplicación",
+    "reading_dialog_userConfiguration": "Error al leer la configuración del usuario, por favor, intenta reiniciando la aplicación",
+    "creating_dialog_userConfiguration": "Error al crear la configuración del usuario, por favor, intenta reiniciando la aplicación",
+    "@_HOME_PAGE": {},
+    "newNote_floatingButton_homePage": "Crear nota",
+    "newNoteTitle_dialog_homePage": "Selecciona el tipo de nota",
+    "newNoteTextNoteOption_dialog_homePage": "Nota de texto",
+    "newNoteTasksNoteOption_dialog_homePage": "Nota de tareas",
+    "@_NOTE_TEXT_CREATE_PAGE": {},
+    "title_textformfield_noteTextCreatePage": "Title",
+    "@title_textformfield_noteTextCreatePage": {
+        "description": "Input to the user be able to create the title of the note text"
+    }
 }

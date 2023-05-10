@@ -181,7 +181,15 @@
     "@_HOME_PAGE_PAGE_EXCEPTIONS": {},
     "getUserConfigurationError_snapshotHasError_homePage": "Error reading the user configuration, please, restart the app...",
     "@getUserConfigurationError_snapshotHasError_homePage": {
-        "description": "Getting the user configration future resolved with an error"
+        "description": "Getting the user configuration future resolved with an error"
+    },
+    "getNotesError_snapshotHasError_homePage": "Error reading the notes, please, restart the app...",
+    "@getNotesError_snapshotHasError_homePage": {
+        "description": "Getting the user notes future resolved with an error"
+    },
+    "noNotesCreated_text_homePage": "You don't have any note created.",
+    "@noNotesCreated_text_homePage": {
+        "description": "User have no notes created"
     },
     "@_HOME_PAGE_DRAWER_MENU": {},
     "title_drawer_homePage": "Setting menu",
@@ -313,17 +321,38 @@
         "description": "Log out button in the drawer dialog"
     },
     "@_HOME_PAGE_USER_CONFIGURATION_EXCEPTIONS": {},
-    "editing_dialog_userConfiguration": "Error editing the user configurations, please try restarting the app",
+    "editing_dialog_userConfiguration": "Error editing the user configurations, please, try restarting the app",
     "@editing_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
     },
-    "reading_dialog_userConfiguration": "Error reading the user configurations, please try restarting the app",
+    "reading_dialog_userConfiguration": "Error reading the user configurations, please, try restarting the app",
     "@reading_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
     },
-    "creating_dialog_userConfiguration": "Error creating the user configurations, please try restarting the app",
+    "creating_dialog_userConfiguration": "Error creating the user configurations, please, try restarting the app",
     "@creating_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
+    },
+    "@_HOME_PAGE": {},
+    "newNote_floatingButton_homePage": "New note",
+    "@newNote_floatingButton_homePage": {
+        "description": "Button in the home page to create a new note"
+    },
+    "newNoteTitle_dialog_homePage": "Select note type",
+    "@newNoteTitle_dialog_homePage": {
+        "description": "New note dialog opened after tapping on new note button in home page"
+    },
+    "newNoteTextNoteOption_dialog_homePage": "Text Note",
+    "@newNoteTextNoteOption_dialog_homePage": {
+        "description": "New note dialog opened after tapping on new note button in home page option 1"
+    },
+    "newNoteTasksNoteOption_dialog_homePage": "Tasks Note",
+    "@newNoteTextNoteOption_dialog_homePage": {
+        "description": "New note dialog opened after tapping on new note button in home page option 2"
+    },
+    "@_NOTE_CREATE_PAGE_TEXT": {},
+    "": "",
+    "@": {
+        "description": ""
     }
-
 }
