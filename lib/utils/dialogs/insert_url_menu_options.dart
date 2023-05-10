@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../snackbars/snackbar_message.dart';
 
-class InsertMenuOptions extends StatefulWidget {
+class InsertUrlMenuOptions extends StatefulWidget {
   final BuildContext context;
 
-  const InsertMenuOptions({
+  const InsertUrlMenuOptions({
     required this.context,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<InsertMenuOptions> createState() => _InsertMenuOptionsState();
+  State<InsertUrlMenuOptions> createState() => _InsertUrlMenuOptionsState();
 }
 
-class _InsertMenuOptionsState extends State<InsertMenuOptions> {
+class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
   String newUrl = '';
   TextEditingController urlController = TextEditingController();
 
@@ -49,14 +49,10 @@ class _InsertMenuOptionsState extends State<InsertMenuOptions> {
                     controller: urlController,
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(color: Colors.white),
-                      fillColor: Colors.red,
                       hintText: 'Enter your url',
                       prefixIcon: Icon(
                         Icons.link,
                         color: Colors.white,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
                   ),

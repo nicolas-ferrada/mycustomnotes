@@ -1,5 +1,8 @@
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
-import '../../../../utils/dialogs/insert_menu_options.dart';
+import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_text_service.dart';
@@ -33,11 +36,60 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
   Color noteColorPaletteIcon = Colors.grey;
   Color noteColorFavoriteIcon = Colors.grey;
 
+  // Url variables
+  String? url;
+
+  // When to show video
+  bool isUrlVisible = false;
+
+  // Did the url was modified? to show save button
+  bool didUrlChanged = false;
+
+  // Force the preview URL image to update
+  late Key previewKey;
+
+  @override
+  void initState() {
+    super.initState();
+    previewKey = UniqueKey();
+  }
+
   @override
   void dispose() {
     _noteTitleController.dispose();
     _noteBodyController.dispose();
     super.dispose();
+  }
+
+  Future<bool> isUrlValid({
+    required String urlStr,
+  }) async {
+    try {
+      final Uri url = Uri.parse(urlStr);
+      // if it's valid, then apply it to the newNote object
+      if (await canLaunchUrl(url)) {
+        return true;
+      } else {
+        throw Exception('The url is not valid, try again.').removeExceptionWord;
+      }
+    } catch (errorMessage) {
+      await ExceptionsAlertDialog.showErrorDialog(
+          context: context, errorMessage: errorMessage.toString());
+    }
+    return false;
+  }
+
+  Future<void> launchingUrl({
+    required String url,
+  }) async {
+    try {
+      final Uri toLaunchUrl = Uri.parse(url);
+      await launchUrl(toLaunchUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      await ExceptionsAlertDialog.showErrorDialog(
+          context: context,
+          errorMessage: 'Could not launch this URL, try adding other one');
+    }
   }
 
   @override
@@ -84,33 +136,34 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
               ),
               onPressed: () async {
                 // Load an url
-                // final String? url = await showDialog<String?>(
-                //   context: context,
-                //   builder: (context) {
-                //     return InsertMenuOptions(
-                //       context: context,
-                //     );
-                //   },
-                // );
-                // if (url != null) {
-                //   // if user tap on delete current url button, it will return that string
-                //   if (url == 'deletecurrenturl') {
-                //     setState(() {
-                //       newNote.url = null;
-                //       didUrlChanged = true;
-                //       previewKey = UniqueKey();
-                //       isUrlVisible = false;
-                //     });
-                //   } else {
-                //     validateUrl(urlStr: url).then((finalUrl) {
-                //       setState(() {
-                //         isUrlVisible = true;
-                //         newNote.url = finalUrl;
-                //         previewKey = UniqueKey();
-                //       });
-                //     });
-                //   }
-                // }
+                final String? newUrl = await showDialog<String?>(
+                  context: context,
+                  builder: (context) {
+                    return InsertUrlMenuOptions(
+                      context: context,
+                    );
+                  },
+                );
+                if (newUrl != null) {
+                  // if user tap on delete current url button, it will return that string
+                  if (newUrl == 'deletecurrenturl') {
+                    setState(() {
+                      url = null;
+                      didUrlChanged = true;
+                      previewKey = UniqueKey();
+                      isUrlVisible = false;
+                    });
+                  } else {
+                    if (await isUrlValid(urlStr: newUrl)) {
+                      setState(() {
+                        didUrlChanged = true;
+                        isUrlVisible = true;
+                        url = newUrl;
+                        previewKey = UniqueKey();
+                      });
+                    }
+                  }
+                }
               },
             ),
             // Color
@@ -226,24 +279,68 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
     );
   }
 
-  Padding noteCreatePageBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: TextFormField(
-        onChanged: (value) {
-          setState(() {
-            _isCreateButtonVisible = true;
-          });
-        },
-        controller: _noteBodyController,
-        textAlignVertical: TextAlignVertical.top,
-        maxLines: null,
-        expands: true,
-        decoration: const InputDecoration(
-          hintText: "Body",
-          border: InputBorder.none,
+  Widget noteCreatePageBody() {
+    return Column(
+      children: [
+        // Url if exists
+        Visibility(
+          visible: isUrlVisible,
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: AnyLinkPreview(
+              onTap: () {
+                String? finalUrl = url;
+                if (finalUrl != null) {
+                  launchingUrl(url: finalUrl);
+                }
+              },
+              key: previewKey,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 10,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+              // urlLaunchMode: LaunchMode.externalApplication,
+              link: url ?? '',
+              borderRadius: 0,
+              displayDirection: UIDirection.uiDirectionVertical,
+              backgroundColor: Colors.white70,
+              errorTitle: "Error: can't load the title..",
+              errorBody: "Error: can't load the content..",
+              errorWidget: Container(
+                color: Colors.red.shade900,
+                child: const Center(
+                  child: Text("Error: can't load any image.."),
+                ),
+              ),
+            ),
+          ),
         ),
-      ),
+        // Note's body
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  _isCreateButtonVisible = true;
+                });
+              },
+              controller: _noteBodyController,
+              textAlignVertical: TextAlignVertical.top,
+              maxLines: null,
+              expands: true,
+              decoration: const InputDecoration(
+                hintText: "Body",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -13,7 +13,7 @@ import '../../../../domain/services/auth_user_service.dart';
 import '../../../../domain/services/note_text_service.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/delete_note_confirmation.dart';
-import '../../../../utils/dialogs/insert_menu_options.dart';
+import '../../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
 import '../../../../utils/enums/menu_item_note_detail.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -208,7 +208,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             // Note's body
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: TextFormField(
                   initialValue: widget.noteText.body,
                   textAlignVertical: TextAlignVertical.top,
@@ -314,7 +314,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           final String? url = await showDialog<String?>(
             context: context,
             builder: (context) {
-              return InsertMenuOptions(
+              return InsertUrlMenuOptions(
                 context: context,
               );
             },
@@ -542,7 +542,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     return await showDialog(
       context: context,
       builder: (context) {
-        return InsertMenuOptions(
+        return InsertUrlMenuOptions(
           context: context,
         );
       },

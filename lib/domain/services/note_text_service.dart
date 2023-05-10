@@ -47,6 +47,7 @@ class NoteTextService {
     required String userId,
     required bool isFavorite,
     required int color,
+    String? url,
   }) async {
     try {
       // References to the firestore colletion.
@@ -66,6 +67,7 @@ class NoteTextService {
         createdDate: Timestamp.now(),
         isFavorite: isFavorite,
         color: color,
+        url: url
       );
 
       // Transform that note object into a map to store it.
