@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +17,7 @@ import '../../../../utils/dialogs/insert_menu_options.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
 import '../../../../utils/enums/menu_item_note_detail.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../../utils/icons/insert_url_icon_icons.dart';
 import '../../../../utils/internet/check_internet_connection.dart';
 import '../../../../utils/note_color/note_color.dart';
 import '../../../../utils/snackbars/snackbar_message.dart';
@@ -74,25 +78,22 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 
-  Future<String> validateUrl({
+  Future<bool> isUrlValid({
     required String urlStr,
   }) async {
     try {
       final Uri url = Uri.parse(urlStr);
       // if it's valid, then apply it to the newNote object
       if (await canLaunchUrl(url)) {
-        setState(() {
-          didUrlChanged = true;
-        });
-        return urlStr;
+        return true;
       } else {
-        throw Exception();
+        throw Exception('The url is not valid, try again.').removeExceptionWord;
       }
-    } catch (_) {
+    } catch (errorMessage) {
       await ExceptionsAlertDialog.showErrorDialog(
-          context, 'Invalid URL, try again');
+          context: context, errorMessage: errorMessage.toString());
     }
-    return urlStr;
+    return false;
   }
 
   Future<void> launchingUrl({
@@ -103,7 +104,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       await launchUrl(toLaunchUrl, mode: LaunchMode.externalApplication);
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
-          context, 'Could not launch this URL, try adding other one');
+          context: context,
+          errorMessage: 'Could not launch this URL, try adding other one');
     }
   }
 
@@ -287,7 +289,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             }
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(
-                context, errorMessage.toString());
+                context: context, errorMessage: errorMessage.toString());
           }
         },
       ),
@@ -317,7 +319,6 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
               );
             },
           );
-
           if (url != null) {
             // if user tap on delete current url button, it will return that string
             if (url == 'deletecurrenturl') {
@@ -328,13 +329,14 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 isUrlVisible = false;
               });
             } else {
-              validateUrl(urlStr: url).then((finalUrl) {
+              if (await isUrlValid(urlStr: url)) {
                 setState(() {
+                  didUrlChanged = true;
                   isUrlVisible = true;
-                  newNote.url = finalUrl;
+                  newNote.url = url;
                   previewKey = UniqueKey();
                 });
-              });
+              }
             }
           }
 
@@ -391,7 +393,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: const [
-              Icon(Icons.insert_drive_file, size: 28),
+              Icon(InsertUrlIcon.link, size: 22),
               Text('Insert'),
             ],
           ),
