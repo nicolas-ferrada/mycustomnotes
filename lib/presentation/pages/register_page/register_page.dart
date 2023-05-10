@@ -117,12 +117,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       } catch (errorMessage) {
                         // errorMessage is the custom message sent by the firebase function.
                         ExceptionsAlertDialog.showErrorDialog(
-                            context, errorMessage.toString());
+                            context: context,
+                            errorMessage: errorMessage.toString());
                       }
                     } else {
                       ExceptionsAlertDialog.showErrorDialog(
-                          context,
-                          AppLocalizations.of(context)!
+                          context: context,
+                          errorMessage: AppLocalizations.of(context)!
                               .confirmPasswordInvalid_dialog_registerPage);
                     }
                   },

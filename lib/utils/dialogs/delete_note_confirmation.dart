@@ -88,7 +88,8 @@ class DeleteNoteConfirmation {
                       } catch (errorMessage) {
                         if (context.mounted) {
                           ExceptionsAlertDialog.showErrorDialog(
-                              context, errorMessage.toString());
+                              context: context,
+                              errorMessage: errorMessage.toString());
                         }
                       }
                     },

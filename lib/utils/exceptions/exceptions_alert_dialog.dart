@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class ExceptionsAlertDialog {
   //Error dialog message function
-  static Future<void> showErrorDialog(
-    BuildContext context,
-    String errorMessage,
-  ) {
+  static Future<void> showErrorDialog({
+    required BuildContext context,
+    required String errorMessage,
+  }) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {

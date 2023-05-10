@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../../presentation/routes/routes.dart';
 
@@ -14,11 +15,12 @@ class SelectCreateNoteType {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               color: Colors.grey.shade800.withOpacity(0.9),
-              child: const Text(
-                'Note type',
-                style: TextStyle(
+              child: Text(
+                textAlign: TextAlign.center,
+                AppLocalizations.of(context)!.newNoteTitle_dialog_homePage,
+                style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 34,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -39,20 +41,21 @@ class SelectCreateNoteType {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          SizedBox(height: 8),
-                          Icon(
+                        children: [
+                          const SizedBox(height: 8),
+                          const Icon(
                             Icons.text_snippet,
                             size: 46,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Padding(
-                            padding: EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(12),
                             child: Text(
-                              'Text Note',
+                              AppLocalizations.of(context)!
+                                  .newNoteTextNoteOption_dialog_homePage,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -72,20 +75,21 @@ class SelectCreateNoteType {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          SizedBox(height: 8),
-                          Icon(
+                        children: [
+                          const SizedBox(height: 8),
+                          const Icon(
                             Icons.view_list,
                             size: 46,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Padding(
-                            padding: EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(12),
                             child: Text(
-                              'Tasks Note',
+                              AppLocalizations.of(context)!
+                                  .newNoteTasksNoteOption_dialog_homePage,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -109,9 +113,9 @@ class SelectCreateNoteType {
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Text(
-                      'Cancel note creation',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),

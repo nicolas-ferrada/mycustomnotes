@@ -319,7 +319,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               }
             } catch (errorMessage) {
               ExceptionsAlertDialog.showErrorDialog(
-                  context, errorMessage.toString());
+                  context: context, errorMessage: errorMessage.toString());
             }
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),

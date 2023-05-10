@@ -100,7 +100,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
           ExceptionsAlertDialog.showErrorDialog(
-              context, errorMessage.toString());
+              context: context, errorMessage: errorMessage.toString());
         }
       },
       leading: const Icon(Icons.language, size: 28),
@@ -139,7 +139,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
           ExceptionsAlertDialog.showErrorDialog(
-              context, errorMessage.toString());
+              context: context, errorMessage: errorMessage.toString());
         }
       },
       leading: const Icon(Icons.date_range, size: 28),
@@ -178,7 +178,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
           ExceptionsAlertDialog.showErrorDialog(
-              context, errorMessage.toString());
+              context: context, errorMessage: errorMessage.toString());
         }
       },
       leading: const Icon(Icons.grid_view, size: 28),

@@ -4,6 +4,7 @@ import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../domain/services/note_tasks_service.dart';
 import '../../../../data/models/Note/note_text_model.dart';
+import '../../../../l10n/l10n_export.dart';
 import 'home_page_build_notes_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -25,22 +26,23 @@ class ReadNotesStreamConsumer extends StatelessWidget {
         stream: NoteTasksService.readAllNotesTasks(userId: currentUser.uid),
         builder: (context, snapshotNoteTasks) {
           if (snapshotNoteTasks.hasError) {
-            return Text(
-                'Something went wrong reading tasks notes ${snapshotNoteTasks.error.toString()}');
+            return Text(AppLocalizations.of(context)!
+                .getNotesError_snapshotHasError_homePage);
           } else {
             return StreamBuilder(
               stream: NoteTextService.readAllNotesText(userId: currentUser.uid),
               builder: (context, snapshotNoteText) {
                 if (snapshotNoteText.hasError) {
-                  return Text(
-                      'Something went wrong reading text notes ${snapshotNoteText.error.toString()}');
+                  return Text(AppLocalizations.of(context)!
+                      .getNotesError_snapshotHasError_homePage);
                 } else if (snapshotNoteText.hasData &&
                     snapshotNoteTasks.hasData) {
                   final List<NoteText> textNotes = snapshotNoteText.data!;
                   final List<NoteTasks> tasksNotes = snapshotNoteTasks.data!;
                   return textNotes.isEmpty && tasksNotes.isEmpty
-                      ? const Center(
-                          child: Text("You don't have any note created."))
+                      ? Center(
+                          child: Text(AppLocalizations.of(context)!
+                              .noNotesCreated_text_homePage))
                       : HomePageBuildNotesWidget(
                           notesTextList: textNotes,
                           notesTasksList: tasksNotes,

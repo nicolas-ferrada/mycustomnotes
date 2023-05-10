@@ -51,7 +51,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           },
         );
       } catch (errorMessage) {
-        ExceptionsAlertDialog.showErrorDialog(context, errorMessage.toString());
+        ExceptionsAlertDialog.showErrorDialog(
+            context: context, errorMessage: errorMessage.toString());
       }
     }
   }
@@ -102,7 +103,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     await AuthUserService.logOutUserFirebase(context: context);
                   } catch (errorMessage) {
                     ExceptionsAlertDialog.showErrorDialog(
-                        context, errorMessage.toString());
+                        context: context,
+                        errorMessage: errorMessage.toString());
                   }
                 },
                 icon: const Icon(Icons.arrow_back),
