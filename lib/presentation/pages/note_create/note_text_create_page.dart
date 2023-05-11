@@ -140,6 +140,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
                   context: context,
                   builder: (context) {
                     return InsertUrlMenuOptions(
+                      currentNoteUrl: url,
                       context: context,
                     );
                   },

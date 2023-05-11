@@ -313,6 +313,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             context: context,
             builder: (context) {
               return InsertUrlMenuOptions(
+                currentNoteUrl: newNote.url,
                 context: context,
               );
             },
@@ -534,16 +535,5 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         );
       });
     }
-  }
-
-  Future<String?> showUrlDialogAndGetResult() async {
-    return await showDialog(
-      context: context,
-      builder: (context) {
-        return InsertUrlMenuOptions(
-          context: context,
-        );
-      },
-    );
   }
 }

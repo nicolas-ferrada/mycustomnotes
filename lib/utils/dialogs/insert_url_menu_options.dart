@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../icons/insert_url_icon_icons.dart';
 import '../snackbars/snackbar_message.dart';
 
 class InsertUrlMenuOptions extends StatefulWidget {
   final BuildContext context;
+  final String? currentNoteUrl;
 
   const InsertUrlMenuOptions({
     required this.context,
+    required this.currentNoteUrl,
     Key? key,
   }) : super(key: key);
 
@@ -33,32 +36,50 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                 'Insert a URL',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 26,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
+          content: SingleChildScrollView(
+            reverse: true,
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Explanation
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  color: Colors.grey.shade800.withOpacity(0.8),
+                  child: const Text(
+                    'You can paste any internet url to show it in your text notes.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                  ),
+                ),
+                const SizedBox(
+                  height: 13,
+                ),
+                // Insert url
+                Container(
                   color: Colors.grey.shade800.withOpacity(0.7),
                   child: TextFormField(
                     controller: urlController,
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(color: Colors.white),
-                      hintText: 'Enter your url',
+                      hintText: 'Enter a url',
                       prefixIcon: Icon(
-                        Icons.link,
+                        InsertUrlIcon.link,
                         color: Colors.white,
+                        size: 18,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             Center(
@@ -89,24 +110,27 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                     ),
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
-                    ),
-                    onPressed: () {
-                      Navigator.maybePop(context, 'deletecurrenturl');
-                    },
-                    child: const Text(
-                      'Remove current url',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                  Visibility(
+                    visible: (widget.currentNoteUrl != null),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        minimumSize: const Size(200, 40),
+                        backgroundColor: Colors.grey.shade800.withOpacity(0.9),
+                      ),
+                      onPressed: () {
+                        Navigator.maybePop(context, 'deletecurrenturl');
+                      },
+                      child: const Text(
+                        'Remove current url',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   // Cancel button
                   ElevatedButton(
@@ -123,9 +147,6 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  )
                 ],
               ),
             ),
