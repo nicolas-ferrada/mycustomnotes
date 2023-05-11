@@ -129,9 +129,9 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
           children: [
             // Insert
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 InsertUrlIcon.link,
-                color: noteColorFavoriteIcon,
+                color: Colors.grey,
                 size: 20,
               ),
               onPressed: () async {
