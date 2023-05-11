@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../domain/services/auth_user_service.dart';
-import '../../../../domain/services/note_tasks_service.dart';
-import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../../utils/internet/check_internet_connection.dart';
-import '../../../../utils/note_color/note_color.dart';
-import '../../../../utils/snackbars/snackbar_message.dart';
+import '../../../data/models/Note/note_notifier.dart';
+import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/note_tasks_service.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../utils/internet/check_internet_connection.dart';
+import '../../../utils/note_color/note_color.dart';
+import '../../../utils/snackbars/snackbar_message.dart';
 
 class Tasks {
   bool isTaskCompleted;

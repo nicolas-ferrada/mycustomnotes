@@ -2,17 +2,17 @@ import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../utils/dialogs/insert_url_menu_options.dart';
-import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../../domain/services/auth_user_service.dart';
-import '../../../../domain/services/note_text_service.dart';
+import '../../../utils/dialogs/insert_url_menu_options.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/note_text_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../utils/icons/insert_url_icon_icons.dart';
-import '../../../../utils/internet/check_internet_connection.dart';
-import '../../../../utils/note_color/note_color.dart';
-import '../../../../utils/snackbars/snackbar_message.dart';
+import '../../../data/models/Note/note_notifier.dart';
+import '../../../utils/icons/insert_url_icon_icons.dart';
+import '../../../utils/internet/check_internet_connection.dart';
+import '../../../utils/note_color/note_color.dart';
+import '../../../utils/snackbars/snackbar_message.dart';
 
 class NoteTextCreatePage extends StatefulWidget {
   const NoteTextCreatePage({super.key});
