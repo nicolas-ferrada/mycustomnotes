@@ -81,10 +81,10 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                         onTap: () {
                           Navigator.maybePop(context, SelectLanguage.english);
                         },
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             SizedBox(height: 8),
                             Icon(
                               Icons.language,
@@ -115,10 +115,10 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                         onTap: () {
                           Navigator.maybePop(context, SelectLanguage.spanish);
                         },
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             SizedBox(height: 8),
                             Icon(
                               Icons.language,

@@ -323,7 +323,9 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         // Note's body
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+            ),
             child: TextFormField(
               onChanged: (value) {
                 setState(() {

@@ -206,7 +206,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             // Note's body
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: TextFormField(
                   initialValue: widget.noteText.body,
                   textAlignVertical: TextAlignVertical.top,
@@ -387,41 +387,41 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item3,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(InsertUrlIcon.link, size: 22),
               Text('Insert'),
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item4,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.share, size: 28),
               Text('Share'),
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item5,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.info, size: 28),
               Text('Details'),
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item6,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.delete, size: 28),
               Text('Delete'),
             ],

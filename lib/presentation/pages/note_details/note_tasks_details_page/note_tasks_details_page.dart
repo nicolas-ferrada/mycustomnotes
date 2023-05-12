@@ -516,31 +516,31 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item4,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.share, size: 28),
               Text('Share'),
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item5,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.info, size: 28),
               Text('Details'),
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: MenuItemNoteDetail.item6,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Icon(Icons.delete, size: 28),
               Text('Delete'),
             ],

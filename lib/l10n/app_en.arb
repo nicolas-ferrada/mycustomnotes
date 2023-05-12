@@ -351,8 +351,28 @@
         "description": "New note dialog opened after tapping on new note button in home page option 2"
     },
     "@_NOTE_CREATE_PAGE_TEXT": {},
-    "a": "",
-    "@": {
+    "titleInput_textformfield_noteTextCreatePage": "Title",
+    "@titleInput_textformfield_noteTextCreatePage": {
+        "description": "Textformfield input's user to create their text note title"
+    },
+    "bodyInput_textformfield_noteTextCreatePage": "Body",
+    "@bodyInput_textformfield_noteTextCreatePage": {
+        "description": "Textformfield input's user to create their text note body"
+    },
+    "save_button_noteTextCreatePage": "Save",
+    "@save_button_noteTextCreatePage": {
+        "description": "button to save the note"
+    },
+    "@_NOTE_FUNCTIONS_CREATE_DETAILS": {},
+    "noteIsFavorite_appbarIconButton": "Note marked as favorite",
+    "@noteIsFavorite_appbarIconButton_noteTextCreatePage": {
+        "description": "Snackbar message to tell the user that the note is now marked as favorite"
+    },
+    "info_appbarIconButton": "",
+    "@noteInsertUrl_appbarIconButton": {
         "description": ""
-    }
+    },
+    "@_NOTE_FUNCTIONS_INSERT_URL_AnyLinkPreview": {},
+
+
 }
