@@ -72,7 +72,7 @@ dependencies:
   shared_preferences: ^2.1.0
 
   # Date format and internationalization
-  intl: ^0.17.0
+  intl: ^0.18.0
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
