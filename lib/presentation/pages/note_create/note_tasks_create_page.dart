@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/note_tasks_service.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
@@ -118,7 +119,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                       isNoteFavorite = true;
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBarMessage.snackBarMessage(
-                              message: 'Note marked as favorite',
+                              message: AppLocalizations.of(context)!.favorite_snackbar_noteMarked,
                               backgroundColor: Colors.amberAccent));
                     } else {
                       // It was favorite, now it is not

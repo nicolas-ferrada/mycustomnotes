@@ -361,18 +361,25 @@
     },
     "save_button_noteTextCreatePage": "Save",
     "@save_button_noteTextCreatePage": {
-        "description": "button to save the note"
+        "description": "Button to save the note"
     },
-    "@_NOTE_FUNCTIONS_CREATE_DETAILS": {},
-    "noteIsFavorite_appbarIconButton": "Note marked as favorite",
-    "@noteIsFavorite_appbarIconButton_noteTextCreatePage": {
+    "@_NOTE_FUNCTIONS_FAVORITE": {},
+    "favorite_snackbar_noteMarked": "Note marked as favorite",
+    "@favorite_snackbar_noteMarked": {
         "description": "Snackbar message to tell the user that the note is now marked as favorite"
     },
-    "info_appbarIconButton": "",
-    "@noteInsertUrl_appbarIconButton": {
-        "description": ""
+    "favorite_snackbar_noteMarkedAgain": "Note marked as favorite, no changes were made",
+    "@favorite_snackbar_noteMarkedAgain": {
+        "description": "Snackbar message to tell the user that the note is now marked as favorite again"
     },
-    "@_NOTE_FUNCTIONS_INSERT_URL_AnyLinkPreview": {},
+    "favorite_snackbar_noteUnmarked": "Note removed from favorite",
+    "@favorite_snackbar_noteUnmarked": {
+        "description": "Snackbar message to tell the user that the note is now unmarked from favorites"
+    },
+    "favorite_snackbar_noteUnmarkedAgain": "Note removed from favorite, no changes were made",
+    "@favorite_snackbar_noteUnmarkedAgain": {
+        "description": "Snackbar message to tell the user that the note is again unmarked from favorites"
+    }
 
 
 }

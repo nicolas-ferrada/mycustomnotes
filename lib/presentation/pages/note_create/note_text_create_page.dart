@@ -2,6 +2,7 @@ import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../l10n/l10n_export.dart';
 import '../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../domain/services/auth_user_service.dart';
@@ -209,7 +210,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
                   isNoteFavorite = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBarMessage.snackBarMessage(
-                          message: 'Note marked as favorite',
+                          message: AppLocalizations.of(context)!.favorite_snackbar_noteMarked,
                           backgroundColor: Colors.amberAccent));
                 } else {
                   // It was favorite, now it is not

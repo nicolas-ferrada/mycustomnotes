@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../domain/services/note_tasks_service.dart';
+import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
@@ -563,7 +564,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       // Note now it's favorite, if it was favorite from the start, then user did not make any changes
       if (widget.noteTasks.isFavorite) {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-          message: 'Note marked as favorite again, no changes were made.',
+          message:
+              AppLocalizations.of(context)!.favorite_snackbar_noteMarkedAgain,
           backgroundColor: Colors.amber.shade300,
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -573,7 +575,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         // Note now it's favorite, but it wasn't from the start, so user made a change
       } else {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-          message: 'Note selected as favorite.',
+          message: AppLocalizations.of(context)!.favorite_snackbar_noteMarked,
           backgroundColor: Colors.amber.shade300,
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -590,17 +592,18 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       // Note now it's not favorite, if it was favorite from the start, then user did make a change
       if (widget.noteTasks.isFavorite) {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-          message: 'Note removed from favorite.',
+          message: AppLocalizations.of(context)!.favorite_snackbar_noteUnmarked,
           backgroundColor: Colors.grey,
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
           didFavoriteChanged = true;
         });
-        // Note now it's favorite, but it wasn't from the start, so user make a change
+        // Note now it's not favorite, if it was favorite from the start, then user did not make any changes
       } else {
         SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-          message: 'Note removed again from favorite, no changes were made.',
+          message:
+              AppLocalizations.of(context)!.favorite_snackbar_noteUnmarkedAgain,
           backgroundColor: Colors.grey,
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);

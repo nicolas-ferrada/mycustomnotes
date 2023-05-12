@@ -105,8 +105,12 @@
     "newNoteTextNoteOption_dialog_homePage": "Nota de texto",
     "newNoteTasksNoteOption_dialog_homePage": "Nota de tareas",
     "@_NOTE_TEXT_CREATE_PAGE": {},
-    "title_textformfield_noteTextCreatePage": "Title",
-    "@title_textformfield_noteTextCreatePage": {
-        "description": "Input to the user be able to create the title of the note text"
-    }
+    "titleInput_textformfield_noteTextCreatePage": "Título",
+    "bodyInput_textformfield_noteTextCreatePage": "Cuerpo",
+    "save_button_noteTextCreatePage": "Guardar",
+    "@_NOTE_FUNCTIONS_FAVORITE": {},
+    "favorite_snackbar_noteMarked": "Nota agregada a favoritos",
+    "favorite_snackbar_noteMarkedAgain": "La nota se ha agregado a favoritos, ningún cambio fue hecho", 
+    "favorite_snackbar_noteUnmarked": "Nota quitada de favoritos",
+    "favorite_snackbar_noteUnmarkedAgain": "La nota se ha quitado de favoritos, ningún cambio fue hecho"
 }
