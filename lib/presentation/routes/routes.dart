@@ -7,8 +7,8 @@ import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
 import '../pages/note_create/note_tasks_create_page.dart';
 import '../pages/note_create/note_text_create_page.dart';
-import '../pages/note_details/note_tasks_details_page/note_tasks_details_page.dart';
-import '../pages/note_details/note_text_details_page/note_text_details_page.dart';
+import '../pages/note_details/note_tasks_details_page.dart';
+import '../pages/note_details/note_text_details_page.dart';
 import '../pages/password_recover_page/password_recover_page.dart';
 import '../pages/register_page/register_page.dart';
 

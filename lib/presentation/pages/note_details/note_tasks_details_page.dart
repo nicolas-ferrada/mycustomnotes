@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../data/models/Note/note_tasks_model.dart';
-import '../../../../domain/services/auth_user_service.dart';
+import '../../../data/models/Note/note_notifier.dart';
+import '../../../data/models/Note/note_tasks_model.dart';
+import '../../../domain/services/auth_user_service.dart';
 
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../domain/services/note_tasks_service.dart';
-import '../../../../l10n/l10n_export.dart';
-import '../../../../utils/dialogs/confirmation_dialog.dart';
-import '../../../../utils/dialogs/delete_note_confirmation.dart';
-import '../../../../utils/dialogs/note_details_info.dart';
-import '../../../../utils/dialogs/note_pick_color_dialog.dart';
-import '../../../../utils/enums/menu_item_note_detail.dart';
-import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../../utils/internet/check_internet_connection.dart';
-import '../../../../utils/note_color/note_color.dart';
-import '../../../../utils/snackbars/snackbar_message.dart';
+import '../../../domain/services/note_tasks_service.dart';
+import '../../../l10n/l10n_export.dart';
+import '../../../utils/dialogs/confirmation_dialog.dart';
+import '../../../utils/dialogs/delete_note_confirmation.dart';
+import '../../../utils/dialogs/note_details_info.dart';
+import '../../../utils/dialogs/note_pick_color_dialog.dart';
+import '../../../utils/enums/menu_item_note_detail.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../utils/internet/check_internet_connection.dart';
+import '../../../utils/note_color/note_color.dart';
+import '../../../utils/snackbars/snackbar_message.dart';
 
 class Tasks {
   bool isTaskCompleted;
@@ -640,7 +640,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBarMessage.snackBarMessage(
-              message: "New color selected to be applied",
+              message:
+                  AppLocalizations.of(context)!.color_snackbar_newColorSelected,
               backgroundColor: colorPickedByUser),
         );
       }
@@ -655,11 +656,16 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       setState(() {
         // Changes the color of the icon to the current note color
         didColorChanged = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBarMessage.snackBarMessage(
-              message: "Your note already have this color",
-              backgroundColor: colorPickedByUser),
-        );
+        colorIconPalette = colorPickedByUser;
+        // if not null, user picked the same color, if is null, it means user did not pick any color, so dont show the snackbar
+        if (getColorFromDialog != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarMessage.snackBarMessage(
+                message: AppLocalizations.of(context)!
+                    .color_snackbar_alreadyHaveThisColor,
+                backgroundColor: colorPickedByUser),
+          );
+        }
       });
     }
   }

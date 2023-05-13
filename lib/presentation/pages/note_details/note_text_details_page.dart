@@ -5,22 +5,22 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../data/models/Note/note_notifier.dart';
-import '../../../../data/models/Note/note_text_model.dart';
-import '../../../../domain/services/auth_user_service.dart';
-import '../../../../domain/services/note_text_service.dart';
-import '../../../../l10n/l10n_export.dart';
-import '../../../../utils/dialogs/confirmation_dialog.dart';
-import '../../../../utils/dialogs/delete_note_confirmation.dart';
-import '../../../../utils/dialogs/insert_url_menu_options.dart';
-import '../../../../utils/dialogs/note_details_info.dart';
-import '../../../../utils/dialogs/note_pick_color_dialog.dart';
-import '../../../../utils/enums/menu_item_note_detail.dart';
-import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../../utils/icons/insert_url_icon_icons.dart';
-import '../../../../utils/internet/check_internet_connection.dart';
-import '../../../../utils/note_color/note_color.dart';
-import '../../../../utils/snackbars/snackbar_message.dart';
+import '../../../data/models/Note/note_notifier.dart';
+import '../../../data/models/Note/note_text_model.dart';
+import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/note_text_service.dart';
+import '../../../l10n/l10n_export.dart';
+import '../../../utils/dialogs/confirmation_dialog.dart';
+import '../../../utils/dialogs/delete_note_confirmation.dart';
+import '../../../utils/dialogs/insert_url_menu_options.dart';
+import '../../../utils/dialogs/note_details_info.dart';
+import '../../../utils/dialogs/note_pick_color_dialog.dart';
+import '../../../utils/enums/menu_item_note_detail.dart';
+import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../utils/icons/insert_url_icon_icons.dart';
+import '../../../utils/internet/check_internet_connection.dart';
+import '../../../utils/note_color/note_color.dart';
+import '../../../utils/snackbars/snackbar_message.dart';
 
 class NoteTextDetailsPage extends StatefulWidget {
   final NoteText noteText;
@@ -521,7 +521,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBarMessage.snackBarMessage(
-              message: "New color selected to be applied",
+              message:
+                  AppLocalizations.of(context)!.color_snackbar_newColorSelected,
               backgroundColor: colorPickedByUser),
         );
       }
@@ -541,7 +542,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         if (getColorFromDialog != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBarMessage.snackBarMessage(
-                message: "Your note already have this color",
+                message: AppLocalizations.of(context)!
+                    .color_snackbar_alreadyHaveThisColor,
                 backgroundColor: colorPickedByUser),
           );
         }

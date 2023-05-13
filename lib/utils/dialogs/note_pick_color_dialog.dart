@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../note_color/note_color.dart';
 
@@ -25,13 +26,13 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
           title: Center(
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.grey.shade800.withOpacity(0.9),
+                  color: Colors.grey.shade800.withOpacity(0.8),
                   borderRadius: const BorderRadius.all(Radius.circular(10))),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: const Text(
+              child: Text(
                 textAlign: TextAlign.center,
-                "Pick the note's color",
-                style: TextStyle(
+                AppLocalizations.of(context)!.color_dialog_title,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -160,9 +161,9 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
                 onPressed: () {
                   Navigator.maybePop(context);
                 },
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(color: Colors.black),
+                child: Text(
+                  AppLocalizations.of(context)!.cancelButton,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ),

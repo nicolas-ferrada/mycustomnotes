@@ -112,5 +112,9 @@
     "favorite_snackbar_noteMarked": "Nota agregada a favoritos",
     "favorite_snackbar_noteMarkedAgain": "La nota se ha agregado a favoritos, ningún cambio fue hecho", 
     "favorite_snackbar_noteUnmarked": "Nota quitada de favoritos",
-    "favorite_snackbar_noteUnmarkedAgain": "La nota se ha quitado de favoritos, ningún cambio fue hecho"
+    "favorite_snackbar_noteUnmarkedAgain": "La nota se ha quitado de favoritos, ningún cambio fue hecho",
+    "@_NOTE_FUNCTIONS_COLOR": {},
+    "color_dialog_title": "Elije el color de la nota",
+    "color_snackbar_alreadyHaveThisColor": "Tu nota ya tiene este color",
+    "color_snackbar_newColorSelected": "Has seleccionado un nuevo color"
 }

@@ -379,6 +379,19 @@
     "favorite_snackbar_noteUnmarkedAgain": "Note removed from favorite, no changes were made",
     "@favorite_snackbar_noteUnmarkedAgain": {
         "description": "Snackbar message to tell the user that the note is again unmarked from favorites"
+    },
+    "@_NOTE_FUNCTIONS_COLOR": {},
+    "color_dialog_title": "Pick the note's color",
+    "@color_dialog_title": {
+        "description": "Pick note color dialog title"
+    },
+    "color_snackbar_alreadyHaveThisColor": "Your note already have this color",
+    "@color_snackbar_alreadyHaveThisColor": {
+        "description": "Snackbar message to let the user know that is selecting the same color already applied to the note"
+    },
+    "color_snackbar_newColorSelected": "New color selected",
+    "@color_snackbar_newColorSelected": {
+        "description": "Snackbar message to let the user know that is selecting a new color"
     }
 
 

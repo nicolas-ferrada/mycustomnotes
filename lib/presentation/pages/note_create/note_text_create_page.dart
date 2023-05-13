@@ -115,10 +115,11 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
             _isCreateButtonVisible = true;
           });
         },
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: "Title",
-          hintStyle: TextStyle(color: Colors.white70),
+          hintText: AppLocalizations.of(context)!
+              .titleInput_textformfield_noteTextCreatePage,
+          hintStyle: const TextStyle(color: Colors.white70),
         ),
         style: const TextStyle(
           color: Colors.white70,
@@ -278,8 +279,8 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
           }
         },
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-        label: const Text(
-          'Save',
+        label: Text(
+          AppLocalizations.of(context)!.save_button_noteTextCreatePage,
         ),
         icon: const Icon(Icons.save),
       ),
@@ -342,8 +343,9 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
               textAlignVertical: TextAlignVertical.top,
               maxLines: null,
               expands: true,
-              decoration: const InputDecoration(
-                hintText: "Body",
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!
+                    .bodyInput_textformfield_noteTextCreatePage,
                 border: InputBorder.none,
               ),
             ),
