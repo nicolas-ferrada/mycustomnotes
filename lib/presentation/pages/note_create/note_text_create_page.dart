@@ -4,6 +4,7 @@ import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../utils/dialogs/insert_url_menu_options.dart';
+import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/note_text_service.dart';
@@ -172,11 +173,14 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
             IconButton(
               onPressed: () async {
                 late Color newColor;
-                Color? getColorFromDialog =
-                    await NoteColorOperations.pickNoteColorDialog(
-                        context: context);
+                NoteColor? getColorFromDialog = await showDialog<NoteColor?>(
+                  context: context,
+                  builder: (context) {
+                    return const NotePickColorDialog();
+                  },
+                );
                 if (getColorFromDialog != null) {
-                  newColor = getColorFromDialog;
+                  newColor = getColorFromDialog.getColor;
                 } else {
                   newColor = NoteColorOperations.getColorFromNumber(
                       colorNumber: intNoteColor);
@@ -210,7 +214,8 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
                   isNoteFavorite = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBarMessage.snackBarMessage(
-                          message: AppLocalizations.of(context)!.favorite_snackbar_noteMarked,
+                          message: AppLocalizations.of(context)!
+                              .favorite_snackbar_noteMarked,
                           backgroundColor: Colors.amberAccent));
                 } else {
                   // It was favorite, now it is not

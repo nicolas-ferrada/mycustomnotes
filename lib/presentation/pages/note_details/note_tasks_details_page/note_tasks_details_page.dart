@@ -11,6 +11,7 @@ import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
+import '../../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../../utils/enums/menu_item_note_detail.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../../utils/internet/check_internet_connection.dart';
@@ -618,10 +619,14 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   void pickNoteColorPopupButton() async {
     // Get the note color picked by the user, if no color is picked, keeps the original color
     late Color colorPickedByUser;
-    Color? getColorFromDialog =
-        await NoteColorOperations.pickNoteColorDialog(context: context);
+    NoteColor? getColorFromDialog = await showDialog<NoteColor?>(
+      context: context,
+      builder: (context) {
+        return const NotePickColorDialog();
+      },
+    );
     if (getColorFromDialog != null) {
-      colorPickedByUser = getColorFromDialog;
+      colorPickedByUser = getColorFromDialog.getColor;
     } else {
       colorPickedByUser = NoteColorOperations.getColorFromNumber(
           colorNumber: widget.noteTasks.color);

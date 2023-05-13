@@ -1,36 +1,20 @@
 import 'package:flutter/material.dart';
 
 enum NoteColor {
-  ambar,
-  green,
-  lightBlue,
-  orange,
-  pink,
-  teal,
-  lightRed,
-}
+  ambar(colorId: 1, getColor: Color.fromRGBO(255, 213, 79, 1)),
+  green(colorId: 2, getColor: Color.fromRGBO(129, 199, 132, 1)),
+  lightBlue(colorId: 3, getColor: Color.fromRGBO(79, 195, 247, 1)),
+  orange(colorId: 4, getColor: Color.fromRGBO(255, 167, 38, 1)),
+  pink(colorId: 5, getColor: Color.fromRGBO(255, 128, 171, 1)),
+  teal(colorId: 6, getColor: Color.fromRGBO(167, 255, 235, 1)),
+  lightRed(colorId: 7, getColor: Color.fromRGBO(239, 83, 80, 1));
 
-extension GetNoteColor on NoteColor {
-  Color get getColor {
-    switch (this) {
-      case NoteColor.ambar:
-        return Colors.amber.shade300;
-      case NoteColor.green:
-        return Colors.green.shade300;
-      case NoteColor.lightBlue:
-        return Colors.lightBlue.shade300;
-      case NoteColor.orange:
-        return Colors.orange.shade400;
-      case NoteColor.pink:
-        return Colors.pinkAccent.shade100;
-      case NoteColor.teal:
-        return Colors.tealAccent.shade100;
-      case NoteColor.lightRed:
-        return Colors.red.shade400;
-      default:
-        return Colors.grey;
-    }
-  }
+  const NoteColor({
+    required this.colorId,
+    required this.getColor,
+  });
+  final int colorId;
+  final Color getColor;
 }
 
 class NoteColorOperations {
@@ -73,166 +57,5 @@ class NoteColorOperations {
       default:
         return Colors.grey;
     }
-  }
-
-  static Future<Color?> pickNoteColorDialog({
-    required BuildContext context,
-  }) async {
-    Color? noteColor;
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          contentPadding: const EdgeInsets.all(12),
-          backgroundColor: Colors.grey,
-          title: const Center(
-            child: Text("Pick the note's color"),
-          ),
-          content: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // YELLOW COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.ambar.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.ambar.getColor,
-                  ),
-                ),
-              ),
-              // GREEN COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.green.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.green.getColor,
-                  ),
-                ),
-              ),
-              // BLUE COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.lightBlue.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.lightBlue.getColor,
-                  ),
-                ),
-              ),
-              // ORANGE COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.orange.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.orange.getColor,
-                  ),
-                ),
-              ),
-              // PINK COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.pink.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.pink.getColor,
-                  ),
-                ),
-              ),
-              // TEAL COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.teal.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.teal.getColor,
-                  ),
-                ),
-              ),
-              // LIGHT RED COLOR
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  onTap: () {
-                    noteColor = NoteColor.lightRed.getColor;
-                    Navigator.maybePop(context);
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Icon(
-                    Icons.circle,
-                    size: 38,
-                    color: NoteColor.lightRed.getColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-    return noteColor;
   }
 }

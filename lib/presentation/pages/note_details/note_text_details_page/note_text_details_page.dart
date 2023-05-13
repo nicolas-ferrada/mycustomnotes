@@ -14,6 +14,7 @@ import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../../utils/dialogs/note_details_info.dart';
+import '../../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../../utils/enums/menu_item_note_detail.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../../utils/icons/insert_url_icon_icons.dart';
@@ -499,10 +500,14 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   void pickNoteColorPopupButton() async {
     // Get the note color picked by the user, if no color is picked, keeps the original color
     late Color colorPickedByUser;
-    Color? getColorFromDialog =
-        await NoteColorOperations.pickNoteColorDialog(context: context);
+    NoteColor? getColorFromDialog = await showDialog<NoteColor?>(
+      context: context,
+      builder: (context) {
+        return const NotePickColorDialog();
+      },
+    );
     if (getColorFromDialog != null) {
-      colorPickedByUser = getColorFromDialog;
+      colorPickedByUser = getColorFromDialog.getColor;
     } else {
       colorPickedByUser = NoteColorOperations.getColorFromNumber(
           colorNumber: widget.noteText.color);
@@ -531,12 +536,20 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       setState(() {
         // Changes the color of the icon to the current note color
         didColorChanged = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBarMessage.snackBarMessage(
-              message: "Your note already have this color",
-              backgroundColor: colorPickedByUser),
-        );
+        colorIconPalette = colorPickedByUser;
+        // if not null, user picked the same color, if is null, it means user did not pick any color, so dont show the snackbar
+        if (getColorFromDialog != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarMessage.snackBarMessage(
+                message: "Your note already have this color",
+                backgroundColor: colorPickedByUser),
+          );
+        }
       });
     }
   }
 }
+
+// ColorIconPallete handles icon color
+// newNote.color handles the saved int color
+
