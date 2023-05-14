@@ -62,8 +62,11 @@ class _HomePageState extends State<HomePage> {
         } else if (snapshot.hasError) {
           return Scaffold(
             body: Center(
-              child: Text(AppLocalizations.of(context)!
-                  .getUserConfigurationError_snapshotHasError_homePage),
+              child: Text(
+                AppLocalizations.of(context)!
+                    .getUserConfigurationError_snapshotHasError_homePage,
+                textAlign: TextAlign.center,
+              ),
             ),
           );
         } else {

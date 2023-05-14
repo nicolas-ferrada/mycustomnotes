@@ -12,7 +12,7 @@ import '../../utils/enums/notes_view_enum.dart';
 
 class UserConfigurationService {
   // Only used for the first time, on account creation/email verification.
-  static Future<void> createUserConfigurations({
+  static Future<UserConfiguration> createUserConfigurations({
     required String userId,
     required BuildContext context,
   }) async {
@@ -31,6 +31,8 @@ class UserConfigurationService {
       final userConfigurationJson = json.encode(userConfiguration.toMap());
 
       await preferences.setString(userId, userConfigurationJson);
+
+      return userConfiguration;
     } catch (e) {
       throw Exception(
               AppLocalizations.of(context)!.creating_dialog_userConfiguration)
@@ -53,9 +55,11 @@ class UserConfigurationService {
       final String? userConfigurationJson = preferences.getString(userId);
 
       if (userConfigurationJson == null && context.mounted) {
-        // if the config does not exists, create one
-        await createUserConfigurations(userId: userId, context: context);
+        // the config does not exists, create one and then get it
+        userConfiguration =
+            await createUserConfigurations(userId: userId, context: context);
       } else {
+        // the config exists, get it
         userConfiguration =
             UserConfiguration.fromMap(json.decode(userConfigurationJson!));
       }
