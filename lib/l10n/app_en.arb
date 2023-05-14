@@ -393,7 +393,7 @@
     "@color_snackbar_newColorSelected": {
         "description": "Snackbar message to let the user know that is selecting a new color"
     },
-    "@_NOTE_FUNCTIONS_URL": {},
+    "@_NOTE_FUNCTIONS_URL_EXCEPTIONS": {},
     "url_dialog_urlNotValid": "The url is not valid",
     "@url_dialog_urlNotValid": {
         "description": "Invalid url"
@@ -413,6 +413,30 @@
     "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image...",
     "@url_AnyLinkPreviewWidget_widgetError": {
         "description": "The widget of the any link preview package had an error"
+    },
+    "@_NOTE_FUNCTIONS_URL_DIALOG": {},
+    "url_dialog_title": "Insert a URL",
+    "@url_dialog_title": {
+        "description": "Dialog to insert urls title"
+    },
+    "url_dialog_explanation": "You can paste any internet url to show it in your text notes.",
+    "@url_dialog_explanation": {
+        "description": "Dialog to insert urls explanation"
+    },
+    "url_dialog_textformfieldUrlInput": "Enter a url",
+    "@url_dialog_textformfieldUrlInput": {
+        "description": "Url input"
+    },
+    "url_dialogSnackbar_invalidUrl": "The entered url is invalid",
+    "@url_dialogSnackbar_invalidUrl": {
+        "description": "Snackbar message to let the user know that the url is invalid"
+    },
+    "url_dialog_confirmButton": "Use this url",
+    "@url_dialog_confirmButton": {
+        "description": "Confirm url button"
+    },
+    "url_dialog_deleteButton": "Remove current url in my note",
+    "@url_dialog_deleteButton": {
+        "description": "Delete current url button"
     }
-
 }

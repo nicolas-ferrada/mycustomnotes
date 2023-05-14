@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/l10n_export.dart';
 import '../icons/insert_url_icon_icons.dart';
 import '../snackbars/snackbar_message.dart';
 
@@ -32,9 +33,9 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               color: Colors.grey.shade800.withOpacity(0.9),
-              child: const Text(
-                'Insert a URL',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.url_dialog_title,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -53,10 +54,11 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   color: Colors.grey.shade800.withOpacity(0.8),
-                  child: const Text(
-                    'You can paste any internet url to show it in your text notes.',
+                  child: Text(
+                    AppLocalizations.of(context)!.url_dialog_explanation,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic, fontSize: 14),
                   ),
                 ),
                 const SizedBox(
@@ -67,10 +69,11 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                   color: Colors.grey.shade800.withOpacity(0.7),
                   child: TextFormField(
                     controller: urlController,
-                    decoration: const InputDecoration(
-                      hintStyle: TextStyle(color: Colors.white),
-                      hintText: 'Enter a url',
-                      prefixIcon: Icon(
+                    decoration: InputDecoration(
+                      hintStyle: const TextStyle(color: Colors.white),
+                      hintText: AppLocalizations.of(context)!
+                          .url_dialog_textformfieldUrlInput,
+                      prefixIcon: const Icon(
                         InsertUrlIcon.link,
                         color: Colors.white,
                         size: 18,
@@ -95,7 +98,8 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                       if (urlController.text.isEmpty) {
                         // User did not type anything and accepted
                         SnackBar snackbar = SnackBarMessage.snackBarMessage(
-                          message: 'You have to enter a valid url',
+                          message: AppLocalizations.of(context)!
+                              .url_dialogSnackbar_invalidUrl,
                           backgroundColor: Colors.red.shade500,
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -104,33 +108,39 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                         Navigator.maybePop(context, newUrl);
                       }
                     },
-                    child: const Text(
-                      'Use this url',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    child: Text(
+                      AppLocalizations.of(context)!.url_dialog_confirmButton,
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 2,
                   ),
                   Visibility(
                     visible: (widget.currentNoteUrl != null),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 10,
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.grey.shade800.withOpacity(0.9),
-                      ),
-                      onPressed: () {
-                        Navigator.maybePop(context, 'deletecurrenturl');
-                      },
-                      child: const Text(
-                        'Remove current url',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          minimumSize: const Size(200, 40),
+                          backgroundColor:
+                              Colors.grey.shade800.withOpacity(0.9),
+                        ),
+                        onPressed: () {
+                          Navigator.maybePop(context, 'deletecurrenturl');
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.url_dialog_deleteButton,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 18),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 2,
                   ),
                   // Cancel button
                   ElevatedButton(
@@ -142,9 +152,9 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                     onPressed: () {
                       Navigator.maybePop(context, null);
                     },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ],
