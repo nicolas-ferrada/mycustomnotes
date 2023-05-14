@@ -87,7 +87,10 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       if (await canLaunchUrl(url)) {
         return true;
       } else {
-        throw Exception('The url is not valid, try again.').removeExceptionWord;
+        if (context.mounted) {
+          throw Exception(AppLocalizations.of(context)!.url_dialog_urlNotValid)
+              .removeExceptionWord;
+        }
       }
     } catch (errorMessage) {
       await ExceptionsAlertDialog.showErrorDialog(
@@ -105,7 +108,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
           context: context,
-          errorMessage: 'Could not launch this URL, try adding other one');
+          errorMessage:
+              AppLocalizations.of(context)!.url_dialog_couldNotLaunch);
     }
   }
 
@@ -153,10 +157,11 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 });
               }
             },
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Title',
-              hintStyle: TextStyle(color: Colors.white70),
+              hintText: AppLocalizations.of(context)!
+                  .titleInput_textformfield_noteTextCreatePage,
+              hintStyle: const TextStyle(color: Colors.white70),
             ),
             style: const TextStyle(
               color: Colors.white70,
@@ -194,12 +199,15 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                   borderRadius: 0,
                   displayDirection: UIDirection.uiDirectionVertical,
                   backgroundColor: Colors.white70,
-                  errorTitle: "Error: can't load the title..",
-                  errorBody: "Error: can't load the content..",
+                  errorTitle: AppLocalizations.of(context)!
+                      .url_AnyLinkPreviewWidget_titleError,
+                  errorBody: AppLocalizations.of(context)!
+                      .url_AnyLinkPreviewWidget_contentError,
                   errorWidget: Container(
                     color: Colors.red.shade900,
-                    child: const Center(
-                      child: Text("Error: can't load any image.."),
+                    child: Center(
+                      child: Text(AppLocalizations.of(context)!
+                          .url_AnyLinkPreviewWidget_widgetError),
                     ),
                   ),
                 ),
@@ -214,8 +222,9 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                   textAlignVertical: TextAlignVertical.top,
                   maxLines: null,
                   expands: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Body',
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!
+                        .bodyInput_textformfield_noteTextCreatePage,
                     border: InputBorder.none,
                   ),
                   onChanged: (newBodyChanged) {
@@ -253,8 +262,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       visible: didUserMadeChanges,
       child: FloatingActionButton.extended(
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-        label: const Text(
-          'Save',
+        label: Text(
+          AppLocalizations.of(context)!.save_button_noteTextCreatePage,
         ),
         icon: const Icon(Icons.save),
         onPressed: () async {
@@ -551,7 +560,3 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     }
   }
 }
-
-// ColorIconPallete handles icon color
-// newNote.color handles the saved int color
-

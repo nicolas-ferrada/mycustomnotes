@@ -350,18 +350,18 @@
     "@newNoteTextNoteOption_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page option 2"
     },
-    "@_NOTE_CREATE_PAGE_TEXT": {},
+    "@_NOTE_CREATE_DATAILS_PAGE_TEXT": {},
     "titleInput_textformfield_noteTextCreatePage": "Title",
     "@titleInput_textformfield_noteTextCreatePage": {
-        "description": "Textformfield input's user to create their text note title"
+        "description": "Textformfield input's user to create their text note title, also used in note text details"
     },
     "bodyInput_textformfield_noteTextCreatePage": "Body",
     "@bodyInput_textformfield_noteTextCreatePage": {
-        "description": "Textformfield input's user to create their text note body"
+        "description": "Textformfield input's user to create their text note body, also used in note text details"
     },
     "save_button_noteTextCreatePage": "Save",
     "@save_button_noteTextCreatePage": {
-        "description": "Button to save the note"
+        "description": "Button to save the note, also used in note text details"
     },
     "@_NOTE_FUNCTIONS_FAVORITE": {},
     "favorite_snackbar_noteMarked": "Note marked as favorite",
@@ -392,7 +392,27 @@
     "color_snackbar_newColorSelected": "New color selected",
     "@color_snackbar_newColorSelected": {
         "description": "Snackbar message to let the user know that is selecting a new color"
+    },
+    "@_NOTE_FUNCTIONS_URL": {},
+    "url_dialog_urlNotValid": "The url is not valid",
+    "@url_dialog_urlNotValid": {
+        "description": "Invalid url"
+    },
+    "url_dialog_couldNotLaunch": "Sorry, could not launch this URL, try with other one",
+    "@url_dialog_couldNotLaunch": {
+        "description": "Url was not able to be launcher"
+    },
+    "url_AnyLinkPreviewWidget_titleError": "Error: can't load the title...",
+    "@url_AnyLinkPreviewWidget_titleError": {
+        "description": "The title of the any link preview package widget was unable to load"
+    },
+    "url_AnyLinkPreviewWidget_contentError": "Error: can't load the content...",
+    "@url_AnyLinkPreviewWidget_contentError": {
+        "description": "The content of the any link preview package widget was unable to load"
+    },
+    "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image...",
+    "@url_AnyLinkPreviewWidget_widgetError": {
+        "description": "The widget of the any link preview package had an error"
     }
-
 
 }

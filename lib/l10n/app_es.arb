@@ -116,5 +116,11 @@
     "@_NOTE_FUNCTIONS_COLOR": {},
     "color_dialog_title": "Elije el color de la nota",
     "color_snackbar_alreadyHaveThisColor": "Tu nota ya tiene este color",
-    "color_snackbar_newColorSelected": "Has seleccionado un nuevo color"
+    "color_snackbar_newColorSelected": "Has seleccionado un nuevo color",
+    "@_NOTE_FUNCTIONS_URL": {},
+    "url_dialog_urlNotValid": "El link no es válido",
+    "url_dialog_couldNotLaunch": "Lo siento, hubo un problema con el link, intenta con otro",
+    "url_AnyLinkPreviewWidget_titleError": "Error: no se pudo cargar el título...",
+    "url_AnyLinkPreviewWidget_contentError": "Error: no se pudo cargar el contenido...",
+    "url_AnyLinkPreviewWidget_widgetError": "Error: no se puede mostrar ninguna imagen..."
 }

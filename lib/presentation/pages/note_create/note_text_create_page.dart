@@ -72,7 +72,10 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
       if (await canLaunchUrl(url)) {
         return true;
       } else {
-        throw Exception('The url is not valid, try again.').removeExceptionWord;
+        if (context.mounted) {
+          throw Exception(AppLocalizations.of(context)!.url_dialog_urlNotValid)
+              .removeExceptionWord;
+        }
       }
     } catch (errorMessage) {
       await ExceptionsAlertDialog.showErrorDialog(
@@ -90,7 +93,8 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
     } catch (e) {
       await ExceptionsAlertDialog.showErrorDialog(
           context: context,
-          errorMessage: 'Could not launch this URL, try adding other one');
+          errorMessage:
+              AppLocalizations.of(context)!.url_dialog_couldNotLaunch);
     }
   }
 
@@ -316,12 +320,15 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
               borderRadius: 0,
               displayDirection: UIDirection.uiDirectionVertical,
               backgroundColor: Colors.white70,
-              errorTitle: "Error: can't load the title..",
-              errorBody: "Error: can't load the content..",
+              errorTitle: AppLocalizations.of(context)!
+                  .url_AnyLinkPreviewWidget_titleError,
+              errorBody: AppLocalizations.of(context)!
+                  .url_AnyLinkPreviewWidget_contentError,
               errorWidget: Container(
                 color: Colors.red.shade900,
-                child: const Center(
-                  child: Text("Error: can't load any image.."),
+                child: Center(
+                  child: Text(AppLocalizations.of(context)!
+                      .url_AnyLinkPreviewWidget_widgetError),
                 ),
               ),
             ),
