@@ -134,5 +134,10 @@
     "@_NOTE_FUNCTIONS_INFO_DIALOG": {},
     "info_dialog_title": "Detalles de la nota",
     "info_dialog_creationDate": "Fecha de creación:",
-    "info_dialog_lastModificationDate": "Fecha de última modificación:"
+    "info_dialog_lastModificationDate": "Fecha de última modificación:",
+    "@_NOTE_FUNCTIONS_DELETE_NOTE_DIALOG": {},
+    "deleteNote_dialog_title": "Confirmación",
+    "deleteNote_dialog_infoText": "¿Realmente quieres eliminar esta nota de forma permanente?",
+    "deleteNote_dialog_exceptionNoteNotFound": "La note no fue encontrada, probablemente ya fue eliminada",
+    "deleteNote_dialog_deleteButton": "Borrar"
 }

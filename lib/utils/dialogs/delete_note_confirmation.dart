@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/Note/note_tasks_model.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/Note/note_notifier.dart';
@@ -21,12 +22,33 @@ class DeleteNoteConfirmation {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromARGB(220, 250, 215, 90),
-          title: const Center(
-            child: Text('Confirmation'),
+          title: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade800.withOpacity(0.8),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(
+                textAlign: TextAlign.center,
+                AppLocalizations.of(context)!.deleteNote_dialog_title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
-          content: const Text(
-            'Do you really want to permanently delete this note?',
-            style: TextStyle(color: Colors.white),
+          content: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey.shade800.withOpacity(0.8),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            child: Text(
+              AppLocalizations.of(context)!.deleteNote_dialog_infoText,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+            ),
           ),
           actions: [
             Center(
@@ -75,8 +97,10 @@ class DeleteNoteConfirmation {
                             },
                           );
                         } else {
-                          throw Exception(
-                              "Note type not found, can't delete it");
+                          if (context.mounted) {
+                            throw Exception(AppLocalizations.of(context)!
+                                .deleteNote_dialog_exceptionNoteNotFound);
+                          }
                         }
 
                         if (context.mounted) {
@@ -93,10 +117,14 @@ class DeleteNoteConfirmation {
                         }
                       }
                     },
-                    child: const Text(
-                      'Delete',
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .deleteNote_dialog_deleteButton,
                       style: TextStyle(color: Colors.black),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 8,
                   ),
                   // Cancel button
                   ElevatedButton(
@@ -106,14 +134,11 @@ class DeleteNoteConfirmation {
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
             ),

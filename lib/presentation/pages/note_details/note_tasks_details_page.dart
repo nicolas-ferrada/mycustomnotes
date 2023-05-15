@@ -484,8 +484,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           );
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
-          DeleteNoteConfirmation.deleteNoteDialog(
-              context: context, note: widget.noteTasks);
+          try {
+            DeleteNoteConfirmation.deleteNoteDialog(
+                context: context, note: widget.noteTasks);
+          } catch (errorMessage) {
+            await ExceptionsAlertDialog.showErrorDialog(
+                context: context, errorMessage: errorMessage.toString());
+          }
         }
       },
       itemBuilder: (context) => [

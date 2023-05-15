@@ -364,8 +364,13 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           );
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
-          DeleteNoteConfirmation.deleteNoteDialog(
-              context: context, note: widget.noteText);
+          try {
+            DeleteNoteConfirmation.deleteNoteDialog(
+                context: context, note: widget.noteText);
+          } catch (errorMessage) {
+            await ExceptionsAlertDialog.showErrorDialog(
+                context: context, errorMessage: errorMessage.toString());
+          }
         }
       },
       itemBuilder: (context) => [

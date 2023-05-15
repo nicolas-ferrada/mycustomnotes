@@ -455,5 +455,22 @@
     "info_dialog_lastModificationDate": "Last modification date:",
     "@info_dialog_lastModificationDate": {
         "description": "Details tab where user can see the details/info of the current note. Last modification date text."
+    },
+    "@_NOTE_FUNCTIONS_DELETE_NOTE_DIALOG": {},
+    "deleteNote_dialog_title": "Confirmation",
+    "@deleteNote_dialog_title": {
+        "description": "Trying to delete a note, dialog title"
+    },
+    "deleteNote_dialog_infoText": "Do you really want to permanently delete this note?",
+    "@deleteNote_dialog_infoText": {
+        "description": "Trying to delete a note, dialog body info"
+    },
+    "deleteNote_dialog_exceptionNoteNotFound": "Note not found, probably it was already deleted",
+    "@deleteNote_dialog_exceptionNoteNotFound": {
+        "description": "Trying to delete a note that does not exist exception"
+    },
+    "deleteNote_dialog_deleteButton": "Delete",
+    "@deleteNote_dialog_deleteButton": {
+        "description": "Delete note button"
     }
 }
