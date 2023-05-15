@@ -2,6 +2,7 @@
     "@_GENERIC_UNEXPECTED_EXCEPTION": {},
     "unexpectedException_dialog": "Lo sentimos, se encontró un error no esperado, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
     "cancelButton": "Cancelar",
+    "closeButton": "Cerrar",
     "@_LOGIN_PAGE": {},
     "email_textformfield_loginPage": "Ingresa tu correo",
     "login_button_loginPage": "Iniciar sesión",
@@ -129,5 +130,9 @@
     "url_dialog_textformfieldUrlInput": "Ingresa un link",
     "url_dialogSnackbar_invalidUrl": "El link ingresado es inválido",
     "url_dialog_confirmButton": "Usar este link",
-    "url_dialog_deleteButton": "Eliminar el link actual en mi nota"
+    "url_dialog_deleteButton": "Eliminar el link actual en mi nota",
+    "@_NOTE_FUNCTIONS_INFO_DIALOG": {},
+    "info_dialog_title": "Detalles de la nota",
+    "info_dialog_creationDate": "Fecha de creación:",
+    "info_dialog_lastModificationDate": "Fecha de última modificación:"
 }

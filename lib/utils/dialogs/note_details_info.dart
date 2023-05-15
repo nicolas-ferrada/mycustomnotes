@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../formatters/date_formatter.dart';
 
@@ -16,9 +17,23 @@ class NotesDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       elevation: 3,
-      backgroundColor: Colors.grey,
-      title: const Center(
-        child: Text('Note details'),
+      backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+      title: Center(
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.grey.shade800.withOpacity(0.8),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Text(
+            textAlign: TextAlign.center,
+            AppLocalizations.of(context)!.info_dialog_title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       content: FutureBuilder<List<String>>(
           future: getDates(note),
@@ -28,29 +43,69 @@ class NotesDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Creation date:',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  Text(
-                    snapshot.data![0],
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade800.withOpacity(0.8),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .info_dialog_creationDate,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 14),
+                          ),
+                          Text(
+                            snapshot.data![0],
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 22,
                   ),
-                  const Text(
-                    'Last modification date:',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  Text(
-                    snapshot.data![1],
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade800.withOpacity(0.8),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .info_dialog_lastModificationDate,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 13),
+                          ),
+                          Text(
+                            snapshot.data![1],
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Center(
+                  child: Text(
+                AppLocalizations.of(context)!.unexpectedException_dialog,
+                textAlign: TextAlign.center,
+              ));
             } else {
               return const CircularProgressIndicator();
             }
@@ -67,9 +122,9 @@ class NotesDetails extends StatelessWidget {
                 onPressed: () {
                   Navigator.maybePop(context);
                 },
-                child: const Text(
-                  'Close',
-                  style: TextStyle(color: Colors.black),
+                child: Text(
+                  AppLocalizations.of(context)!.closeButton,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
               const SizedBox(

@@ -9,6 +9,10 @@
     "@cancelButton": {
         "description": "A generic cancel button generally used in dialogs"
     },
+    "closeButton": "Close",
+    "@closeButton": {
+        "description": "A generic close button generally used in dialogs"
+    },
     "@_LOGIN_PAGE_SCREEN": {},
     "email_textformfield_loginPage": "Enter your email",
     "@email_textformfield_loginPage": {
@@ -438,5 +442,18 @@
     "url_dialog_deleteButton": "Remove current url in my note",
     "@url_dialog_deleteButton": {
         "description": "Delete current url button"
+    },
+    "@_NOTE_FUNCTIONS_INFO_DIALOG": {},
+    "info_dialog_title": "Note details",
+    "@info_dialog_title": {
+        "description": "Details tab where user can see the details/info of the current note. The title of that dialog."
+    },
+    "info_dialog_creationDate": "Creation date:",
+    "@info_dialog_creationDate": {
+        "description": "Details tab where user can see the details/info of the current note. Creation date text."
+    },
+    "info_dialog_lastModificationDate": "Last modification date:",
+    "@info_dialog_lastModificationDate": {
+        "description": "Details tab where user can see the details/info of the current note. Last modification date text."
     }
 }
