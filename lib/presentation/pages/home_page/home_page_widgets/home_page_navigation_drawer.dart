@@ -28,11 +28,14 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return Drawer(
       elevation: 5,
       width: 250,
-      child: Column(
-        children: [
-          buildHeader(context),
-          buildMenuItems(context),
-        ],
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          children: [
+            buildHeader(context),
+            buildMenuItems(context),
+          ],
+        ),
       ),
     );
   }
@@ -49,7 +52,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Wrap(
-        runSpacing: 20,
+        runSpacing: 18,
         children: [
           // Title
           ListTile(
