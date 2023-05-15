@@ -14,7 +14,6 @@ import '../../../utils/dialogs/note_details_info.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../utils/icons/insert_url_icon_icons.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
