@@ -120,7 +120,7 @@ class DeleteNoteConfirmation {
                     child: Text(
                       AppLocalizations.of(context)!
                           .deleteNote_dialog_deleteButton,
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   const SizedBox(
