@@ -529,18 +529,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           ),
         ),
         PopupMenuItem(
-          value: MenuItemNoteDetail.item3,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Icon(InsertUrlIcon.link, size: 22),
-              Text(AppLocalizations.of(context)!
-                  .noteFunctionsMenu_popupMenu_insert),
-            ],
-          ),
-        ),
-        PopupMenuItem(
           value: MenuItemNoteDetail.item4,
           child: Row(
             mainAxisSize: MainAxisSize.min,
