@@ -14,6 +14,7 @@ import '../../../utils/dialogs/note_details_info.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../utils/icons/insert_url_icon_icons.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
@@ -497,6 +498,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         PopupMenuItem(
           value: MenuItemNoteDetail.item1,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // If it's favorite, show yellow icon, if not, white
@@ -505,13 +507,15 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 color: isFavoriteIconColor,
                 size: 28,
               ),
-              const Text('Favorite'),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_favorite),
             ],
           ),
         ),
         PopupMenuItem(
           value: MenuItemNoteDetail.item2,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
@@ -519,37 +523,58 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 size: 28,
                 color: colorIconPalette,
               ),
-              const Text('Color'),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_color),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
+          value: MenuItemNoteDetail.item3,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(InsertUrlIcon.link, size: 22),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_insert),
+            ],
+          ),
+        ),
+        PopupMenuItem(
           value: MenuItemNoteDetail.item4,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.share, size: 28),
-              Text('Share'),
+              const Icon(Icons.share, size: 28),
+              Text(
+                AppLocalizations.of(context)!.noteFunctionsMenu_popupMenu_share,
+                style: const TextStyle(fontSize: 11),
+              ),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item5,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.info, size: 28),
-              Text('Details'),
+              const Icon(Icons.info, size: 28),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_details),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item6,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.delete, size: 28),
-              Text('Delete'),
+              const Icon(Icons.delete, size: 28),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_delete),
             ],
           ),
         ),

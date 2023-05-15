@@ -472,5 +472,30 @@
     "deleteNote_dialog_deleteButton": "Delete",
     "@deleteNote_dialog_deleteButton": {
         "description": "Delete note button"
+    },
+    "@_NOTE_FUNCTIONS_MENU": {},
+    "noteFunctionsMenu_popupMenu_favorite": "Favorite",
+    "@noteFunctionsMenu_popupMenu_favorite": {
+        "description": "Favorite button in the popUpMenu of the notes functions"
+    },
+    "noteFunctionsMenu_popupMenu_color": "Color",
+    "@noteFunctionsMenu_popupMenu_color": {
+        "description": "Color button in the popUpMenu of the notes functions"
+    },
+    "noteFunctionsMenu_popupMenu_insert": " Insert",
+    "@noteFunctionsMenu_popupMenu_insert": {
+        "description": "Insert button in the popUpMenu of the notes functions"
+    },
+    "noteFunctionsMenu_popupMenu_share": "Share",
+    "@noteFunctionsMenu_popupMenu_share": {
+        "description": "Share button in the popUpMenu of the notes functions"
+    },
+    "noteFunctionsMenu_popupMenu_details": "Details",
+    "@noteFunctionsMenu_popupMenu_details": {
+        "description": "Details button in the popUpMenu of the notes functions"
+    },
+    "noteFunctionsMenu_popupMenu_delete": "Delete",
+    "@noteFunctionsMenu_popupMenu_delete": {
+        "description": "Delete button in the popUpMenu of the notes functions"
     }
 }

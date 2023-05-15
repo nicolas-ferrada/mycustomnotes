@@ -377,6 +377,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         PopupMenuItem(
           value: MenuItemNoteDetail.item1,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // If it's favorite, show yellow icon, if not, white
@@ -385,13 +386,15 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 color: isFavoriteIconColor,
                 size: 28,
               ),
-              const Text('Favorite'),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_favorite),
             ],
           ),
         ),
         PopupMenuItem(
           value: MenuItemNoteDetail.item2,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
@@ -399,47 +402,58 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 size: 28,
                 color: colorIconPalette,
               ),
-              const Text('Color'),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_color),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item3,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(InsertUrlIcon.link, size: 22),
-              Text('Insert'),
+              const Icon(InsertUrlIcon.link, size: 22),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_insert),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item4,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.share, size: 28),
-              Text('Share'),
+              const Icon(Icons.share, size: 28),
+              Text(
+                AppLocalizations.of(context)!.noteFunctionsMenu_popupMenu_share,
+                style: const TextStyle(fontSize: 11),
+              ),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item5,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.info, size: 28),
-              Text('Details'),
+              const Icon(Icons.info, size: 28),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_details),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: MenuItemNoteDetail.item6,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.delete, size: 28),
-              Text('Delete'),
+              const Icon(Icons.delete, size: 28),
+              Text(AppLocalizations.of(context)!
+                  .noteFunctionsMenu_popupMenu_delete),
             ],
           ),
         ),

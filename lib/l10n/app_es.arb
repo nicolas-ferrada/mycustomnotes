@@ -139,5 +139,12 @@
     "deleteNote_dialog_title": "Confirmación",
     "deleteNote_dialog_infoText": "¿Realmente quieres eliminar esta nota de forma permanente?",
     "deleteNote_dialog_exceptionNoteNotFound": "La note no fue encontrada, probablemente ya fue eliminada",
-    "deleteNote_dialog_deleteButton": "Borrar"
+    "deleteNote_dialog_deleteButton": "Borrar",
+    "@_NOTE_FUNCTIONS_MENU": {},
+    "noteFunctionsMenu_popupMenu_favorite": "Favorito",
+    "noteFunctionsMenu_popupMenu_color": "Color",
+    "noteFunctionsMenu_popupMenu_insert": " Insertar",
+    "noteFunctionsMenu_popupMenu_share": "Compartir",
+    "noteFunctionsMenu_popupMenu_details": "Detalles",
+    "noteFunctionsMenu_popupMenu_delete": "Borrar"
 }
