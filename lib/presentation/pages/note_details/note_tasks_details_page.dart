@@ -41,11 +41,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
   // Makes the save button to show up
-  bool didTitleChanged = false;
-  bool wasANewTaskAdded = false;
-  bool wasATaskEditted = false;
-  bool didColorChanged = false;
-  bool didFavoriteChanged = false;
+  bool didTitleChange = false;
+  bool didTaskChange = false;
+  bool didColorChange = false;
+  bool didFavoriteChange = false;
 
   // Only set state once to make the save button show
   bool didUserModifiedTaskForFirstTime = false;
@@ -60,10 +59,14 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // New note object which is going to be modified so it can be stored later with the new data
   late NoteTasks newNote;
 
-  // List of tasks of textformfields
-  late final List<Tasks> _textFormFieldValues;
+  // List of tasks
+  late final List<Tasks> tasksList;
 
-  String taskNameOnCreate = '';
+  // if false, completed notes will dissapear and the arrow icon will point to the right
+  bool areCompletedNotesVisible = true;
+
+  // New task controller
+  final TextEditingController _newTaskTextController = TextEditingController();
 
   @override
   void initState() {
@@ -82,7 +85,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     colorIconPalette = NoteColorOperations.getColorFromNumber(
         colorNumber: widget.noteTasks.color);
 
-    _textFormFieldValues = getTaskListFromMapList(newNote.tasks);
+    tasksList = getTaskListFromMapList(newNote.tasks);
   }
 
   List<Tasks> getTaskListFromMapList(List<Map<String, dynamic>> mapList) {
@@ -97,19 +100,34 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     return taskList;
   }
 
+  bool didUserMadeChanges() {
+    bool didUserMadeChanges = (didTitleChange ||
+        didFavoriteChange ||
+        didColorChange ||
+        didTaskChange);
+    return didUserMadeChanges;
+  }
+
+  List<Tasks> getNotCompletedTasks() {
+    List<Tasks> notCompletedTasks =
+        tasksList.where((item) => item.isTaskCompleted == false).toList();
+    return notCompletedTasks;
+  }
+
+  List<Tasks> getCompletedTasks() {
+    List<Tasks> completedTasks =
+        tasksList.where((item) => item.isTaskCompleted == true).toList();
+    return completedTasks;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         // Avoids the bug of the keyboard showing for a sec
         FocusScope.of(context).unfocus();
-        // Triggers when user made changes and the save button was not pressed
-        bool didUserMadeChanges = (didTitleChanged ||
-            wasANewTaskAdded ||
-            didFavoriteChanged ||
-            didColorChanged ||
-            wasATaskEditted);
-        if (didUserMadeChanges == true && wasTheSaveButtonPressed == false) {
+        // Triggers a warning for leaving when user made changes and the save button was not pressed
+        if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
           final bool? shouldPop =
               await ConfirmationDialog.discardChangesNoteDetails(context);
           return shouldPop ??
@@ -131,13 +149,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               // Changes are being made
               if (newTitleChanged != widget.noteTasks.title) {
                 setState(() {
-                  didTitleChanged = true;
+                  didTitleChange = true;
                 });
                 newNote.title = newTitleChanged.trim();
                 // No changes
               } else {
                 setState(() {
-                  didTitleChanged = false;
+                  didTitleChange = false;
                 });
               }
             },
@@ -153,8 +171,103 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             ),
           ),
         ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Tasks not completed
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: ReorderableListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: getNotCompletedTasks().length,
+                  itemBuilder: (context, index) {
+                    final task = getNotCompletedTasks()[index];
+                    return buildTasksNotCompleted(index: index, task: task);
+                  },
+                  onReorder: (oldIndex, newIndex) {
+                    setState(() {
+                      final index =
+                          (newIndex > oldIndex) ? newIndex - 1 : newIndex;
+                      final task = tasksList.removeAt(oldIndex);
+                      tasksList.insert(index, task);
+                      newNote.tasks = getValues();
+                      didTaskChange = true;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      areCompletedNotesVisible = !areCompletedNotesVisible;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800.withOpacity(0.9),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(9),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          areCompletedNotesVisible
+                              ? Icons.arrow_circle_down_outlined
+                              : Icons.arrow_circle_right_outlined,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        const Text(
+                          'Tasks completed',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
 
-        body: noteTasksPageBody(),
+              // Tasks completed
+              Visibility(
+                visible: areCompletedNotesVisible,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ReorderableListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: getCompletedTasks().length,
+                    itemBuilder: (context, index) {
+                      final task = getCompletedTasks()[index];
+                      return buildTasksCompleted(index: index, task: task);
+                    },
+                    onReorder: (oldIndex, newIndex) {
+                      setState(() {
+                        final index =
+                            (newIndex > oldIndex) ? newIndex - 1 : newIndex;
+                        final task = tasksList.removeAt(oldIndex);
+                        tasksList.insert(index, task);
+                        newNote.tasks = getValues();
+                        didTaskChange = true;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         // Save button, only visible if user changes the note
         floatingActionButton:
             noteTasksDetailsPageCreateNoteFloatingActionButton(context),
@@ -162,179 +275,232 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     );
   }
 
-  ReorderableListView noteTasksPageBody() {
-    final listKey = GlobalKey<AnimatedListState>();
-    List<FocusNode> focusNodes =
-        List.generate(_textFormFieldValues.length, (index) => FocusNode());
-    FocusNode? currentFocusNode;
-
-    void unfocusCurrentNode() {
-      if (currentFocusNode != null) {
-        currentFocusNode!.unfocus();
-        currentFocusNode = null;
-      }
-    }
-
-    return ReorderableListView.builder(
-      key: listKey,
-      onReorder: (oldIndex, newIndex) {
-        setState(() {
-          unfocusCurrentNode();
-          if (newIndex > oldIndex) newIndex--;
-
-          // Create a new FocusNode for the TextFormField being moved
-          final newFocusNode = FocusNode();
-
-          // Delay the unfocus call to ensure the current render operation is complete
-          Future.delayed(Duration.zero, () {
-            // Assign focus to the new FocusNode to unfocus the old TextFormField
-            FocusScope.of(context).requestFocus(newFocusNode);
-
-            // Replace the old FocusNode with the new one
-            focusNodes[oldIndex] = newFocusNode;
-          });
-
-          final item = _textFormFieldValues.removeAt(oldIndex);
-          _textFormFieldValues.insert(newIndex, item);
+  Widget buildTasksNotCompleted({
+    required int index,
+    required Tasks task,
+  }) {
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Dismissible(
+        key: ValueKey(task),
+        onDismissed: (direction) {
           setState(() {
-            wasATaskEditted = true;
+            tasksList.removeAt(index);
+            newNote.tasks = getValues();
+            didTaskChange = true;
           });
-          newNote.tasks = getTextFormFieldValues();
-        });
-      },
-      itemCount: _textFormFieldValues.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          onTap: () {
-            unfocusCurrentNode();
-            currentFocusNode = focusNodes[index];
-            currentFocusNode!.requestFocus();
-          },
-          key: ValueKey(_textFormFieldValues[index]),
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
+          color: Colors.white24,
           child: ListTile(
-            contentPadding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-            title: Row(
-              children: [
-                Transform.scale(
-                  scale: 1.6,
-                  child: Checkbox(
-                    activeColor: const Color.fromRGBO(250, 216, 90, 0.9),
-                    shape: const CircleBorder(),
-                    value: _textFormFieldValues[index].isTaskCompleted,
-                    onChanged: (value) => setState(() {
-                      _textFormFieldValues[index].isTaskCompleted = value!;
-                      wasATaskEditted = true;
-                      newNote.tasks = getTextFormFieldValues();
-                    }),
-                  ),
-                ),
-                Expanded(
-                  child: Dismissible(
-                    onDismissed: (direction) {
-                      setState(() {
-                        _textFormFieldValues.removeAt(index);
-                        wasATaskEditted = true;
-                        newNote.tasks = getTextFormFieldValues();
-                      });
-                    },
-                    background: Container(
-                      color: Colors.redAccent,
-                      child: const Icon(Icons.delete),
-                    ),
-                    key: ValueKey(_textFormFieldValues[index]),
-                    child: ReorderableDelayedDragStartListener(
-                      index: index,
-                      key: UniqueKey(),
-                      child: StatefulBuilder(
-                        builder: (context, setStatee) {
-                          return TextFormField(
-                            maxLines: null,
-                            initialValue: _textFormFieldValues[index].taskName,
-                            onChanged: (value) {
-                              setStatee(() {
-                                wasATaskEditted = true;
-                                _textFormFieldValues[index].taskName = value;
-                                newNote.tasks = getTextFormFieldValues();
-                              });
-                            },
-                            focusNode: focusNodes[index],
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.all(28),
-                              border: OutlineInputBorder(),
-                            ),
-                          );
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  final task = tasksList[index];
+                  return AlertDialog(
+                    content: TextFormField(
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      onFieldSubmitted: (_) => Navigator.maybePop(context),
+                      onTapOutside: (_) => Navigator.maybePop(context),
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          newNote.tasks = getValues();
+                          didTaskChange = true;
                         },
                       ),
                     ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              );
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
             ),
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.7,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                value: task.isTaskCompleted,
+                onChanged: (value) {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    newNote.tasks = getValues();
+                    didTaskChange = true;
+                  });
+                },
+              ),
+            ),
+            // Task name
+            title: Text(task.taskName),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Column noteTasksDetailsPageCreateNoteFloatingActionButton(
-      BuildContext context) {
+  Widget buildTasksCompleted({
+    required int index,
+    required Tasks task,
+  }) {
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Dismissible(
+        key: ValueKey(task),
+        onDismissed: (direction) {
+          setState(() {
+            tasksList.removeAt(index);
+            newNote.tasks = getValues();
+            didTaskChange = true;
+          });
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
+          color: Colors.white24,
+          child: ListTile(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  final task = tasksList[index];
+                  return AlertDialog(
+                    content: TextFormField(
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      onFieldSubmitted: (_) => Navigator.maybePop(context),
+                      onTapOutside: (_) => Navigator.maybePop(context),
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          newNote.tasks = getValues();
+                          didTaskChange = true;
+                        },
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.7,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                value: task.isTaskCompleted,
+                onChanged: (value) {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    newNote.tasks = getValues();
+                    didTaskChange = true;
+                  });
+                },
+              ),
+            ),
+            // Task name
+            title: Text(task.taskName),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget noteTasksDetailsPageCreateNoteFloatingActionButton(
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        FloatingActionButton(
-          heroTag: null,
-          tooltip: 'Edit the note',
-          onPressed: () async {
-            // Create note button
-            try {
-              wasTheSaveButtonPressed = true;
-              // Check if device it's connected to any network
-              bool isDeviceConnected =
-                  await CheckInternetConnection.checkInternetConnection();
-              int waitingConnection = 5;
+        Visibility(
+          visible: didUserMadeChanges(),
+          child: FloatingActionButton(
+            heroTag: null,
+            tooltip: 'Save changes',
+            shape: const CircleBorder(),
+            onPressed: () async {
+              // Create note button
+              try {
+                wasTheSaveButtonPressed = true;
+                // Check if device it's connected to any network
+                bool isDeviceConnected =
+                    await CheckInternetConnection.checkInternetConnection();
+                int waitingConnection = 5;
 
-              // If device is connected, wait 5 seconds, if is not connected, dont wait.
-              if (isDeviceConnected) {
-                waitingConnection = 5;
-              } else {
-                waitingConnection = 0;
-              }
+                // If device is connected, wait 5 seconds, if is not connected, dont wait.
+                if (isDeviceConnected) {
+                  waitingConnection = 5;
+                } else {
+                  waitingConnection = 0;
+                }
 
-              // Create note on firebase, it will wait depending if the device it's connected to a network
-              await NoteTasksService.editNoteTasks(
-                note: newNote,
-              ).timeout(
-                Duration(seconds: waitingConnection),
-                onTimeout: () {
+                // Create note on firebase, it will wait depending if the device it's connected to a network
+                await NoteTasksService.editNoteTasks(
+                  note: newNote,
+                ).timeout(
+                  Duration(seconds: waitingConnection),
+                  onTimeout: () {
+                    Provider.of<NoteNotifier>(context, listen: false)
+                        .refreshNotes();
+
+                    Navigator.of(context).maybePop();
+                  },
+                );
+                if (context.mounted) {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();
 
                   Navigator.of(context).maybePop();
-                },
-              );
-              if (context.mounted) {
-                Provider.of<NoteNotifier>(context, listen: false)
-                    .refreshNotes();
-
-                Navigator.of(context).maybePop();
+                }
+              } catch (errorMessage) {
+                ExceptionsAlertDialog.showErrorDialog(
+                    context: context, errorMessage: errorMessage.toString());
               }
-            } catch (errorMessage) {
-              ExceptionsAlertDialog.showErrorDialog(
-                  context: context, errorMessage: errorMessage.toString());
-            }
-          },
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-          child: const Icon(Icons.save),
+            },
+            backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+            child: const Icon(Icons.save),
+          ),
         ),
         const SizedBox(
           height: 8,
         ),
-        FloatingActionButton.extended(
+        FloatingActionButton(
+          shape: const CircleBorder(),
           heroTag: null,
           tooltip: 'Add a new task',
           onPressed: () async {
             showModalBottomSheet(
+              shape: const RoundedRectangleBorder(),
               context: context,
               isScrollControlled: true,
               isDismissible: true,
@@ -352,33 +518,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(12),
                               child: TextField(
+                                controller: _newTaskTextController,
                                 autofocus: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    taskNameOnCreate = value.trim();
-                                  });
-                                },
                                 onSubmitted: (_) {
-                                  if (taskNameOnCreate.isNotEmpty) {
-                                    addNewTask();
-                                    taskNameOnCreate = ''; // restart text value
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      wasANewTaskAdded = true;
-                                      newNote.tasks = getTextFormFieldValues();
-                                    });
-
-                                    FocusScope.of(context).unfocus();
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBarMessage.snackBarMessage(
-                                          message:
-                                              "You can't create an empty task",
-                                          backgroundColor: Colors.red),
-                                    );
-                                    FocusScope.of(context).unfocus();
-                                  }
+                                  creatingNewTask();
                                 },
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -389,25 +532,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                           ),
                           IconButton(
                             onPressed: () {
-                              if (taskNameOnCreate.isNotEmpty) {
-                                addNewTask();
-                                taskNameOnCreate = ''; // restart text value
-                                Navigator.pop(context);
-                                setState(() {
-                                  wasANewTaskAdded = true;
-                                  newNote.tasks = getTextFormFieldValues();
-                                });
-                                FocusScope.of(context).unfocus();
-                              } else {
-                                Navigator.pop(context);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBarMessage.snackBarMessage(
-                                      message: "You can't create an empty task",
-                                      backgroundColor: Colors.red),
-                                );
-                                FocusScope.of(context).unfocus();
-                              }
+                              creatingNewTask();
                             },
                             icon: const Icon(Icons.done),
                           ),
@@ -420,22 +545,43 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             );
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-          icon: const Icon(Icons.add),
-          label: const Text('New task'),
+          child: const Icon(Icons.add),
         ),
       ],
     );
   }
 
+  void creatingNewTask() {
+    if (_newTaskTextController.text.isNotEmpty) {
+      addNewTask();
+      _newTaskTextController.clear(); // restart text value
+      setState(() {
+        didTaskChange = true;
+        newNote.tasks = getValues();
+      });
+      FocusScope.of(context).unfocus();
+    } else {
+      // task is empty
+      Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarMessage.snackBarMessage(
+            message: "You can't create an empty task",
+            backgroundColor: Colors.red),
+      );
+      FocusScope.of(context).unfocus();
+    }
+  }
+
   void addNewTask() {
     setState(() {
-      _textFormFieldValues
-          .add(Tasks(isTaskCompleted: false, taskName: taskNameOnCreate));
+      tasksList.add(
+          Tasks(isTaskCompleted: false, taskName: _newTaskTextController.text));
     });
   }
 
-  List<Map<String, dynamic>> getTextFormFieldValues() {
-    return _textFormFieldValues
+  List<Map<String, dynamic>> getValues() {
+    return tasksList
         .map((task) => {
               'isTaskCompleted': task.isTaskCompleted,
               'taskName': task.taskName
@@ -588,7 +734,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didFavoriteChanged = false;
+          didFavoriteChange = false;
         });
         // Note now it's favorite, but it wasn't from the start, so user made a change
       } else {
@@ -598,7 +744,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didFavoriteChanged = true;
+          didFavoriteChange = true;
         });
       }
     } else {
@@ -615,7 +761,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didFavoriteChanged = true;
+          didFavoriteChange = true;
         });
         // Note now it's not favorite, if it was favorite from the start, then user did not make any changes
       } else {
@@ -626,7 +772,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
         setState(() {
-          didFavoriteChanged = false;
+          didFavoriteChange = false;
         });
       }
     }
@@ -666,13 +812,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         // Changes the color of the icon to the new one
         colorIconPalette = colorPickedByUser;
         // Show the save button
-        didColorChanged = true;
+        didColorChange = true;
       });
     } else {
       // User picked the same color
       setState(() {
         // Changes the color of the icon to the current note color
-        didColorChanged = false;
+        didColorChange = false;
         colorIconPalette = colorPickedByUser;
         // if not null, user picked the same color, if is null, it means user did not pick any color, so dont show the snackbar
         if (getColorFromDialog != null) {
