@@ -108,18 +108,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     return didUserMadeChanges;
   }
 
-  List<Tasks> getNotCompletedTasks() {
-    List<Tasks> notCompletedTasks =
-        tasksList.where((item) => item.isTaskCompleted == false).toList();
-    return notCompletedTasks;
-  }
-
-  List<Tasks> getCompletedTasks() {
-    List<Tasks> completedTasks =
-        tasksList.where((item) => item.isTaskCompleted == true).toList();
-    return completedTasks;
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -182,9 +170,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  itemCount: getNotCompletedTasks().length,
+                  itemCount: tasksList.length,
                   itemBuilder: (context, index) {
-                    final task = getNotCompletedTasks()[index];
+                    final task = tasksList[index];
+                    // return buildTasksNotCompleted(index: index, task: task);
                     return buildTasksNotCompleted(index: index, task: task);
                   },
                   onReorder: (oldIndex, newIndex) {
@@ -202,7 +191,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               const SizedBox(
                 height: 14,
               ),
-                            // Tasks completed
+              // Tasks completed
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: GestureDetector(
@@ -246,9 +235,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
-                    itemCount: getCompletedTasks().length,
+                    itemCount: tasksList.length,
                     itemBuilder: (context, index) {
-                      final task = getCompletedTasks()[index];
+                      final task = tasksList[index];
                       return buildTasksCompleted(index: index, task: task);
                     },
                   ),
@@ -268,160 +257,172 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     required int index,
     required Tasks task,
   }) {
-    return Padding(
-      // Make each tile unique
-      key: ValueKey(task),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Dismissible(
+    if (task.isTaskCompleted == false) {
+      return Padding(
+        // Make each tile unique
         key: ValueKey(task),
-        onDismissed: (_) {
-          tasksList.removeAt(index);
-          newNote.tasks = getValues();
-          setState(() {
-            didTaskChange = true;
-          });
-        },
-        background: Container(
-          color: Colors.redAccent,
-          child: const Icon(Icons.delete),
-        ),
-        child: Container(
-          // If the color is in the ListTile, a visual bug happens on dragging tasks
-          color: Colors.white24,
-          child: ListTile(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  final task = tasksList[index];
-                  return AlertDialog(
-                    content: TextFormField(
-                      autofocus: true,
-                      initialValue: task.taskName,
-                      onFieldSubmitted: (_) => Navigator.maybePop(context),
-                      onTapOutside: (_) => Navigator.maybePop(context),
-                      // Task modification
-                      onChanged: (value) => setState(
-                        () {
-                          task.taskName = value;
-                          newNote.tasks = getValues();
-                          didTaskChange = true;
-                        },
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: Dismissible(
+          key: ValueKey(task),
+          onDismissed: (_) {
+            tasksList.removeAt(index);
+            newNote.tasks = getValues();
+            setState(() {
+              didTaskChange = true;
+            });
+          },
+          background: Container(
+            color: Colors.redAccent,
+            child: const Icon(Icons.delete),
+          ),
+          child: Container(
+            // If the color is in the ListTile, a visual bug happens on dragging tasks
+            color: Colors.white24,
+            child: ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    final task = tasksList[index];
+                    return AlertDialog(
+                      content: TextFormField(
+                        autofocus: true,
+                        initialValue: task.taskName,
+                        onFieldSubmitted: (_) => Navigator.maybePop(context),
+                        onTapOutside: (_) => Navigator.maybePop(context),
+                        // Task modification
+                        onChanged: (value) => setState(
+                          () {
+                            task.taskName = value;
+                            newNote.tasks = getValues();
+                            didTaskChange = true;
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            contentPadding: const EdgeInsets.all(8),
-            // isTaskCompleted Checkbox
-            leading: Transform.scale(
-              scale: 1.7,
-              child: Checkbox(
-                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
-                checkColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                value: task.isTaskCompleted,
-                onChanged: (value) {
-                  setState(() {
-                    task.isTaskCompleted = value!;
-                    newNote.tasks = getValues();
-                    didTaskChange = true;
-                  });
-                },
+                    );
+                  },
+                );
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
+              contentPadding: const EdgeInsets.all(8),
+              // isTaskCompleted Checkbox
+              leading: Transform.scale(
+                scale: 1.5,
+                child: Checkbox(
+                  activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                  checkColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  value: task.isTaskCompleted,
+                  onChanged: (value) {
+                    setState(() {
+                      task.isTaskCompleted = value!;
+                      newNote.tasks = getValues();
+                      didTaskChange = true;
+                    });
+                  },
+                ),
+              ),
+              // Task name
+              title: Text(task.taskName),
             ),
-            // Task name
-            title: Text(task.taskName),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return SizedBox.shrink(
+        key: ValueKey(task),
+      );
+    }
   }
 
   Widget buildTasksCompleted({
     required int index,
     required Tasks task,
   }) {
-    return Padding(
-      // Make each tile unique
-      key: ValueKey(task),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Dismissible(
+    if (task.isTaskCompleted == true) {
+      return Padding(
+        // Make each tile unique
         key: ValueKey(task),
-        onDismissed: (direction) {
-          setState(() {
-            tasksList.removeAt(index);
-            newNote.tasks = getValues();
-            didTaskChange = true;
-          });
-        },
-        background: Container(
-          color: Colors.redAccent,
-          child: const Icon(Icons.delete),
-        ),
-        child: Container(
-          // If the color is in the ListTile, a visual bug happens on dragging tasks
-          color: Colors.white24,
-          child: ListTile(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  final task = tasksList[index];
-                  return AlertDialog(
-                    content: TextFormField(
-                      autofocus: true,
-                      initialValue: task.taskName,
-                      onFieldSubmitted: (_) => Navigator.maybePop(context),
-                      onTapOutside: (_) => Navigator.maybePop(context),
-                      // Task modification
-                      onChanged: (value) => setState(
-                        () {
-                          task.taskName = value;
-                          newNote.tasks = getValues();
-                          didTaskChange = true;
-                        },
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: Dismissible(
+          key: ValueKey(task),
+          onDismissed: (direction) {
+            setState(() {
+              tasksList.removeAt(index);
+              newNote.tasks = getValues();
+              didTaskChange = true;
+            });
+          },
+          background: Container(
+            color: Colors.redAccent,
+            child: const Icon(Icons.delete),
+          ),
+          child: Container(
+            // If the color is in the ListTile, a visual bug happens on dragging tasks
+            color: Colors.white24,
+            child: ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    final task = tasksList[index];
+                    return AlertDialog(
+                      content: TextFormField(
+                        autofocus: true,
+                        initialValue: task.taskName,
+                        onFieldSubmitted: (_) => Navigator.maybePop(context),
+                        onTapOutside: (_) => Navigator.maybePop(context),
+                        // Task modification
+                        onChanged: (value) => setState(
+                          () {
+                            task.taskName = value;
+                            newNote.tasks = getValues();
+                            didTaskChange = true;
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            contentPadding: const EdgeInsets.all(8),
-            // isTaskCompleted Checkbox
-            leading: Transform.scale(
-              scale: 1.7,
-              child: Checkbox(
-                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
-                checkColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                value: task.isTaskCompleted,
-                onChanged: (value) {
-                  setState(() {
-                    task.isTaskCompleted = value!;
-                    newNote.tasks = getValues();
-                    didTaskChange = true;
-                  });
-                },
+                    );
+                  },
+                );
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
+              contentPadding: const EdgeInsets.all(8),
+              // isTaskCompleted Checkbox
+              leading: Transform.scale(
+                scale: 1.5,
+                child: Checkbox(
+                  activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                  checkColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  value: task.isTaskCompleted,
+                  onChanged: (value) {
+                    setState(() {
+                      task.isTaskCompleted = value!;
+                      newNote.tasks = getValues();
+                      didTaskChange = true;
+                    });
+                  },
+                ),
+              ),
+              // Task name
+              title: Text(task.taskName),
             ),
-            // Task name
-            title: Text(task.taskName),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return SizedBox.shrink(
+        key: ValueKey(task),
+      );
+    }
   }
 
   Widget noteTasksDetailsPageCreateNoteFloatingActionButton(
