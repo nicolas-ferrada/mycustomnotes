@@ -200,8 +200,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 ),
               ),
               const SizedBox(
-                height: 24,
+                height: 14,
               ),
+                            // Tasks completed
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: GestureDetector(
@@ -237,13 +238,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   ),
                 ),
               ),
-
-              // Tasks completed
               Visibility(
                 visible: areCompletedNotesVisible,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: ReorderableListView.builder(
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
@@ -251,16 +250,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     itemBuilder: (context, index) {
                       final task = getCompletedTasks()[index];
                       return buildTasksCompleted(index: index, task: task);
-                    },
-                    onReorder: (oldIndex, newIndex) {
-                      setState(() {
-                        final index =
-                            (newIndex > oldIndex) ? newIndex - 1 : newIndex;
-                        final task = tasksList.removeAt(oldIndex);
-                        tasksList.insert(index, task);
-                        newNote.tasks = getValues();
-                        didTaskChange = true;
-                      });
                     },
                   ),
                 ),
@@ -285,10 +274,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: Dismissible(
         key: ValueKey(task),
-        onDismissed: (direction) {
+        onDismissed: (_) {
+          tasksList.removeAt(index);
+          newNote.tasks = getValues();
           setState(() {
-            tasksList.removeAt(index);
-            newNote.tasks = getValues();
             didTaskChange = true;
           });
         },
