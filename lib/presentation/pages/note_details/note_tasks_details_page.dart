@@ -17,6 +17,7 @@ import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Tasks {
   bool isTaskCompleted;
@@ -325,6 +326,14 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       newNote.tasks = getValues();
                       didTaskChange = true;
                     });
+                    // Sound when a task is completed
+                    AudioPlayer audioPlayer = AudioPlayer();
+                    const completedTaskSound = "completedTask.mp3";
+                    audioPlayer
+                        .setSource(AssetSource(completedTaskSound))
+                        .then((value) {
+                      audioPlayer.play(AssetSource(completedTaskSound));
+                    });
                   },
                 ),
               ),
@@ -371,7 +380,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    final task = tasksList[index];
                     return AlertDialog(
                       content: TextFormField(
                         autofocus: true,
@@ -405,7 +413,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   value: task.isTaskCompleted,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     setState(() {
                       task.isTaskCompleted = value!;
                       newNote.tasks = getValues();
@@ -415,7 +423,12 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 ),
               ),
               // Task name
-              title: Text(task.taskName),
+              title: Text(
+                task.taskName,
+                style: const TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                ),
+              ),
             ),
           ),
         ),
@@ -494,44 +507,39 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(),
               context: context,
-              isScrollControlled: true,
               isDismissible: true,
               builder: (BuildContext context) {
-                return StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: TextField(
-                                controller: _newTaskTextController,
-                                autofocus: true,
-                                onSubmitted: (_) {
-                                  creatingNewTask();
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Create a new task',
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: TextField(
+                            controller: _newTaskTextController,
+                            autofocus: true,
+                            onSubmitted: (_) {
                               creatingNewTask();
                             },
-                            icon: const Icon(Icons.done),
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Create a new task',
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                    );
-                  },
+                      IconButton(
+                        onPressed: () {
+                          creatingNewTask();
+                        },
+                        icon: const Icon(Icons.done),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

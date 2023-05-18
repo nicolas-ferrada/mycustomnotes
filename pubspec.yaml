@@ -73,6 +73,7 @@ dependencies:
 
   # Date format and internationalization
   intl: ^0.18.0
+  audioplayers: ^4.0.1
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
@@ -110,7 +111,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/icon.png
+
 
   fonts:
     - family: NotesViewIcons
