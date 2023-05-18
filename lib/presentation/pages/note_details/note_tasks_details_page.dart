@@ -167,6 +167,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ReorderableListView.builder(
+                  reverse: true,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
@@ -232,6 +233,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: ListView.builder(
+                    reverse: true,
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
