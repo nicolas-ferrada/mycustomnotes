@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../domain/services/auth_user_service.dart';
@@ -66,13 +69,56 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // if false, completed notes will dissapear and the arrow icon will point to the right
   bool areCompletedNotesVisible = true;
 
+  // Note title controller
+  final TextEditingController _titleTextController = TextEditingController();
+
   // New task controller
   final TextEditingController _newTaskTextController = TextEditingController();
+
+  // Keyboard stream suscription used to react to keyboard dismiss changes
+  late StreamSubscription<bool> keyboardSubscription;
+
+  // Used to do not execute the Navigator.maybePop(context) when the title keyboard is closed
+  final FocusNode noteTitleTextFormFieldFocusNode = FocusNode();
+
+  // Used to close them tapping backbutton once.
+  bool isShowModalBottomSheetTryingToBeClosed = false;
+  bool isADialogTaskTryingTobeClosed = false;
 
   @override
   void initState() {
     super.initState();
     updateNote();
+    keyboardDismissSubscription();
+  }
+
+  @override
+  void dispose() {
+    keyboardSubscription.cancel();
+    noteTitleTextFormFieldFocusNode.dispose();
+    super.dispose();
+  }
+
+  // Do actions on keyboard dismiss, used to close tasks dialog when editing a note and to
+  // close the showModalBottomSheet on one back button tap instead of two.
+  // Since one tap will only close the keyboard, and the second it will close it entirely,
+  // the idea is to make both things in one backbutton tap.
+  void keyboardDismissSubscription() {
+    var keyboardController = KeyboardVisibilityController();
+    keyboardSubscription =
+        keyboardController.onChange.listen((bool isKeyboardOpen) {
+      // If the keyboard closes after modalbuttonsheet was pressed,
+      // one tap on the back button will close it.
+      if (!isKeyboardOpen && isShowModalBottomSheetTryingToBeClosed) {
+        Navigator.maybePop(context);
+        isShowModalBottomSheetTryingToBeClosed = false;
+        // If the keyboard closes after a completed/not compled task was pressed,
+        // one tap on the back button will close it.
+      } else if (!isKeyboardOpen && isADialogTaskTryingTobeClosed) {
+        Navigator.maybePop(context);
+        isADialogTaskTryingTobeClosed = false;
+      }
+    });
   }
 
   void updateNote() {
@@ -87,6 +133,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         colorNumber: widget.noteTasks.color);
 
     tasksList = getTaskListFromMapList(newNote.tasks);
+    _titleTextController.text = widget.noteTasks.title;
   }
 
   List<Tasks> getTaskListFromMapList(List<Map<String, dynamic>> mapList) {
@@ -107,6 +154,20 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         didColorChange ||
         didTaskChange);
     return didUserMadeChanges;
+  }
+
+  void changeTitle() {
+    if (_titleTextController.text != widget.noteTasks.title) {
+      setState(() {
+        didTitleChange = true;
+      });
+      newNote.title = _titleTextController.text.trim();
+      // No changes
+    } else {
+      setState(() {
+        didTitleChange = false;
+      });
+    }
   }
 
   @override
@@ -133,20 +194,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           ],
           // Note's title
           title: TextFormField(
-            initialValue: widget.noteTasks.title,
-            onChanged: (newTitleChanged) {
-              // Changes are being made
-              if (newTitleChanged != widget.noteTasks.title) {
-                setState(() {
-                  didTitleChange = true;
-                });
-                newNote.title = newTitleChanged.trim();
-                // No changes
-              } else {
-                setState(() {
-                  didTitleChange = false;
-                });
-              }
+            controller: _titleTextController,
+            focusNode: noteTitleTextFormFieldFocusNode,
+            onFieldSubmitted: (value) {
+              changeTitle();
             },
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -283,6 +334,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             color: Colors.white24,
             child: ListTile(
               onTap: () {
+                isADialogTaskTryingTobeClosed = true;
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -291,8 +343,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       content: TextFormField(
                         autofocus: true,
                         initialValue: task.taskName,
-                        onFieldSubmitted: (_) => Navigator.maybePop(context),
-                        onTapOutside: (_) => Navigator.maybePop(context),
                         // Task modification
                         onChanged: (value) => setState(
                           () {
@@ -304,7 +354,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       ),
                     );
                   },
-                );
+                ).then((_) {
+                  // This is when the dialog is dismissed by tapping outside,
+                  // this code will come first than keyboardListener and it will avoid double navigator.pop
+                  isADialogTaskTryingTobeClosed = false;
+                });
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -377,6 +431,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             color: Colors.white24,
             child: ListTile(
               onTap: () {
+                isADialogTaskTryingTobeClosed = true;
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -384,8 +439,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       content: TextFormField(
                         autofocus: true,
                         initialValue: task.taskName,
-                        onFieldSubmitted: (_) => Navigator.maybePop(context),
-                        onTapOutside: (_) => Navigator.maybePop(context),
                         // Task modification
                         onChanged: (value) => setState(
                           () {
@@ -397,7 +450,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       ),
                     );
                   },
-                );
+                ).then((_) {
+                  // This is when the dialog is dismissed by tapping outside,
+                  // this code will come first than keyboardListener and it will avoid double navigator.pop
+                  isADialogTaskTryingTobeClosed = false;
+                });
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -504,6 +561,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           heroTag: null,
           tooltip: 'Add a new task',
           onPressed: () async {
+            isShowModalBottomSheetTryingToBeClosed = true;
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(),
               context: context,
@@ -542,7 +600,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   ),
                 );
               },
-            );
+            ).then((_) {
+              // This is when the dialog is dismissed by tapping outside,
+              // this code will come first than keyboardListener and it will avoid double navigator.pop
+              isShowModalBottomSheetTryingToBeClosed = false;
+            });
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
           child: const Icon(Icons.add),
@@ -559,17 +621,14 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         didTaskChange = true;
         newNote.tasks = getValues();
       });
-      FocusScope.of(context).unfocus();
     } else {
       // task is empty
-      Navigator.pop(context);
-
+      FocusManager.instance.primaryFocus?.unfocus();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBarMessage.snackBarMessage(
             message: "You can't create an empty task",
             backgroundColor: Colors.red),
       );
-      FocusScope.of(context).unfocus();
     }
   }
 

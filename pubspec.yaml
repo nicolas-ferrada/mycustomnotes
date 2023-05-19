@@ -73,7 +73,12 @@ dependencies:
 
   # Date format and internationalization
   intl: ^0.18.0
+
+  # Reproduce audio
   audioplayers: ^4.0.1
+
+  # Actions when keyboard open/close
+  flutter_keyboard_visibility: ^5.4.1
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
