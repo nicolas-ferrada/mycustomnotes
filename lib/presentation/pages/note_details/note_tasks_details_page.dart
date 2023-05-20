@@ -159,24 +159,29 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     return taskList;
   }
 
-  List<Map<String, dynamic>> getListMapFromTasksList({
-    required List<Tasks> notCompletedTasks,
-    required List<Tasks> completedTasks,
-  }) {
-    final List<Tasks> finalTasksList = [
-      ...notCompletedTasks,
-      ...completedTasks
-    ];
-    List<Map<String, dynamic>> listOfMapsTasks = [];
+  // Used to save all the notes in a List of Maps to the db
+  List<Map<String, dynamic>> getListMapFromTasksList() {
+    final List<Tasks> finalTasksList = getFinalTasksList();
+
+    List<Map<String, dynamic>> finalTasksListMap = [];
 
     for (int i = 0; i < finalTasksList.length; i++) {
       Map<String, dynamic> map = {
         'taskName': finalTasksList[i].taskName,
         'isTaskCompleted': finalTasksList[i].isTaskCompleted,
       };
-      listOfMapsTasks.add(map);
+      finalTasksListMap.add(map);
     }
-    return listOfMapsTasks;
+    return finalTasksListMap;
+  }
+
+  // Combine not completed tasks and completed tasks
+  List<Tasks> getFinalTasksList() {
+    final List<Tasks> finalTasksList = [
+      ...notCompletedTasksList,
+      ...completedTasksList
+    ];
+    return finalTasksList;
   }
 
   bool didUserMadeChanges() {
@@ -248,94 +253,106 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Tasks not completed
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ReorderableListView.builder(
-                  reverse: true,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  itemCount: notCompletedTasksList.length,
-                  itemBuilder: (context, index) {
-                    final task = notCompletedTasksList[index];
+        body: (getFinalTasksList().isNotEmpty)
+            ? SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Tasks not completed
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ReorderableListView.builder(
+                        reverse: true,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemCount: notCompletedTasksList.length,
+                        itemBuilder: (context, index) {
+                          final task = notCompletedTasksList[index];
 
-                    return buildTasksNotCompleted(index: index, task: task);
-                  },
-                  onReorder: (oldIndex, newIndex) {
-                    setState(() {
-                      final index =
-                          (newIndex > oldIndex) ? newIndex - 1 : newIndex;
-                      final task = notCompletedTasksList.removeAt(oldIndex);
-                      notCompletedTasksList.insert(index, task);
-                      didTaskChange = true;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              // Tasks completed
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      areCompletedNotesVisible = !areCompletedNotesVisible;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800.withOpacity(0.9),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(9),
+                          return buildTasksNotCompleted(
+                              index: index, task: task);
+                        },
+                        onReorder: (oldIndex, newIndex) {
+                          setState(() {
+                            final index =
+                                (newIndex > oldIndex) ? newIndex - 1 : newIndex;
+                            final task =
+                                notCompletedTasksList.removeAt(oldIndex);
+                            notCompletedTasksList.insert(index, task);
+                            didTaskChange = true;
+                          });
+                        },
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          areCompletedNotesVisible
-                              ? Icons.arrow_circle_down_outlined
-                              : Icons.arrow_circle_right_outlined,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        const Text(
-                          'Tasks completed',
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 14,
                     ),
-                  ),
+                    // Tasks completed
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            areCompletedNotesVisible =
+                                !areCompletedNotesVisible;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade800.withOpacity(0.9),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(9),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                areCompletedNotesVisible
+                                    ? Icons.arrow_circle_down_outlined
+                                    : Icons.arrow_circle_right_outlined,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              const Text(
+                                'Tasks completed',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: areCompletedNotesVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ListView.builder(
+                          reverse: true,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemCount: completedTasksList.length,
+                          itemBuilder: (context, index) {
+                            final task = completedTasksList[index];
+                            return buildTasksCompleted(
+                                index: index, task: task);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : const Center(
+                child: Text(
+                  'No tasks added yet\nTap the + icon to create a task.',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              Visibility(
-                visible: areCompletedNotesVisible,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: ListView.builder(
-                    reverse: true,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemCount: completedTasksList.length,
-                    itemBuilder: (context, index) {
-                      final task = completedTasksList[index];
-                      return buildTasksCompleted(index: index, task: task);
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
         // Save button, only visible if user changes the note
         floatingActionButton:
             noteTasksDetailsPageCreateNoteFloatingActionButton(context),
@@ -539,9 +556,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               // Create note button
               try {
                 // Update newNote with final results
-                newNote.tasks = getListMapFromTasksList(
-                    completedTasks: completedTasksList,
-                    notCompletedTasks: notCompletedTasksList);
+                newNote.tasks = getListMapFromTasksList();
 
                 wasTheSaveButtonPressed = true;
                 // Check if device it's connected to any network
@@ -646,11 +661,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
 
   void creatingNewTask() {
     if (_newTaskTextController.text.isNotEmpty) {
-      addNewTask();
-      _newTaskTextController.clear(); // restart text value
-      noteTaskSubmittedFieldFocusNode.requestFocus();
       setState(() {
         didTaskChange = true;
+        addNewTask();
+        _newTaskTextController.clear(); // restart text value
+        noteTaskSubmittedFieldFocusNode.requestFocus();
       });
     } else {
       // task is empty
@@ -664,10 +679,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   }
 
   void addNewTask() {
-    setState(() {
-      notCompletedTasksList.add(
-          Tasks(isTaskCompleted: false, taskName: _newTaskTextController.text));
-    });
+    notCompletedTasksList.add(
+        Tasks(isTaskCompleted: false, taskName: _newTaskTextController.text));
   }
 
   // Menu note button (icon three dots)
