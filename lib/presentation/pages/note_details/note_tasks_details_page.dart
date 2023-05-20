@@ -199,6 +199,12 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             onFieldSubmitted: (value) {
               changeTitle();
             },
+            onChanged: (value) {
+              changeTitle();
+            },
+            onTapOutside: (event) {
+              noteTitleTextFormFieldFocusNode.unfocus();
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Title',
