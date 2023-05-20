@@ -81,6 +81,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // Used to do not execute the Navigator.maybePop(context) when the title keyboard is closed
   final FocusNode noteTitleTextFormFieldFocusNode = FocusNode();
 
+  // Used to do request focus on textformfield new task submitted
+  final FocusNode noteTaskSubmittedFieldFocusNode = FocusNode();
+
   // Used to close them tapping backbutton once.
   bool isShowModalBottomSheetTryingToBeClosed = false;
   bool isADialogTaskTryingTobeClosed = false;
@@ -96,6 +99,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   void dispose() {
     keyboardSubscription.cancel();
     noteTitleTextFormFieldFocusNode.dispose();
+    noteTaskSubmittedFieldFocusNode.dispose();
     super.dispose();
   }
 
@@ -584,6 +588,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(12),
                           child: TextField(
+                            focusNode: noteTaskSubmittedFieldFocusNode,
                             controller: _newTaskTextController,
                             autofocus: true,
                             onSubmitted: (_) {
@@ -623,6 +628,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     if (_newTaskTextController.text.isNotEmpty) {
       addNewTask();
       _newTaskTextController.clear(); // restart text value
+      noteTaskSubmittedFieldFocusNode.requestFocus();
       setState(() {
         didTaskChange = true;
         newNote.tasks = getValues();
