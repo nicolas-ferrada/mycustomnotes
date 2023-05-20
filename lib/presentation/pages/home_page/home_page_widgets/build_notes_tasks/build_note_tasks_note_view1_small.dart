@@ -47,66 +47,82 @@ class NoteTasksView1Small extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   // Text body of tasks
-                  Expanded(
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: min(
-                          (note.tasks.length < 3 ? note.tasks.length : 3), 3),
-                      itemBuilder: (context, index) {
-                        // Reversing the list to get last values
-                        List<Map<String, dynamic>> taskListMap =
-                            List.from(note.tasks.reversed);
-                        // Filters only the tasks not completed and add their names to completedTaskListNames
-                        List<String> completedTaskListNames = taskListMap
-                            .where((taskMap) =>
-                                taskMap['isTaskCompleted'] == false)
-                            .map((taskMap) => taskMap['taskName'].toString())
-                            .toList();
-                        if (index < completedTaskListNames.length) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(
-                                Icons.circle_outlined,
-                                size: 12,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  completedTaskListNames[index],
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          if (completedTaskListNames.isEmpty &&
-                              didNoTaskToDoMessageShow == false) {
-                            didNoTaskToDoMessageShow = true;
-                            return const Text(
-                              'All tasks are completed!',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        }
-                      },
-                    ),
-                  ),
+                  note.tasks.isNotEmpty
+                      ? Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: min(
+                                (note.tasks.length < 3 ? note.tasks.length : 3),
+                                3),
+                            itemBuilder: (context, index) {
+                              // Reversing the list to get last values
+                              List<Map<String, dynamic>> taskListMap =
+                                  List.from(note.tasks.reversed);
+                              // Filters only the tasks not completed and add their names to completedTaskListNames
+                              List<String> completedTaskListNames = taskListMap
+                                  .where((taskMap) =>
+                                      taskMap['isTaskCompleted'] == false)
+                                  .map((taskMap) =>
+                                      taskMap['taskName'].toString())
+                                  .toList();
+                              if (index < completedTaskListNames.length) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(
+                                      Icons.circle_outlined,
+                                      size: 12,
+                                    ),
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        completedTaskListNames[index],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                if (completedTaskListNames.isEmpty &&
+                                    didNoTaskToDoMessageShow == false) {
+                                  didNoTaskToDoMessageShow = true;
+                                  return const Text(
+                                    'All tasks are completed!',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              }
+                            },
+                          ),
+                        )
+                      : const Text(
+                          'No tasks added yet.',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+                          ),
+                        ),
                 ],
               ),
             ),
