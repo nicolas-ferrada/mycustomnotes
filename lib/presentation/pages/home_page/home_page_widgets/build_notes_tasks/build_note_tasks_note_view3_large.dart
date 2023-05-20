@@ -168,6 +168,8 @@ class NoteTasksView3Large extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                       fontSize: 26,
                     ),
                   ),
