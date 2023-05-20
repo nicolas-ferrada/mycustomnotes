@@ -391,6 +391,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 builder: (context) {
                   return AlertDialog(
                     content: TextFormField(
+                      onTapOutside: (_) {
+                        FocusScope.of(context).unfocus();
+                        Navigator.maybePop(context);
+                      },
                       autofocus: true,
                       initialValue: task.taskName,
                       // Task modification
@@ -484,6 +488,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     content: TextFormField(
                       autofocus: true,
                       initialValue: task.taskName,
+                      onTapOutside: (_) {
+                        FocusScope.of(context).unfocus();
+                        Navigator.maybePop(context);
+                      },
                       // Task modification
                       onChanged: (value) => setState(
                         () {
