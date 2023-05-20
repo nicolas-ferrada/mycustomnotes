@@ -8,14 +8,18 @@ import '../../../../../utils/enums/last_modification_date_formats_enum.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
+// ignore: must_be_immutable
 class NoteTasksView1Small extends StatelessWidget {
   final NoteTasks note;
   final UserConfiguration userConfiguration;
-  const NoteTasksView1Small({
+  NoteTasksView1Small({
     super.key,
     required this.note,
     required this.userConfiguration,
   });
+
+  bool didNoTaskToDoMessageShow = false;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -45,18 +49,26 @@ class NoteTasksView1Small extends StatelessWidget {
                   // Text body of tasks
                   Expanded(
                     child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: min(
-                            (note.tasks.length < 3 ? note.tasks.length : 3), 3),
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> task = note.tasks[index];
-                          String taskName = task['taskName'];
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: min(
+                          (note.tasks.length < 3 ? note.tasks.length : 3), 3),
+                      itemBuilder: (context, index) {
+                        // Reversing the list to get last values
+                        List<Map<String, dynamic>> taskListMap =
+                            List.from(note.tasks.reversed);
+                        // Filters only the tasks not completed and add their names to completedTaskListNames
+                        List<String> completedTaskListNames = taskListMap
+                            .where((taskMap) =>
+                                taskMap['isTaskCompleted'] == false)
+                            .map((taskMap) => taskMap['taskName'].toString())
+                            .toList();
+                        if (index < completedTaskListNames.length) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const Icon(
-                                Icons.check_circle,
+                                Icons.circle_outlined,
                                 size: 12,
                               ),
                               const SizedBox(
@@ -64,7 +76,7 @@ class NoteTasksView1Small extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  taskName,
+                                  completedTaskListNames[index],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -75,7 +87,25 @@ class NoteTasksView1Small extends StatelessWidget {
                               ),
                             ],
                           );
-                        }),
+                        } else {
+                          if (completedTaskListNames.isEmpty &&
+                              didNoTaskToDoMessageShow == false) {
+                            didNoTaskToDoMessageShow = true;
+                            return const Text(
+                              'All tasks are completed!',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

@@ -7,14 +7,18 @@ import '../../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
+// ignore: must_be_immutable
 class NoteTasksView2Split extends StatelessWidget {
   final NoteTasks note;
   final UserConfiguration userConfiguration;
-  const NoteTasksView2Split({
+  NoteTasksView2Split({
     super.key,
     required this.note,
     required this.userConfiguration,
   });
+
+  bool didNoTaskToDoMessageShow = false;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -92,32 +96,58 @@ class NoteTasksView2Split extends StatelessWidget {
                 itemCount:
                     min((note.tasks.length < 4 ? note.tasks.length : 4), 4),
                 itemBuilder: (context, index) {
-                  Map<String, dynamic> task = note.tasks[index];
-                  String taskName = task['taskName'];
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.check_circle,
-                        size: 18,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Flexible(
+                  // Reversing the list to get last values
+                  List<Map<String, dynamic>> taskListMap =
+                      List.from(note.tasks.reversed);
+                  // Filters only the tasks not completed and add their names to completedTaskListNames
+                  List<String> completedTaskListNames = taskListMap
+                      .where((taskMap) => taskMap['isTaskCompleted'] == false)
+                      .map((taskMap) => taskMap['taskName'].toString())
+                      .toList();
+                  if (index < completedTaskListNames.length) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.circle_outlined,
+                          size: 16,
+                          color: Colors.white70,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Flexible(
+                          child: Text(
+                            completedTaskListNames[index],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    if (completedTaskListNames.isEmpty &&
+                        didNoTaskToDoMessageShow == false) {
+                      didNoTaskToDoMessageShow = true;
+                      return const Center(
                         child: Text(
-                          taskName,
+                          'All tasks are completed!',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: Colors.white70,
                             fontSize: 12,
                           ),
                         ),
-                      ),
-                    ],
-                  );
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }
                 },
               ),
             ),

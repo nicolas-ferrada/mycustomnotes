@@ -7,14 +7,17 @@ import '../../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
+// ignore: must_be_immutable
 class NoteTasksView3Large extends StatelessWidget {
   final NoteTasks note;
   final UserConfiguration userConfiguration;
-  const NoteTasksView3Large({
+  NoteTasksView3Large({
     super.key,
     required this.note,
     required this.userConfiguration,
   });
+
+  bool didNoTaskToDoMessageShow = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,32 +100,61 @@ class NoteTasksView3Large extends StatelessWidget {
                 itemCount:
                     min((note.tasks.length < 5 ? note.tasks.length : 5), 5),
                 itemBuilder: (context, index) {
-                  Map<String, dynamic> task = note.tasks[index];
-                  String taskName = task['taskName'];
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.check_circle,
-                        size: 32,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Flexible(
-                        child: Text(
-                          taskName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
+                  // Reversing the list to get last values
+                  List<Map<String, dynamic>> taskListMap =
+                      List.from(note.tasks.reversed);
+                  // Filters only the tasks not completed and add their names to completedTaskListNames
+                  List<String> completedTaskListNames = taskListMap
+                      .where((taskMap) => taskMap['isTaskCompleted'] == false)
+                      .map((taskMap) => taskMap['taskName'].toString())
+                      .toList();
+                  if (index < completedTaskListNames.length) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Icon(
+                          Icons.circle_outlined,
+                          size: 24,
+                          color: Colors.white70,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Flexible(
+                          child: Text(
+                            completedTaskListNames[index],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
+                  } else {
+                    if (completedTaskListNames.isEmpty &&
+                        didNoTaskToDoMessageShow == false) {
+                      didNoTaskToDoMessageShow = true;
+                      return const Center(
+                        child: Text(
+                          'All tasks are completed!',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 26,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }
                 },
               ),
             ),
