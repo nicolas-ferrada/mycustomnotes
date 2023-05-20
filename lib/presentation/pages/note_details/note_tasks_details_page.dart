@@ -63,8 +63,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // New note object which is going to be modified so it can be stored later with the new data
   late NoteTasks newNote;
 
-  // List of tasks
   late final List<Tasks> tasksList;
+  late final List<Tasks> notCompletedTasksList;
+  late final List<Tasks> completedTasksList;
 
   // if false, completed notes will dissapear and the arrow icon will point to the right
   bool areCompletedNotesVisible = true;
@@ -138,6 +139,12 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
 
     tasksList = getTaskListFromMapList(newNote.tasks);
     _titleTextController.text = widget.noteTasks.title;
+
+    notCompletedTasksList =
+        tasksList.where((item) => item.isTaskCompleted == false).toList();
+
+    completedTasksList =
+        tasksList.where((item) => item.isTaskCompleted == true).toList();
   }
 
   List<Tasks> getTaskListFromMapList(List<Map<String, dynamic>> mapList) {
@@ -150,6 +157,26 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       taskList.add(task);
     }
     return taskList;
+  }
+
+  List<Map<String, dynamic>> getListMapFromTasksList({
+    required List<Tasks> notCompletedTasks,
+    required List<Tasks> completedTasks,
+  }) {
+    final List<Tasks> finalTasksList = [
+      ...notCompletedTasks,
+      ...completedTasks
+    ];
+    List<Map<String, dynamic>> listOfMapsTasks = [];
+
+    for (int i = 0; i < finalTasksList.length; i++) {
+      Map<String, dynamic> map = {
+        'taskName': finalTasksList[i].taskName,
+        'isTaskCompleted': finalTasksList[i].isTaskCompleted,
+      };
+      listOfMapsTasks.add(map);
+    }
+    return listOfMapsTasks;
   }
 
   bool didUserMadeChanges() {
@@ -233,19 +260,18 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  itemCount: tasksList.length,
+                  itemCount: notCompletedTasksList.length,
                   itemBuilder: (context, index) {
-                    final task = tasksList[index];
-                    // return buildTasksNotCompleted(index: index, task: task);
+                    final task = notCompletedTasksList[index];
+
                     return buildTasksNotCompleted(index: index, task: task);
                   },
                   onReorder: (oldIndex, newIndex) {
                     setState(() {
                       final index =
                           (newIndex > oldIndex) ? newIndex - 1 : newIndex;
-                      final task = tasksList.removeAt(oldIndex);
-                      tasksList.insert(index, task);
-                      newNote.tasks = getValues();
+                      final task = notCompletedTasksList.removeAt(oldIndex);
+                      notCompletedTasksList.insert(index, task);
                       didTaskChange = true;
                     });
                   },
@@ -299,9 +325,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
-                    itemCount: tasksList.length,
+                    itemCount: completedTasksList.length,
                     itemBuilder: (context, index) {
-                      final task = tasksList[index];
+                      final task = completedTasksList[index];
                       return buildTasksCompleted(index: index, task: task);
                     },
                   ),
@@ -321,190 +347,179 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     required int index,
     required Tasks task,
   }) {
-    if (task.isTaskCompleted == false) {
-      return Padding(
-        // Make each tile unique
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Dismissible(
         key: ValueKey(task),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: Dismissible(
-          key: ValueKey(task),
-          onDismissed: (_) {
-            tasksList.removeAt(index);
-            newNote.tasks = getValues();
-            setState(() {
-              didTaskChange = true;
-            });
-          },
-          background: Container(
-            color: Colors.redAccent,
-            child: const Icon(Icons.delete),
-          ),
-          child: Container(
-            // If the color is in the ListTile, a visual bug happens on dragging tasks
-            color: Colors.white24,
-            child: ListTile(
-              onTap: () {
-                isADialogTaskTryingTobeClosed = true;
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    final task = tasksList[index];
-                    return AlertDialog(
-                      content: TextFormField(
-                        autofocus: true,
-                        initialValue: task.taskName,
-                        // Task modification
-                        onChanged: (value) => setState(
-                          () {
-                            task.taskName = value;
-                            newNote.tasks = getValues();
-                            didTaskChange = true;
-                          },
-                        ),
+        onDismissed: (_) {
+          setState(() {
+            notCompletedTasksList.removeAt(index);
+            didTaskChange = true;
+          });
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
+          color: Colors.white24,
+          child: ListTile(
+            onTap: () {
+              isADialogTaskTryingTobeClosed = true;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: TextFormField(
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          didTaskChange = true;
+                        },
                       ),
-                    );
-                  },
-                ).then((_) {
-                  // This is when the dialog is dismissed by tapping outside,
-                  // this code will come first than keyboardListener and it will avoid double navigator.pop
-                  isADialogTaskTryingTobeClosed = false;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              contentPadding: const EdgeInsets.all(8),
-              // isTaskCompleted Checkbox
-              leading: Transform.scale(
-                scale: 1.5,
-                child: Checkbox(
-                  activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
-                  checkColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  value: task.isTaskCompleted,
-                  onChanged: (value) {
-                    setState(() {
-                      task.isTaskCompleted = value!;
-                      newNote.tasks = getValues();
-                      didTaskChange = true;
-                    });
-                    // Sound when a task is completed
-                    AudioPlayer audioPlayer = AudioPlayer();
-                    const completedTaskSound = "completedTask.mp3";
-                    audioPlayer
-                        .setSource(AssetSource(completedTaskSound))
-                        .then((value) {
-                      audioPlayer.play(AssetSource(completedTaskSound));
-                    });
-                  },
-                ),
-              ),
-              // Task name
-              title: Text(task.taskName),
+                    ),
+                  );
+                },
+              ).then((_) {
+                // This is when the dialog is dismissed by tapping outside,
+                // this code will come first than keyboardListener and it will avoid double navigator.pop
+                isADialogTaskTryingTobeClosed = false;
+              });
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
             ),
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.5,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                value: task.isTaskCompleted,
+                onChanged: (value) {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    // add to the other list and remove it from this
+                    completedTasksList.add(notCompletedTasksList[index]);
+                    notCompletedTasksList.removeAt(index);
+
+                    didTaskChange = true;
+                  });
+                  // Sound when a task is completed
+                  AudioPlayer audioPlayer = AudioPlayer();
+                  const completedTaskSound = "completedTask.mp3";
+                  audioPlayer
+                      .setSource(AssetSource(completedTaskSound))
+                      .then((value) {
+                    audioPlayer.play(AssetSource(completedTaskSound));
+                  });
+                },
+              ),
+            ),
+            // Task name
+            title: Text(task.taskName),
           ),
         ),
-      );
-    } else {
-      return SizedBox.shrink(
-        key: ValueKey(task),
-      );
-    }
+      ),
+    );
   }
 
   Widget buildTasksCompleted({
     required int index,
     required Tasks task,
   }) {
-    if (task.isTaskCompleted == true) {
-      return Padding(
-        // Make each tile unique
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Dismissible(
         key: ValueKey(task),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: Dismissible(
-          key: ValueKey(task),
-          onDismissed: (direction) {
-            setState(() {
-              tasksList.removeAt(index);
-              newNote.tasks = getValues();
-              didTaskChange = true;
-            });
-          },
-          background: Container(
-            color: Colors.redAccent,
-            child: const Icon(Icons.delete),
-          ),
-          child: Container(
-            // If the color is in the ListTile, a visual bug happens on dragging tasks
-            color: Colors.white24,
-            child: ListTile(
-              onTap: () {
-                isADialogTaskTryingTobeClosed = true;
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: TextFormField(
-                        autofocus: true,
-                        initialValue: task.taskName,
-                        // Task modification
-                        onChanged: (value) => setState(
-                          () {
-                            task.taskName = value;
-                            newNote.tasks = getValues();
-                            didTaskChange = true;
-                          },
-                        ),
+        onDismissed: (direction) {
+          setState(() {
+            completedTasksList.removeAt(index);
+            didTaskChange = true;
+          });
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
+          color: Colors.white24,
+          child: ListTile(
+            onTap: () {
+              isADialogTaskTryingTobeClosed = true;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: TextFormField(
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          didTaskChange = true;
+                        },
                       ),
-                    );
-                  },
-                ).then((_) {
-                  // This is when the dialog is dismissed by tapping outside,
-                  // this code will come first than keyboardListener and it will avoid double navigator.pop
-                  isADialogTaskTryingTobeClosed = false;
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              contentPadding: const EdgeInsets.all(8),
-              // isTaskCompleted Checkbox
-              leading: Transform.scale(
-                scale: 1.5,
-                child: Checkbox(
-                  activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
-                  checkColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  value: task.isTaskCompleted,
-                  onChanged: (value) async {
-                    setState(() {
-                      task.isTaskCompleted = value!;
-                      newNote.tasks = getValues();
-                      didTaskChange = true;
-                    });
-                  },
+                    ),
+                  );
+                },
+              ).then((_) {
+                // This is when the dialog is dismissed by tapping outside,
+                // this code will come first than keyboardListener and it will avoid double navigator.pop
+                isADialogTaskTryingTobeClosed = false;
+              });
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.5,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
+                value: task.isTaskCompleted,
+                onChanged: (value) async {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    // add to the other list and remove it from this
+                    notCompletedTasksList.add(completedTasksList[index]);
+                    completedTasksList.removeAt(index);
+
+                    didTaskChange = true;
+                  });
+                },
               ),
-              // Task name
-              title: Text(
-                task.taskName,
-                style: const TextStyle(
-                  decoration: TextDecoration.lineThrough,
-                ),
+            ),
+            // Task name
+            title: Text(
+              task.taskName,
+              style: const TextStyle(
+                decoration: TextDecoration.lineThrough,
               ),
             ),
           ),
         ),
-      );
-    } else {
-      return SizedBox.shrink(
-        key: ValueKey(task),
-      );
-    }
+      ),
+    );
   }
 
   Widget noteTasksDetailsPageCreateNoteFloatingActionButton(
@@ -523,6 +538,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             onPressed: () async {
               // Create note button
               try {
+                // Update newNote with final results
+                newNote.tasks = getListMapFromTasksList(
+                    completedTasks: completedTasksList,
+                    notCompletedTasks: notCompletedTasksList);
+
                 wasTheSaveButtonPressed = true;
                 // Check if device it's connected to any network
                 bool isDeviceConnected =
@@ -631,7 +651,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       noteTaskSubmittedFieldFocusNode.requestFocus();
       setState(() {
         didTaskChange = true;
-        newNote.tasks = getValues();
       });
     } else {
       // task is empty
@@ -646,18 +665,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
 
   void addNewTask() {
     setState(() {
-      tasksList.add(
+      notCompletedTasksList.add(
           Tasks(isTaskCompleted: false, taskName: _newTaskTextController.text));
     });
-  }
-
-  List<Map<String, dynamic>> getValues() {
-    return tasksList
-        .map((task) => {
-              'isTaskCompleted': task.isTaskCompleted,
-              'taskName': task.taskName
-            })
-        .toList();
   }
 
   // Menu note button (icon three dots)
