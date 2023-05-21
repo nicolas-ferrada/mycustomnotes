@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../domain/services/auth_user_service.dart';
+
+import 'package:provider/provider.dart';
 import '../../../domain/services/note_tasks_service.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
@@ -10,6 +13,7 @@ import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Tasks {
   bool isTaskCompleted;
@@ -29,27 +33,137 @@ class NoteTasksCreatePage extends StatefulWidget {
 }
 
 class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
+  // Access firebase user
   final currentUser = AuthUserService.getCurrentUserFirebase();
 
-  final _noteTitleController = TextEditingController();
+  // Makes the save button to show up
+  bool didTitleChange = false;
+  bool didTaskChange = false;
+  bool didColorChange = false;
+  bool didFavoriteChange = false;
 
-  final List<Tasks> _textFormFieldValues = [];
+  // Only set state once to make the save button show
+  bool didUserModifiedTaskForFirstTime = false;
+
+  // Avoids dialog of leaving page confirmation to triggers if the save button was pressed
+  bool wasTheSaveButtonPressed = false;
+
+  // Handles the color of the favorite star icon and color palette icon
+  Color isFavoriteIconColor = Colors.grey;
+  Color colorIconPalette = Colors.grey;
+
+  final List<Tasks> tasksList = [];
+  final List<Tasks> notCompletedTasksList = [];
+  final List<Tasks> completedTasksList = [];
+
+  // if false, completed notes will dissapear and the arrow icon will point to the right
+  bool areCompletedNotesVisible = true;
+
+  // Note title controller
+  final TextEditingController _titleTextController = TextEditingController();
+
+  // New task controller
+  final TextEditingController _newTaskTextController = TextEditingController();
+
+  // Keyboard stream suscription used to react to keyboard dismiss changes
+  late StreamSubscription<bool> keyboardSubscription;
+
+  // Used to do not execute the Navigator.maybePop(context) when the title keyboard is closed
+  final FocusNode noteTitleTextFormFieldFocusNode = FocusNode();
+
+  // Used to do request focus on textformfield new task submitted
+  final FocusNode noteTaskSubmittedFieldFocusNode = FocusNode();
+
+  // Used to close them tapping backbutton once.
+  bool isShowModalBottomSheetTryingToBeClosed = false;
+  bool isADialogTaskTryingTobeClosed = false;
 
   bool isNoteFavorite = false;
-
-  bool _isCreateButtonVisible = false;
 
   int intNoteColor = 0;
 
   Color noteColorPaletteIcon = Colors.grey;
   Color noteColorFavoriteIcon = Colors.grey;
 
-  String taskNameOnCreate = '';
+  @override
+  void initState() {
+    super.initState();
+    keyboardDismissSubscription();
+  }
 
   @override
   void dispose() {
-    _noteTitleController.dispose();
+    keyboardSubscription.cancel();
+    noteTitleTextFormFieldFocusNode.dispose();
+    noteTaskSubmittedFieldFocusNode.dispose();
     super.dispose();
+  }
+
+  // Do actions on keyboard dismiss, used to close tasks dialog when editing a note and to
+  // close the showModalBottomSheet on one back button tap instead of two.
+  // Since one tap will only close the keyboard, and the second it will close it entirely,
+  // the idea is to make both things in one backbutton tap.
+  void keyboardDismissSubscription() {
+    var keyboardController = KeyboardVisibilityController();
+    keyboardSubscription =
+        keyboardController.onChange.listen((bool isKeyboardOpen) {
+      // If the keyboard closes after modalbuttonsheet was pressed,
+      // one tap on the back button will close it.
+      if (!isKeyboardOpen && isShowModalBottomSheetTryingToBeClosed) {
+        Navigator.maybePop(context);
+        isShowModalBottomSheetTryingToBeClosed = false;
+        // If the keyboard closes after a completed/not compled task was pressed,
+        // one tap on the back button will close it.
+      } else if (!isKeyboardOpen && isADialogTaskTryingTobeClosed) {
+        Navigator.maybePop(context);
+        isADialogTaskTryingTobeClosed = false;
+      }
+    });
+  }
+
+  List<Tasks> getTaskListFromMapList(List<Map<String, dynamic>> mapList) {
+    List<Tasks> taskList = [];
+    for (var map in mapList) {
+      Tasks task = Tasks(
+        isTaskCompleted: map['isTaskCompleted'],
+        taskName: map['taskName'],
+      );
+      taskList.add(task);
+    }
+    return taskList;
+  }
+
+  // Used to save all the notes in a List of Maps to the db
+  List<Map<String, dynamic>> getListMapFromTasksList() {
+    final List<Tasks> finalTasksList = getFinalTasksList();
+
+    List<Map<String, dynamic>> finalTasksListMap = [];
+
+    for (int i = 0; i < finalTasksList.length; i++) {
+      Map<String, dynamic> map = {
+        'taskName': finalTasksList[i].taskName,
+        'isTaskCompleted': finalTasksList[i].isTaskCompleted,
+      };
+      finalTasksListMap.add(map);
+    }
+    return finalTasksListMap;
+  }
+
+  // Combine not completed tasks and completed tasks
+  List<Tasks> getFinalTasksList() {
+    final List<Tasks> finalTasksList = [
+      ...notCompletedTasksList,
+      ...completedTasksList
+    ];
+    return finalTasksList;
+  }
+
+  bool didUserMadeChanges() {
+    bool didUserMadeChanges = (didTitleChange ||
+        didFavoriteChange ||
+        didColorChange ||
+        didTaskChange);
+    return didUserMadeChanges;
   }
 
   @override
@@ -58,10 +172,11 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       // Note's title, favorite and pick color icons
       appBar: AppBar(
         title: TextFormField(
-          controller: _noteTitleController,
+          controller: _titleTextController,
           onChanged: (value) {
             setState(() {
-              _isCreateButtonVisible = true;
+              didTitleChange = true;
+              didUserModifiedTaskForFirstTime = true;
             });
           },
           decoration: const InputDecoration(
@@ -141,125 +256,319 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           ),
         ],
       ),
-      // Note's body
-      body: noteCreatePageBody(),
+      body: (getFinalTasksList().isNotEmpty)
+          ? SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Tasks not completed
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: ReorderableListView.builder(
+                      reverse: true,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemCount: notCompletedTasksList.length,
+                      itemBuilder: (context, index) {
+                        final task = notCompletedTasksList[index];
+
+                        return buildTasksNotCompleted(index: index, task: task);
+                      },
+                      onReorder: (oldIndex, newIndex) {
+                        setState(() {
+                          final index =
+                              (newIndex > oldIndex) ? newIndex - 1 : newIndex;
+                          final task = notCompletedTasksList.removeAt(oldIndex);
+                          notCompletedTasksList.insert(index, task);
+                          didTaskChange = true;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  // Tasks completed
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          areCompletedNotesVisible = !areCompletedNotesVisible;
+                        });
+                      },
+                      child: Visibility(
+                        visible: completedTasksList.isNotEmpty,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade800.withOpacity(0.9),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(9),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                areCompletedNotesVisible
+                                    ? Icons.arrow_circle_down_outlined
+                                    : Icons.arrow_circle_right_outlined,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              const Text(
+                                'Tasks completed',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: areCompletedNotesVisible,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ListView.builder(
+                        reverse: true,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemCount: completedTasksList.length,
+                        itemBuilder: (context, index) {
+                          final task = completedTasksList[index];
+                          return buildTasksCompleted(index: index, task: task);
+                        },
+                      ),
+                    ),
+                  ),
+                  // Let space if the icons obstruct vision to the task and
+                  // for not losing the tasks completed tab when it's opened
+                  SizedBox(
+                    height: completedTasksList.isNotEmpty ? 128 : 96,
+                  ),
+                ],
+              ),
+            )
+          : const Center(
+              child: Text(
+                'No tasks added yet.\nTap the (+ New task) icon to start.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
       // Save button, only visible if user changes the note
-      floatingActionButton: noteCreatePageFloatingActionButton(context),
+      floatingActionButton:
+          noteTasksDetailsPageCreateNoteFloatingActionButton(context),
     );
   }
 
-  ReorderableListView noteCreatePageBody() {
-    final listKey = GlobalKey<AnimatedListState>();
-    List<FocusNode> focusNodes =
-        List.generate(_textFormFieldValues.length, (index) => FocusNode());
-    FocusNode? currentFocusNode;
-
-    void unfocusCurrentNode() {
-      if (currentFocusNode != null) {
-        currentFocusNode!.unfocus();
-        currentFocusNode = null;
-      }
-    }
-
-    return ReorderableListView.builder(
-      key: listKey,
-      onReorder: (oldIndex, newIndex) {
-        setState(() {
-          unfocusCurrentNode();
-          if (newIndex > oldIndex) newIndex--;
-
-          // Create a new FocusNode for the TextFormField being moved
-          final newFocusNode = FocusNode();
-
-          // Delay the unfocus call to ensure the current render operation is complete
-          Future.delayed(Duration.zero, () {
-            // Assign focus to the new FocusNode to unfocus the old TextFormField
-            FocusScope.of(context).requestFocus(newFocusNode);
-
-            // Replace the old FocusNode with the new one
-            focusNodes[oldIndex] = newFocusNode;
+  Widget buildTasksNotCompleted({
+    required int index,
+    required Tasks task,
+  }) {
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      child: Dismissible(
+        key: ValueKey(task),
+        onDismissed: (_) {
+          setState(() {
+            notCompletedTasksList.removeAt(index);
+            didTaskChange = true;
           });
-
-          final item = _textFormFieldValues.removeAt(oldIndex);
-          _textFormFieldValues.insert(newIndex, item);
-        });
-      },
-      itemCount: _textFormFieldValues.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          onTap: () {
-            unfocusCurrentNode();
-            currentFocusNode = focusNodes[index];
-            currentFocusNode!.requestFocus();
-          },
-          key: ValueKey(_textFormFieldValues[index]),
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            color: Colors.white24,
+          ),
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
           child: ListTile(
-            contentPadding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-            title: Row(
-              children: [
-                Transform.scale(
-                  scale: 1.6,
-                  child: Checkbox(
-                    activeColor: const Color.fromRGBO(250, 216, 90, 0.9),
-                    shape: const CircleBorder(),
-                    value: _textFormFieldValues[index].isTaskCompleted,
-                    onChanged: (value) => setState(() {
-                      _textFormFieldValues[index].isTaskCompleted = value!;
-                    }),
-                  ),
-                ),
-                Expanded(
-                  child: Dismissible(
-                    onDismissed: (direction) {
-                      setState(() {
-                        _textFormFieldValues.removeAt(index);
-                      });
-                    },
-                    background: Container(
-                      color: Colors.redAccent,
-                      child: const Icon(Icons.delete),
+            onTap: () {
+              isADialogTaskTryingTobeClosed = true;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: TextFormField(
+                      onTapOutside: (_) {
+                        FocusScope.of(context).unfocus();
+                        Navigator.maybePop(context);
+                      },
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          didTaskChange = true;
+                        },
+                      ),
                     ),
-                    key: ValueKey(_textFormFieldValues[index]),
-                    child: ReorderableDelayedDragStartListener(
-                      index: index,
-                      key: UniqueKey(),
-                      child: StatefulBuilder(builder: (context, setState) {
-                        return TextFormField(
-                          maxLines: null,
-                          initialValue: _textFormFieldValues[index].taskName,
-                          onChanged: (value) => setState(() =>
-                              _textFormFieldValues[index].taskName = value),
-                          focusNode: focusNodes[index],
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(28),
-                            border: OutlineInputBorder(),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
+                  );
+                },
+              ).then((_) {
+                // This is when the dialog is dismissed by tapping outside,
+                // this code will come first than keyboardListener and it will avoid double navigator.pop
+                isADialogTaskTryingTobeClosed = false;
+              });
+            },
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.5,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              ],
+                value: task.isTaskCompleted,
+                onChanged: (value) {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    // add to the other list and remove it from this
+                    completedTasksList.add(notCompletedTasksList[index]);
+                    notCompletedTasksList.removeAt(index);
+
+                    didTaskChange = true;
+                  });
+                  // Sound when a task is completed
+                  AudioPlayer audioPlayer = AudioPlayer();
+                  const completedTaskSound = "completedTask.mp3";
+                  audioPlayer
+                      .setSource(AssetSource(completedTaskSound))
+                      .then((value) {
+                    audioPlayer.play(AssetSource(completedTaskSound));
+                  });
+                },
+              ),
+            ),
+            // Task name
+            title: Text(task.taskName),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTasksCompleted({
+    required int index,
+    required Tasks task,
+  }) {
+    return Padding(
+      // Make each tile unique
+      key: ValueKey(task),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Dismissible(
+        key: ValueKey(task),
+        onDismissed: (direction) {
+          setState(() {
+            completedTasksList.removeAt(index);
+            didTaskChange = true;
+          });
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Icon(Icons.delete),
+        ),
+        child: Container(
+          // If the color is in the ListTile, a visual bug happens on dragging tasks
+          color: Colors.white24,
+          child: ListTile(
+            onTap: () {
+              isADialogTaskTryingTobeClosed = true;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: TextFormField(
+                      autofocus: true,
+                      initialValue: task.taskName,
+                      onTapOutside: (_) {
+                        FocusScope.of(context).unfocus();
+                        Navigator.maybePop(context);
+                      },
+                      // Task modification
+                      onChanged: (value) => setState(
+                        () {
+                          task.taskName = value;
+                          didTaskChange = true;
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ).then((_) {
+                // This is when the dialog is dismissed by tapping outside,
+                // this code will come first than keyboardListener and it will avoid double navigator.pop
+                isADialogTaskTryingTobeClosed = false;
+              });
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            contentPadding: const EdgeInsets.all(8),
+            // isTaskCompleted Checkbox
+            leading: Transform.scale(
+              scale: 1.5,
+              child: Checkbox(
+                activeColor: const Color.fromRGBO(250, 216, 90, 0.8),
+                checkColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                value: task.isTaskCompleted,
+                onChanged: (value) async {
+                  setState(() {
+                    task.isTaskCompleted = value!;
+                    // add to the other list and remove it from this
+                    notCompletedTasksList.add(completedTasksList[index]);
+                    completedTasksList.removeAt(index);
+
+                    didTaskChange = true;
+                  });
+                },
+              ),
+            ),
+            // Task name
+            title: Text(
+              task.taskName,
+              style: const TextStyle(
+                decoration: TextDecoration.lineThrough,
+              ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Column noteCreatePageFloatingActionButton(BuildContext context) {
+  Widget noteTasksDetailsPageCreateNoteFloatingActionButton(
+    BuildContext context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Visibility(
-          visible: _isCreateButtonVisible,
+          visible: didUserMadeChanges(),
           child: FloatingActionButton.extended(
             heroTag: null,
-            tooltip: 'Create the note',
+            tooltip: 'Save changes',
             onPressed: () async {
               // Create note button
               try {
+                wasTheSaveButtonPressed = true;
                 // Check if device it's connected to any network
                 bool isDeviceConnected =
                     await CheckInternetConnection.checkInternetConnection();
@@ -274,11 +583,11 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
 
                 // Create note on firebase, it will wait depending if the device it's connected to a network
                 await NoteTasksService.createNoteTasks(
-                  title: _noteTitleController.text,
-                  tasks: getTextFormFieldValues(),
-                  userId: currentUser.uid,
+                  title: _titleTextController.text,
                   isFavorite: isNoteFavorite,
                   color: intNoteColor,
+                  tasks: getListMapFromTasksList(),
+                  userId: currentUser.uid,
                 ).timeout(
                   Duration(seconds: waitingConnection),
                   onTimeout: () {
@@ -311,83 +620,51 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           heroTag: null,
           tooltip: 'Add a new task',
           onPressed: () async {
+            isShowModalBottomSheetTryingToBeClosed = true;
             showModalBottomSheet(
+              shape: const RoundedRectangleBorder(),
               context: context,
-              isScrollControlled: true,
               isDismissible: true,
               builder: (BuildContext context) {
-                return StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: TextField(
-                                autofocus: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    taskNameOnCreate = value.trim();
-                                  });
-                                },
-                                onSubmitted: (_) {
-                                  if (taskNameOnCreate.isNotEmpty) {
-                                    addNewTask();
-                                    taskNameOnCreate = ''; // restart text value
-                                    Navigator.pop(context);
-                                    _isCreateButtonVisible = true;
-                                    FocusScope.of(context).unfocus();
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBarMessage.snackBarMessage(
-                                          message:
-                                              "You can't create an empty task",
-                                          backgroundColor: Colors.red),
-                                    );
-                                    FocusScope.of(context).unfocus();
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Create a new task',
-                                ),
-                              ),
+                return SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: TextField(
+                            focusNode: noteTaskSubmittedFieldFocusNode,
+                            controller: _newTaskTextController,
+                            autofocus: true,
+                            onSubmitted: (_) {
+                              creatingNewTask();
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Create a new task',
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              if (taskNameOnCreate.isNotEmpty) {
-                                addNewTask();
-                                taskNameOnCreate = ''; // restart text value
-                                Navigator.pop(context);
-                                _isCreateButtonVisible = true;
-                                FocusScope.of(context).unfocus();
-                              } else {
-                                Navigator.pop(context);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBarMessage.snackBarMessage(
-                                      message: "You can't create an empty task",
-                                      backgroundColor: Colors.red),
-                                );
-                                FocusScope.of(context).unfocus();
-                              }
-                            },
-                            icon: const Icon(Icons.done),
-                          ),
-                        ],
+                        ),
                       ),
-                    );
-                  },
+                      IconButton(
+                        onPressed: () {
+                          creatingNewTask();
+                        },
+                        icon: const Icon(Icons.done),
+                      ),
+                    ],
+                  ),
                 );
               },
-            );
+            ).then((_) {
+              // This is when the dialog is dismissed by tapping outside,
+              // this code will come first than keyboardListener and it will avoid double navigator.pop
+              isShowModalBottomSheetTryingToBeClosed = false;
+            });
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
           icon: const Icon(Icons.add),
@@ -397,19 +674,27 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     );
   }
 
-  void addNewTask() {
-    setState(() {
-      _textFormFieldValues
-          .add(Tasks(isTaskCompleted: false, taskName: taskNameOnCreate));
-    });
+  void creatingNewTask() {
+    if (_newTaskTextController.text.isNotEmpty) {
+      setState(() {
+        didTaskChange = true;
+        addNewTask();
+        _newTaskTextController.clear(); // restart text value
+        noteTaskSubmittedFieldFocusNode.requestFocus();
+      });
+    } else {
+      // task is empty
+      FocusManager.instance.primaryFocus?.unfocus();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarMessage.snackBarMessage(
+            message: "You can't create an empty task",
+            backgroundColor: Colors.red),
+      );
+    }
   }
 
-  List<Map<String, dynamic>> getTextFormFieldValues() {
-    return _textFormFieldValues
-        .map((task) => {
-              'isTaskCompleted': task.isTaskCompleted,
-              'taskName': task.taskName
-            })
-        .toList();
+  void addNewTask() {
+    notCompletedTasksList.add(
+        Tasks(isTaskCompleted: false, taskName: _newTaskTextController.text));
   }
 }
