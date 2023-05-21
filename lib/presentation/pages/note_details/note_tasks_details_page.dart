@@ -298,29 +298,32 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                                 !areCompletedNotesVisible;
                           });
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade800.withOpacity(0.9),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(9),
+                        child: Visibility(
+                          visible: completedTasksList.isNotEmpty,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade800.withOpacity(0.9),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(9),
+                              ),
                             ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                areCompletedNotesVisible
-                                    ? Icons.arrow_circle_down_outlined
-                                    : Icons.arrow_circle_right_outlined,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              const Text(
-                                'Tasks completed',
-                              ),
-                            ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  areCompletedNotesVisible
+                                      ? Icons.arrow_circle_down_outlined
+                                      : Icons.arrow_circle_right_outlined,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                const Text(
+                                  'Tasks completed',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -342,6 +345,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                           },
                         ),
                       ),
+                    ),
+                    // Let space if the icons obstruct vision to the task and
+                    // for not losing the tasks completed tab when it's opened
+                    SizedBox(
+                      height: completedTasksList.isNotEmpty ? 128 : 96,
                     ),
                   ],
                 ),
@@ -367,7 +375,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     return Padding(
       // Make each tile unique
       key: ValueKey(task),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       child: Dismissible(
         key: ValueKey(task),
         onDismissed: (_) {
@@ -381,8 +389,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           child: const Icon(Icons.delete),
         ),
         child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            color: Colors.white24,
+          ),
           // If the color is in the ListTile, a visual bug happens on dragging tasks
-          color: Colors.white24,
           child: ListTile(
             onTap: () {
               isADialogTaskTryingTobeClosed = true;
@@ -413,9 +424,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 isADialogTaskTryingTobeClosed = false;
               });
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
             contentPadding: const EdgeInsets.all(8),
             // isTaskCompleted Checkbox
             leading: Transform.scale(
