@@ -193,6 +193,7 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                     color: Colors.grey.shade800.withOpacity(0.9),
                     child: Text(
                       textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                       (notesView != null)
                           ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage} ${notesView!.noteViewName(currentView: notesView!, context: context)}'
                           : 'No view selected/No hay vista seleccionada',

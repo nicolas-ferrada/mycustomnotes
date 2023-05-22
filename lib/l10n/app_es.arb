@@ -156,5 +156,10 @@
     "noteTasks_text_shareCompletedNote": "completada",
     "noteTasks_text_shareNotCompletedNote": "no completada",
     "noteTasks_text_buildNotesAllCompleted": "¡Todas las tareas hechas!",
-    "noteTasks_text_buildNotesNoTasksAdded": "Ninguna tarea agregada."
+    "noteTasks_text_buildNotesNoTasksAdded": "Ninguna tarea agregada.",
+    "@_DISCARD_CHANGES_DIALOG": {},
+    "discardChanges_dialog_title": "¿Descartar cambios?",
+    "discardChanges_dialog_subtitle": "¿Estás seguro de deseas descartar todos los cambios?",
+    "discardChanges_dialog_leaveButton": "Descartar todos mis cambios",
+    "discardChanges_dialog_cancelButton": "Mantenerme aquí para guardar"
 }

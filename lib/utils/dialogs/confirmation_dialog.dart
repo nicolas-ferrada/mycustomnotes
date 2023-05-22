@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_export.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../../domain/services/auth_user_service.dart';
+import '../styles/dialog_subtitle_style.dart';
 
 class ConfirmationDialog {
   // Log out from firebase confirmation
@@ -37,9 +38,6 @@ class ConfirmationDialog {
               child: Column(
                 children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
                     onPressed: () async {
                       // log out firebase
                       try {
@@ -90,13 +88,26 @@ class ConfirmationDialog {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromARGB(204, 250, 212, 78),
-          title: const Center(
-            child: Text('Discard changes?'),
+          title: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade800.withOpacity(0.8),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(
+                textAlign: TextAlign.center,
+                AppLocalizations.of(context)!.discardChanges_dialog_title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
-          content: const Text(
-            'Are you sure you want to discard all the changes?',
-            style: TextStyle(color: Colors.white),
-          ),
+          content: DialogSubtitleStyle(
+              subtitle:
+                  AppLocalizations.of(context)!.discardChanges_dialog_subtitle),
           actions: [
             Center(
               child: Column(
@@ -108,10 +119,15 @@ class ConfirmationDialog {
                     onPressed: () async {
                       Navigator.maybePop(context, true);
                     },
-                    child: const Text(
-                      'Discard changes',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .discardChanges_dialog_leaveButton,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 4,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -120,14 +136,13 @@ class ConfirmationDialog {
                     onPressed: () {
                       Navigator.maybePop(context, false);
                     },
-                    child: const Text(
-                      'Cancel and stay here',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .discardChanges_dialog_cancelButton,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
             ),

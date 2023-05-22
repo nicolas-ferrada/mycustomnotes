@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/Note/note_tasks_model.dart';
 import '../../data/models/Note/note_text_model.dart';
+import '../../l10n/l10n_export.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
@@ -59,8 +60,10 @@ class ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Route not found')),
+    return Scaffold(
+      body: Center(
+          child: Text(
+              'Route error: ${AppLocalizations.of(context)!.unexpectedException_dialog}')),
     );
   }
 }

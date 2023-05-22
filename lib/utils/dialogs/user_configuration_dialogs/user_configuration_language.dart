@@ -151,8 +151,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     child: Text(
                       (currentLanguage != null)
                           ? '${AppLocalizations.of(context)!.languageCurrentLanguageSelected_drawerDialog_homePage}\n${currentLanguage!.languageName(context: context, currentLanguage: currentLanguage!)}'
-                          : 'No language selected',
+                          : 'No language selected/No hay language seleccionado',
                       textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -177,9 +178,9 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),

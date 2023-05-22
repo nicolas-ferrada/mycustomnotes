@@ -534,8 +534,22 @@
     "noteTasks_text_buildNotesNoTasksAdded": "No tasks added yet.",
     "@noteTasks_text_buildNotesNoTasksAdded": {
         "description": "Building note tasks, message shown outside if no tasks was added"
+    },
+    "@_DISCARD_CHANGES_DIALOG": {},
+    "discardChanges_dialog_title": "Discard changes?",
+    "@discardChanges_dialog_title": {
+        "description": "Discard changes triggers when user is trying to leave an unsaved note"
+    },
+    "discardChanges_dialog_subtitle": "Are you sure you want to discard all changes?",
+    "@discardChanges_dialog_subtitle": {
+        "description": "Discard changes triggers when user is trying to leave an unsaved note"
+    },
+    "discardChanges_dialog_leaveButton": "Discard all my changes",
+    "@discardChanges_dialog_leaveButton": {
+        "description": "Discard changes triggers when user is trying to leave an unsaved note"
+    },
+    "discardChanges_dialog_cancelButton": "Stay here to save",
+    "@discardChanges_dialog_cancelButton": {
+        "description": "Discard changes triggers when user is trying to leave an unsaved note"
     }
-
-
-
 }
