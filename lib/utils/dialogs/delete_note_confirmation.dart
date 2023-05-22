@@ -9,6 +9,8 @@ import '../../domain/services/note_tasks_service.dart';
 import '../../domain/services/note_text_service.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../internet/check_internet_connection.dart';
+import '../styles/dialog_subtitle_style.dart';
+import '../styles/dialog_title_style.dart';
 
 class DeleteNoteConfirmation {
   // Delete note dialog
@@ -22,33 +24,11 @@ class DeleteNoteConfirmation {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromARGB(220, 250, 215, 90),
-          title: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade800.withOpacity(0.8),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Text(
-                textAlign: TextAlign.center,
-                AppLocalizations.of(context)!.deleteNote_dialog_title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+          title: DialogTitleStyle(
+            title: AppLocalizations.of(context)!.deleteNote_dialog_title,
           ),
-          content: Container(
-            decoration: BoxDecoration(
-                color: Colors.grey.shade800.withOpacity(0.8),
-                borderRadius: const BorderRadius.all(Radius.circular(5))),
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-            child: Text(
-              AppLocalizations.of(context)!.deleteNote_dialog_infoText,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
-            ),
+          content: DialogSubtitleStyle(
+            subtitle: AppLocalizations.of(context)!.deleteNote_dialog_infoText,
           ),
           actions: [
             Center(
