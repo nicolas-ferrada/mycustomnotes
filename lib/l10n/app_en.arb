@@ -526,7 +526,16 @@
     "noteTasks_text_shareNotCompletedNote": "not completed",
     "@noteTasks_text_shareNotCompletedNote": {
         "description": "User is sharing a not completed task"
+    },
+    "noteTasks_text_buildNotesAllCompleted": "All tasks are completed!",
+    "@noteTasks_text_buildNotesAllCompleted": {
+        "description": "Building note tasks, message shown outside if all tasks were completed"
+    },
+    "noteTasks_text_buildNotesNoTasksAdded": "No tasks added yet.",
+    "@noteTasks_text_buildNotesNoTasksAdded": {
+        "description": "Building note tasks, message shown outside if no tasks was added"
     }
+
 
 
 }

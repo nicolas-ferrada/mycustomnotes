@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_tasks_model.dart';
+import '../../../../../l10n/l10n_export.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
 
@@ -142,14 +143,15 @@ class NoteTasksView3Large extends StatelessWidget {
                           if (completedTaskListNames.isEmpty &&
                               didNoTaskToDoMessageShow == false) {
                             didNoTaskToDoMessageShow = true;
-                            return const Center(
+                            return Center(
                               child: Text(
-                                'All tasks are completed!',
+                                AppLocalizations.of(context)!
+                                    .noteTasks_text_buildNotesAllCompleted,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
-                                  fontSize: 26,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
                                 ),
@@ -162,15 +164,16 @@ class NoteTasksView3Large extends StatelessWidget {
                       },
                     ),
                   )
-                : const Text(
-                    'No tasks added yet.',
+                : Text(
+                    AppLocalizations.of(context)!
+                        .noteTasks_text_buildNotesNoTasksAdded,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
-                      fontSize: 26,
+                      fontSize: 24,
                     ),
                   ),
           ],

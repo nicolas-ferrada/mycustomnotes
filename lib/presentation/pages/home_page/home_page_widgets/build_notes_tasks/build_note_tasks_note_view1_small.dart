@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_tasks_model.dart';
+import '../../../../../l10n/l10n_export.dart';
 import '../../../../../utils/enums/last_modification_date_formats_enum.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';
@@ -94,11 +95,12 @@ class NoteTasksView1Small extends StatelessWidget {
                                 if (completedTaskListNames.isEmpty &&
                                     didNoTaskToDoMessageShow == false) {
                                   didNoTaskToDoMessageShow = true;
-                                  return const Text(
-                                    'All tasks are completed!',
+                                  return Text(
+                                    AppLocalizations.of(context)!
+                                        .noteTasks_text_buildNotesAllCompleted,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic,
                                       color: Colors.white70,
@@ -112,11 +114,12 @@ class NoteTasksView1Small extends StatelessWidget {
                             },
                           ),
                         )
-                      : const Text(
-                          'No tasks added yet.',
+                      : Text(
+                          AppLocalizations.of(context)!
+                              .noteTasks_text_buildNotesNoTasksAdded,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white70,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
