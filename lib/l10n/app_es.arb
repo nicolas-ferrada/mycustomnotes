@@ -146,5 +146,13 @@
     "noteFunctionsMenu_popupMenu_insert": " Insertar",
     "noteFunctionsMenu_popupMenu_share": "Compartir",
     "noteFunctionsMenu_popupMenu_details": "Detalles",
-    "noteFunctionsMenu_popupMenu_delete": "Borrar"
+    "noteFunctionsMenu_popupMenu_delete": "Borrar",
+    "@_NOTE_TASKS": {},
+    "noteTasks_text_tabTasksCompleted": "Tareas completadas",
+    "noteTasks_text_noTasksAdded": "Aún no se han creado tareas.\nToca el ícono 'Nueva tarea' para comenzar.",         
+    "noteTasks_textformfield_createNewTask": "Crea una nueva tarea",
+    "noteTasks_button_newTask": "Nueva tarea",
+    "noteTasks_snackbar_emptyTask": "No puedes crear una tarea vacia",
+    "noteTasks_text_shareCompletedNote": "completada",
+    "noteTasks_text_shareNotCompletedNote": "no completada"
 }

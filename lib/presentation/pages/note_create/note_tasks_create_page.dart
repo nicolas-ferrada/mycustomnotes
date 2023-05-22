@@ -179,10 +179,11 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
               didUserModifiedTaskForFirstTime = true;
             });
           },
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: "Title",
-            hintStyle: TextStyle(color: Colors.white70),
+            hintText: AppLocalizations.of(context)!
+                .titleInput_textformfield_noteTextCreatePage,
+            hintStyle: const TextStyle(color: Colors.white70),
           ),
           style: const TextStyle(
             color: Colors.white70,
@@ -319,8 +320,9 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                               const SizedBox(
                                 width: 4,
                               ),
-                              const Text(
-                                'Tasks completed',
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .noteTasks_text_tabTasksCompleted,
                               ),
                             ],
                           ),
@@ -353,10 +355,10 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                 ],
               ),
             )
-          : const Center(
+          : Center(
               child: Text(
-                'No tasks added yet.\nTap the (+ New task) icon to start.',
-                style: TextStyle(fontSize: 16),
+                AppLocalizations.of(context)!.noteTasks_text_noTasksAdded,
+                style: const TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -564,7 +566,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           visible: didUserMadeChanges(),
           child: FloatingActionButton.extended(
             heroTag: null,
-            tooltip: 'Save changes',
             onPressed: () async {
               // Create note button
               try {
@@ -610,7 +611,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
             },
             backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
             icon: const Icon(Icons.save),
-            label: const Text('Save'),
+            label: Text(
+                AppLocalizations.of(context)!.save_button_noteTextCreatePage),
           ),
         ),
         const SizedBox(
@@ -618,7 +620,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
         ),
         FloatingActionButton.extended(
           heroTag: null,
-          tooltip: 'Add a new task',
           onPressed: () async {
             isShowModalBottomSheetTryingToBeClosed = true;
             showModalBottomSheet(
@@ -643,9 +644,10 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                             onSubmitted: (_) {
                               creatingNewTask();
                             },
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Create a new task',
+                              hintText: AppLocalizations.of(context)!
+                                  .noteTasks_textformfield_createNewTask,
                             ),
                           ),
                         ),
@@ -668,7 +670,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           },
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
           icon: const Icon(Icons.add),
-          label: const Text('New task'),
+          label: Text(AppLocalizations.of(context)!.noteTasks_button_newTask),
         ),
       ],
     );
@@ -687,7 +689,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       FocusManager.instance.primaryFocus?.unfocus();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBarMessage.snackBarMessage(
-            message: "You can't create an empty task",
+            message: AppLocalizations.of(context)!.noteTasks_snackbar_emptyTask,
             backgroundColor: Colors.red),
       );
     }

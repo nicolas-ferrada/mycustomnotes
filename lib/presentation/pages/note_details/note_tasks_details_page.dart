@@ -241,10 +241,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             onTapOutside: (event) {
               noteTitleTextFormFieldFocusNode.unfocus();
             },
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Title',
-              hintStyle: TextStyle(color: Colors.white70),
+              hintText: AppLocalizations.of(context)!
+                  .titleInput_textformfield_noteTextCreatePage,
+              hintStyle: const TextStyle(color: Colors.white70),
             ),
             style: const TextStyle(
               color: Colors.white70,
@@ -319,8 +320,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                const Text(
-                                  'Tasks completed',
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .noteTasks_text_tabTasksCompleted,
                                 ),
                               ],
                             ),
@@ -354,10 +356,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   ],
                 ),
               )
-            : const Center(
+            : Center(
                 child: Text(
-                  'No tasks added yet\nTap the + icon to create a task.',
-                  style: TextStyle(fontSize: 16),
+                  AppLocalizations.of(context)!.noteTasks_text_noTasksAdded,
+                  style: const TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -566,7 +568,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           visible: didUserMadeChanges(),
           child: FloatingActionButton(
             heroTag: null,
-            tooltip: 'Save changes',
             shape: const CircleBorder(),
             onPressed: () async {
               // Create note button
@@ -620,7 +621,6 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         FloatingActionButton(
           shape: const CircleBorder(),
           heroTag: null,
-          tooltip: 'Add a new task',
           onPressed: () async {
             isShowModalBottomSheetTryingToBeClosed = true;
             showModalBottomSheet(
@@ -645,9 +645,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                             onSubmitted: (_) {
                               creatingNewTask();
                             },
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Create a new task',
+                              hintText: AppLocalizations.of(context)!
+                                  .noteTasks_textformfield_createNewTask,
                             ),
                           ),
                         ),
@@ -688,7 +689,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       FocusManager.instance.primaryFocus?.unfocus();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBarMessage.snackBarMessage(
-            message: "You can't create an empty task",
+            message: AppLocalizations.of(context)!.noteTasks_snackbar_emptyTask,
             backgroundColor: Colors.red),
       );
     }
@@ -718,10 +719,12 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
             String tasksFormat = '';
             for (int i = 0; i < widget.noteTasks.tasks.length; i++) {
               String taskStatus = widget.noteTasks.tasks[i]['isTaskCompleted']
-                  ? 'completed'
-                  : 'not completed';
+                  ? AppLocalizations.of(context)!
+                      .noteTasks_text_shareCompletedNote
+                  : AppLocalizations.of(context)!
+                      .noteTasks_text_shareNotCompletedNote;
               tasksFormat +=
-                  '${i + 1}) ${widget.noteTasks.tasks[i]['taskName']}, $taskStatus\n';
+                  '${i + 1}) ${widget.noteTasks.tasks[i]['taskName']}: $taskStatus\n';
             }
             return tasksFormat;
           }

@@ -497,5 +497,36 @@
     "noteFunctionsMenu_popupMenu_delete": "Delete",
     "@noteFunctionsMenu_popupMenu_delete": {
         "description": "Delete button in the popUpMenu of the notes functions"
+    },
+    "@_NOTE_TASKS": {},
+    "noteTasks_text_tabTasksCompleted": "Tasks completed",
+    "@noteTasks_text_tabTasksCompleted": {
+        "description": "Tab to show and hide completed tasks"
+    },
+    "noteTasks_text_noTasksAdded": "No tasks added yet.\nTap the 'New task' icon to start.",
+    "@noteTasks_text_noTasksAdded": {
+        "description": "Message shown when there is not any task created"
+    },
+    "noteTasks_textformfield_createNewTask": "Create a new task",
+    "@noteTasks_textformfield_createNewTask": {
+        "description": "Textformfield hint inside the showModalBottomSheet to create a new task"
+    },
+    "noteTasks_button_newTask": "New task",
+    "@noteTasks_button_newTask": {
+        "description": "Floating button to create a new task"
+    },
+    "noteTasks_snackbar_emptyTask": "You can't create an empty task",
+    "@noteTasks_snackbar_emptyTask": {
+        "description": "User is trying to create an empty task"
+    },
+    "noteTasks_text_shareCompletedNote": "completed",
+    "@noteTasks_text_shareCompletedNote": {
+        "description": "User is sharing a completed task"
+    },
+    "noteTasks_text_shareNotCompletedNote": "not completed",
+    "@noteTasks_text_shareNotCompletedNote": {
+        "description": "User is sharing a not completed task"
     }
+
+
 }
