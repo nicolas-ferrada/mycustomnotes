@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 class ExceptionsAlertDialog {
   //Error dialog message function
@@ -25,9 +26,9 @@ class ExceptionsAlertDialog {
               onPressed: () {
                 Navigator.maybePop(context);
               },
-              child: const Text(
-                'Close',
-                style: TextStyle(color: Colors.black),
+              child: Text(
+                AppLocalizations.of(context)!.closeButton,
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ],
