@@ -54,28 +54,35 @@ class DeleteNoteConfirmation {
                       try {
                         // Delete a specified note
                         if (note is NoteTasks) {
-                          await NoteTasksService.deleteNoteTasks(
-                                  noteId: note.id)
-                              .timeout(
-                            Duration(seconds: waitingConnection),
-                            onTimeout: () {
-                              Provider.of<NoteNotifier>(context, listen: false)
-                                  .refreshNotes();
-                              Navigator.pop(context);
-                              Navigator.maybePop(context);
-                            },
-                          );
+                          if (context.mounted) {
+                            await NoteTasksService.deleteNoteTasks(
+                                    context: context, noteId: note.id)
+                                .timeout(
+                              Duration(seconds: waitingConnection),
+                              onTimeout: () {
+                                Provider.of<NoteNotifier>(context,
+                                        listen: false)
+                                    .refreshNotes();
+                                Navigator.pop(context);
+                                Navigator.maybePop(context);
+                              },
+                            );
+                          }
                         } else if (note is NoteText) {
-                          await NoteTextService.deleteNoteText(noteId: note.id)
-                              .timeout(
-                            Duration(seconds: waitingConnection),
-                            onTimeout: () {
-                              Provider.of<NoteNotifier>(context, listen: false)
-                                  .refreshNotes();
-                              Navigator.pop(context);
-                              Navigator.maybePop(context);
-                            },
-                          );
+                          if (context.mounted) {
+                            await NoteTextService.deleteNoteText(
+                                    noteId: note.id, context: context)
+                                .timeout(
+                              Duration(seconds: waitingConnection),
+                              onTimeout: () {
+                                Provider.of<NoteNotifier>(context,
+                                        listen: false)
+                                    .refreshNotes();
+                                Navigator.pop(context);
+                                Navigator.maybePop(context);
+                              },
+                            );
+                          }
                         } else {
                           if (context.mounted) {
                             throw Exception(AppLocalizations.of(context)!

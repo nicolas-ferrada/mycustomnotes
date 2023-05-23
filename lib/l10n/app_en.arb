@@ -551,5 +551,22 @@
     "discardChanges_dialog_cancelButton": "Stay here to save",
     "@discardChanges_dialog_cancelButton": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
+    },
+    "@_NOTES_SERVICE_EXCEPTIONS": {},
+    "notesService_exception_gettingNotes": "Error getting your notes, please, try restarting the app and check if your internet connection is stable",
+    "@notesService_exception_gettingNotes": {
+        "description": "Stream cannot get notes from remote server"
+    },
+    "notesService_exception_creatingNote": "Error creating the note, please, try restarting the app and check if your internet connection is stable",
+    "@notesService_exception_creatingNote": {
+        "description": "User unable to create note"
+    },
+    "notesService_exception_editingNote": "Error modifying the note, please, try restarting the app and check if your internet connection is stable",
+    "@notesService_exception_editingNote": {
+        "description": "User unable to edit a note"
+    },
+    "notesService_exception_deletingNote": "Error deleting the note, please, try restarting the app and check if your internet connection is stable",
+    "@notesService_exception_deletingNote": {
+        "description": "User unable to delete a note"
     }
 }

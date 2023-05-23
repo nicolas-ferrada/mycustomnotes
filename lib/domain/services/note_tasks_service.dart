@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../../data/models/Note/note_tasks_model.dart';
 import '../../utils/extensions/formatted_message.dart';
@@ -8,6 +10,7 @@ class NoteTasksService {
   // Read all tasks notes from one user in firebase
   static Stream<List<NoteTasks>> readAllNotesTasks({
     required String userId,
+    required BuildContext context,
   }) async* {
     try {
       final db = FirebaseFirestore.instance;
@@ -36,12 +39,14 @@ class NoteTasksService {
       }
       yield noteTasks;
     } catch (e) {
-      throw Exception('Error reading all notes: $e');
+      throw Exception(
+          AppLocalizations.of(context)!.notesService_exception_gettingNotes);
     }
   }
 
   // Create a note in firebase
   static Future<void> createNoteTasks({
+    required BuildContext context,
     required String title,
     required List<Map<String, dynamic>> tasks,
     required String userId,
@@ -75,13 +80,17 @@ class NoteTasksService {
       // Store the note object in firestore
       await documentReference.set(mapNote);
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(
+              AppLocalizations.of(context)!.notesService_exception_creatingNote)
           .removeExceptionWord;
     }
   }
 
   // Update a note in firebase
-  static Future<void> editNoteTasks({required NoteTasks note}) async {
+  static Future<void> editNoteTasks({
+    required NoteTasks note,
+    required BuildContext context,
+  }) async {
     try {
       // Create the new note to replace the other
       final finalNoteTasks = NoteTasks(
@@ -102,19 +111,27 @@ class NoteTasksService {
 
       await docNote.set(mapNote);
     } catch (unexpectedException) {
-      throw Exception("There is an unexpected error:\n$unexpectedException")
+      throw Exception(
+              AppLocalizations.of(context)!.notesService_exception_editingNote)
           .removeExceptionWord;
     }
   }
 
   // Delete a note in firebase
   static Future<void> deleteNoteTasks({
-    required noteId,
+    required String noteId,
+    required BuildContext context,
   }) async {
-    final db = FirebaseFirestore.instance;
+    try {
+      final db = FirebaseFirestore.instance;
 
-    final docNote = db.collection('noteTasks').doc(noteId);
+      final docNote = db.collection('noteTasks').doc(noteId);
 
-    await docNote.delete();
+      await docNote.delete();
+    } catch (_) {
+      throw Exception(
+              AppLocalizations.of(context)!.notesService_exception_deletingNote)
+          .removeExceptionWord;
+    }
   }
 }

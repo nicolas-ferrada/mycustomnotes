@@ -23,14 +23,16 @@ class ReadNotesStreamConsumer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
       return StreamBuilder(
-        stream: NoteTasksService.readAllNotesTasks(userId: currentUser.uid),
+        stream: NoteTasksService.readAllNotesTasks(
+            userId: currentUser.uid, context: context),
         builder: (context, snapshotNoteTasks) {
           if (snapshotNoteTasks.hasError) {
             return Text(AppLocalizations.of(context)!
                 .getNotesError_snapshotHasError_homePage);
           } else {
             return StreamBuilder(
-              stream: NoteTextService.readAllNotesText(userId: currentUser.uid),
+              stream: NoteTextService.readAllNotesText(
+                  userId: currentUser.uid, context: context),
               builder: (context, snapshotNoteText) {
                 if (snapshotNoteText.hasError) {
                   return Text(AppLocalizations.of(context)!

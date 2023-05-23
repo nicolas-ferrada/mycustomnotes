@@ -282,15 +282,20 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
             } else {
               waitingToConnectiong = 0;
             }
-            await NoteTextService.editNoteText(note: newNote).timeout(
-              Duration(seconds: waitingToConnectiong),
-              onTimeout: () {
-                Provider.of<NoteNotifier>(context, listen: false)
-                    .refreshNotes();
+            if (context.mounted) {
+              await NoteTextService.editNoteText(
+                note: newNote,
+                context: context,
+              ).timeout(
+                Duration(seconds: waitingToConnectiong),
+                onTimeout: () {
+                  Provider.of<NoteNotifier>(context, listen: false)
+                      .refreshNotes();
 
-                Navigator.maybePop(context);
-              },
-            );
+                  Navigator.maybePop(context);
+                },
+              );
+            }
 
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();

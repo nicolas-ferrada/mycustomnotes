@@ -589,17 +589,20 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 }
 
                 // Create note on firebase, it will wait depending if the device it's connected to a network
-                await NoteTasksService.editNoteTasks(
-                  note: newNote,
-                ).timeout(
-                  Duration(seconds: waitingConnection),
-                  onTimeout: () {
-                    Provider.of<NoteNotifier>(context, listen: false)
-                        .refreshNotes();
+                if (context.mounted) {
+                  await NoteTasksService.editNoteTasks(
+                    context: context,
+                    note: newNote,
+                  ).timeout(
+                    Duration(seconds: waitingConnection),
+                    onTimeout: () {
+                      Provider.of<NoteNotifier>(context, listen: false)
+                          .refreshNotes();
 
-                    Navigator.of(context).maybePop();
-                  },
-                );
+                      Navigator.of(context).maybePop();
+                    },
+                  );
+                }
                 if (context.mounted) {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();

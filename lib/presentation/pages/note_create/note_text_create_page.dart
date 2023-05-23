@@ -257,21 +257,24 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
             }
 
             // Create note on firebase, it will wait depending if the device it's connected to a network
-            await NoteTextService.createNoteText(
-              title: _noteTitleController.text,
-              body: _noteBodyController.text,
-              userId: currentUser.uid,
-              isFavorite: isNoteFavorite,
-              color: intNoteColor,
-            ).timeout(
-              Duration(seconds: waitingConnection),
-              onTimeout: () {
-                Provider.of<NoteNotifier>(context, listen: false)
-                    .refreshNotes();
+            if (context.mounted) {
+              await NoteTextService.createNoteText(
+                context: context,
+                title: _noteTitleController.text,
+                body: _noteBodyController.text,
+                userId: currentUser.uid,
+                isFavorite: isNoteFavorite,
+                color: intNoteColor,
+              ).timeout(
+                Duration(seconds: waitingConnection),
+                onTimeout: () {
+                  Provider.of<NoteNotifier>(context, listen: false)
+                      .refreshNotes();
 
-                Navigator.of(context).maybePop();
-              },
-            );
+                  Navigator.of(context).maybePop();
+                },
+              );
+            }
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
 
