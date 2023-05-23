@@ -171,80 +171,89 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           ),
         ),
 
-        body: Column(
-          children: [
-            // Url if exists
-            Visibility(
-              visible: isUrlVisible,
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: AnyLinkPreview(
-                  onTap: () {
-                    String? url = newNote.url;
-                    if (url != null) {
-                      launchingUrl(url: url);
-                    }
-                  },
-                  key: previewKey,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3), // changes position of shadow
+        body: LayoutBuilder(builder: (context, constraint) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraint.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Url if exists
+                    Visibility(
+                      visible: isUrlVisible,
+                      child: AnyLinkPreview(
+                        onTap: () {
+                          String? url = newNote.url;
+                          if (url != null) {
+                            launchingUrl(url: url);
+                          }
+                        },
+                        key: previewKey,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 10,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                        // urlLaunchMode: LaunchMode.externalApplication,
+                        link: newNote.url ?? '',
+                        borderRadius: 0,
+                        displayDirection: UIDirection.uiDirectionVertical,
+                        backgroundColor: Colors.white70,
+                        errorTitle: AppLocalizations.of(context)!
+                            .url_AnyLinkPreviewWidget_titleError,
+                        errorBody: AppLocalizations.of(context)!
+                            .url_AnyLinkPreviewWidget_contentError,
+                        errorWidget: Container(
+                          color: Colors.red.shade900,
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!
+                                .url_AnyLinkPreviewWidget_widgetError),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Note's body
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: TextFormField(
+                          initialValue: widget.noteText.body,
+                          textAlignVertical: TextAlignVertical.top,
+                          maxLines: null,
+                          expands: true,
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!
+                                .bodyInput_textformfield_noteTextCreatePage,
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (newBodyChanged) {
+                            // Changes are being made
+                            if (newBodyChanged != widget.noteText.body) {
+                              newNote.body = newBodyChanged.trim();
+                              setState(() {
+                                didBodyChanged = true;
+                              });
+                            } else {
+                              setState(() {
+                                didBodyChanged = false;
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ],
-                  // urlLaunchMode: LaunchMode.externalApplication,
-                  link: newNote.url ?? '',
-                  borderRadius: 0,
-                  displayDirection: UIDirection.uiDirectionVertical,
-                  backgroundColor: Colors.white70,
-                  errorTitle: AppLocalizations.of(context)!
-                      .url_AnyLinkPreviewWidget_titleError,
-                  errorBody: AppLocalizations.of(context)!
-                      .url_AnyLinkPreviewWidget_contentError,
-                  errorWidget: Container(
-                    color: Colors.red.shade900,
-                    child: Center(
-                      child: Text(AppLocalizations.of(context)!
-                          .url_AnyLinkPreviewWidget_widgetError),
-                    ),
-                  ),
                 ),
               ),
             ),
-            // Note's body
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: TextFormField(
-                  initialValue: widget.noteText.body,
-                  textAlignVertical: TextAlignVertical.top,
-                  maxLines: null,
-                  expands: true,
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!
-                        .bodyInput_textformfield_noteTextCreatePage,
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (newBodyChanged) {
-                    // Changes are being made
-                    if (newBodyChanged != widget.noteText.body) {
-                      newNote.body = newBodyChanged.trim();
-                      setState(() {
-                        didBodyChanged = true;
-                      });
-                    } else {
-                      setState(() {
-                        didBodyChanged = false;
-                      });
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        }),
         // Save button, only visible if user changes the note
         floatingActionButton: saveButton(context),
       ),

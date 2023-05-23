@@ -59,149 +59,153 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
             fontSize: 32,
           ),
         ),
-        content: SizedBox(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: (notesView?.notesViewId == 1)
-                          ? Colors.red
-                          : Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          notesView = NotesView.small;
-                          Navigator.of(context).pop(notesView);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            const Icon(
-                              NotesViewIcons.smallList,
-                              size: 38,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .smallNotesViewOption_drawerDialog_homePage,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 11),
+        content: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: SizedBox(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Card(
+                        elevation: 10,
+                        color: (notesView?.notesViewId == 1)
+                            ? Colors.red
+                            : Colors.grey.shade800.withOpacity(0.9),
+                        child: InkWell(
+                          onTap: () {
+                            notesView = NotesView.small;
+                            Navigator.of(context).pop(notesView);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 8),
+                              const Icon(
+                                NotesViewIcons.smallList,
+                                size: 38,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .smallNotesViewOption_drawerDialog_homePage,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 11),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: (notesView?.notesViewId == 2)
-                          ? Colors.red
-                          : Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          notesView = NotesView.split;
-                          Navigator.of(context).pop(notesView);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            const Icon(
-                              NotesViewIcons.splitList,
-                              size: 38,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .splitNotesViewOption_drawerDialog_homePage,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12),
+                    Flexible(
+                      child: Card(
+                        elevation: 10,
+                        color: (notesView?.notesViewId == 2)
+                            ? Colors.red
+                            : Colors.grey.shade800.withOpacity(0.9),
+                        child: InkWell(
+                          onTap: () {
+                            notesView = NotesView.split;
+                            Navigator.of(context).pop(notesView);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 8),
+                              const Icon(
+                                NotesViewIcons.splitList,
+                                size: 38,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .splitNotesViewOption_drawerDialog_homePage,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: (notesView?.notesViewId == 3)
-                          ? Colors.red
-                          : Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          notesView = NotesView.large;
-                          Navigator.of(context).pop(notesView);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            const Icon(
-                              Icons.square,
-                              size: 42,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .largeNotesViewOption_drawerDialog_homePage,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12),
+                    Flexible(
+                      child: Card(
+                        elevation: 10,
+                        color: (notesView?.notesViewId == 3)
+                            ? Colors.red
+                            : Colors.grey.shade800.withOpacity(0.9),
+                        child: InkWell(
+                          onTap: () {
+                            notesView = NotesView.large;
+                            Navigator.of(context).pop(notesView);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 8),
+                              const Icon(
+                                Icons.square,
+                                size: 42,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .largeNotesViewOption_drawerDialog_homePage,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800.withOpacity(0.8),
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      (notesView != null)
-                          ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage}\n ${notesView!.noteViewName(currentView: notesView!, context: context)}'
-                          : 'No view selected/No hay vista seleccionada',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
+                  ],
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800.withOpacity(0.8),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        (notesView != null)
+                            ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage}\n ${notesView!.noteViewName(currentView: notesView!, context: context)}'
+                            : 'No view selected/No hay vista seleccionada',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         actions: [

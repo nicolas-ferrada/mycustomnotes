@@ -16,9 +16,11 @@ class ExceptionsAlertDialog {
           title: const Center(
             child: Text('Error'),
           ),
-          content: Text(
-            errorMessage.toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+          content: SingleChildScrollView(
+            child: Text(
+              errorMessage.toString(),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ),
           actions: [
             ElevatedButton(

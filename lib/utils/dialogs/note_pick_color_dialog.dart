@@ -40,115 +40,118 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
               ),
             ),
           ),
-          content: Container(
-            decoration: BoxDecoration(
-                color: Colors.grey.shade800.withOpacity(0.5),
-                borderRadius: const BorderRadius.all(Radius.circular(30))),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // YELLOW COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.ambar);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.ambar.getColor,
+          content: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade800.withOpacity(0.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(30))),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // YELLOW COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.ambar);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.ambar.getColor,
+                        ),
                       ),
-                    ),
-                    // GREEN COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.green);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.green.getColor,
+                      // GREEN COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.green);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.green.getColor,
+                        ),
                       ),
-                    ),
-                    // BLUE COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.lightBlue);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.lightBlue.getColor,
+                      // BLUE COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.lightBlue);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.lightBlue.getColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ORANGE COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.orange);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.orange.getColor,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // ORANGE COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.orange);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.orange.getColor,
+                        ),
                       ),
-                    ),
-                    // PINK COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.pink);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.pink.getColor,
+                      // PINK COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.pink);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.pink.getColor,
+                        ),
                       ),
-                    ),
-                    // TEAL COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.teal);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.teal.getColor,
+                      // TEAL COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.teal);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.teal.getColor,
+                        ),
                       ),
-                    ),
-                    // LIGHT RED COLOR
-                    InkWell(
-                      onTap: () {
-                        Navigator.maybePop(context, NoteColor.lightRed);
-                      },
-                      customBorder: const CircleBorder(),
-                      child: Icon(
-                        Icons.circle,
-                        size: colorIconSize,
-                        color: NoteColor.lightRed.getColor,
+                      // LIGHT RED COLOR
+                      InkWell(
+                        onTap: () {
+                          Navigator.maybePop(context, NoteColor.lightRed);
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Icon(
+                          Icons.circle,
+                          size: colorIconSize,
+                          color: NoteColor.lightRed.getColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [

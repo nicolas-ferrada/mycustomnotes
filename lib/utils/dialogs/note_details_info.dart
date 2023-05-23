@@ -35,81 +35,84 @@ class NotesDetails extends StatelessWidget {
           ),
         ),
       ),
-      content: FutureBuilder<List<String>>(
-          future: getDates(note),
-          builder: (context, AsyncSnapshot<List<String>> snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade800.withOpacity(0.8),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!
-                                .info_dialog_creationDate,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 14),
-                          ),
-                          Text(
-                            snapshot.data![0],
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
-                          ),
-                        ],
+      content: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: FutureBuilder<List<String>>(
+            future: getDates(note),
+            builder: (context, AsyncSnapshot<List<String>> snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade800.withOpacity(0.8),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .info_dialog_creationDate,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 14),
+                            ),
+                            Text(
+                              snapshot.data![0],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade800.withOpacity(0.8),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!
-                                .info_dialog_lastModificationDate,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 13),
-                          ),
-                          Text(
-                            snapshot.data![1],
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
-                          ),
-                        ],
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade800.withOpacity(0.8),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .info_dialog_lastModificationDate,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 13),
+                            ),
+                            Text(
+                              snapshot.data![1],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                  child: Text(
-                AppLocalizations.of(context)!.unexpectedException_dialog,
-                textAlign: TextAlign.center,
-              ));
-            } else {
-              return const CircularProgressIndicator();
-            }
-          }),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                    child: Text(
+                  AppLocalizations.of(context)!.unexpectedException_dialog,
+                  textAlign: TextAlign.center,
+                ));
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }),
+      ),
       actions: [
         Center(
           child: Column(

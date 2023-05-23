@@ -91,251 +91,257 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
             title: AppLocalizations.of(context)!
                 .dateTimeTitle_drawerDialog_homePage,
           ),
-          content: SizedBox(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Dates
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Card(
-                        elevation: 10,
-                        color: (selectedDateCard == 1)
-                            ? Colors.red
-                            : Colors.grey.shade800.withOpacity(0.9),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            setState(() {
-                              userSelectedDateFormat =
-                                  LastModificationDateFormat.dayMonthYear.value;
-                              selectedDateCard = 1;
-                            });
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 4),
-                              const Icon(
-                                Icons.calendar_today,
-                                size: 38,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .dayMonthYearOption_drawerDialog_homePage,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 12),
+          content: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: SizedBox(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Dates
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Card(
+                          elevation: 10,
+                          color: (selectedDateCard == 1)
+                              ? Colors.red
+                              : Colors.grey.shade800.withOpacity(0.9),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              setState(() {
+                                userSelectedDateFormat =
+                                    LastModificationDateFormat
+                                        .dayMonthYear.value;
+                                selectedDateCard = 1;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 4),
+                                const Icon(
+                                  Icons.calendar_today,
+                                  size: 38,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .dayMonthYearOption_drawerDialog_homePage,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Card(
-                        elevation: 10,
-                        color: (selectedDateCard == 2)
-                            ? Colors.red
-                            : Colors.grey.shade800.withOpacity(0.9),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            setState(() {
-                              userSelectedDateFormat =
-                                  LastModificationDateFormat.yearMonthDay.value;
-                              selectedDateCard = 2;
-                            });
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 4),
-                              const Icon(
-                                Icons.calendar_month,
-                                size: 38,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .yearMonthDayOption_drawerDialog_homePage,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 12),
+                      Flexible(
+                        child: Card(
+                          elevation: 10,
+                          color: (selectedDateCard == 2)
+                              ? Colors.red
+                              : Colors.grey.shade800.withOpacity(0.9),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              setState(() {
+                                userSelectedDateFormat =
+                                    LastModificationDateFormat
+                                        .yearMonthDay.value;
+                                selectedDateCard = 2;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 4),
+                                const Icon(
+                                  Icons.calendar_month,
+                                  size: 38,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .yearMonthDayOption_drawerDialog_homePage,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Card(
-                        elevation: 10,
-                        color: (selectedDateCard == 3)
-                            ? Colors.red
-                            : Colors.grey.shade800.withOpacity(0.9),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            setState(() {
-                              userSelectedDateFormat =
-                                  LastModificationDateFormat.monthDayYear.value;
-                              selectedDateCard = 3;
-                            });
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 4),
-                              const Icon(
-                                Icons.calendar_today_outlined,
-                                size: 38,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .monthDayYearOption_drawerDialog_homePage,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 12),
+                      Flexible(
+                        child: Card(
+                          elevation: 10,
+                          color: (selectedDateCard == 3)
+                              ? Colors.red
+                              : Colors.grey.shade800.withOpacity(0.9),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              setState(() {
+                                userSelectedDateFormat =
+                                    LastModificationDateFormat
+                                        .monthDayYear.value;
+                                selectedDateCard = 3;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 4),
+                                const Icon(
+                                  Icons.calendar_today_outlined,
+                                  size: 38,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .monthDayYearOption_drawerDialog_homePage,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 1,
-                  color: Colors.grey.shade800.withOpacity(0.9),
-                ),
-                // Time
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Card(
-                        elevation: 10,
-                        color: (selectedTimeCard == 1)
-                            ? Colors.red
-                            : Colors.grey.shade800.withOpacity(0.9),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            setState(() {
-                              userSelectedTimeFormat =
-                                  LastModificationTimeFormat.hours12.value;
-                              selectedTimeCard = 1;
-                            });
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 4),
-                              const Icon(
-                                Icons.access_time_filled,
-                                size: 38,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .hours12option_drawerDialog_homePage,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 14),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey.shade800.withOpacity(0.9),
+                  ),
+                  // Time
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Card(
+                          elevation: 10,
+                          color: (selectedTimeCard == 1)
+                              ? Colors.red
+                              : Colors.grey.shade800.withOpacity(0.9),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              setState(() {
+                                userSelectedTimeFormat =
+                                    LastModificationTimeFormat.hours12.value;
+                                selectedTimeCard = 1;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 4),
+                                const Icon(
+                                  Icons.access_time_filled,
+                                  size: 38,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .hours12option_drawerDialog_homePage,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Card(
-                        elevation: 10,
-                        color: (selectedTimeCard == 2)
-                            ? Colors.red
-                            : Colors.grey.shade800.withOpacity(0.9),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            setState(() {
-                              userSelectedTimeFormat =
-                                  LastModificationTimeFormat.hours24.value;
-                              selectedTimeCard = 2;
-                            });
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 4),
-                              const Icon(
-                                Icons.access_time_rounded,
-                                size: 38,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .hours24option_drawerDialog_homePage,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 14),
+                      Flexible(
+                        child: Card(
+                          elevation: 10,
+                          color: (selectedTimeCard == 2)
+                              ? Colors.red
+                              : Colors.grey.shade800.withOpacity(0.9),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              setState(() {
+                                userSelectedTimeFormat =
+                                    LastModificationTimeFormat.hours24.value;
+                                selectedTimeCard = 2;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 4),
+                                const Icon(
+                                  Icons.access_time_rounded,
+                                  size: 38,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .hours24option_drawerDialog_homePage,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade800.withOpacity(0.8),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${AppLocalizations.of(context)!.currentFormatSelectedInfo_drawerDialog_homePage}${getUserCurrentSelectedView(userConfiguration: widget.userConfiguration, context: context)}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
+                    ],
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade800.withOpacity(0.8),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${AppLocalizations.of(context)!.currentFormatSelectedInfo_drawerDialog_homePage}${getUserCurrentSelectedView(userConfiguration: widget.userConfiguration, context: context)}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           actions: [

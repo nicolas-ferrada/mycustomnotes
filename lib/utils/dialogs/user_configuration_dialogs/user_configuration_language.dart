@@ -55,108 +55,112 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             title: AppLocalizations.of(context)!
                 .languageTitle_drawerDialog_homePage,
           )),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: (currentLanguage?.languageIndex == 1)
-                          ? Colors.red
-                          : Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.maybePop(context, SelectLanguage.english);
-                        },
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 8),
-                            Icon(
-                              Icons.language,
-                              size: 38,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: 8),
-                            Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Text(
-                                'English',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 18),
+          content: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Card(
+                        elevation: 10,
+                        color: (currentLanguage?.languageIndex == 1)
+                            ? Colors.red
+                            : Colors.grey.shade800.withOpacity(0.9),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.maybePop(context, SelectLanguage.english);
+                          },
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(height: 8),
+                              Icon(
+                                Icons.language,
+                                size: 38,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Text(
+                                  'English',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: (currentLanguage?.languageIndex == 2)
-                          ? Colors.red
-                          : Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.maybePop(context, SelectLanguage.spanish);
-                        },
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 8),
-                            Icon(
-                              Icons.language,
-                              size: 38,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: 8),
-                            Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Text(
-                                'Español',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 18),
+                    Flexible(
+                      child: Card(
+                        elevation: 10,
+                        color: (currentLanguage?.languageIndex == 2)
+                            ? Colors.red
+                            : Colors.grey.shade800.withOpacity(0.9),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.maybePop(context, SelectLanguage.spanish);
+                          },
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(height: 8),
+                              Icon(
+                                Icons.language,
+                                size: 38,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Text(
+                                  'Español',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800.withOpacity(0.8),
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: Text(
-                      (currentLanguage != null)
-                          ? '${AppLocalizations.of(context)!.languageCurrentLanguageSelected_drawerDialog_homePage}\n${currentLanguage!.languageName(context: context, currentLanguage: currentLanguage!)}'
-                          : 'No language selected/No hay language seleccionado',
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
+                  ],
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800.withOpacity(0.8),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Text(
+                        (currentLanguage != null)
+                            ? '${AppLocalizations.of(context)!.languageCurrentLanguageSelected_drawerDialog_homePage}\n${currentLanguage!.languageName(context: context, currentLanguage: currentLanguage!)}'
+                            : 'No language selected/No hay language seleccionado',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             Center(
