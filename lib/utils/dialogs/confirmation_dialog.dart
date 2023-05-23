@@ -3,6 +3,7 @@ import '../../l10n/l10n_export.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
 import '../../domain/services/auth_user_service.dart';
 import '../styles/dialog_subtitle_style.dart';
+import '../styles/dialog_title_style.dart';
 
 class ConfirmationDialog {
   // Log out from firebase confirmation
@@ -13,31 +14,24 @@ class ConfirmationDialog {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
-          title: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              color: Colors.grey.shade800.withOpacity(0.9),
-              child: Text(
-                textAlign: TextAlign.center,
+          title: DialogTitleStyle(
+            title:
                 AppLocalizations.of(context)!.logOutTitle_drawerDialog_homePage,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
           ),
-          content: Text(
-            textAlign: TextAlign.center,
-            AppLocalizations.of(context)!.logOutInfo_drawerDialog_homePage,
-            style: const TextStyle(color: Colors.white, fontSize: 18),
+          content: DialogSubtitleStyle(
+            subtitle:
+                AppLocalizations.of(context)!.logOutInfo_drawerDialog_homePage,
           ),
           actions: [
             Center(
               child: Column(
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 10,
+                      minimumSize: const Size(200, 40),
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () async {
                       // log out firebase
                       try {
@@ -56,10 +50,15 @@ class ConfirmationDialog {
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
+                      elevation: 10,
+                      minimumSize: const Size(200, 40),
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -68,9 +67,6 @@ class ConfirmationDialog {
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  )
                 ],
               ),
             ),
@@ -114,8 +110,10 @@ class ConfirmationDialog {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
+                      minimumSize: const Size(80, 50),
+                      elevation: 5,
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () async {
                       Navigator.maybePop(context, true);
                     },
@@ -127,12 +125,14 @@ class ConfirmationDialog {
                     ),
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 8,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
+                      minimumSize: const Size(80, 50),
+                      elevation: 5,
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () {
                       Navigator.maybePop(context, false);
                     },

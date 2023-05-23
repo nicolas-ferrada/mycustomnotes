@@ -37,8 +37,10 @@ class DeleteNoteConfirmation {
                   // Delete button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
+                      elevation: 10,
+                      minimumSize: const Size(200, 40),
+                      backgroundColor: Colors.white,
+                    ),
                     onPressed: () async {
                       // Check if device it's connected to any network
                       bool isDeviceConnected = await CheckInternetConnection
@@ -111,11 +113,12 @@ class DeleteNoteConfirmation {
                     ),
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 4,
                   ),
                   // Cancel button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                        elevation: 10,
                         minimumSize: const Size(200, 40),
                         backgroundColor: Colors.white),
                     onPressed: () {

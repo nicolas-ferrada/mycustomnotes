@@ -11,8 +11,9 @@ class DialogSubtitleStyle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.shade800.withOpacity(0.7),
-          borderRadius: const BorderRadius.all(Radius.circular(8))),
+        color: Colors.grey.shade800.withOpacity(0.7),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Text(
         subtitle,

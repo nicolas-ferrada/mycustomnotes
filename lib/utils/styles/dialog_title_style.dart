@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class DialogTitleStyle extends StatelessWidget {
   final String title;
+  final double? fontSize;
   const DialogTitleStyle({
     super.key,
     required this.title,
+    this.fontSize,
   });
 
   @override
@@ -18,9 +20,9 @@ class DialogTitleStyle extends StatelessWidget {
         child: Text(
           textAlign: TextAlign.center,
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 28,
+            fontSize: fontSize ?? 28,
             fontWeight: FontWeight.bold,
           ),
         ),

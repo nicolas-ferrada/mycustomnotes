@@ -155,6 +155,7 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  elevation: 10,
                   minimumSize: const Size(200, 40),
                   backgroundColor: Colors.white,
                 ),

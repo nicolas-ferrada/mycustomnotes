@@ -117,6 +117,7 @@ class NotesDetails extends StatelessWidget {
               // Close button
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                    elevation: 10,
                     minimumSize: const Size(200, 40),
                     backgroundColor: Colors.white),
                 onPressed: () {
@@ -127,9 +128,6 @@ class NotesDetails extends StatelessWidget {
                   style: const TextStyle(color: Colors.black),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              )
             ],
           ),
         ),

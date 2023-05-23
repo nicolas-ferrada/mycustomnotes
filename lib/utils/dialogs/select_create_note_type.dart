@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
+import 'package:mycustomnotes/utils/styles/dialog_title_style.dart';
 
 import '../../presentation/routes/routes.dart';
 
@@ -11,20 +12,8 @@ class SelectCreateNoteType {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
-          title: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              color: Colors.grey.shade800.withOpacity(0.9),
-              child: Text(
-                textAlign: TextAlign.center,
-                AppLocalizations.of(context)!.newNoteTitle_dialog_homePage,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+          title: DialogTitleStyle(
+            title: AppLocalizations.of(context)!.newNoteTitle_dialog_homePage,
           ),
           content: SizedBox(
             child: Row(
@@ -109,20 +98,17 @@ class SelectCreateNoteType {
                     style: ElevatedButton.styleFrom(
                         elevation: 10,
                         minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.grey.shade800.withOpacity(0.9)),
+                        backgroundColor: Colors.white),
                     onPressed: () {
                       Navigator.maybePop(context);
                     },
                     child: Text(
                       AppLocalizations.of(context)!.cancelButton,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

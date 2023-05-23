@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_export.dart';
 import '../icons/insert_url_icon_icons.dart';
 import '../snackbars/snackbar_message.dart';
+import '../styles/dialog_subtitle_style.dart';
+import '../styles/dialog_title_style.dart';
 
 class InsertUrlMenuOptions extends StatefulWidget {
   final BuildContext context;
@@ -29,20 +31,8 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
         return AlertDialog(
           elevation: 3,
           backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
-          title: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              color: Colors.grey.shade800.withOpacity(0.9),
-              child: Text(
-                AppLocalizations.of(context)!.url_dialog_title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          title: DialogTitleStyle(
+              title: AppLocalizations.of(context)!.url_dialog_title),
           content: SingleChildScrollView(
             reverse: true,
             physics: const ClampingScrollPhysics(),
@@ -50,19 +40,11 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Explanation
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  color: Colors.grey.shade800.withOpacity(0.8),
-                  child: Text(
-                    AppLocalizations.of(context)!.url_dialog_explanation,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic, fontSize: 14),
-                  ),
-                ),
+                DialogSubtitleStyle(
+                    subtitle:
+                        AppLocalizations.of(context)!.url_dialog_explanation),
                 const SizedBox(
-                  height: 13,
+                  height: 16,
                 ),
                 // Insert url
                 Container(
@@ -92,7 +74,7 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                     style: ElevatedButton.styleFrom(
                       elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
+                      backgroundColor: Colors.white,
                     ),
                     onPressed: () {
                       if (urlController.text.isEmpty) {
@@ -110,11 +92,11 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                     },
                     child: Text(
                       AppLocalizations.of(context)!.url_dialog_confirmButton,
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                      style: const TextStyle(color: Colors.black, fontSize: 18),
                     ),
                   ),
                   const SizedBox(
-                    height: 2,
+                    height: 4,
                   ),
                   Visibility(
                     visible: (widget.currentNoteUrl != null),
@@ -124,8 +106,7 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                         style: ElevatedButton.styleFrom(
                           elevation: 10,
                           minimumSize: const Size(200, 40),
-                          backgroundColor:
-                              Colors.grey.shade800.withOpacity(0.9),
+                          backgroundColor: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.maybePop(context, 'deletecurrenturl');
@@ -134,27 +115,29 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                           AppLocalizations.of(context)!.url_dialog_deleteButton,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 18),
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontStyle: FontStyle.italic),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 2,
+                    height: 4,
                   ),
                   // Cancel button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.grey.shade800.withOpacity(0.9),
+                      backgroundColor: Colors.white,
                     ),
                     onPressed: () {
                       Navigator.maybePop(context, null);
                     },
                     child: Text(
                       AppLocalizations.of(context)!.cancelButton,
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                      style: const TextStyle(color: Colors.black, fontSize: 18),
                     ),
                   ),
                 ],

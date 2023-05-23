@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/styles/dialog_title_style.dart';
 
 import '../../../data/models/User/user_configuration.dart';
 import '../../../l10n/l10n_export.dart';
@@ -52,19 +53,10 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
         elevation: 3,
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
         title: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            color: Colors.grey.shade800.withOpacity(0.9),
-            child: Text(
-              textAlign: TextAlign.center,
-              AppLocalizations.of(context)!
-                  .notesViewTitle_drawerDialog_homePage,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          child: DialogTitleStyle(
+            title: AppLocalizations.of(context)!
+                .notesViewTitle_drawerDialog_homePage,
+            fontSize: 32,
           ),
         ),
         content: SizedBox(
@@ -188,14 +180,17 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800.withOpacity(0.8),
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    ),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    color: Colors.grey.shade800.withOpacity(0.9),
                     child: Text(
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       (notesView != null)
-                          ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage} ${notesView!.noteViewName(currentView: notesView!, context: context)}'
+                          ? '${AppLocalizations.of(context)!.viewSelectedNotesViewInfo_drawerDialog_homePage}\n ${notesView!.noteViewName(currentView: notesView!, context: context)}'
                           : 'No view selected/No hay vista seleccionada',
                       style: const TextStyle(
                         color: Colors.white,
@@ -218,14 +213,14 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                   style: ElevatedButton.styleFrom(
                       elevation: 10,
                       minimumSize: const Size(200, 40),
-                      backgroundColor: Colors.grey.shade800.withOpacity(0.9)),
+                      backgroundColor: Colors.white),
                   onPressed: () {
                     Navigator.maybePop(context);
                   },
                   child: Text(
                     AppLocalizations.of(context)!.cancelButton,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 16,
                     ),
                   ),
