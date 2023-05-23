@@ -59,16 +59,15 @@ class NoteTextService {
       final noteId = documentReference.id;
 
       final noteText = NoteText(
-        id: noteId,
-        title: title,
-        body: body,
-        userId: userId,
-        lastModificationDate: Timestamp.now(),
-        createdDate: Timestamp.now(),
-        isFavorite: isFavorite,
-        color: color,
-        url: url
-      );
+          id: noteId,
+          title: title,
+          body: body,
+          userId: userId,
+          lastModificationDate: Timestamp.now(),
+          createdDate: Timestamp.now(),
+          isFavorite: isFavorite,
+          color: color,
+          url: url);
 
       // Transform that note object into a map to store it.
       final mapNote = noteText.toMap();
@@ -119,54 +118,4 @@ class NoteTextService {
 
     await docNote.delete();
   }
-
-  // Read one note created by the user from Firebase (Not used at this moment)
-  // static Future<Note> readOneNote({
-  //   required String noteId,
-  // }) async {
-  //   try {
-  //     final db = FirebaseFirestore.instance;
-
-  //     // True if device it's connected to any network, false if it is not
-  //     bool isDeviceConnected =
-  //         await CheckInternetConnection.checkInternetConnection();
-
-  //     // Used to store the incoming note
-  //     DocumentSnapshot<Map<String, dynamic>> note;
-
-  //     if (isDeviceConnected) {
-  //       note = await db
-  //           .collection('note')
-  //           .doc(noteId)
-  //           .get(const GetOptions(source: Source.serverAndCache));
-  //     } else {
-  //       note = await db
-  //           .collection('note')
-  //           .doc(noteId)
-  //           .get(const GetOptions(source: Source.cache));
-  //     }
-
-  //     if (note.exists) {
-  //       return Note.fromMap(note.data()!);
-  //     } else {
-  //       throw Exception("Can't find the note").getMessage;
-  //     }
-  //   } catch (unexpectedException) {
-  //     throw Exception("There is an unexpected error:\n$unexpectedException")
-  //         .getMessage;
-  //   }
-  // }
-
-  // Dev
-  // After adding a new attribute to the model class, you need to update all other notes created.
-  // Updates all documents created to add a new field to them, so stream won't return null.
-  // static Future<void> updateAllNotesFirestoreWithNewFields() async {
-  //   final db = FirebaseFirestore.instance;
-  //   final snapshot = await db.collection('note').get();
-
-  //   for (var document in snapshot.docs) {
-  //     await document.reference
-  //         .update({'youtubeUrl': null}); // new field: default value.
-  //   }
-  // }
 }

@@ -32,4 +32,16 @@ class FirestoreUtils {
       throw Exception('Error renaming collection: $e');
     }
   }
+
+  // After adding a new attribute to the model class, you need to update all other notes created.
+  // Updates all documents created to add a new field to them, so stream won't return null.
+  static Future<void> updateAllNotesFirestoreWithNewFields() async {
+    final db = FirebaseFirestore.instance;
+    final snapshot = await db.collection('collectionName').get();
+
+    for (var document in snapshot.docs) {
+      await document.reference
+          .update({'field': null}); // new field: default value.
+    }
+  }
 }
