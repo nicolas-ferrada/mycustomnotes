@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/domain/services/user_configuration_service.dart';
+import 'package:mycustomnotes/l10n/change_language.dart';
 import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_date_time_format.dart';
 import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
 import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
-import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_language.dart';
+import '../../../../utils/dialogs/change_language_dialog.dart';
 import '../../../../utils/enums/notes_view_enum.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
 
@@ -84,21 +85,14 @@ class NavigationDrawerHomePage extends StatelessWidget {
           final SelectLanguage? language = await showDialog<SelectLanguage?>(
             context: context,
             builder: (context) {
-              return ChangeLanguage(
-                userConfiguration: userConfiguration,
+              return ChangeLanguageDialog(
                 context: context,
               );
             },
           );
           if (language != null && context.mounted) {
-            UserConfigurationService.editUserConfigurations(
-                    context: context,
-                    userId: currentUser.uid,
-                    language: language.lenguageId)
-                .then((_) async {
-              updateUserConfiguration();
-              Navigator.maybePop(context);
-            });
+            await ChangeLanguage.changeLanguage(
+                context: context, language: language.lenguageId);
           }
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions

@@ -1,8 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../domain/services/auth_user_service.dart';
+import '../../../l10n/change_language.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../../l10n/l10n_locale_provider.dart';
+import '../../../utils/dialogs/change_language_dialog.dart';
+import '../../../utils/enums/select_language_enum.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../routes/routes.dart';
 
@@ -18,20 +23,37 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordLoginController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _emailLoginController.dispose();
     _passwordLoginController.dispose();
     super.dispose();
   }
 
+  getCurrentLanguage({
+    required String language,
+  }) {
+    switch (language) {
+      case 'en':
+        return 'English';
+      case 'es':
+        return 'Español';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String language = getCurrentLanguage(
+        language: context.read<L10nLocaleProvider>().locale.toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           'My Custom Notes',
-          style: TextStyle(),
         ),
       ),
       body: Center(
@@ -40,6 +62,48 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Change language
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () async {
+                  try {
+                    final SelectLanguage? language =
+                        await showDialog<SelectLanguage?>(
+                      context: context,
+                      builder: (context) {
+                        return ChangeLanguageDialog(
+                          context: context,
+                        );
+                      },
+                    );
+                    if (language != null && context.mounted) {
+                      await ChangeLanguage.changeLanguage(
+                          context: context, language: language.lenguageId);
+                    }
+                  } catch (errorMessage) {
+                    // errorMessage is the custom message probably sent by the user configuration functions
+                    ExceptionsAlertDialog.showErrorDialog(
+                        context: context,
+                        errorMessage: errorMessage.toString());
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    language,
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white70,
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                height: 64,
+              ),
               //Mail user input
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -161,7 +225,10 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 96,
+              ),
             ],
           ),
         ),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_export.dart';
 
 enum SelectLanguage {
-  english(lenguageId: 'EN', languageIndex: 1),
-  spanish(lenguageId: 'ES', languageIndex: 2);
+  english(lenguageId: 'en', languageIndex: 1),
+  spanish(lenguageId: 'es', languageIndex: 2);
 
   const SelectLanguage({
     required this.lenguageId,

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
-import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,19 +19,22 @@ class UserConfigurationService {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
 
-      final UserConfiguration userConfiguration = UserConfiguration(
-        userId: userId,
-        language: SelectLanguage.english.lenguageId,
-        dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
-            LastModificationTimeFormat.hours24.value,
-        notesView: NotesView.small.notesViewId,
-      );
+      if (context.mounted) {
+        final UserConfiguration userConfiguration = UserConfiguration(
+          userId: userId,
+          dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
+              LastModificationTimeFormat.hours24.value,
+          notesView: NotesView.small.notesViewId,
+        );
 
-      final userConfigurationJson = json.encode(userConfiguration.toMap());
+        final userConfigurationJson = json.encode(userConfiguration.toMap());
 
-      await preferences.setString(userId, userConfigurationJson);
+        await preferences.setString(userId, userConfigurationJson);
 
-      return userConfiguration;
+        return userConfiguration;
+      } else {
+        throw Exception();
+      }
     } catch (e) {
       throw Exception(
               AppLocalizations.of(context)!.creating_dialog_userConfiguration)
@@ -75,7 +77,6 @@ class UserConfigurationService {
   static Future<void> editUserConfigurations({
     required BuildContext context,
     required String userId,
-    String? language,
     String? dateTimeFormat,
     int? notesView,
   }) async {
@@ -95,7 +96,6 @@ class UserConfigurationService {
         // equal to the previous versions.
         final UserConfiguration newConfiguration = UserConfiguration(
           userId: userId,
-          language: language ?? currentConfiguration.language,
           dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
           notesView: notesView ?? currentConfiguration.notesView,
         );
