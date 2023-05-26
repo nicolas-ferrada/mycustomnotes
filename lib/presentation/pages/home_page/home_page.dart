@@ -46,7 +46,10 @@ class _HomePageState extends State<HomePage> {
           userConfiguration = snapshot.data!;
           return Scaffold(
             // AppBar shows the app name and the search bar. Also handles the drawer icon.
-            appBar: appBarHomePage(context: context),
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: AppBarHomePage(),
+            ),
             // Sidebar menu to log out and user's configurations
             drawer: NavigationDrawerHomePage(
               currentUser: currentUser,

@@ -45,47 +45,60 @@ class HomePageBuildNotesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final int amountTotalNotes = notesTextList.length + notesTasksList.length;
     // Build notes structure
-    return GridView.custom(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisSpacing: 1,
-          crossAxisCount: selectNoteView()[0].toInt(),
-          childAspectRatio: selectNoteView()[1].toDouble()),
-      childrenDelegate: SliverChildBuilderDelegate(
-        childCount: amountTotalNotes,
-        ((context, index) {
-          // Creating a unified list of all notes
-          List<dynamic> allNotes = [...notesTextList, ...notesTasksList];
-          // Ordered by date, first note created will show first
-          allNotes.sort((a, b) => a.createdDate.compareTo(b.createdDate));
-          // Put favorites first using a extension boolean compare
-          allNotes.sort((a, b) =>
-              CompareBooleans.compareBooleans(a.isFavorite, b.isFavorite));
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GridView.custom(
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 1,
+                crossAxisCount: selectNoteView()[0].toInt(),
+                childAspectRatio: selectNoteView()[1].toDouble()),
+            childrenDelegate: SliverChildBuilderDelegate(
+              childCount: amountTotalNotes,
+              ((context, index) {
+                // Creating a unified list of all notes
+                List<dynamic> allNotes = [...notesTextList, ...notesTasksList];
+                // Ordered by date, first note created will show first
+                allNotes.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+                // Put favorites first using a extension boolean compare
+                allNotes.sort((a, b) => CompareBooleans.compareBooleans(
+                    a.isFavorite, b.isFavorite));
 
-          return GestureDetector(
-            // Tapping on a note, opens the detailed version of it
-            onTap: () {
-              // Check if the tapped note is a NoteText
-              if (allNotes[index] is NoteText) {
-                NoteText noteText = allNotes[index];
-                // Open the detailed version of the NoteText
-                Navigator.pushNamed(context, noteTextDetailsPageRoute,
-                    arguments: noteText);
-              }
-              // Check if the tapped note is a NoteTasks
-              else if (allNotes[index] is NoteTasks) {
-                NoteTasks noteTasks = allNotes[index];
-                // Open the detailed version of the NoteTasks
-                Navigator.pushNamed(context, noteTasksDetailsPageRoute,
-                    arguments: noteTasks);
-              }
-            },
-            // build each note per type/view
-            child: whatNoteToShow(
-              note: allNotes[index],
-              userConfiguration: userConfiguration,
+                return GestureDetector(
+                  // Tapping on a note, opens the detailed version of it
+                  onTap: () {
+                    // Check if the tapped note is a NoteText
+                    if (allNotes[index] is NoteText) {
+                      NoteText noteText = allNotes[index];
+                      // Open the detailed version of the NoteText
+                      Navigator.pushNamed(context, noteTextDetailsPageRoute,
+                          arguments: noteText);
+                    }
+                    // Check if the tapped note is a NoteTasks
+                    else if (allNotes[index] is NoteTasks) {
+                      NoteTasks noteTasks = allNotes[index];
+                      // Open the detailed version of the NoteTasks
+                      Navigator.pushNamed(context, noteTasksDetailsPageRoute,
+                          arguments: noteTasks);
+                    }
+                  },
+                  // build each note per type/view
+                  child: whatNoteToShow(
+                    note: allNotes[index],
+                    userConfiguration: userConfiguration,
+                  ),
+                );
+              }),
             ),
-          );
-        }),
+          ),
+          const SizedBox(
+            height: 80,
+          ),
+        ],
       ),
     );
   }
