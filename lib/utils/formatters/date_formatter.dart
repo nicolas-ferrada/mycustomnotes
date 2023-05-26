@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import 'package:mycustomnotes/utils/extensions/fix_date_format_es.dart';
+import 'package:provider/provider.dart';
 
 import '../../domain/services/auth_user_service.dart';
 import '../../domain/services/user_configuration_service.dart';
+import '../../l10n/l10n_locale_provider.dart';
 import '../enums/last_modification_date_formats_enum.dart';
 
 // Formatter from firebase to a readable form
@@ -34,16 +37,19 @@ class DateFormatter {
       whenWasLastMod: whenItWasTheLastModification,
       dateFormat: dateFormat,
       lastModificationDateTime: lastModificationDateToDateTime,
+      context: context,
     );
-    return finalDate;
+    return finalDate.fixSpanishDate();
   }
 
   static String getFinalDate({
     required WhenItWasLastModification whenWasLastMod,
     required String dateFormat,
     required DateTime lastModificationDateTime,
+    required BuildContext context,
   }) {
     late String finalDate;
+    String language = context.read<L10nLocaleProvider>().locale.toString();
 
     // 24 hours - day/month/year
     if (dateFormat ==
@@ -51,15 +57,16 @@ class DateFormatter {
             LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        finalDate = DateFormat('Hm', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('d MMM').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('d MMM', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
     // 24 hours - year/month/day
@@ -68,15 +75,16 @@ class DateFormatter {
             LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        finalDate = DateFormat('Hm', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('MMM d', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
 
@@ -86,15 +94,16 @@ class DateFormatter {
             LastModificationTimeFormat.hours24.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('Hm').format(lastModificationDateTime);
+        finalDate = DateFormat('Hm', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('MMM d', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
 
@@ -104,15 +113,16 @@ class DateFormatter {
             LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        finalDate = DateFormat.jm().format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('d MMM').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('d MMM', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
 
@@ -122,15 +132,16 @@ class DateFormatter {
             LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        finalDate = DateFormat.jm().format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('MMM d', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
 
@@ -140,18 +151,18 @@ class DateFormatter {
             LastModificationTimeFormat.hours12.value) {
       // Last modification was today
       if (whenWasLastMod == WhenItWasLastModification.today) {
-        finalDate = DateFormat('jm').format(lastModificationDateTime);
+        finalDate = DateFormat.jm().format(lastModificationDateTime);
         return finalDate;
         // Last modification was this year
       } else if (whenWasLastMod == WhenItWasLastModification.thisYear) {
-        finalDate = DateFormat('MMM d').format(lastModificationDateTime);
+        finalDate =
+            DateFormat('MMM d', language).format(lastModificationDateTime);
         return finalDate;
         // Last modification was another year
       } else if (whenWasLastMod == WhenItWasLastModification.anotherYear) {}
-      finalDate = DateFormat('y').format(lastModificationDateTime);
+      finalDate = DateFormat('y', language).format(lastModificationDateTime);
       return finalDate;
     }
-
     return 'Error: Format not found';
   }
 
@@ -179,6 +190,8 @@ class DateFormatter {
     required Timestamp dateDB,
     required BuildContext context,
   }) async {
+    String language = context.read<L10nLocaleProvider>().locale.toString();
+
     final User currentUser = AuthUserService.getCurrentUserFirebase();
 
     late UserConfiguration userConfiguration;
@@ -197,8 +210,8 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.dayMonthYear.value +
             LastModificationTimeFormat.hours24.value) {
-      formattedTime =
-          DateFormat('d MMMM y ').format(date) + DateFormat.Hm().format(date);
+      formattedTime = DateFormat('d MMMM y ', language).format(date) +
+          DateFormat.Hm().format(date);
       return formattedTime;
     }
 
@@ -206,8 +219,8 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.monthDayYear.value +
             LastModificationTimeFormat.hours24.value) {
-      formattedTime =
-          DateFormat('MMMM d y ').format(date) + DateFormat.Hm().format(date);
+      formattedTime = DateFormat('MMMM d y ', language).format(date) +
+          DateFormat.Hm().format(date);
       return formattedTime;
     }
 
@@ -215,8 +228,8 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.yearMonthDay.value +
             LastModificationTimeFormat.hours24.value) {
-      formattedTime =
-          DateFormat('y MMMM d ').format(date) + DateFormat.Hm().format(date);
+      formattedTime = DateFormat('y MMMM d ', language).format(date) +
+          DateFormat.Hm().format(date);
       return formattedTime;
     }
 
@@ -224,8 +237,8 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.dayMonthYear.value +
             LastModificationTimeFormat.hours12.value) {
-      formattedTime =
-          DateFormat('d MMMM y ').format(date) + DateFormat.jm().format(date);
+      formattedTime = DateFormat('d MMMM y ', language).format(date) +
+          DateFormat.jm().format(date);
       return formattedTime;
     }
 
@@ -233,8 +246,8 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.yearMonthDay.value +
             LastModificationTimeFormat.hours12.value) {
-      formattedTime =
-          DateFormat('y MMMM d ').format(date) + DateFormat.jm().format(date);
+      formattedTime = DateFormat('y MMMM d ', language).format(date) +
+          DateFormat.jm().format(date);
       return formattedTime;
     }
 
@@ -242,14 +255,11 @@ class DateFormatter {
     if (dateFormat ==
         LastModificationDateFormat.monthDayYear.value +
             LastModificationTimeFormat.hours12.value) {
-      formattedTime =
-          DateFormat('MMMM d y ').format(date) + DateFormat.jm().format(date);
+      formattedTime = DateFormat('MMMM d y ', language).format(date) +
+          DateFormat.jm().format(date);
       return formattedTime;
     }
 
     return 'Error: Format not found';
   }
 }
-
-// formattedTime =
-//           '$formattedDay $monthName ${dateTimeFromDatabase.year} $formattedHour:$formattedMinutes';
