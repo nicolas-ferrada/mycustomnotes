@@ -26,20 +26,20 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
           Scaffold.of(context).openDrawer();
         },
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: IconButton(
-            icon: const Icon(
-              Icons.search,
-              size: 32,
-            ),
-            onPressed: () async {
-              // Search for a note
-            },
-          ),
-        ),
-      ],
+      // actions: [
+      //   Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: 8),
+      //     child: IconButton(
+      //       icon: const Icon(
+      //         Icons.search,
+      //         size: 32,
+      //       ),
+      //       onPressed: () async {
+      //         // Search for a note
+      //       },
+      //     ),
+      //   ),
+      // ],
     ));
   }
 }
