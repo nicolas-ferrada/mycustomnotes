@@ -174,6 +174,20 @@ class NoteTasksView1Small extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // show max length if is 24 hours format
+                          Visibility(
+                            visible: !is12HoursFormat(),
+                            child: Opacity(
+                              opacity: 0,
+                              child: Text(
+                                'Jan 01',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
                           Text(
                             // Date of last modification
                             DateFormatter.showLastModificationDateFormatted(
