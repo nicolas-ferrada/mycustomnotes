@@ -48,6 +48,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 controller: _emailRecoverPasswordController,
                 keyboardType: TextInputType.emailAddress,
                 autofillHints: const [AutofillHints.email],

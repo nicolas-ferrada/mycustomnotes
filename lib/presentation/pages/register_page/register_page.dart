@@ -40,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _emailRegisterController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -54,6 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _passwordRegisterController,
                   obscureText: true,
                   enableSuggestions: false,
@@ -69,6 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _passwordConfirmRegisterController,
                   obscureText: true,
                   enableSuggestions: false,

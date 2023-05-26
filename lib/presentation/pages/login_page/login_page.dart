@@ -108,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _emailLoginController,
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
@@ -123,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _passwordLoginController,
                   obscureText: true,
                   enableSuggestions: false,
