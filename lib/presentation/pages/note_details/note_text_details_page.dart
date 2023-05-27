@@ -270,12 +270,10 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     return Visibility(
       // Button will be visible if any field changed
       visible: didUserMadeChanges(),
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
+        shape: const CircleBorder(),
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-        label: Text(
-          AppLocalizations.of(context)!.save_button_noteTextCreatePage,
-        ),
-        icon: const Icon(Icons.save),
+        child: const Icon(Icons.save),
         onPressed: () async {
           // Edit the selected note
           try {
