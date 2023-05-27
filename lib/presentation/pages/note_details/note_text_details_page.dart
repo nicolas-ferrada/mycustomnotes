@@ -142,6 +142,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           ],
           // Note's title
           title: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             initialValue: widget.noteText.title,
             onChanged: (newTitleChanged) {
               // Changes are being made
@@ -223,6 +224,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           initialValue: widget.noteText.body,
                           textAlignVertical: TextAlignVertical.top,
                           maxLines: null,

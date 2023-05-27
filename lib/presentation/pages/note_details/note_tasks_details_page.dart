@@ -230,6 +230,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           ],
           // Note's title
           title: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             controller: _titleTextController,
             focusNode: noteTitleTextFormFieldFocusNode,
             onFieldSubmitted: (value) {
@@ -404,6 +405,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 builder: (context) {
                   return AlertDialog(
                     content: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       onTapOutside: (_) {
                         FocusScope.of(context).unfocus();
                         Navigator.maybePop(context);
@@ -496,6 +498,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                 builder: (context) {
                   return AlertDialog(
                     content: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+
                       autofocus: true,
                       initialValue: task.taskName,
                       onTapOutside: (_) {
@@ -642,6 +646,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(12),
                           child: TextField(
+                            textCapitalization: TextCapitalization.sentences,
                             focusNode: noteTaskSubmittedFieldFocusNode,
                             controller: _newTaskTextController,
                             autofocus: true,

@@ -110,6 +110,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
   AppBar noteCreatePageTitle(BuildContext context) {
     return AppBar(
       title: TextFormField(
+        textCapitalization: TextCapitalization.sentences,
         controller: _noteTitleController,
         onChanged: (value) {
           setState(() {
@@ -342,6 +343,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
               horizontal: 12,
             ),
             child: TextFormField(
+              textCapitalization: TextCapitalization.sentences,
               onChanged: (value) {
                 setState(() {
                   _isCreateButtonVisible = true;

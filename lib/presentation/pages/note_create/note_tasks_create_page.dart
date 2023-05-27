@@ -172,6 +172,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       // Note's title, favorite and pick color icons
       appBar: AppBar(
         title: TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           controller: _titleTextController,
           onChanged: (value) {
             setState(() {
@@ -402,6 +403,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                 builder: (context) {
                   return AlertDialog(
                     content: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       onTapOutside: (_) {
                         FocusScope.of(context).unfocus();
                         Navigator.maybePop(context);
@@ -494,6 +496,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                 builder: (context) {
                   return AlertDialog(
                     content: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       autofocus: true,
                       initialValue: task.taskName,
                       onTapOutside: (_) {
@@ -641,6 +644,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(12),
                           child: TextField(
+                            textCapitalization: TextCapitalization.sentences,
                             focusNode: noteTaskSubmittedFieldFocusNode,
                             controller: _newTaskTextController,
                             autofocus: true,
