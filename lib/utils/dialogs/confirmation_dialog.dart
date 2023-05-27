@@ -102,17 +102,19 @@ class ConfirmationDialog {
             ),
           ),
           content: DialogSubtitleStyle(
-              subtitle:
-                  AppLocalizations.of(context)!.discardChanges_dialog_subtitle),
+            subtitle:
+                AppLocalizations.of(context)!.discardChanges_dialog_subtitle,
+            fontSize: 16,
+          ),
           actions: [
             Center(
               child: Column(
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(80, 50),
+                      minimumSize: const Size(200, 40),
                       elevation: 5,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.redAccent,
                     ),
                     onPressed: () async {
                       Navigator.maybePop(context, true);
@@ -121,7 +123,8 @@ class ConfirmationDialog {
                       AppLocalizations.of(context)!
                           .discardChanges_dialog_leaveButton,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(
+                          color: Colors.black, fontStyle: FontStyle.italic),
                     ),
                   ),
                   const SizedBox(
@@ -129,7 +132,7 @@ class ConfirmationDialog {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(80, 50),
+                      minimumSize: const Size(200, 40),
                       elevation: 5,
                       backgroundColor: Colors.white,
                     ),

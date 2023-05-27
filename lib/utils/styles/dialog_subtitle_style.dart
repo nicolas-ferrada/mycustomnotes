@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class DialogSubtitleStyle extends StatelessWidget {
   final String subtitle;
+  final double? fontSize;
   const DialogSubtitleStyle({
     super.key,
     required this.subtitle,
+    this.fontSize,
   });
 
   @override
@@ -18,7 +20,10 @@ class DialogSubtitleStyle extends StatelessWidget {
       child: Text(
         subtitle,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+        style: TextStyle(
+          fontStyle: FontStyle.italic,
+          fontSize: fontSize ?? 14,
+        ),
       ),
     );
   }

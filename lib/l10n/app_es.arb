@@ -159,8 +159,8 @@
     "noteTasks_text_buildNotesNoTasksAdded": "Ninguna tarea agregada.",
     "@_DISCARD_CHANGES_DIALOG": {},
     "discardChanges_dialog_title": "¿Descartar cambios?",
-    "discardChanges_dialog_subtitle": "¿Estás seguro de deseas descartar todos los cambios?",
-    "discardChanges_dialog_leaveButton": "Descartar todos mis cambios",
+    "discardChanges_dialog_subtitle": "¡Presiona el botón de 'guardar' antes de irte!",
+    "discardChanges_dialog_leaveButton": "Irme sin guardar",
     "discardChanges_dialog_cancelButton": "Mantenerme aquí para guardar",
     "@_NOTES_SERVICE_EXCEPTIONS": {},
     "notesService_exception_gettingNotes": "No se pudo obtener tus notas, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
@@ -168,3 +168,4 @@
     "notesService_exception_editingNote": "No se pudo modificar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
     "notesService_exception_deletingNote": "No se pudo borrar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable"
 }
+
