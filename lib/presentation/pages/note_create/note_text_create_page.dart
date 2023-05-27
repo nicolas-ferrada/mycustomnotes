@@ -44,9 +44,6 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
   // When to show video
   bool isUrlVisible = false;
 
-  // Did the url was modified? to show save button
-  bool didUrlChanged = false;
-
   // Force the preview URL image to update
   late Key previewKey;
 
@@ -157,15 +154,15 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
                   if (newUrl == 'deletecurrenturl') {
                     setState(() {
                       url = null;
-                      didUrlChanged = true;
+                      _isCreateButtonVisible = true;
                       previewKey = UniqueKey();
                       isUrlVisible = false;
                     });
                   } else {
                     if (await isUrlValid(urlStr: newUrl)) {
                       setState(() {
-                        didUrlChanged = true;
                         isUrlVisible = true;
+                        _isCreateButtonVisible = true;
                         url = newUrl;
                         previewKey = UniqueKey();
                       });
@@ -260,6 +257,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
             if (context.mounted) {
               await NoteTextService.createNoteText(
                 context: context,
+                url: url,
                 title: _noteTitleController.text,
                 body: _noteBodyController.text,
                 userId: currentUser.uid,
