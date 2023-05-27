@@ -63,6 +63,15 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
     updateNote();
   }
 
+  bool didUserMadeChanges() {
+    bool didUserMadeChanges = (didTitleChanged ||
+        didFavoriteChanged ||
+        didColorChanged ||
+        didBodyChanged ||
+        didUrlChanged);
+    return didUserMadeChanges;
+  }
+
   void updateNote() {
     // Copy the original object to create the a new note, which attributes will be modified by user
     newNote = widget.noteText.copyWith();
@@ -120,12 +129,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         // Avoids the bug of the keyboard showing for a sec
         FocusScope.of(context).unfocus();
         // Triggers when user made changes and the save button was not pressed
-        bool didUserMadeChanges = (didTitleChanged ||
-            didBodyChanged ||
-            didFavoriteChanged ||
-            didColorChanged ||
-            didUrlChanged);
-        if (didUserMadeChanges == true && wasTheSaveButtonPressed == false) {
+        if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
           final bool? shouldPop =
               await ConfirmationDialog.discardChangesNoteDetails(context);
           return shouldPop ??
@@ -263,14 +267,9 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   }
 
   Visibility saveButton(BuildContext context) {
-    bool didUserMadeChanges = (didTitleChanged ||
-        didBodyChanged ||
-        didFavoriteChanged ||
-        didColorChanged ||
-        didUrlChanged);
     return Visibility(
       // Button will be visible if any field changed
-      visible: didUserMadeChanges,
+      visible: didUserMadeChanges(),
       child: FloatingActionButton.extended(
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
         label: Text(

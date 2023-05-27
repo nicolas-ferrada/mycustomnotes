@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -28,6 +29,9 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
 
   final _noteTitleController = TextEditingController();
   final _noteBodyController = TextEditingController();
+
+  // Avoids dialog of leaving page confirmation to triggers if the save button was pressed
+  bool wasTheSaveButtonPressed = false;
 
   bool isNoteFavorite = false;
 
@@ -97,13 +101,29 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Note's title, favorite and pick color icons
-      appBar: noteCreatePageTitle(context),
-      // Note's body
-      body: noteCreatePageBody(),
-      // Save button, only visible if user changes the note
-      floatingActionButton: noteCreatePageFloatingActionButton(context),
+    return WillPopScope(
+      onWillPop: () async {
+        // Avoids the bug of the keyboard showing for a sec
+        FocusScope.of(context).unfocus();
+        // Triggers when user made changes and the save button was not pressed
+        if (_isCreateButtonVisible == true &&
+            wasTheSaveButtonPressed == false) {
+          final bool? shouldPop =
+              await ConfirmationDialog.discardChangesNoteDetails(context);
+          return shouldPop ??
+              false; // If user tap outside dialog, then don't leave page
+        } else {
+          return true; // Come back to home page
+        }
+      },
+      child: Scaffold(
+        // Note's title, favorite and pick color icons
+        appBar: noteCreatePageTitle(context),
+        // Note's body
+        body: noteCreatePageBody(),
+        // Save button, only visible if user changes the note
+        floatingActionButton: noteCreatePageFloatingActionButton(context),
+      ),
     );
   }
 
@@ -242,6 +262,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         onPressed: () async {
           // Create note button
           try {
+            wasTheSaveButtonPressed = true;
             // Check if device it's connected to any network
             bool isDeviceConnected =
                 await CheckInternetConnection.checkInternetConnection();

@@ -8,6 +8,7 @@ import '../../../domain/services/auth_user_service.dart';
 import 'package:provider/provider.dart';
 import '../../../domain/services/note_tasks_service.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../utils/internet/check_internet_connection.dart';
@@ -168,204 +169,223 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Note's title, favorite and pick color icons
-      appBar: AppBar(
-        title: TextFormField(
-          textCapitalization: TextCapitalization.sentences,
-          controller: _titleTextController,
-          onChanged: (value) {
-            setState(() {
-              didTitleChange = true;
-              didUserModifiedTaskForFirstTime = true;
-            });
-          },
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: AppLocalizations.of(context)!
-                .titleInput_textformfield_noteTextCreatePage,
-            hintStyle: const TextStyle(color: Colors.white70),
-          ),
-          style: const TextStyle(
-            color: Colors.white70,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () async {
-                    late Color newColor;
-                    NoteColor? getColorFromDialog =
-                        await showDialog<NoteColor?>(
-                      context: context,
-                      builder: (context) {
-                        return const NotePickColorDialog();
-                      },
-                    );
-                    if (getColorFromDialog != null) {
-                      newColor = getColorFromDialog.getColor;
-                    } else {
-                      newColor = NoteColorOperations.getColorFromNumber(
-                          colorNumber: intNoteColor);
-                    }
-                    // Difine the note color
-                    intNoteColor =
-                        NoteColorOperations.getNumberFromColor(color: newColor);
-                    setState(() {
-                      noteColorPaletteIcon = newColor;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.palette,
-                    color: noteColorPaletteIcon,
-                    size: 28,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.star,
-                    color: noteColorFavoriteIcon,
-                    size: 28,
-                  ),
-                  onPressed: () {
-                    if (!isNoteFavorite) {
-                      // It was not favorite, now it is
-                      setState(() {
-                        noteColorFavoriteIcon = Colors.amberAccent;
-                      });
-                      isNoteFavorite = true;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBarMessage.snackBarMessage(
-                              message: AppLocalizations.of(context)!
-                                  .favorite_snackbar_noteMarked,
-                              backgroundColor: Colors.amberAccent));
-                    } else {
-                      // It was favorite, now it is not
-                      setState(() {
-                        noteColorFavoriteIcon = Colors.grey;
-                      });
-                      isNoteFavorite = false;
-                    }
-                  },
-                ),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        // Avoids the bug of the keyboard showing for a sec
+        FocusScope.of(context).unfocus();
+        // Triggers when user made changes and the save button was not pressed
+        if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
+          final bool? shouldPop =
+              await ConfirmationDialog.discardChangesNoteDetails(context);
+          return shouldPop ??
+              false; // If user tap outside dialog, then don't leave page
+        } else {
+          return true; // Come back to home page
+        }
+      },
+      child: Scaffold(
+        // Note's title, favorite and pick color icons
+        appBar: AppBar(
+          title: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
+            controller: _titleTextController,
+            onChanged: (value) {
+              setState(() {
+                didTitleChange = true;
+                didUserModifiedTaskForFirstTime = true;
+              });
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: AppLocalizations.of(context)!
+                  .titleInput_textformfield_noteTextCreatePage,
+              hintStyle: const TextStyle(color: Colors.white70),
+            ),
+            style: const TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
             ),
           ),
-        ],
-      ),
-      body: (getFinalTasksList().isNotEmpty)
-          ? SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 15, 2),
+              child: Row(
                 children: [
-                  // Tasks not completed
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: ReorderableListView.builder(
-                      reverse: true,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: notCompletedTasksList.length,
-                      itemBuilder: (context, index) {
-                        final task = notCompletedTasksList[index];
-
-                        return buildTasksNotCompleted(index: index, task: task);
-                      },
-                      onReorder: (oldIndex, newIndex) {
-                        setState(() {
-                          final index =
-                              (newIndex > oldIndex) ? newIndex - 1 : newIndex;
-                          final task = notCompletedTasksList.removeAt(oldIndex);
-                          notCompletedTasksList.insert(index, task);
-                          didTaskChange = true;
-                        });
-                      },
+                  IconButton(
+                    onPressed: () async {
+                      late Color newColor;
+                      NoteColor? getColorFromDialog =
+                          await showDialog<NoteColor?>(
+                        context: context,
+                        builder: (context) {
+                          return const NotePickColorDialog();
+                        },
+                      );
+                      if (getColorFromDialog != null) {
+                        newColor = getColorFromDialog.getColor;
+                      } else {
+                        newColor = NoteColorOperations.getColorFromNumber(
+                            colorNumber: intNoteColor);
+                      }
+                      // Difine the note color
+                      intNoteColor = NoteColorOperations.getNumberFromColor(
+                          color: newColor);
+                      setState(() {
+                        noteColorPaletteIcon = newColor;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.palette,
+                      color: noteColorPaletteIcon,
+                      size: 28,
                     ),
                   ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  // Tasks completed
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          areCompletedNotesVisible = !areCompletedNotesVisible;
-                        });
-                      },
-                      child: Visibility(
-                        visible: completedTasksList.isNotEmpty,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade800.withOpacity(0.9),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(9),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                areCompletedNotesVisible
-                                    ? Icons.arrow_circle_down_outlined
-                                    : Icons.arrow_circle_right_outlined,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .noteTasks_text_tabTasksCompleted,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.star,
+                      color: noteColorFavoriteIcon,
+                      size: 28,
                     ),
+                    onPressed: () {
+                      if (!isNoteFavorite) {
+                        // It was not favorite, now it is
+                        setState(() {
+                          noteColorFavoriteIcon = Colors.amberAccent;
+                        });
+                        isNoteFavorite = true;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBarMessage.snackBarMessage(
+                                message: AppLocalizations.of(context)!
+                                    .favorite_snackbar_noteMarked,
+                                backgroundColor: Colors.amberAccent));
+                      } else {
+                        // It was favorite, now it is not
+                        setState(() {
+                          noteColorFavoriteIcon = Colors.grey;
+                        });
+                        isNoteFavorite = false;
+                      }
+                    },
                   ),
-                  Visibility(
-                    visible: areCompletedNotesVisible,
-                    child: Padding(
+                ],
+              ),
+            ),
+          ],
+        ),
+        body: (getFinalTasksList().isNotEmpty)
+            ? SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Tasks not completed
+                    Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: ListView.builder(
+                      child: ReorderableListView.builder(
                         reverse: true,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        itemCount: completedTasksList.length,
+                        itemCount: notCompletedTasksList.length,
                         itemBuilder: (context, index) {
-                          final task = completedTasksList[index];
-                          return buildTasksCompleted(index: index, task: task);
+                          final task = notCompletedTasksList[index];
+
+                          return buildTasksNotCompleted(
+                              index: index, task: task);
+                        },
+                        onReorder: (oldIndex, newIndex) {
+                          setState(() {
+                            final index =
+                                (newIndex > oldIndex) ? newIndex - 1 : newIndex;
+                            final task =
+                                notCompletedTasksList.removeAt(oldIndex);
+                            notCompletedTasksList.insert(index, task);
+                            didTaskChange = true;
+                          });
                         },
                       ),
                     ),
-                  ),
-                  // Let space if the icons obstruct vision to the task and
-                  // for not losing the tasks completed tab when it's opened
-                  SizedBox(
-                    height: completedTasksList.isNotEmpty ? 128 : 96,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    // Tasks completed
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            areCompletedNotesVisible =
+                                !areCompletedNotesVisible;
+                          });
+                        },
+                        child: Visibility(
+                          visible: completedTasksList.isNotEmpty,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade800.withOpacity(0.9),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(9),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  areCompletedNotesVisible
+                                      ? Icons.arrow_circle_down_outlined
+                                      : Icons.arrow_circle_right_outlined,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .noteTasks_text_tabTasksCompleted,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: areCompletedNotesVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ListView.builder(
+                          reverse: true,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemCount: completedTasksList.length,
+                          itemBuilder: (context, index) {
+                            final task = completedTasksList[index];
+                            return buildTasksCompleted(
+                                index: index, task: task);
+                          },
+                        ),
+                      ),
+                    ),
+                    // Let space if the icons obstruct vision to the task and
+                    // for not losing the tasks completed tab when it's opened
+                    SizedBox(
+                      height: completedTasksList.isNotEmpty ? 128 : 96,
+                    ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text(
+                  AppLocalizations.of(context)!.noteTasks_text_noTasksAdded,
+                  style: const TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            )
-          : Center(
-              child: Text(
-                AppLocalizations.of(context)!.noteTasks_text_noTasksAdded,
-                style: const TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-            ),
-      // Save button, only visible if user changes the note
-      floatingActionButton:
-          noteTasksDetailsPageCreateNoteFloatingActionButton(context),
+        // Save button, only visible if user changes the note
+        floatingActionButton:
+            noteTasksDetailsPageCreateNoteFloatingActionButton(context),
+      ),
     );
   }
 
