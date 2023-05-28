@@ -540,8 +540,12 @@
     "@discardChanges_dialog_title": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },
-    "discardChanges_dialog_subtitle": "Press 'save' button to save before leaving!",
+    "discardChanges_dialog_subtitle_partone": "Press the save button",
     "@discardChanges_dialog_subtitle": {
+        "description": "Discard changes triggers when user is trying to leave an unsaved note"
+    },
+    "discardChanges_dialog_subtitle_parttwo": "to not lose changes",
+    "@discardChanges_dialog_subtitle_parttwo": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },
     "discardChanges_dialog_leaveButton": "Leave without saving",

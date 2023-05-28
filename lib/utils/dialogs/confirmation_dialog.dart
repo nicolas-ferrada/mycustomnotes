@@ -101,10 +101,35 @@ class ConfirmationDialog {
               ),
             ),
           ),
-          content: DialogSubtitleStyle(
-            subtitle:
-                AppLocalizations.of(context)!.discardChanges_dialog_subtitle,
-            fontSize: 16,
+          content: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade800.withOpacity(0.7),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!
+                      .discardChanges_dialog_subtitle_partone,
+                  style: const TextStyle(
+                      fontSize: 16, fontStyle: FontStyle.italic),
+                ),
+                const Icon(
+                  Icons.save,
+                  size: 24,
+                  color: Colors.black,
+                ),
+                Text(
+                  AppLocalizations.of(context)!
+                      .discardChanges_dialog_subtitle_parttwo,
+                  style: const TextStyle(
+                      fontSize: 16, fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
           ),
           actions: [
             Center(
