@@ -544,7 +544,7 @@
     "@discardChanges_dialog_subtitle": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },
-    "discardChanges_dialog_subtitle_parttwo": "to not lose changes",
+    "discardChanges_dialog_subtitle_parttwo": "to not lose your changes",
     "@discardChanges_dialog_subtitle_parttwo": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },

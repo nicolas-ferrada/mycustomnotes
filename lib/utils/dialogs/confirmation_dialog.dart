@@ -115,18 +115,18 @@ class ConfirmationDialog {
                   AppLocalizations.of(context)!
                       .discardChanges_dialog_subtitle_partone,
                   style: const TextStyle(
-                      fontSize: 16, fontStyle: FontStyle.italic),
+                      fontSize: 14, fontStyle: FontStyle.italic),
                 ),
                 const Icon(
                   Icons.save,
-                  size: 24,
+                  size: 22,
                   color: Colors.black,
                 ),
                 Text(
                   AppLocalizations.of(context)!
                       .discardChanges_dialog_subtitle_parttwo,
                   style: const TextStyle(
-                      fontSize: 16, fontStyle: FontStyle.italic),
+                      fontSize: 14, fontStyle: FontStyle.italic),
                 ),
               ],
             ),
@@ -137,7 +137,6 @@ class ConfirmationDialog {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 40),
                       elevation: 5,
                       backgroundColor: Colors.redAccent,
                     ),
@@ -153,12 +152,12 @@ class ConfirmationDialog {
                     ),
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 40),
-                      elevation: 5,
+                      minimumSize: const Size(200, 60),
+                      elevation: 10,
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
@@ -168,7 +167,11 @@ class ConfirmationDialog {
                       AppLocalizations.of(context)!
                           .discardChanges_dialog_cancelButton,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],

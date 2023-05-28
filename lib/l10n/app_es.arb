@@ -159,7 +159,7 @@
     "noteTasks_text_buildNotesNoTasksAdded": "Ninguna tarea agregada.",
     "@_DISCARD_CHANGES_DIALOG": {},
     "discardChanges_dialog_title": "¿Descartar cambios?",
-    "discardChanges_dialog_subtitle_partone": "¡Apreta el botón guadar",
+    "discardChanges_dialog_subtitle_partone": "¡Presiona el botón guardar",
     "discardChanges_dialog_subtitle_parttwo": "para no perder cambios!",
     "discardChanges_dialog_leaveButton": "Salir sin guardar",
     "discardChanges_dialog_cancelButton": "Quedarme para guardar",
