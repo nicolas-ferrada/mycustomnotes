@@ -57,10 +57,10 @@ dependencies:
   flutter_native_splash: ^2.2.16
 
   # Check if user is connected to any network
-  connectivity_plus: ^3.0.3
+  connectivity_plus: ^4.0.1
 
   # Used to share notes
-  share_plus: ^6.3.1
+  share_plus: ^7.0.1
 
   # Used to launch urls stored in firestore
   url_launcher: ^6.1.10
@@ -91,7 +91,7 @@ dev_dependencies:
     sdk: flutter
 
   # app icon
-  flutter_launcher_icons: "^0.11.0"
+  flutter_launcher_icons: ^0.13.1
 
   # lint rules
   flutter_lints: ^2.0.1
