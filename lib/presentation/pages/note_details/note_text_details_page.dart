@@ -300,14 +300,18 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();
 
-                  Navigator.maybePop(context);
+                  Navigator.maybePop(context)
+                      .then((_) => Navigator.maybePop(context));
                 },
               );
             }
 
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
-              Navigator.maybePop(context);
+              // Double to close the showModalBottomSheet in case user is editting
+              // from search notes
+              Navigator.maybePop(context)
+                  .then((_) => Navigator.maybePop(context));
             }
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(

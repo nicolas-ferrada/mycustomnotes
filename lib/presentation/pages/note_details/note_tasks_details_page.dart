@@ -603,7 +603,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       Provider.of<NoteNotifier>(context, listen: false)
                           .refreshNotes();
 
-                      Navigator.of(context).maybePop();
+                      Navigator.maybePop(context)
+                          .then((_) => Navigator.maybePop(context));
                     },
                   );
                 }
@@ -611,7 +612,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();
 
-                  Navigator.of(context).maybePop();
+                  // Double to close the showModalBottomSheet in case user is editting
+                  // from search notes
+                  Navigator.maybePop(context)
+                      .then((_) => Navigator.maybePop(context));
                 }
               } catch (errorMessage) {
                 ExceptionsAlertDialog.showErrorDialog(
