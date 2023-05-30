@@ -167,6 +167,8 @@
     "notesService_exception_gettingNotes": "No se pudo obtener tus notas, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
     "notesService_exception_creatingNote": "No se pudo crear la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
     "notesService_exception_editingNote": "No se pudo modificar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
-    "notesService_exception_deletingNote": "No se pudo borrar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable"
+    "notesService_exception_deletingNote": "No se pudo borrar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
+    "@_SEARCH_FOR_NOTE_APPBAR": {},
+    "searchNote_text_appbarTextfield": "Busca una nota"
 }
 

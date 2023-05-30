@@ -572,5 +572,11 @@
     "notesService_exception_deletingNote": "Error deleting the note, please, try restarting the app and check if your internet connection is stable",
     "@notesService_exception_deletingNote": {
         "description": "User unable to delete a note"
+    },
+    "@_SEARCH_FOR_NOTE_APPBAR": {},
+    "searchNote_text_appbarTextfield": "Search for a note",
+    "@searchNote_text_appbarTextfield": {
+        "description": "Message used in a textfield placed in the search icon to find notes"
     }
+
 }

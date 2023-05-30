@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/data/models/Note/note_notifier.dart';
+import 'package:mycustomnotes/l10n/l10n_export.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/models/Note/note_tasks_model.dart';
@@ -107,7 +108,8 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
                         ),
                         filled: true,
                         fillColor: const Color.fromARGB(255, 27, 27, 27),
-                        hintText: 'Search for a note',
+                        hintText: AppLocalizations.of(context)!
+                            .searchNote_text_appbarTextfield,
                       ),
                     ),
                   ),
