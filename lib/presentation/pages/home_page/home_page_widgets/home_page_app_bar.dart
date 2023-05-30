@@ -76,66 +76,61 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
       isDismissible: true,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Consumer<NoteNotifier>(builder: (context, noteNotifier, _) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: TextField(
-                          controller: filter,
-                          autofocus: true,
-                          onChanged: (value) {
-                            setState(() {
-                              filterTextNotes();
-                              filterTasksNotes();
-                            });
-                          },
-                          decoration: InputDecoration(
-                            suffixIcon: const Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                              size: 32,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            filled: true,
-                            fillColor: const Color.fromARGB(255, 27, 27, 27),
-                            hintText: 'Search for a note',
-                          ),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      controller: filter,
+                      autofocus: true,
+                      onChanged: (value) {
+                        setState(() {
+                          filterTextNotes();
+                          filterTasksNotes();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                          size: 32,
                         ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 27, 27, 27),
+                        hintText: 'Search for a note',
                       ),
-                      // If is empty, user did not apply any filter yet.
-                      filter.text.isEmpty
-                          ? HomePageBuildNotesWidget(
-                              notesTasksList: widget.tasksNotes,
-                              notesTextList: widget.textNotes,
-                              userConfiguration: widget.userConfiguration,
-                            )
-                          // User is writing in the filter
-                          : HomePageBuildNotesWidget(
-                              notesTasksList: filteredTasksNotes,
-                              notesTextList: filteredTextNotes,
-                              userConfiguration: widget.userConfiguration,
-                            )
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        });
+                  // If is empty, user did not apply any filter yet.
+                  Expanded(
+                    child: filter.text.isEmpty
+                        ? HomePageBuildNotesWidget(
+                            notesTasksList: widget.tasksNotes,
+                            notesTextList: widget.textNotes,
+                            userConfiguration: widget.userConfiguration,
+                          )
+                        // User is writing in the filter
+                        : HomePageBuildNotesWidget(
+                            notesTasksList: filteredTasksNotes,
+                            notesTextList: filteredTextNotes,
+                            userConfiguration: widget.userConfiguration,
+                          ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
     ).then(
       (_) {
