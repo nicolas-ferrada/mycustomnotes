@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/Note/folder_notifier.dart';
+import 'package:mycustomnotes/domain/services/folder_service.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/models/Note/folder_model.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
@@ -12,9 +15,9 @@ import '../../../domain/services/note_text_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
 import '../../../l10n/l10n_export.dart';
 import 'home_page_widgets/home_page_app_bar.dart';
-import 'home_page_widgets/home_page_build_notes_widget.dart';
+import 'home_page_widgets/home_page_build_notes_folders_widget.dart';
 import 'home_page_widgets/home_page_navigation_drawer.dart';
-import 'home_page_widgets/home_page_new_note_button_widget.dart';
+import 'home_page_widgets/home_page_bottom_navigator_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,39 +36,58 @@ class _HomePageState extends State<HomePage> {
     getUserConfiguration();
   }
 
+  Future<UserConfiguration> getUserConfiguration() async {
+    return await UserConfigurationService.getUserConfigurations(
+      userId: currentUser.uid,
+      context: context,
+    );
+  }
+
+  // Callback to update user config
   void updateUserConfiguration() async {
     userConfiguration = await getUserConfiguration();
     setState(() {});
   }
 
-  Future<UserConfiguration> getUserConfiguration() async {
-    return await UserConfigurationService.getUserConfigurations(
-        userId: currentUser.uid, context: context);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserConfiguration>(
-      future: getUserConfiguration(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          userConfiguration = snapshot.data!;
-          return buildNoteWidget(context);
-        } else if (snapshot.hasError) {
-          return buildErrorWidget(context);
-        } else {
-          return buildLoadingWidget();
-        }
-      },
-    );
+    return Consumer<FolderNotifier>(builder: (context, folderNotifier, _) {
+      return FutureBuilder<UserConfiguration>(
+        future: getUserConfiguration(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            userConfiguration = snapshot.data!;
+            return StreamBuilder<List<Folder>>(
+              stream: FolderService.readAllFolders(
+                userId: currentUser.uid,
+                context: context,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List<Folder> folders = snapshot.data!;
+                  return buildNoteWidget(folders: folders, context: context);
+                } else if (snapshot.hasError) {
+                  return buildErrorWidget(context, snapshot.error.toString());
+                } else {
+                  return buildLoadingWidget();
+                }
+              },
+            );
+          } else if (snapshot.hasError) {
+            return buildErrorWidget(context, snapshot.error.toString());
+          } else {
+            return buildLoadingWidget();
+          }
+        },
+      );
+    });
   }
 
-  Widget buildErrorWidget(BuildContext context) {
+  Widget buildErrorWidget(BuildContext context, String errorMessage) {
     return Scaffold(
       body: Center(
         child: Text(
-          AppLocalizations.of(context)!
-              .getUserConfigurationError_snapshotHasError_homePage,
+          errorMessage,
           textAlign: TextAlign.center,
         ),
       ),
@@ -100,7 +122,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildNoteWidget(BuildContext context) {
+  Widget buildNoteWidget({
+    required BuildContext context,
+    required List<Folder> folders,
+  }) {
     return Consumer<NoteNotifier>(
       builder: (context, noteNotifier, _) {
         return StreamBuilder(
@@ -128,6 +153,7 @@ class _HomePageState extends State<HomePage> {
                       context: context,
                       textNotes: textNotes,
                       tasksNotes: tasksNotes,
+                      folders: folders,
                     );
                   } else {
                     return buildLoadingWidget();
@@ -145,6 +171,7 @@ class _HomePageState extends State<HomePage> {
     required BuildContext context,
     required List<NoteText> textNotes,
     required List<NoteTasks> tasksNotes,
+    required List<Folder> folders,
   }) {
     return Scaffold(
       appBar: PreferredSize(
@@ -153,6 +180,7 @@ class _HomePageState extends State<HomePage> {
           tasksNotes: tasksNotes,
           textNotes: textNotes,
           userConfiguration: userConfiguration,
+          folders: folders,
         ),
       ),
       drawer: NavigationDrawerHomePage(
@@ -164,8 +192,16 @@ class _HomePageState extends State<HomePage> {
         context: context,
         textNotes: textNotes,
         tasksNotes: tasksNotes,
+        folders: folders,
+        currentUser: currentUser,
+        updateUserConfiguration: updateUserConfiguration,
       ),
-      floatingActionButton: newNoteButton(context: context),
+      // Create note and folder
+      bottomNavigationBar: BottomNavigationBarHomePage(
+        notesTasksList: tasksNotes,
+        notesTextList: textNotes,
+        userConfiguration: userConfiguration,
+      ),
     );
   }
 
@@ -173,18 +209,25 @@ class _HomePageState extends State<HomePage> {
     required BuildContext context,
     required List<NoteText> textNotes,
     required List<NoteTasks> tasksNotes,
+    required List<Folder> folders,
+    required currentUser,
+    required updateUserConfiguration,
   }) {
-    if (textNotes.isEmpty && tasksNotes.isEmpty) {
+    if (textNotes.isEmpty && tasksNotes.isEmpty && folders.isEmpty) {
       return Center(
         child: Text(
           AppLocalizations.of(context)!.noNotesCreated_text_homePage,
         ),
       );
     } else {
-      return HomePageBuildNotesWidget(
+      return HomePageBuildNotesAndFoldersWidget(
         notesTextList: textNotes,
         notesTasksList: tasksNotes,
         userConfiguration: userConfiguration,
+        folders: folders,
+        currentUser: currentUser,
+        updateUserConfiguration: updateUserConfiguration,
+        editingFromSearchBar: false,
       );
     }
   }

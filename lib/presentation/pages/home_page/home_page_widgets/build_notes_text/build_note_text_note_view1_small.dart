@@ -9,13 +9,18 @@ import '../../../../../utils/note_color/note_color.dart';
 class NoteTextView1Small extends StatelessWidget {
   final NoteText note;
   final UserConfiguration userConfiguration;
-  const NoteTextView1Small(
-      {super.key, required this.note, required this.userConfiguration});
+  final bool isSelected;
+  const NoteTextView1Small({
+    super.key,
+    required this.note,
+    required this.userConfiguration,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey.shade900,
+      color: isSelected ? Colors.white70 : Colors.grey.shade900,
       shape: const BeveledRectangleBorder(),
       margin: EdgeInsets.zero,
       child: Row(

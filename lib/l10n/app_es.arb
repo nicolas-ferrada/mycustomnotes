@@ -60,7 +60,7 @@
     "@_HOME_PAGE_PAGE_EXCEPTIONS": {},
     "getUserConfigurationError_snapshotHasError_homePage": "Hubo un problema al leer las configuraciones del usuario, por favor, reinicie la aplicación...",
     "getNotesError_snapshotHasError_homePage": "Error al leer las notas, por favor, reinicia la aplicación...",
-    "noNotesCreated_text_homePage": "No tienes ninguna nota creada.",
+    "noNotesCreated_text_homePage": "No tienes ninguna nota o carpeta creada.",
     "@_HOME_PAGE_DRAWER_MENU": {},
     "title_drawer_homePage": "Menú de configuración",
     "language_drawer_homePage": "Idioma",
@@ -115,7 +115,7 @@
     "favorite_snackbar_noteUnmarked": "Nota quitada de favoritos",
     "favorite_snackbar_noteUnmarkedAgain": "La nota se ha quitado de favoritos, ningún cambio fue hecho",
     "@_NOTE_FUNCTIONS_COLOR": {},
-    "color_dialog_title": "Elije el color de la nota",
+    "color_dialog_title": "Elije un color",
     "color_snackbar_alreadyHaveThisColor": "Tu nota ya tiene este color",
     "color_snackbar_newColorSelected": "Has seleccionado un nuevo color",
     "@_NOTE_FUNCTIONS_URL": {},
@@ -169,6 +169,6 @@
     "notesService_exception_editingNote": "No se pudo modificar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
     "notesService_exception_deletingNote": "No se pudo borrar la nota, por favor, intenta reiniciando la aplicación y revisa si tu conexión a internet es estable",
     "@_SEARCH_FOR_NOTE_APPBAR": {},
-    "searchNote_text_appbarTextfield": "Busca una nota"
+    "searchNote_text_appbarTextfield": "Busca una nota o una carpeta"
 }
 

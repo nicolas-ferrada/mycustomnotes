@@ -10,6 +10,7 @@ class SnackBarMessage {
       content: Center(
         child: Text(
           message,
+          textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),

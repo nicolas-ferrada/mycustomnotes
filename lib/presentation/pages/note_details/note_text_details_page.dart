@@ -24,7 +24,13 @@ import '../../../utils/snackbars/snackbar_message.dart';
 
 class NoteTextDetailsPage extends StatefulWidget {
   final NoteText noteText;
-  const NoteTextDetailsPage({super.key, required this.noteText});
+  final bool?
+      editingFromSearchBar; // if true, call navigator.pop twice since showmodal dont update
+  const NoteTextDetailsPage({
+    super.key,
+    required this.noteText,
+    this.editingFromSearchBar,
+  });
 
   @override
   State<NoteTextDetailsPage> createState() => _NoteTextDetailsPageState();
@@ -299,19 +305,27 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 onTimeout: () {
                   Provider.of<NoteNotifier>(context, listen: false)
                       .refreshNotes();
-
-                  Navigator.maybePop(context)
-                      .then((_) => Navigator.maybePop(context));
+                  // Double navigator.pop when editing from search bar to avoid not updating bug
+                  if (widget.editingFromSearchBar != null &&
+                      widget.editingFromSearchBar == true) {
+                    Navigator.maybePop(context)
+                        .then((_) => Navigator.maybePop(context));
+                  } else {
+                    Navigator.maybePop(context);
+                  }
                 },
               );
             }
-
             if (context.mounted) {
               Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
-              // Double to close the showModalBottomSheet in case user is editting
-              // from search notes
-              Navigator.maybePop(context)
-                  .then((_) => Navigator.maybePop(context));
+              // Double navigator.pop when editing from search bar to avoid not updating bug
+              if (widget.editingFromSearchBar != null &&
+                  widget.editingFromSearchBar == true) {
+                Navigator.maybePop(context)
+                    .then((_) => Navigator.maybePop(context));
+              } else {
+                Navigator.maybePop(context);
+              }
             }
           } catch (errorMessage) {
             ExceptionsAlertDialog.showErrorDialog(

@@ -34,7 +34,13 @@ class Tasks {
 
 class NoteTasksDetailsPage extends StatefulWidget {
   final NoteTasks noteTasks;
-  const NoteTasksDetailsPage({super.key, required this.noteTasks});
+  final bool?
+      editingFromSearchBar; // if true, call navigator.pop twice since showmodal dont update
+  const NoteTasksDetailsPage({
+    super.key,
+    required this.noteTasks,
+    this.editingFromSearchBar,
+  });
 
   @override
   State<NoteTasksDetailsPage> createState() => _NoteTasksDetailsPageState();
@@ -603,19 +609,39 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                       Provider.of<NoteNotifier>(context, listen: false)
                           .refreshNotes();
 
-                      Navigator.maybePop(context)
-                          .then((_) => Navigator.maybePop(context));
+                      // Double navigator.pop when editing from search bar to avoid not updating bug
+                      if (widget.editingFromSearchBar != null &&
+                          widget.editingFromSearchBar == true) {
+                        Navigator.maybePop(context)
+                            .then((_) => Navigator.maybePop(context));
+                      } else {
+                        Navigator.maybePop(context);
+                      }
                     },
                   );
                 }
                 if (context.mounted) {
-                  Provider.of<NoteNotifier>(context, listen: false)
-                      .refreshNotes();
-
-                  // Double to close the showModalBottomSheet in case user is editting
-                  // from search notes
-                  Navigator.maybePop(context)
-                      .then((_) => Navigator.maybePop(context));
+                  context.read<NoteNotifier>().refreshNotes();
+                  // Double navigator.pop when editing from search bar to avoid not updating bug
+                  if (widget.editingFromSearchBar != null &&
+                      widget.editingFromSearchBar == true) {
+                    Navigator.maybePop(context)
+                        .then((_) => Navigator.maybePop(context));
+                  } else {
+                    Navigator.maybePop(context)
+                        .then((_) => Navigator.maybePop(context).then((_) {
+                              // Navigator.pushNamed(
+                              //     context, foldersDetailsPageRoute,
+                              //     arguments: {
+                              //       'folder': folder,
+                              //       'noteTextList': notesTextList,
+                              //       'noteTasksList': notesTasksList,
+                              //       'userConfiguration': userConfiguration,
+                              //       'editingFromSearchBar':
+                              //           editingFromSearchBar,
+                              //     });
+                            }));
+                  }
                 }
               } catch (errorMessage) {
                 ExceptionsAlertDialog.showErrorDialog(

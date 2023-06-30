@@ -34,7 +34,7 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
                 AppLocalizations.of(context)!.color_dialog_title,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),

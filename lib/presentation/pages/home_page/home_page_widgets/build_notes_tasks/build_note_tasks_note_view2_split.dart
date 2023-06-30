@@ -12,10 +12,12 @@ import '../../../../../utils/note_color/note_color.dart';
 class NoteTasksView2Split extends StatelessWidget {
   final NoteTasks note;
   final UserConfiguration userConfiguration;
+  final bool isSelected;
   NoteTasksView2Split({
     super.key,
     required this.note,
     required this.userConfiguration,
+    required this.isSelected,
   });
 
   bool didNoTaskToDoMessageShow = false;
@@ -25,7 +27,9 @@ class NoteTasksView2Split extends StatelessWidget {
     return Card(
       elevation: 2,
       // Color of the note
-      color: NoteColorOperations.getColorFromNumber(colorNumber: note.color),
+      color: isSelected
+          ? Colors.white
+          : NoteColorOperations.getColorFromNumber(colorNumber: note.color),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(

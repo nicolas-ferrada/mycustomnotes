@@ -25,6 +25,7 @@ class UserConfigurationService {
           dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
               LastModificationTimeFormat.hours24.value,
           notesView: NotesView.small.notesViewId,
+          areNotesBeingVisible: true,
         );
 
         final userConfigurationJson = json.encode(userConfiguration.toMap());
@@ -62,8 +63,14 @@ class UserConfigurationService {
             await createUserConfigurations(userId: userId, context: context);
       } else {
         // the config exists, get it
-        userConfiguration =
-            UserConfiguration.fromMap(json.decode(userConfigurationJson!));
+        try {
+          userConfiguration =
+              UserConfiguration.fromMap(json.decode(userConfigurationJson!));
+        } catch (_) {
+          // if fails loading the config, just reset it
+          userConfiguration =
+              await createUserConfigurations(userId: userId, context: context);
+        }
       }
 
       return userConfiguration;
@@ -79,6 +86,7 @@ class UserConfigurationService {
     required String userId,
     String? dateTimeFormat,
     int? notesView,
+    bool? areNotesBeingVisible,
   }) async {
     try {
       final SharedPreferences preferences =
@@ -98,6 +106,8 @@ class UserConfigurationService {
           userId: userId,
           dateTimeFormat: dateTimeFormat ?? currentConfiguration.dateTimeFormat,
           notesView: notesView ?? currentConfiguration.notesView,
+          areNotesBeingVisible:
+              areNotesBeingVisible ?? currentConfiguration.areNotesBeingVisible,
         );
 
         final userConfigurationJson = json.encode(newConfiguration.toMap());

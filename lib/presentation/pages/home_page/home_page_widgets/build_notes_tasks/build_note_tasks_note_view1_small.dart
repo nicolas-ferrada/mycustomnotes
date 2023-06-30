@@ -13,10 +13,12 @@ import '../../../../../utils/note_color/note_color.dart';
 class NoteTasksView1Small extends StatelessWidget {
   final NoteTasks note;
   final UserConfiguration userConfiguration;
+  final bool isSelected;
   NoteTasksView1Small({
     super.key,
     required this.note,
     required this.userConfiguration,
+    required this.isSelected,
   });
 
   bool didNoTaskToDoMessageShow = false;
@@ -24,7 +26,7 @@ class NoteTasksView1Small extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey.shade900,
+      color: isSelected ? Colors.white70 : Colors.grey.shade900,
       shape: const BeveledRectangleBorder(),
       margin: EdgeInsets.zero,
       child: Row(

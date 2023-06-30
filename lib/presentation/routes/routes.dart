@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
+import '../../data/models/Note/folder_model.dart';
 import '../../data/models/Note/note_tasks_model.dart';
 import '../../data/models/Note/note_text_model.dart';
 import '../../l10n/l10n_export.dart';
 import '../pages/email_verification_page/email_verification_page.dart';
+import '../pages/folder/folder_details_page.dart';
 import '../pages/home_page/home_page.dart';
 import '../pages/login_page/login_page.dart';
 import '../pages/note_create/note_tasks_create_page.dart';
@@ -19,6 +22,7 @@ const String noteTextCreatePageRoute = '/noteTextCreatePage';
 const String noteTasksCreatePageRoute = '/noteTasksCreatePage';
 const String noteTextDetailsPageRoute = '/noteTextDetailsPage';
 const String noteTasksDetailsPageRoute = '/noteTasksDetailsPage';
+const String foldersDetailsPageRoute = '/foldersDetailsPage';
 const String loginPageRoute = '/loginPage';
 const String registerPageRoute = '/registerPage';
 const String emailVerificationPageRoute = '/emailVerificationPage';
@@ -33,14 +37,50 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const NoteTextCreatePage());
       case noteTasksCreatePageRoute:
         return MaterialPageRoute(builder: (_) => const NoteTasksCreatePage());
+
       case noteTextDetailsPageRoute:
-        final noteText = settings.arguments as NoteText;
+        final Map<String, dynamic>? args =
+            settings.arguments as Map<String, dynamic>?;
+        final NoteText noteText = args?['noteText'];
+        final bool? editingFromSearchBar = args?['editingFromSearchBar'];
         return MaterialPageRoute(
-            builder: (context) => NoteTextDetailsPage(noteText: noteText));
+            builder: (context) => NoteTextDetailsPage(
+                  noteText: noteText,
+                  editingFromSearchBar: editingFromSearchBar,
+                ));
+
       case noteTasksDetailsPageRoute:
-        final noteTasks = settings.arguments as NoteTasks;
+        final Map<String, dynamic>? args =
+            settings.arguments as Map<String, dynamic>?;
+        final NoteTasks noteTasks = args?['noteTasks'];
+        final bool? editingFromSearchBar = args?['editingFromSearchBar'];
         return MaterialPageRoute(
-            builder: (context) => NoteTasksDetailsPage(noteTasks: noteTasks));
+            builder: (context) => NoteTasksDetailsPage(
+                  noteTasks: noteTasks,
+                  editingFromSearchBar: editingFromSearchBar,
+                ));
+
+      case foldersDetailsPageRoute:
+        final Map<String, dynamic>? args =
+            settings.arguments as Map<String, dynamic>?;
+        final Folder? folder = args?['folder']; // The folder opened
+        final List<NoteText>? noteTextList =
+            args?['noteTextList']; // All notes text
+        final List<NoteTasks>? noteTasksList =
+            args?['noteTasksList']; // All notes tasks
+        final UserConfiguration userConfiguration =
+            args?['userConfiguration']; // All notes tasks
+        final bool? editingFromSearchBar = args?[
+            'editingFromSearchBar']; // Is it being edited from search bar?
+        return MaterialPageRoute(
+            builder: (context) => FolderDetailsPage(
+                  folder: folder,
+                  noteTasksList: noteTasksList,
+                  noteTextList: noteTextList,
+                  userConfiguration: userConfiguration,
+                  editingFromSearchBar: editingFromSearchBar,
+                ));
+
       case loginPageRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case registerPageRoute:

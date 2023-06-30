@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
 
+import '../../../../data/models/Note/folder_model.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../data/models/User/user_configuration.dart';
-import 'home_page_build_notes_widget.dart';
+import 'home_page_build_notes_folders_widget.dart';
 
 class AppBarHomePage extends StatefulWidget {
   final List<NoteText> textNotes;
   final List<NoteTasks> tasksNotes;
   final UserConfiguration userConfiguration;
+  final List<Folder> folders;
   const AppBarHomePage({
     super.key,
     required this.textNotes,
     required this.tasksNotes,
     required this.userConfiguration,
+    required this.folders,
   });
 
   @override
@@ -24,6 +27,7 @@ class AppBarHomePage extends StatefulWidget {
 class _AppBarHomePageState extends State<AppBarHomePage> {
   List<NoteText> filteredTextNotes = [];
   List<NoteTasks> filteredTasksNotes = [];
+  List<Folder> filteredFolders = [];
   final TextEditingController filter = TextEditingController();
 
   @override
@@ -92,6 +96,7 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
                         setState(() {
                           filterTextNotes();
                           filterTasksNotes();
+                          filterFolders();
                         });
                       },
                       decoration: InputDecoration(
@@ -114,16 +119,20 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
                   // If is empty, user did not apply any filter yet.
                   Expanded(
                     child: filter.text.isEmpty
-                        ? HomePageBuildNotesWidget(
+                        ? HomePageBuildNotesAndFoldersWidget(
                             notesTasksList: widget.tasksNotes,
                             notesTextList: widget.textNotes,
                             userConfiguration: widget.userConfiguration,
+                            folders: widget.folders,
+                            editingFromSearchBar: true,
                           )
                         // User is writing in the filter
-                        : HomePageBuildNotesWidget(
+                        : HomePageBuildNotesAndFoldersWidget(
                             notesTasksList: filteredTasksNotes,
                             notesTextList: filteredTextNotes,
+                            folders: filteredFolders,
                             userConfiguration: widget.userConfiguration,
+                            editingFromSearchBar: true,
                           ),
                   ),
                 ],
@@ -165,6 +174,16 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
         }
       }
       return false;
+    }).toList();
+  }
+
+  filterFolders() {
+    filteredFolders = widget.folders.where((folder) {
+      final folderTitle = folder.name.toLowerCase();
+      final input = filter.text.toLowerCase();
+
+      final bool folders = folderTitle.contains(input);
+      return folders;
     }).toList();
   }
 }

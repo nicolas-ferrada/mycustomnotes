@@ -191,7 +191,7 @@
     "@getNotesError_snapshotHasError_homePage": {
         "description": "Getting the user notes future resolved with an error"
     },
-    "noNotesCreated_text_homePage": "You don't have any note created.",
+    "noNotesCreated_text_homePage": "You don't have any note or folder created.",
     "@noNotesCreated_text_homePage": {
         "description": "User have no notes created"
     },
@@ -385,7 +385,7 @@
         "description": "Snackbar message to tell the user that the note is again unmarked from favorites"
     },
     "@_NOTE_FUNCTIONS_COLOR": {},
-    "color_dialog_title": "Pick the note's color",
+    "color_dialog_title": "Pick a color",
     "@color_dialog_title": {
         "description": "Pick note color dialog title"
     },
@@ -574,7 +574,7 @@
         "description": "User unable to delete a note"
     },
     "@_SEARCH_FOR_NOTE_APPBAR": {},
-    "searchNote_text_appbarTextfield": "Search for a note",
+    "searchNote_text_appbarTextfield": "Search for a note or folder",
     "@searchNote_text_appbarTextfield": {
         "description": "Message used in a textfield placed in the search icon to find notes"
     }
