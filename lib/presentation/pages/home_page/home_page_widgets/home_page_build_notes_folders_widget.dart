@@ -402,14 +402,12 @@ class _HomePageBuildNotesAndFoldersWidgetState
                           widget.didSelectedNoteChanged!();
                           if (selectedTextNotes.contains(allNotes[index])) {
                             selectedTextNotes.remove(allNotes[index]);
-                            widget.updateSelectedNoteText!(
-                              selectedTextNotes,
-                            );
-                            widget.didSelectedNoteChanged;
+                            widget.updateSelectedNoteText!(selectedTextNotes);
+                            widget.updateSelectedNoteTasks!(selectedTasksNotes);
                           } else {
                             selectedTextNotes.add(allNotes[index]);
                             widget.updateSelectedNoteText!(selectedTextNotes);
-                            widget.didSelectedNoteChanged;
+                            widget.updateSelectedNoteTasks!(selectedTasksNotes);
                           }
                         });
                       }
@@ -419,12 +417,12 @@ class _HomePageBuildNotesAndFoldersWidgetState
                           widget.didSelectedNoteChanged!();
                           if (selectedTasksNotes.contains(allNotes[index])) {
                             selectedTasksNotes.remove(allNotes[index]);
+                            widget.updateSelectedNoteText!(selectedTextNotes);
                             widget.updateSelectedNoteTasks!(selectedTasksNotes);
                           } else {
                             selectedTasksNotes.add(allNotes[index]);
-                            widget.updateSelectedNoteTasks!(
-                              selectedTasksNotes,
-                            );
+                            widget.updateSelectedNoteText!(selectedTextNotes);
+                            widget.updateSelectedNoteTasks!(selectedTasksNotes);
                           }
                         });
                       }
