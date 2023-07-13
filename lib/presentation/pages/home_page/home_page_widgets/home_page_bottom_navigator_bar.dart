@@ -5,9 +5,8 @@ import 'package:mycustomnotes/l10n/l10n_export.dart';
 
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../utils/dialogs/select_create_note_type.dart';
-import '../../../routes/routes.dart';
+import '../../folder/folder_details_page.dart';
 
-// Create a new note button
 class BottomNavigationBarHomePage extends StatefulWidget {
   final UserConfiguration userConfiguration;
   final List<NoteText> notesTextList;
@@ -32,11 +31,16 @@ class _BottomNavigationBarHomePageState
       onTap: (itemTapped) async {
         if (itemTapped == 0) {
           // Create folder
-          Navigator.pushNamed(context, foldersDetailsPageRoute, arguments: {
-            'noteTextList': widget.notesTextList,
-            'noteTasksList': widget.notesTasksList,
-            'userConfiguration': widget.userConfiguration
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FolderDetailsPage(
+                noteTextList: widget.notesTextList,
+                noteTasksList: widget.notesTasksList,
+                userConfiguration: widget.userConfiguration,
+              ),
+            ),
+          );
         } else if (itemTapped == 1) {
           // Create note
           await SelectCreateNoteType.noteDetailsDialog(context);

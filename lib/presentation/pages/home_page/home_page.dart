@@ -14,6 +14,7 @@ import '../../../domain/services/note_tasks_service.dart';
 import '../../../domain/services/note_text_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
 import '../../../l10n/l10n_export.dart';
+import '../folder/folder_details_page.dart';
 import 'home_page_widgets/home_page_app_bar.dart';
 import 'home_page_widgets/home_page_build_notes_folders_widget.dart';
 import 'home_page_widgets/home_page_navigation_drawer.dart';
@@ -48,6 +49,8 @@ class _HomePageState extends State<HomePage> {
     userConfiguration = await getUserConfiguration();
     setState(() {});
   }
+
+
 
   @override
   Widget build(BuildContext context) {

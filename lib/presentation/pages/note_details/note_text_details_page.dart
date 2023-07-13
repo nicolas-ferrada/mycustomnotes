@@ -24,12 +24,14 @@ import '../../../utils/snackbars/snackbar_message.dart';
 
 class NoteTextDetailsPage extends StatefulWidget {
   final NoteText noteText;
+  final bool? isBeingEditedInFolder;
   final bool?
       editingFromSearchBar; // if true, call navigator.pop twice since showmodal dont update
   const NoteTextDetailsPage({
     super.key,
     required this.noteText,
     this.editingFromSearchBar,
+    this.isBeingEditedInFolder,
   });
 
   @override
@@ -324,7 +326,13 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                 Navigator.maybePop(context)
                     .then((_) => Navigator.maybePop(context));
               } else {
-                Navigator.maybePop(context);
+                Navigator.maybePop(context).then((_) {
+                  Map<String, dynamic> arguments = {
+                    'newNote': newNote,
+                    'isBeingEditedInFolder': widget.isBeingEditedInFolder,
+                  };
+                  Navigator.maybePop(context, arguments);
+                });
               }
             }
           } catch (errorMessage) {

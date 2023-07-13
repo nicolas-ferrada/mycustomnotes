@@ -6,17 +6,23 @@ import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/bui
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view3_large.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view1_small.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view2_split.dart';
+import 'package:mycustomnotes/presentation/pages/note_details/note_text_details_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../data/models/Note/folder_model.dart';
+import '../../../../data/models/Note/note_notifier.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../domain/services/user_configuration_service.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../routes/routes.dart';
+import '../../folder/folder_details_page.dart';
 import 'build_folders/build_folder_view1_small.dart';
 import 'build_folders/build_folder_view2_split.dart';
 import 'build_folders/build_folder_view3_large.dart';
 import 'build_notes_text/build_note_text_note_view3_large.dart';
+
+import 'dart:developer' as log;
 
 class HomePageBuildNotesAndFoldersWidget extends StatefulWidget {
   final List<NoteText> notesTextList;
@@ -101,6 +107,20 @@ class _HomePageBuildNotesAndFoldersWidgetState
     return storedNotesFolder;
   }
 
+  List<NoteText> updateNewNotesEdited(NoteText? newNote) {
+    List<NoteText> updatedList = List.from(widget.notesTextList);
+
+    if (newNote != null) {
+      for (int i = 0; i < updatedList.length; i++) {
+        if (updatedList[i].id == newNote.id) {
+          updatedList[i] = newNote;
+        }
+      }
+    }
+
+    return updatedList;
+  }
+
   List<NoteText> getAlreadySelectedNoteText(List<dynamic> allNotes) {
     List<NoteText> selectedNoteText = [];
 
@@ -133,6 +153,12 @@ class _HomePageBuildNotesAndFoldersWidgetState
     }
 
     return selectedNoteTasks;
+  }
+
+  updateVariables() {
+    setState(() {
+      widget.updateUserConfiguration!();
+    });
   }
 
   @override
@@ -269,14 +295,7 @@ class _HomePageBuildNotesAndFoldersWidgetState
             // Tapping on a folder, opens the detailed version of it
             onTap: () {
               Folder folder = widget.folders![index];
-
-              Navigator.pushNamed(context, foldersDetailsPageRoute, arguments: {
-                'folder': folder,
-                'noteTextList': widget.notesTextList,
-                'noteTasksList': widget.notesTasksList,
-                'userConfiguration': widget.userConfiguration,
-                'editingFromSearchBar': widget.editingFromSearchBar,
-              });
+              navigateToFolderDetails(folder: folder);
             },
             // build each note per type/view
             child: showFolders(
@@ -287,6 +306,43 @@ class _HomePageBuildNotesAndFoldersWidgetState
         }),
       ),
     );
+  }
+
+  void navigateToFolderDetails({required Folder folder, dynamic note}) {
+    // when a folder is closed by double navigator.pop after a note is saved,
+    // if it's being edited inside a folder, then open the same folder updated
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FolderDetailsPage(
+            folder: folder,
+            noteTextList: updateNewNotesEdited(note),
+            noteTasksList: widget.notesTasksList,
+            userConfiguration: widget.userConfiguration,
+            editingFromSearchBar: widget.editingFromSearchBar,
+            updateVariablesInPreviousPage: updateVariables,
+          ),
+        )).then((arguments) {
+      if (arguments != null && arguments['isBeingEditedInFolder'] == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FolderDetailsPage(
+              folder: folder,
+              noteTextList: updateNewNotesEdited(arguments['newNote']),
+              noteTasksList: widget.notesTasksList,
+              userConfiguration: widget.userConfiguration,
+              editingFromSearchBar: widget.editingFromSearchBar,
+              updateVariablesInPreviousPage: updateVariables,
+            ),
+          ),
+        ).then((arguments) {
+          if (arguments != null && arguments['isBeingEditedInFolder']) {
+            navigateToFolderDetails(folder: folder, note: arguments['newNote']);
+          }
+        });
+      }
+    });
   }
 
   // All notes are being shown
@@ -500,11 +556,16 @@ class _HomePageBuildNotesAndFoldersWidgetState
                     if (allNotes[index] is NoteText) {
                       NoteText noteText = allNotes[index];
                       // Open the detailed version of the NoteText
-                      Navigator.pushNamed(context, noteTextDetailsPageRoute,
-                          arguments: {
-                            'noteText': noteText,
-                            'editingFromSearchBar': widget.editingFromSearchBar,
-                          });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteTextDetailsPage(
+                            noteText: noteText,
+                            editingFromSearchBar: widget.editingFromSearchBar,
+                            isBeingEditedInFolder: true,
+                          ),
+                        ),
+                      );
                     }
                     // Check if the tapped note is a NoteTasks
                     else if (allNotes[index] is NoteTasks) {

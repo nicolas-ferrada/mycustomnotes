@@ -7,6 +7,7 @@ import 'package:mycustomnotes/utils/dialogs/delete_folder_confirmation.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/folder_model.dart';
+import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
 import '../../../domain/services/auth_user_service.dart';
@@ -27,8 +28,9 @@ class FolderDetailsPage extends StatefulWidget {
   final List<NoteText>? noteTextList;
   final List<NoteTasks>? noteTasksList;
   final UserConfiguration userConfiguration;
-  final bool?
-      editingFromSearchBar; // if true, call navigator.pop twice since showmodal dont update
+  final bool? editingFromSearchBar; // if true, call navigator.pop twice
+  final Function? updateVariablesInPreviousPage;
+
   const FolderDetailsPage({
     super.key,
     this.folder,
@@ -36,6 +38,7 @@ class FolderDetailsPage extends StatefulWidget {
     this.noteTasksList,
     required this.userConfiguration,
     this.editingFromSearchBar,
+    this.updateVariablesInPreviousPage,
   });
 
   @override
@@ -178,42 +181,47 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
           ),
         ),
 
-        body:
-            // If areNotesBeingEdited is false, only stored notes will be shown
-            // if is true, all notes will be shown inside the folder, allowing the user to select
-            HomePageBuildNotesAndFoldersWidget(
-          notesTasksList: widget.noteTasksList ?? [],
-          notesTextList: widget.noteTextList ?? [],
-          userConfiguration: widget.userConfiguration,
-          areNotesBeingEdited: isFolderInEditMode,
-          updateSelectedNoteText: updateSelectedNoteText,
-          updateSelectedNoteTasks: updateSelectedNoteTasks,
-          currentFolder: widget.folder,
-          didSelectedNoteChanged: selectedNoteChanged,
-          editingFromSearchBar: false,
+        body: Consumer<FolderNotifier>(
+          builder: (context, folderNotifier, _) {
+            return HomePageBuildNotesAndFoldersWidget(
+              notesTasksList: widget.noteTasksList ?? [],
+              notesTextList: widget.noteTextList ?? [],
+              userConfiguration: widget.userConfiguration,
+              areNotesBeingEdited: isFolderInEditMode,
+              updateSelectedNoteText: updateSelectedNoteText,
+              updateSelectedNoteTasks: updateSelectedNoteTasks,
+              currentFolder: widget.folder,
+              didSelectedNoteChanged: selectedNoteChanged,
+              editingFromSearchBar: false,
+            );
+          },
         ),
+
         // Save button, only visible if user changes the note
         floatingActionButton: saveButton(context),
       ),
     );
   }
 
-  Visibility saveButton(BuildContext context) {
-    return Visibility(
-      // Button will be visible if any field changed
-      visible: didUserMadeChanges(),
-      child: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-        child: const Icon(Icons.save),
-        onPressed: () async {
-          if (widget.folder != null) {
-            editingFolder();
-          } else {
-            creatingFolder();
-          }
-        },
-      ),
+  Widget saveButton(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          heroTag: null,
+          shape: const CircleBorder(),
+          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+          child: const Icon(Icons.save),
+          onPressed: () async {
+            if (widget.folder != null) {
+              editingFolder();
+            } else {
+              creatingFolder();
+            }
+          },
+        ),
+      ],
     );
   }
 
