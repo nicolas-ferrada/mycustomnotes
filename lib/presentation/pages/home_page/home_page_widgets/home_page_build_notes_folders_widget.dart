@@ -176,6 +176,15 @@ class _HomePageBuildNotesAndFoldersWidgetState
     ];
     selectedTextNotes = getAlreadySelectedNoteText(allNotes);
     selectedTasksNotes = getAlreadySelectedNoteTasks(allNotes);
+    // Delay function to avoid error
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.updateSelectedNoteTasks != null) {
+        widget.updateSelectedNoteTasks!(selectedTasksNotes);
+      }
+      if (widget.updateSelectedNoteText != null) {
+        widget.updateSelectedNoteText!(selectedTextNotes);
+      }
+    });
   }
 
   @override

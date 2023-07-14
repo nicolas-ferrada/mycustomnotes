@@ -181,20 +181,16 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
           ),
         ),
 
-        body: Consumer<FolderNotifier>(
-          builder: (context, folderNotifier, _) {
-            return HomePageBuildNotesAndFoldersWidget(
-              notesTasksList: widget.noteTasksList ?? [],
-              notesTextList: widget.noteTextList ?? [],
-              userConfiguration: widget.userConfiguration,
-              areNotesBeingEdited: isFolderInEditMode,
-              updateSelectedNoteText: updateSelectedNoteText,
-              updateSelectedNoteTasks: updateSelectedNoteTasks,
-              currentFolder: widget.folder,
-              didSelectedNoteChanged: selectedNoteChanged,
-              editingFromSearchBar: false,
-            );
-          },
+        body: HomePageBuildNotesAndFoldersWidget(
+          notesTasksList: widget.noteTasksList ?? [],
+          notesTextList: widget.noteTextList ?? [],
+          userConfiguration: widget.userConfiguration,
+          areNotesBeingEdited: isFolderInEditMode,
+          updateSelectedNoteText: updateSelectedNoteText,
+          updateSelectedNoteTasks: updateSelectedNoteTasks,
+          currentFolder: widget.folder,
+          didSelectedNoteChanged: selectedNoteChanged,
+          editingFromSearchBar: false,
         ),
 
         // Save button, only visible if user changes the note
