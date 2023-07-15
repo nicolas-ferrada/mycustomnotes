@@ -107,13 +107,17 @@ class _HomePageBuildNotesAndFoldersWidgetState
     return storedNotesFolder;
   }
 
-  List<NoteText> updateNewNotesEdited(NoteText? newNote) {
+  List<NoteText> updateNewNotesEdited({NoteText? newNote, bool? delete}) {
     List<NoteText> updatedList = List.from(widget.notesTextList);
 
     if (newNote != null) {
-      for (int i = 0; i < updatedList.length; i++) {
-        if (updatedList[i].id == newNote.id) {
-          updatedList[i] = newNote;
+      if (delete != null && delete == true) {
+        updatedList.removeWhere((note) => note.id == newNote.id);
+      } else {
+        for (int i = 0; i < updatedList.length; i++) {
+          if (updatedList[i].id == newNote.id) {
+            updatedList[i] = newNote;
+          }
         }
       }
     }
@@ -317,7 +321,8 @@ class _HomePageBuildNotesAndFoldersWidgetState
     );
   }
 
-  void navigateToFolderDetails({required Folder folder, dynamic note}) {
+  void navigateToFolderDetails(
+      {required Folder folder, dynamic note, bool? delete}) {
     // when a folder is closed by double navigator.pop after a note is saved,
     // if it's being edited inside a folder, then open the same folder updated
     Navigator.push(
@@ -325,7 +330,7 @@ class _HomePageBuildNotesAndFoldersWidgetState
         MaterialPageRoute(
           builder: (context) => FolderDetailsPage(
             folder: folder,
-            noteTextList: updateNewNotesEdited(note),
+            noteTextList: updateNewNotesEdited(newNote: note, delete: delete),
             noteTasksList: widget.notesTasksList,
             userConfiguration: widget.userConfiguration,
             editingFromSearchBar: widget.editingFromSearchBar,
@@ -338,7 +343,8 @@ class _HomePageBuildNotesAndFoldersWidgetState
           MaterialPageRoute(
             builder: (context) => FolderDetailsPage(
               folder: folder,
-              noteTextList: updateNewNotesEdited(arguments['newNote']),
+              noteTextList: updateNewNotesEdited(
+                  newNote: arguments['newNote'], delete: arguments['delete']),
               noteTasksList: widget.notesTasksList,
               userConfiguration: widget.userConfiguration,
               editingFromSearchBar: widget.editingFromSearchBar,
@@ -347,7 +353,11 @@ class _HomePageBuildNotesAndFoldersWidgetState
           ),
         ).then((arguments) {
           if (arguments != null && arguments['isBeingEditedInFolder']) {
-            navigateToFolderDetails(folder: folder, note: arguments['newNote']);
+            navigateToFolderDetails(
+              folder: folder,
+              note: arguments['newNote'],
+              delete: arguments['delete'],
+            );
           }
         });
       }

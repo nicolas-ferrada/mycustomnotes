@@ -405,7 +405,11 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           // Delete note
           try {
             DeleteNoteConfirmation.deleteNoteDialog(
-                context: context, note: widget.noteText);
+              context: context,
+              note: widget.noteText,
+              editingFromSearchBar: widget.editingFromSearchBar,
+              isBeingEditedInFolder: widget.isBeingEditedInFolder,
+            );
           } catch (errorMessage) {
             await ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());

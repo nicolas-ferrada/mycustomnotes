@@ -17,6 +17,8 @@ class DeleteNoteConfirmation {
   static Future<void> deleteNoteDialog({
     required BuildContext context,
     required dynamic note,
+    bool? editingFromSearchBar,
+    bool? isBeingEditedInFolder,
   }) {
     return showDialog<void>(
       context: context,
@@ -62,11 +64,12 @@ class DeleteNoteConfirmation {
                                 .timeout(
                               Duration(seconds: waitingConnection),
                               onTimeout: () {
-                                Provider.of<NoteNotifier>(context,
-                                        listen: false)
-                                    .refreshNotes();
-                                Navigator.pop(context);
-                                Navigator.maybePop(context);
+                                deleteOperations(
+                                  context: context,
+                                  note: note,
+                                  editingFromSearchBar: editingFromSearchBar,
+                                  isBeingEditedInFolder: editingFromSearchBar,
+                                );
                               },
                             );
                           }
@@ -77,11 +80,12 @@ class DeleteNoteConfirmation {
                                 .timeout(
                               Duration(seconds: waitingConnection),
                               onTimeout: () {
-                                Provider.of<NoteNotifier>(context,
-                                        listen: false)
-                                    .refreshNotes();
-                                Navigator.pop(context);
-                                Navigator.maybePop(context);
+                                deleteOperations(
+                                  context: context,
+                                  note: note,
+                                  editingFromSearchBar: editingFromSearchBar,
+                                  isBeingEditedInFolder: editingFromSearchBar,
+                                );
                               },
                             );
                           }
@@ -91,12 +95,13 @@ class DeleteNoteConfirmation {
                                 .deleteNote_dialog_exceptionNoteNotFound);
                           }
                         }
-
                         if (context.mounted) {
-                          Provider.of<NoteNotifier>(context, listen: false)
-                              .refreshNotes();
-                          Navigator.pop(context);
-                          Navigator.maybePop(context);
+                          deleteOperations(
+                            context: context,
+                            note: note,
+                            editingFromSearchBar: editingFromSearchBar,
+                            isBeingEditedInFolder: isBeingEditedInFolder,
+                          );
                         }
                       } catch (errorMessage) {
                         if (context.mounted) {
@@ -136,5 +141,29 @@ class DeleteNoteConfirmation {
         );
       },
     );
+  }
+
+  static deleteOperations({
+    required BuildContext context,
+    bool? editingFromSearchBar,
+    bool? isBeingEditedInFolder,
+    required dynamic note,
+  }) {
+    Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+    if (editingFromSearchBar != null && editingFromSearchBar == true) {
+      Navigator.maybePop(context).then((_) =>
+          Navigator.maybePop(context).then((_) => Navigator.maybePop(context)));
+    } else {
+      Navigator.maybePop(context).then((_) {
+        Navigator.maybePop(context).then((value) {
+          Map<String, dynamic> arguments = {
+            'newNote': note,
+            'isBeingEditedInFolder': isBeingEditedInFolder,
+            'delete': true,
+          };
+          Navigator.maybePop(context, arguments);
+        });
+      });
+    }
   }
 }
