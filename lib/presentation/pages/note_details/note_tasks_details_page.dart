@@ -36,10 +36,12 @@ class NoteTasksDetailsPage extends StatefulWidget {
   final NoteTasks noteTasks;
   final bool?
       editingFromSearchBar; // if true, call navigator.pop twice since showmodal dont update
+  final bool? isBeingEditedInFolder;
   const NoteTasksDetailsPage({
     super.key,
     required this.noteTasks,
     this.editingFromSearchBar,
+    this.isBeingEditedInFolder,
   });
 
   @override
@@ -615,7 +617,14 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                         Navigator.maybePop(context)
                             .then((_) => Navigator.maybePop(context));
                       } else {
-                        Navigator.maybePop(context);
+                        Navigator.maybePop(context).then((_) {
+                          Map<String, dynamic> arguments = {
+                            'newNote': newNote,
+                            'isBeingEditedInFolder':
+                                widget.isBeingEditedInFolder,
+                          };
+                          Navigator.maybePop(context, arguments);
+                        });
                       }
                     },
                   );
@@ -628,19 +637,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                     Navigator.maybePop(context)
                         .then((_) => Navigator.maybePop(context));
                   } else {
-                    Navigator.maybePop(context)
-                        .then((_) => Navigator.maybePop(context).then((_) {
-                              // Navigator.pushNamed(
-                              //     context, foldersDetailsPageRoute,
-                              //     arguments: {
-                              //       'folder': folder,
-                              //       'noteTextList': notesTextList,
-                              //       'noteTasksList': notesTasksList,
-                              //       'userConfiguration': userConfiguration,
-                              //       'editingFromSearchBar':
-                              //           editingFromSearchBar,
-                              //     });
-                            }));
+                    Navigator.maybePop(context).then((_) {
+                      Map<String, dynamic> arguments = {
+                        'newNote': newNote,
+                        'isBeingEditedInFolder': widget.isBeingEditedInFolder,
+                      };
+                      Navigator.maybePop(context, arguments);
+                    });
                   }
                 }
               } catch (errorMessage) {
@@ -783,7 +786,11 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           // Delete note
           try {
             DeleteNoteConfirmation.deleteNoteDialog(
-                context: context, note: widget.noteTasks);
+              context: context,
+              note: widget.noteTasks,
+              editingFromSearchBar: widget.editingFromSearchBar,
+              isBeingEditedInFolder: widget.isBeingEditedInFolder,
+            );
           } catch (errorMessage) {
             await ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());

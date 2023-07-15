@@ -68,7 +68,7 @@ class DeleteNoteConfirmation {
                                   context: context,
                                   note: note,
                                   editingFromSearchBar: editingFromSearchBar,
-                                  isBeingEditedInFolder: editingFromSearchBar,
+                                  isBeingEditedInFolder: isBeingEditedInFolder,
                                 );
                               },
                             );
@@ -84,7 +84,7 @@ class DeleteNoteConfirmation {
                                   context: context,
                                   note: note,
                                   editingFromSearchBar: editingFromSearchBar,
-                                  isBeingEditedInFolder: editingFromSearchBar,
+                                  isBeingEditedInFolder: isBeingEditedInFolder,
                                 );
                               },
                             );

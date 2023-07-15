@@ -6,6 +6,7 @@ import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/bui
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view3_large.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view1_small.dart';
 import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view2_split.dart';
+import 'package:mycustomnotes/presentation/pages/note_details/note_tasks_details_page.dart';
 import 'package:mycustomnotes/presentation/pages/note_details/note_text_details_page.dart';
 import 'package:provider/provider.dart';
 
@@ -107,10 +108,28 @@ class _HomePageBuildNotesAndFoldersWidgetState
     return storedNotesFolder;
   }
 
-  List<NoteText> updateNewNotesEdited({NoteText? newNote, bool? delete}) {
+  List<NoteText> updateNewTextNoteEdited({dynamic newNote, bool? delete}) {
     List<NoteText> updatedList = List.from(widget.notesTextList);
 
-    if (newNote != null) {
+    if (newNote != null && newNote is NoteText) {
+      if (delete != null && delete == true) {
+        updatedList.removeWhere((note) => note.id == newNote.id);
+      } else {
+        for (int i = 0; i < updatedList.length; i++) {
+          if (updatedList[i].id == newNote.id) {
+            updatedList[i] = newNote;
+          }
+        }
+      }
+    }
+
+    return updatedList;
+  }
+
+  List<NoteTasks> updateNewTasksNoteEdited({dynamic newNote, bool? delete}) {
+    List<NoteTasks> updatedList = List.from(widget.notesTasksList);
+
+    if (newNote != null && newNote is NoteTasks) {
       if (delete != null && delete == true) {
         updatedList.removeWhere((note) => note.id == newNote.id);
       } else {
@@ -321,8 +340,11 @@ class _HomePageBuildNotesAndFoldersWidgetState
     );
   }
 
-  void navigateToFolderDetails(
-      {required Folder folder, dynamic note, bool? delete}) {
+  void navigateToFolderDetails({
+    required Folder folder,
+    dynamic note,
+    bool? delete,
+  }) {
     // when a folder is closed by double navigator.pop after a note is saved,
     // if it's being edited inside a folder, then open the same folder updated
     Navigator.push(
@@ -330,8 +352,10 @@ class _HomePageBuildNotesAndFoldersWidgetState
         MaterialPageRoute(
           builder: (context) => FolderDetailsPage(
             folder: folder,
-            noteTextList: updateNewNotesEdited(newNote: note, delete: delete),
-            noteTasksList: widget.notesTasksList,
+            noteTextList:
+                updateNewTextNoteEdited(newNote: note, delete: delete),
+            noteTasksList:
+                updateNewTasksNoteEdited(newNote: note, delete: delete),
             userConfiguration: widget.userConfiguration,
             editingFromSearchBar: widget.editingFromSearchBar,
             updateVariablesInPreviousPage: updateVariables,
@@ -343,9 +367,10 @@ class _HomePageBuildNotesAndFoldersWidgetState
           MaterialPageRoute(
             builder: (context) => FolderDetailsPage(
               folder: folder,
-              noteTextList: updateNewNotesEdited(
+              noteTextList: updateNewTextNoteEdited(
                   newNote: arguments['newNote'], delete: arguments['delete']),
-              noteTasksList: widget.notesTasksList,
+              noteTasksList: updateNewTasksNoteEdited(
+                  newNote: arguments['newNote'], delete: arguments['delete']),
               userConfiguration: widget.userConfiguration,
               editingFromSearchBar: widget.editingFromSearchBar,
               updateVariablesInPreviousPage: updateVariables,
@@ -590,11 +615,16 @@ class _HomePageBuildNotesAndFoldersWidgetState
                     else if (allNotes[index] is NoteTasks) {
                       NoteTasks noteTasks = allNotes[index];
                       // Open the detailed version of the NoteTasks
-                      Navigator.pushNamed(context, noteTasksDetailsPageRoute,
-                          arguments: {
-                            'noteTasks': noteTasks,
-                            'editingFromSearchBar': widget.editingFromSearchBar,
-                          });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteTasksDetailsPage(
+                            noteTasks: noteTasks,
+                            editingFromSearchBar: widget.editingFromSearchBar,
+                            isBeingEditedInFolder: true,
+                          ),
+                        ),
+                      );
                     }
                   },
                   // build each note per type/view

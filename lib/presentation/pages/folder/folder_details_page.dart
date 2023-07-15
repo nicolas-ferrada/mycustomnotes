@@ -253,30 +253,13 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         ).timeout(
           Duration(seconds: waitingToConnect),
           onTimeout: () {
-            Provider.of<FolderNotifier>(context, listen: false)
-                .refreshFolders();
-
-            // Double navigator.pop when editing from search bar to avoid not updating bug
-            if (widget.editingFromSearchBar != null &&
-                widget.editingFromSearchBar == true) {
-              Navigator.maybePop(context)
-                  .then((_) => Navigator.maybePop(context));
-            } else {
-              Navigator.maybePop(context);
-            }
+            saveEditingFolder();
           },
         );
       }
 
       if (context.mounted) {
-        Provider.of<FolderNotifier>(context, listen: false).refreshFolders();
-        // Double navigator.pop when editing from search bar to avoid not updating bug
-        if (widget.editingFromSearchBar != null &&
-            widget.editingFromSearchBar == true) {
-          Navigator.maybePop(context).then((_) => Navigator.maybePop(context));
-        } else {
-          Navigator.maybePop(context);
-        }
+        saveEditingFolder();
       }
     } catch (errorMessage) {
       ExceptionsAlertDialog.showErrorDialog(
@@ -316,25 +299,34 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         ).timeout(
           Duration(seconds: waitingToConnectiong),
           onTimeout: () {
-            Provider.of<FolderNotifier>(context, listen: false)
-                .refreshFolders();
-
-            Navigator.maybePop(context)
-                .then((_) => Navigator.maybePop(context));
+            saveCreatingFolder();
           },
         );
       }
 
       if (context.mounted) {
-        Provider.of<FolderNotifier>(context, listen: false).refreshFolders();
-        // Double to close the showModalBottomSheet in case user is editting
-        // from search notes
-        Navigator.maybePop(context).then((_) => Navigator.maybePop(context));
+        saveCreatingFolder();
       }
     } catch (errorMessage) {
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }
+  }
+
+  void saveEditingFolder() {
+    Provider.of<FolderNotifier>(context, listen: false).refreshFolders();
+    // Double navigator.pop when editing from search bar to avoid not updating bug
+    if (widget.editingFromSearchBar != null &&
+        widget.editingFromSearchBar == true) {
+      Navigator.maybePop(context).then((_) => Navigator.maybePop(context));
+    } else {
+      Navigator.maybePop(context);
+    }
+  }
+
+  void saveCreatingFolder() {
+    Provider.of<FolderNotifier>(context, listen: false).refreshFolders();
+    Navigator.maybePop(context).then((_) => Navigator.maybePop(context));
   }
 
   Widget menuCreate() {
