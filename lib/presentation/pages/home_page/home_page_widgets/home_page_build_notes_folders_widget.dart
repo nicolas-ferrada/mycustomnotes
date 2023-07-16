@@ -1,17 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view1_small.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view2_split.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_tasks/build_note_tasks_note_view3_large.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view1_small.dart';
-import 'package:mycustomnotes/presentation/pages/home_page/home_page_widgets/build_notes_text/build_note_text_note_view2_split.dart';
-import 'package:mycustomnotes/presentation/pages/note_details/note_tasks_details_page.dart';
-import 'package:mycustomnotes/presentation/pages/note_details/note_text_details_page.dart';
-import 'package:provider/provider.dart';
+import '../../../../data/models/User/user_configuration.dart';
+import 'build_notes_tasks/build_note_tasks_note_view1_small.dart';
+import 'build_notes_tasks/build_note_tasks_note_view2_split.dart';
+import 'build_notes_tasks/build_note_tasks_note_view3_large.dart';
+import 'build_notes_text/build_note_text_note_view1_small.dart';
+import 'build_notes_text/build_note_text_note_view2_split.dart';
+import '../../note_details/note_tasks_details_page.dart';
+import '../../note_details/note_text_details_page.dart';
 
 import '../../../../data/models/Note/folder_model.dart';
-import '../../../../data/models/Note/note_notifier.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../domain/services/user_configuration_service.dart';
@@ -23,7 +21,6 @@ import 'build_folders/build_folder_view2_split.dart';
 import 'build_folders/build_folder_view3_large.dart';
 import 'build_notes_text/build_note_text_note_view3_large.dart';
 
-import 'dart:developer' as log;
 
 class HomePageBuildNotesAndFoldersWidget extends StatefulWidget {
   final List<NoteText> notesTextList;

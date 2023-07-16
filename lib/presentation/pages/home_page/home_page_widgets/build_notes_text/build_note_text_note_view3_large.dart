@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import '../../../../../data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_text_model.dart';
 import '../../../../../utils/formatters/date_formatter.dart';

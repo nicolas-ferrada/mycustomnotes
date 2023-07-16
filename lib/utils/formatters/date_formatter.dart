@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/utils/extensions/fix_date_format_es.dart';
+import '../../data/models/User/user_configuration.dart';
+import '../extensions/fix_date_format_es.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/services/auth_user_service.dart';

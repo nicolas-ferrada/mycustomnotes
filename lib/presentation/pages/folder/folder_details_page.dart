@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/folder_notifier.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/utils/dialogs/delete_folder_confirmation.dart';
+import '../../../data/models/Note/folder_notifier.dart';
+import '../../../data/models/User/user_configuration.dart';
+import '../../../utils/dialogs/delete_folder_confirmation.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/folder_model.dart';
-import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
 import '../../../domain/services/auth_user_service.dart';

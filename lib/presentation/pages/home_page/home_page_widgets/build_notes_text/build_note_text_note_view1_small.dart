@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/note_text_model.dart';
+import '../../../../../data/models/User/user_configuration.dart';
 import '../../../../../utils/enums/last_modification_date_formats_enum.dart';
 import '../../../../../utils/formatters/date_formatter.dart';
 import '../../../../../utils/note_color/note_color.dart';

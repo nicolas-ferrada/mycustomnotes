@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/folder_notifier.dart';
-import 'package:mycustomnotes/domain/services/folder_service.dart';
+import '../../../data/models/Note/folder_notifier.dart';
+import '../../../domain/services/folder_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/folder_model.dart';
@@ -14,7 +14,6 @@ import '../../../domain/services/note_tasks_service.dart';
 import '../../../domain/services/note_text_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
 import '../../../l10n/l10n_export.dart';
-import '../folder/folder_details_page.dart';
 import 'home_page_widgets/home_page_app_bar.dart';
 import 'home_page_widgets/home_page_build_notes_folders_widget.dart';
 import 'home_page_widgets/home_page_navigation_drawer.dart';

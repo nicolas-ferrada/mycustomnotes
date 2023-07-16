@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/folder_notifier.dart';
-import 'package:mycustomnotes/l10n/l10n.dart';
+import 'data/models/Note/folder_notifier.dart';
+import 'l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

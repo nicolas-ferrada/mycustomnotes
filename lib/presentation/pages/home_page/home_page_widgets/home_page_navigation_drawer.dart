@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/domain/services/user_configuration_service.dart';
-import 'package:mycustomnotes/l10n/change_language.dart';
-import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_date_time_format.dart';
-import 'package:mycustomnotes/utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
-import 'package:mycustomnotes/utils/enums/select_language_enum.dart';
+import '../../../../data/models/User/user_configuration.dart';
+import '../../../../domain/services/user_configuration_service.dart';
+import '../../../../l10n/change_language.dart';
+import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_date_time_format.dart';
+import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
+import '../../../../utils/enums/select_language_enum.dart';
 import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/change_language_dialog.dart';

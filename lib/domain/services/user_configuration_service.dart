@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
-import 'package:mycustomnotes/l10n/l10n_export.dart';
-import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
+import '../../data/models/User/user_configuration.dart';
+import '../../l10n/l10n_export.dart';
+import '../../utils/extensions/formatted_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/enums/last_modification_date_formats_enum.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/l10n/l10n_export.dart';
+import '../../l10n/l10n_export.dart';
 
 import '../formatters/date_formatter.dart';
 

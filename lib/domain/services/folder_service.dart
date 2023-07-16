@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
+import '../../utils/extensions/formatted_message.dart';
 
 import '../../data/models/Note/folder_model.dart';
 import '../../utils/internet/check_internet_connection.dart';

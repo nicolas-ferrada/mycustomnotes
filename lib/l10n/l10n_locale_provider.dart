@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/l10n/l10n.dart';
+import 'l10n.dart';
 
 class L10nLocaleProvider extends ChangeNotifier {
   final String language;

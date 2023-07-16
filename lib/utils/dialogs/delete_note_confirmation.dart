@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/Note/note_tasks_model.dart';
-import 'package:mycustomnotes/l10n/l10n_export.dart';
+import '../../data/models/Note/note_tasks_model.dart';
+import '../../l10n/l10n_export.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/Note/note_notifier.dart';

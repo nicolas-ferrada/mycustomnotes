@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/data/models/User/user_configuration.dart';
+import '../../../../../data/models/User/user_configuration.dart';
 
 import '../../../../../data/models/Note/folder_model.dart';
 import '../../../../../utils/note_color/note_color.dart';

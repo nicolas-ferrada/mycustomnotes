@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/l10n/l10n_export.dart';
-import 'package:mycustomnotes/utils/styles/dialog_title_style.dart';
+import '../../../l10n/l10n_export.dart';
+import '../../styles/dialog_title_style.dart';
 
 import '../../../data/models/User/user_configuration.dart';
 import '../../enums/last_modification_date_formats_enum.dart';
