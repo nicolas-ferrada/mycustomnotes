@@ -25,10 +25,10 @@ class FolderDetailsInfo extends StatelessWidget {
               color: Colors.grey.shade800.withOpacity(0.8),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: const Text(
+          child: Text(
             textAlign: TextAlign.center,
-            'Detalles de la carpeta',
-            style: TextStyle(
+            AppLocalizations.of(context)!.infoFolder_dialog_title,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.bold,

@@ -167,10 +167,11 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
                 });
               }
             },
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: "Folder's name",
-              hintStyle: TextStyle(color: Colors.white70),
+              hintText: AppLocalizations.of(context)!
+                  .folderTitle_textformfield_folder,
+              hintStyle: const TextStyle(color: Colors.white70),
             ),
             style: const TextStyle(
               color: Colors.white70,
@@ -401,7 +402,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
                 color: isFolderInEditMode ? Colors.redAccent : Colors.white,
                 size: 28,
               ),
-              const Text('Editar'),
+              Text(AppLocalizations.of(context)!
+                  .folderFunctionsMenu_popupMenu_edit)
             ],
           ),
         ),
@@ -486,7 +488,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         // Now it's favorite, if it was favorite from the start, then user did not make any changes
         if (widget.folder!.isFavorite) {
           SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-            message: 'Folder marked as favorite again, no changes were made',
+            message: AppLocalizations.of(context)!
+                .favorite_snackbar_folderMarkedAgain,
             backgroundColor: Colors.amber.shade300,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -496,7 +499,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
           // Now it's favorite, but it wasn't from the start, so user made a change
         } else {
           SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-            message: 'Folder marked as favorite',
+            message:
+                AppLocalizations.of(context)!.favorite_snackbar_folderMarked,
             backgroundColor: Colors.amber.shade300,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -510,7 +514,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         // Note now it's not favorite, if it was favorite from the start, then user did make a change
         if (widget.folder!.isFavorite) {
           SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-            message: 'Folder removed from favorites',
+            message:
+                AppLocalizations.of(context)!.favorite_snackbar_folderUnmarked,
             backgroundColor: Colors.grey,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -520,7 +525,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
           // Note now it's not favorite, if it was favorite from the start, then user did not make any changes
         } else {
           SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-            message: 'Folder removed from favorites, no changes were made',
+            message: AppLocalizations.of(context)!
+                .favorite_snackbar_folderUnmarkedAgain,
             backgroundColor: Colors.grey,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -538,7 +544,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
             didFavoriteChanged = true;
           });
           SnackBar snackBarIsFavorite = SnackBarMessage.snackBarMessage(
-            message: 'Folder marked as favorite',
+            message:
+                AppLocalizations.of(context)!.favorite_snackbar_folderMarked,
             backgroundColor: Colors.amber.shade300,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBarIsFavorite);
@@ -575,7 +582,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBarMessage.snackBarMessage(
-                message: 'New color selected',
+                message: AppLocalizations.of(context)!
+                    .color_snackbar_newColorSelected,
                 backgroundColor: colorPickedByUser),
           );
         }
@@ -595,7 +603,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
           if (getColorFromDialog != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBarMessage.snackBarMessage(
-                  message: 'Your folder already have this color',
+                  message: AppLocalizations.of(context)!
+                      .color_snackbar_folderAlreadyHaveThisColor,
                   backgroundColor: colorPickedByUser),
             );
           }

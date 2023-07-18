@@ -26,8 +26,9 @@ class DeleteFolderConfirmation {
           title: DialogTitleStyle(
             title: AppLocalizations.of(context)!.deleteNote_dialog_title,
           ),
-          content: const DialogSubtitleStyle(
-            subtitle: 'Do you really want to delete this folder?',
+          content: DialogSubtitleStyle(
+            subtitle:
+                AppLocalizations.of(context)!.delete_textDialog_folderDelete,
           ),
           actions: [
             Center(

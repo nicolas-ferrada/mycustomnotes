@@ -56,9 +56,10 @@ class _BottomNavigationBarHomePageState
       unselectedItemColor: Colors.white70,
       selectedItemColor: Colors.white70,
       items: [
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.folder),
-          label: 'Crear carpeta',
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.folder),
+          label:
+              AppLocalizations.of(context)!.newFolder_floatingButton_homePage,
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.create),

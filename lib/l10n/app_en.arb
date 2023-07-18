@@ -342,6 +342,10 @@
     "@newNote_floatingButton_homePage": {
         "description": "Button in the home page to create a new note"
     },
+    "newFolder_floatingButton_homePage": "New folder",
+    "@newFolder_floatingButton_homePage": {
+        "description": "Button in the home page to create a new folder"
+    },
     "newNoteTitle_dialog_homePage": "Select note type",
     "@newNoteTitle_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page"
@@ -354,6 +358,10 @@
     "@newNoteTextNoteOption_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page option 2"
     },
+    "showHideNotes_button_homePage": "All notes",
+    "@showHideNotes_button_homePage": {
+        "description": "Button to hide and show notes in the home page"
+    },    
     "@_NOTE_CREATE_DATAILS_PAGE_TEXT": {},
     "titleInput_textformfield_noteTextCreatePage": "Title",
     "@titleInput_textformfield_noteTextCreatePage": {
@@ -383,6 +391,33 @@
     "favorite_snackbar_noteUnmarkedAgain": "Note removed from favorite, no changes were made",
     "@favorite_snackbar_noteUnmarkedAgain": {
         "description": "Snackbar message to tell the user that the note is again unmarked from favorites"
+    },
+    "@_FOLDER_FUNCTIONS_FAVORITE": {},
+    "favorite_snackbar_folderMarked": "Folder marked as favorite",
+    "@favorite_snackbar_folderMarked": {
+        "description": "Snackbar message to tell the user that the folder is now marked as favorite"
+    },
+    "favorite_snackbar_folderMarkedAgain": "Folder marked as favorite, no changes were made",
+    "@favorite_snackbar_folderMarkedAgain": {
+        "description": "Snackbar message to tell the user that the folder is now marked as favorite again"
+    },
+    "favorite_snackbar_folderUnmarked": "Folder removed from favorite",
+    "@favorite_snackbar_folderUnmarked": {
+        "description": "Snackbar message to tell the user that the folder is now unmarked from favorites"
+    },
+    "favorite_snackbar_folderUnmarkedAgain": "Folder removed from favorite, no changes were made",
+    "@favorite_snackbar_folderUnmarkedAgain": {
+        "description": "Snackbar message to tell the user that the folder is again unmarked from favorites"
+    },
+    "@_FOLDER_FUNCTIONS_COLOR": {},
+    "color_snackbar_folderAlreadyHaveThisColor": "Your folder already have this color",
+    "@color_snackbar_folderAlreadyHaveThisColor": {
+        "description": "Snackbar message to let the user know that is selecting the same color already applied to the folder"
+    },
+    "@_FOLDER_FUNCTIONS_DELETE": {},
+    "delete_textDialog_folderDelete": "Do you really want to delete this folder?",
+    "@delete_textDialog_folderDelete": {
+        "description": "Dialog making sure user really want to delete the folder"
     },
     "@_NOTE_FUNCTIONS_COLOR": {},
     "color_dialog_title": "Pick a color",
@@ -456,6 +491,11 @@
     "@info_dialog_lastModificationDate": {
         "description": "Details tab where user can see the details/info of the current note. Last modification date text."
     },
+    "@_FOLDER_FUNCTIONS_INFO_DIALOG": {},
+    "infoFolder_dialog_title": "Folder details",
+    "@infoFolder_dialog_title": {
+        "description": "Details tab where user can see the details/info of the current folder. The title of that dialog."
+    },
     "@_NOTE_FUNCTIONS_DELETE_NOTE_DIALOG": {},
     "deleteNote_dialog_title": "Confirmation",
     "@deleteNote_dialog_title": {
@@ -473,7 +513,7 @@
     "@deleteNote_dialog_deleteButton": {
         "description": "Delete note button"
     },
-    "@_NOTE_FUNCTIONS_MENU": {},
+    "@_NOTE_FOLDER_FUNCTIONS_MENU": {},
     "noteFunctionsMenu_popupMenu_favorite": "Favorite",
     "@noteFunctionsMenu_popupMenu_favorite": {
         "description": "Favorite button in the popUpMenu of the notes functions"
@@ -497,6 +537,10 @@
     "noteFunctionsMenu_popupMenu_delete": "Delete",
     "@noteFunctionsMenu_popupMenu_delete": {
         "description": "Delete button in the popUpMenu of the notes functions"
+    },
+    "folderFunctionsMenu_popupMenu_edit": "Edit",
+    "@folderFunctionsMenu_popupMenu_edit": {
+        "description": "Edit button in the popUpMenu of the folder functions"
     },
     "@_NOTE_TASKS": {},
     "noteTasks_text_tabTasksCompleted": "Tasks completed",
@@ -573,10 +617,54 @@
     "@notesService_exception_deletingNote": {
         "description": "User unable to delete a note"
     },
+    "@_FOLDER_SERVICE_EXCEPTIONS": {},
+    "foldersService_exception_gettingFolder": "Error getting your folders, please, try restarting the app and check if your internet connection is stable",
+    "@foldersService_exception_gettingFolder": {
+        "description": "Stream cannot get folders from remote server"
+    },
+    "foldersService_exception_creatingFolder": "Error creating the folder, please, try restarting the app and check if your internet connection is stable",
+    "@foldersService_exception_creatingFolder": {
+        "description": "User unable to create folder"
+    },
+    "foldersService_exception_editingFolder": "Error modifying the folder, please, try restarting the app and check if your internet connection is stable",
+    "@foldersService_exception_editingFolder": {
+        "description": "User unable to edit a folder"
+    },
+    "foldersService_exception_deletingFolder": "Error deleting the folder, please, try restarting the app and check if your internet connection is stable",
+    "@foldersService_exception_deletingFolder": {
+        "description": "User unable to delete a folder"
+    },
     "@_SEARCH_FOR_NOTE_APPBAR": {},
     "searchNote_text_appbarTextfield": "Search for a note or folder",
     "@searchNote_text_appbarTextfield": {
         "description": "Message used in a textfield placed in the search icon to find notes"
+    },
+    "@_FOLDERS_EDIT_MODE": {},
+    "editModeInstructions_text_folder": "Select the notes you want to add or remove from the folder, then save changes.",
+    "@editModeInstructions_text_folder": {
+        "description": "Instructions on top of the folder edit mode page"
+    },
+    "editModeNoNotesCreatedTitle_text_folder": "You have no notes created!",
+    "@editModeNoNotesCreatedTitle_text_folder": {
+        "description": "Text letting the user know that has no notes created"
+    },
+    "editModeNoNotesCreatedSubtitle_text_folder": "You need at least one note created, so then you can add it to the folder.",
+    "@editModeNoNotesCreatedSubtitle_text_folder": {
+        "description": "Subtext letting the user note that has no notes created"
+    },
+    "@_FOLDER_INSIDE": {},
+    "folderEmptyTitle_text_folder": "Your folder is empty.",
+    "@folderEmptyTitle_text_folder": {
+        "description": "Text letting the user know that has the folder is empty"
+    },
+    "folderEmptySubtitle_text_folder": "Press the three dots on the top right corner and press 'edit', then tap the notes you want to add to this folder and save.",
+    "@folderEmptySubtitle_text_folder": {
+        "description": "Text letting the user know that has the folder is empty and how to add notes"
+    },
+    "folderTitle_textformfield_folder": "Folder's name",
+    "@folderTitle_textformfield_folder": {
+        "description": "Textformfield to allow the user name his folder"
     }
+
 
 }

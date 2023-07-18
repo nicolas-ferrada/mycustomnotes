@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import '../../../../data/models/User/user_configuration.dart';
+import '../../../../l10n/l10n_export.dart';
 import 'build_notes_tasks/build_note_tasks_note_view1_small.dart';
 import 'build_notes_tasks/build_note_tasks_note_view2_split.dart';
 import 'build_notes_tasks/build_note_tasks_note_view3_large.dart';
@@ -20,7 +21,6 @@ import 'build_folders/build_folder_view1_small.dart';
 import 'build_folders/build_folder_view2_split.dart';
 import 'build_folders/build_folder_view3_large.dart';
 import 'build_notes_text/build_note_text_note_view3_large.dart';
-
 
 class HomePageBuildNotesAndFoldersWidget extends StatefulWidget {
   final List<NoteText> notesTextList;
@@ -273,7 +273,10 @@ class _HomePageBuildNotesAndFoldersWidgetState
                                   width: 4,
                                 ),
                                 Text(
-                                  areNotesBeingVisible ? 'All notes' : '',
+                                  areNotesBeingVisible
+                                      ? AppLocalizations.of(context)!
+                                          .showHideNotes_button_homePage
+                                      : '',
                                 ),
                               ],
                             ),
@@ -457,10 +460,10 @@ class _HomePageBuildNotesAndFoldersWidgetState
                 color: Colors.grey.shade800.withOpacity(0.7),
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-              child: const Text(
-                "Select the notes you want to add or remove from the folder, then save changes.",
+              child: Text(
+                AppLocalizations.of(context)!.editModeInstructions_text_folder,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: 14,
                 ),
@@ -538,25 +541,27 @@ class _HomePageBuildNotesAndFoldersWidgetState
       );
       // There are no notes created
     } else {
-      return const Column(
+      return Column(
         children: [
-          SizedBox(
-            height: 128,
+          const SizedBox(
+            height: 256,
           ),
           Center(
               child: Text(
-            'You have no notes created!',
-            style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            AppLocalizations.of(context)!
+                .editModeNoNotesCreatedTitle_text_folder,
+            style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
           )),
-          SizedBox(
-            height: 16,
+          const SizedBox(
+            height: 8,
           ),
           Center(
               child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Text(
-              'Create notes first, so you can add them to the folder.',
-              style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+              AppLocalizations.of(context)!
+                  .editModeNoNotesCreatedSubtitle_text_folder,
+              style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
           )),
@@ -636,25 +641,25 @@ class _HomePageBuildNotesAndFoldersWidgetState
         ],
       );
     } else {
-      return const Column(
+      return Column(
         children: [
-          SizedBox(
-            height: 128,
+          const SizedBox(
+            height: 256,
           ),
           Center(
               child: Text(
-            'Your folder is empty',
-            style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            AppLocalizations.of(context)!.folderEmptyTitle_text_folder,
+            style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
           )),
-          SizedBox(
-            height: 16,
+          const SizedBox(
+            height: 8,
           ),
           Center(
               child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Text(
-              'Press the three dots on the top right corner and press edit, then tap the notes you want to add to this folder and save.',
-              style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+              AppLocalizations.of(context)!.folderEmptySubtitle_text_folder,
+              style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
           )),

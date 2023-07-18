@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../l10n/l10n_export.dart';
 import '../../utils/extensions/formatted_message.dart';
 
 import '../../data/models/Note/folder_model.dart';
@@ -37,7 +38,8 @@ class FolderService {
       }
       yield folders;
     } catch (e) {
-      throw Exception(e);
+      throw Exception(
+          AppLocalizations.of(context)!.foldersService_exception_gettingFolder);
     }
   }
 
@@ -65,7 +67,9 @@ class FolderService {
 
       await documentReference.set(mapFolder);
     } catch (unexpectedException) {
-      throw Exception('').removeExceptionWord;
+      throw Exception(AppLocalizations.of(context)!
+              .foldersService_exception_creatingFolder)
+          .removeExceptionWord;
     }
   }
 
@@ -94,7 +98,9 @@ class FolderService {
 
       await docFolder.set(mapFolder);
     } catch (unexpectedException) {
-      throw Exception('').removeExceptionWord;
+      throw Exception(AppLocalizations.of(context)!
+              .foldersService_exception_editingFolder)
+          .removeExceptionWord;
     }
   }
 
@@ -110,7 +116,9 @@ class FolderService {
 
       await docFolder.delete();
     } catch (_) {
-      throw Exception('').removeExceptionWord;
+      throw Exception(AppLocalizations.of(context)!
+              .foldersService_exception_deletingFolder)
+          .removeExceptionWord;
     }
   }
 }
