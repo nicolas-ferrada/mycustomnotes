@@ -52,13 +52,12 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
   String name = '';
   late Timestamp createdDate;
 
-  bool didTitleChanged = false;
-  bool didBodyChanged = false;
-  bool didColorChanged = false;
-  bool didFavoriteChanged = false;
-  bool didUrlChanged = false;
-
-  bool didSelectedNoteChanged = false;
+  bool? didTitleChanged = false;
+  bool? didBodyChanged = false;
+  bool? didColorChanged = false;
+  bool? didFavoriteChanged = false;
+  bool? didUrlChanged = false;
+  bool? didSelectedNoteChanged = false;
 
   bool wasTheSaveButtonPressed = false;
 
@@ -102,12 +101,12 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
   }
 
   bool didUserMadeChanges() {
-    bool didUserMadeChanges = (didTitleChanged ||
-        didFavoriteChanged ||
-        didColorChanged ||
-        didBodyChanged ||
-        didUrlChanged ||
-        didSelectedNoteChanged);
+    bool didUserMadeChanges = (didTitleChanged ?? false) ||
+        (didFavoriteChanged ?? false) ||
+        (didColorChanged ?? false) ||
+        (didBodyChanged ?? false) ||
+        (didUrlChanged ?? false) ||
+        (didSelectedNoteChanged ?? false);
     return didUserMadeChanges;
   }
 
@@ -180,7 +179,6 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
             ),
           ),
         ),
-
         body: HomePageBuildNotesAndFoldersWidget(
           notesTasksList: widget.noteTasksList ?? [],
           notesTextList: widget.noteTextList ?? [],
@@ -200,24 +198,20 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
   }
 
   Widget saveButton(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FloatingActionButton(
-          heroTag: null,
-          shape: const CircleBorder(),
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-          child: const Icon(Icons.save),
-          onPressed: () async {
-            if (widget.folder != null) {
-              editingFolder();
-            } else {
-              creatingFolder();
-            }
-          },
-        ),
-      ],
+    return Visibility(
+      visible: didUserMadeChanges(),
+      child: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+        child: const Icon(Icons.save),
+        onPressed: () async {
+          if (widget.folder != null) {
+            editingFolder();
+          } else {
+            creatingFolder();
+          }
+        },
+      ),
     );
   }
 
