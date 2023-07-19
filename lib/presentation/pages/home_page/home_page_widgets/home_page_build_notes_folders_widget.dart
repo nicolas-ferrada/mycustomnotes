@@ -582,7 +582,7 @@ class _HomePageBuildNotesAndFoldersWidgetState
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 0,
+                mainAxisSpacing: 1,
                 crossAxisCount: selectNoteView()[0].toInt(),
                 childAspectRatio: selectNoteView()[1].toDouble()),
             childrenDelegate: SliverChildBuilderDelegate(
