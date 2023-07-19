@@ -313,7 +313,13 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
                     Navigator.maybePop(context)
                         .then((_) => Navigator.maybePop(context));
                   } else {
-                    Navigator.maybePop(context);
+                    Navigator.maybePop(context).then((_) {
+                      Map<String, dynamic> arguments = {
+                        'newNote': newNote,
+                        'isBeingEditedInFolder': widget.isBeingEditedInFolder,
+                      };
+                      Navigator.maybePop(context, arguments);
+                    });
                   }
                 },
               );
