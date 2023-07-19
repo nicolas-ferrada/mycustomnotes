@@ -117,24 +117,31 @@ class _AppBarHomePageState extends State<AppBarHomePage> {
                     ),
                   ),
                   // If is empty, user did not apply any filter yet.
-                  Expanded(
-                    child: filter.text.isEmpty
-                        ? HomePageBuildNotesAndFoldersWidget(
-                            notesTasksList: widget.tasksNotes,
-                            notesTextList: widget.textNotes,
-                            userConfiguration: widget.userConfiguration,
-                            folders: widget.folders,
-                            editingFromSearchBar: true,
-                          )
-                        // User is writing in the filter
-                        : HomePageBuildNotesAndFoldersWidget(
-                            notesTasksList: filteredTasksNotes,
-                            notesTextList: filteredTextNotes,
-                            folders: filteredFolders,
-                            userConfiguration: widget.userConfiguration,
-                            editingFromSearchBar: true,
-                          ),
-                  ),
+                  (widget.tasksNotes.isNotEmpty ||
+                          widget.textNotes.isNotEmpty ||
+                          widget.folders.isNotEmpty)
+                      ? Expanded(
+                          child: filter.text.isEmpty
+                              ? HomePageBuildNotesAndFoldersWidget(
+                                  notesTasksList: widget.tasksNotes,
+                                  notesTextList: widget.textNotes,
+                                  userConfiguration: widget.userConfiguration,
+                                  folders: widget.folders,
+                                  editingFromSearchBar: true,
+                                )
+                              // User is writing in the filter
+                              : HomePageBuildNotesAndFoldersWidget(
+                                  notesTasksList: filteredTasksNotes,
+                                  notesTextList: filteredTextNotes,
+                                  folders: filteredFolders,
+                                  userConfiguration: widget.userConfiguration,
+                                  editingFromSearchBar: true,
+                                ),
+                        )
+                      : Center(
+                          child: Text(AppLocalizations.of(context)!
+                              .noNotesCreated_text_homePage),
+                        )
                 ],
               ),
             );
