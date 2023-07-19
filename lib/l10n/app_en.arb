@@ -563,11 +563,11 @@
     "@noteTasks_snackbar_emptyTask": {
         "description": "User is trying to create an empty task"
     },
-    "noteTasks_text_shareCompletedNote": "completed",
+    "noteTasks_text_shareCompletedNote": "Completed",
     "@noteTasks_text_shareCompletedNote": {
         "description": "User is sharing a completed task"
     },
-    "noteTasks_text_shareNotCompletedNote": "not completed",
+    "noteTasks_text_shareNotCompletedNote": "Pending",
     "@noteTasks_text_shareNotCompletedNote": {
         "description": "User is sharing a not completed task"
     },

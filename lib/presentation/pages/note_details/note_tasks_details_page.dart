@@ -756,21 +756,37 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
-          String getTasksFormat() {
-            String tasksFormat = '';
-            for (int i = 0; i < widget.noteTasks.tasks.length; i++) {
-              String taskStatus = widget.noteTasks.tasks[i]['isTaskCompleted']
-                  ? AppLocalizations.of(context)!
-                      .noteTasks_text_shareCompletedNote
-                  : AppLocalizations.of(context)!
-                      .noteTasks_text_shareNotCompletedNote;
-              tasksFormat +=
-                  '${i + 1}) ${widget.noteTasks.tasks[i]['taskName']}: $taskStatus\n';
+          String getPendingTasksFormat() {
+            String pendingTasksFormat = '';
+            String task = '';
+            // Since tasks are shown reversed, so to make them order like in the app
+            Iterable<Map<String, dynamic>> reversedTasks =
+                widget.noteTasks.tasks.reversed;
+            for (int i = 0; i < reversedTasks.length; i++) {
+              if (reversedTasks.elementAt(i)['isTaskCompleted'] == false) {
+                task = reversedTasks.elementAt(i)['taskName'];
+                pendingTasksFormat += '- $task\n';
+              }
             }
-            return tasksFormat;
+            return pendingTasksFormat;
           }
 
-          Share.share('${widget.noteTasks.title}\n\n${getTasksFormat()}');
+          String getFinishedTasksFormat() {
+            String finishedTasksFormat = '';
+            String task = '';
+            Iterable<Map<String, dynamic>> reversedTasks =
+                widget.noteTasks.tasks.reversed;
+            for (int i = 0; i < reversedTasks.length; i++) {
+              if (reversedTasks.elementAt(i)['isTaskCompleted'] == true) {
+                task = reversedTasks.elementAt(i)['taskName'];
+                finishedTasksFormat += '- $task\n';
+              }
+            }
+            return finishedTasksFormat;
+          }
+
+          Share.share(
+              '${widget.noteTasks.title}\n\n${AppLocalizations.of(context)!.noteTasks_text_shareNotCompletedNote}:\n${getPendingTasksFormat()}\n${AppLocalizations.of(context)!.noteTasks_text_shareCompletedNote}:\n${getFinishedTasksFormat().trimRight()}');
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
           showDialog(
