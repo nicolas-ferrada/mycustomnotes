@@ -137,6 +137,7 @@ class ConfirmationDialog {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(200, 40),
                       elevation: 5,
                       backgroundColor: Colors.redAccent,
                     ),
@@ -148,15 +149,17 @@ class ConfirmationDialog {
                           .discardChanges_dialog_leaveButton,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                          color: Colors.black, fontStyle: FontStyle.italic),
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 12,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 60),
+                      minimumSize: const Size(200, 40),
                       elevation: 10,
                       backgroundColor: Colors.white,
                     ),
@@ -164,12 +167,10 @@ class ConfirmationDialog {
                       Navigator.maybePop(context, false);
                     },
                     child: Text(
-                      AppLocalizations.of(context)!
-                          .discardChanges_dialog_cancelButton,
+                      AppLocalizations.of(context)!.cancelButton,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
