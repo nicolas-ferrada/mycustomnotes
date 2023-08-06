@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/domain/services/firebase_push_notifications.dart';
 import 'data/models/Note/folder_notifier.dart';
 import 'l10n/l10n.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ Future main() async {
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);
+  await FirebasePushNotifications().initNotifications();
   // if language is null, (no record in db) it will return device language, if not en/es, use en
   final String language = await ChangeLanguage.getLanguage();
   runApp(MyApp(language: language));

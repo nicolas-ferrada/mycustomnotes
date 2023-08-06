@@ -40,6 +40,9 @@ dependencies:
   #Firebase auth service
   firebase_auth: ^4.1.3
 
+  # Firebase push notifications
+  firebase_messaging: ^14.6.5
+
   # Cloud storage
   cloud_firestore: ^4.3.1
 
