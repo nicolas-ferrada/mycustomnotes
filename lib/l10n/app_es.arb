@@ -13,7 +13,7 @@
     "signUp_text_info_loginPage": "¿Necesitas una cuenta? ",
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "Has ingresado una contraseña incorrecta.",
-    "userNotFound_dialog_loginPage": "La cuenta ingresada no existe.",
+    "userNotFound_dialog_loginPage": "La cuenta ingresada no existe. Necesitas registrate antes de iniciar sesión, si lo hiciste, revisa que el email esté bien escrito.",
     "invalidEmail_dialog_loginPage": "El correo ingresado no es válido.",
     "unknown_empty_dialog_loginPage": "Debes ingresar un correo y contraseña.",
     "networkRequestFailed_dialog_loginPage": "Debes estar conectado a internet para iniciar sesión.",

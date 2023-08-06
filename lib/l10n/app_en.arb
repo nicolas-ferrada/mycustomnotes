@@ -47,7 +47,7 @@
     "@wrongPassword_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "userNotFound_dialog_loginPage": "The entered account does not exist.",
+    "userNotFound_dialog_loginPage": "The entered account does not exist. You need to register before login in, if you did, check your email is well written.",
     "@userNotFound_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
