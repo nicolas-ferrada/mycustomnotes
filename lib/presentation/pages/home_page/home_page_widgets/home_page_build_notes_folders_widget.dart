@@ -16,7 +16,7 @@ import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../domain/services/user_configuration_service.dart';
 import '../../../../utils/extensions/compare_booleans.dart';
 import '../../../routes/routes.dart';
-import '../../folder/folder_details_page.dart';
+import '../../folder_page/folder_details_page.dart';
 import 'build_folders/build_folder_view1_small.dart';
 import 'build_folders/build_folder_view2_split.dart';
 import 'build_folders/build_folder_view3_large.dart';

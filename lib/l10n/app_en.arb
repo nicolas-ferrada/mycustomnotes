@@ -212,6 +212,10 @@
     "@notesView_drawer_homePage": {
         "description": "Allow the user to select in what way they want to display the notes"
     },
+    "accountSecurityAndPrivacy_drawer_homePage": "Account, security and privacy",
+    "@accountSecurityAndPrivacy_drawer_homePage": {
+        "description": "Allow the user to open the account, security and privacy screen"
+    },
     "logOut_drawer_homePage": "Log out",
     "@logOut_drawer_homePage": {
         "description": "Allow the user to close their account's session"
@@ -664,7 +668,39 @@
     "folderTitle_textformfield_folder": "Folder's name",
     "@folderTitle_textformfield_folder": {
         "description": "Textformfield to allow the user name his folder"
+    },
+    "@_ACCOUNT_SECURITY_PRIVACY": {},
+    "accountTitle_text_accountSecurityPrivacy": "My account",
+    "@accountTitle_text_accountSecurityPrivacy": {
+        "description": "Account title"
+    },
+    "securityTitle_text_accountSecurityPrivacy": "Security",
+    "@securityTitle_text_accountSecurityPrivacy": {
+        "description": "Security title"
+    },
+    "privacyTitle_text_accountSecurityPrivacy": "Privacy",
+    "@privacyTitle_text_accountSecurityPrivacy": {
+        "description": "Privacy title"
+    },
+    "@_MY_ACCOUNT_WIDGET": {},
+    "showEmailException_text_myAccountWidget": "Email could not be displayed.",
+    "@showEmailException_text_myAccountWidget": {
+        "description": "Email is null exception"
+    },
+    "passwordProvider_text_myAccountWidget": "Your account use email and password to log in.",
+    "@passwordProvider_text_myAccountWidget": {
+        "description": "Email and password as login provider"
+    },
+    "googleProvider_text_myAccountWidget": "Your account use Google to log in.",
+    "@googleProvider_text_myAccountWidget": {
+        "description": "Google as login provider"
+    },
+    "providerNotFound_text_myAccountWidget": "Login provider not found.",
+    "@providerNotFound_text_myAccountWidget": {
+        "description": "Login provider not found"
+    },
+    "emailSubtitle_text_myAccountWidget": "Email:",
+    "@emailSubtitle_text_myAccountWidget": {
+        "description": "Email subtitle, emails is shown below"
     }
-
-
 }

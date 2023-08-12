@@ -66,6 +66,7 @@
     "language_drawer_homePage": "Idioma",
     "dateAndTime_drawer_homePage": "Formato de fecha y hora",
     "notesView_drawer_homePage": "Vista de notas",
+    "accountSecurityAndPrivacy_drawer_homePage": "Cuenta, seguridad y privacidad",
     "logOut_drawer_homePage": "Cerrar sesión",
     "@_HOME_PAGE_DRAWER_DIALOG_SELECT_LANGUAGE": {},
     "languageTitle_drawerDialog_homePage": "Seleccionar idioma",
@@ -196,7 +197,17 @@
     "@_FOLDER_INSIDE": {},
     "folderEmptyTitle_text_folder": "Tu carpeta está vacia.",
     "folderEmptySubtitle_text_folder": "Presiona los tres puntos de la esquina superior derecha y luego toca 'editar', luego podrás seleccionar las notas que quieres agregar o quitar de la carpeta, finalmente guarda.",
-    "folderTitle_textformfield_folder": "Nombre carpeta"
+    "folderTitle_textformfield_folder": "Nombre carpeta",
+    "@_ACCOUNT_SECURITY_PRIVACY": {},
+    "accountTitle_text_accountSecurityPrivacy": "Mi cuenta",
+    "securityTitle_text_accountSecurityPrivacy": "Seguridad",
+    "privacyTitle_text_accountSecurityPrivacy": "Privacidad",
+    "@_MY_ACCOUNT_WIDGET": {},
+    "showEmailException_text_myAccountWidget": "No se pudo mostrar el correo.",
+    "passwordProvider_text_myAccountWidget": "Tu cuenta usa correo y contraseña para iniciar sesión.",
+    "googleProvider_text_myAccountWidget": "Tu cuenta usa Google para iniciar sesión.",
+    "providerNotFound_text_myAccountWidget": "No se pudo encontrar la forma de iniciar sesión.",
+    "emailSubtitle_text_myAccountWidget": "Correo electrónico:"
 }
 
 

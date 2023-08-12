@@ -11,6 +11,7 @@ import '../../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../../utils/dialogs/change_language_dialog.dart';
 import '../../../../utils/enums/notes_view_enum.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../account_security_privacy_page/account_security_privacy_page.dart';
 
 class NavigationDrawerHomePage extends StatelessWidget {
   final User currentUser;
@@ -53,7 +54,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Wrap(
-        runSpacing: 18,
+        runSpacing: 12,
         children: [
           // Title
           ListTile(
@@ -68,6 +69,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
           dateAndHourStyle(context: context),
           const Divider(thickness: 1),
           notesStyleVisualization(context: context),
+          const Divider(thickness: 1),
+          accountSecurityAndPrivacy(context: context),
           const Divider(thickness: 1),
           logout(context: context),
           const Divider(thickness: 1),
@@ -181,6 +184,34 @@ class NavigationDrawerHomePage extends StatelessWidget {
       leading: const Icon(Icons.grid_view, size: 28),
       title: Text(
         AppLocalizations.of(context)!.notesView_drawer_homePage,
+        style: const TextStyle(fontSize: 16),
+      ),
+    );
+  }
+
+  Widget accountSecurityAndPrivacy({
+    required BuildContext context,
+  }) {
+    return ListTile(
+      onTap: () async {
+        try {
+          Navigator.maybePop(context).then(
+            (_) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AccountSecurityPrivacyPage(
+                        currentUser: currentUser,
+                      )),
+            ),
+          );
+        } catch (errorMessage) {
+          ExceptionsAlertDialog.showErrorDialog(
+              context: context, errorMessage: errorMessage.toString());
+        }
+      },
+      leading: const Icon(Icons.lock, size: 28),
+      title: Text(
+        AppLocalizations.of(context)!.accountSecurityAndPrivacy_drawer_homePage,
         style: const TextStyle(fontSize: 16),
       ),
     );

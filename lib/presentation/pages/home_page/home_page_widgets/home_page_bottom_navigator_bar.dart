@@ -5,7 +5,7 @@ import '../../../../l10n/l10n_export.dart';
 
 import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../utils/dialogs/select_create_note_type.dart';
-import '../../folder/folder_details_page.dart';
+import '../../folder_page/folder_details_page.dart';
 
 class BottomNavigationBarHomePage extends StatefulWidget {
   final UserConfiguration userConfiguration;
