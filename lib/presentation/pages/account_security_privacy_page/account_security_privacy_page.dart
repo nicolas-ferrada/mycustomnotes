@@ -25,7 +25,8 @@ class _AccountSecurityPrivacyPageState
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context)!.emailSubtitle_text_myAccountWidget,
+          AppLocalizations.of(context)!
+              .accountSecurityAndPrivacy_drawer_homePage,
           style: const TextStyle(fontSize: 17),
         ),
       ),
