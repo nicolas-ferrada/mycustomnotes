@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:flutter/material.dart';
 import '../../../data/models/Note/folder_notifier.dart';
 import '../../../domain/services/folder_service.dart';
@@ -9,7 +9,6 @@ import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
 import '../../../data/models/User/user_configuration.dart';
-import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/note_tasks_service.dart';
 import '../../../domain/services/note_text_service.dart';
 import '../../../domain/services/user_configuration_service.dart';
@@ -27,12 +26,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final User currentUser = AuthUserService.getCurrentUserFirebase();
+  final User currentUser = FirebaseAuth.instance.currentUser!;
   late UserConfiguration userConfiguration;
 
   @override
   void initState() {
     super.initState();
+    // updateCurrentUser();
     getUserConfiguration();
   }
 
@@ -43,13 +43,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void updateCurrentUser() async {
+    await currentUser.reload();
+    await currentUser.getIdToken(true);
+    setState(() {});
+  }
+
   // Callback to update user config
   void updateUserConfiguration() async {
     userConfiguration = await getUserConfiguration();
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
@@ -17,13 +17,12 @@ class EmailVerificationPage extends StatefulWidget {
 }
 
 class _EmailVerificationPageState extends State<EmailVerificationPage> {
-  late User currentUser;
+  User currentUser = FirebaseAuth.instance.currentUser!;
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    currentUser = AuthUserService.getCurrentUserFirebase();
     userVerifyEmail();
   }
 
@@ -39,8 +38,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           (_) async {
             if (currentUser.emailVerified == false) {
               await currentUser.reload();
-              currentUser = AuthUserService
-                  .getCurrentUserFirebase(); // Get a new instace after reload.
+              await currentUser.getIdToken(true);
+              currentUser = FirebaseAuth
+                  .instance.currentUser!; // Get a new instace after reload.
             } else {
               // User is verified for the first time, so create it's configuration
               await UserConfigurationService.createUserConfigurations(
