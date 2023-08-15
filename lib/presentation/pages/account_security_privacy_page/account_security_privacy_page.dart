@@ -34,7 +34,7 @@ class _AccountSecurityPrivacyPageState
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(child: MyAccountWidget(currentUser: widget.currentUser)),
-          const Expanded(child: SecurityWidget()),
+          Expanded(child: SecurityWidget(currentUser: widget.currentUser)),
           const Expanded(child: PrivacyWidget()),
         ],
       ),

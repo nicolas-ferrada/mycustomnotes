@@ -699,8 +699,116 @@
     "@providerNotFound_text_myAccountWidget": {
         "description": "Login provider not found"
     },
-    "emailSubtitle_text_myAccountWidget": "Email:",
-    "@emailSubtitle_text_myAccountWidget": {
+    "myEmailSubtitle_text_myAccountWidget": "My email:",
+    "@myEmailSubtitle_text_myAccountWidget": {
         "description": "Email subtitle, emails is shown below"
+    },
+    "emailSubtitleWithSpace_text_myAccountWidget": "Email: ",
+    "@emailSubtitleWithSpace_text_myAccountWidget": {
+        "description": "Change email subtitle. MUST HAVE A SPACE AFTER THE ':'"
+    },
+    "changeEmail_richText_myAccountWidget": "change your email.",
+    "@changeEmail_richText_myAccountWidget": {
+        "description": "Change your email rich text"
+    },
+    "changePassword_text_myAccountWidget": "Password: ",
+    "@changePassword_text_myAccountWidget": {
+        "description": "Change password subtitle. MUST HAVE A SPACE AFTER THE ':'"
+    },
+    "changePassword_richText_myAccountWidget": "change your password.",
+    "@changePassword_richText_myAccountWidget": {
+        "description": "Change your password rich text"
+    },
+    "@_MY_ACCOUNT_WIDGET_CHANGE_EMAIL_PAGE": {},
+    "changeEmailTitle_text_myAccountWidgetChangeEmailPage": "Change email",
+    "@changeEmailTitle_text_myAccountWidgetChangeEmailPage": {
+        "description": "Title of change email page"
+    },
+    "changeEmailSubtitle_text_myAccountWidgetChangeEmailPage": "Do you really want to change your email?",
+    "@changeEmailTitle_text_myAccountWidgetChangeEmailPage": {
+        "description": "Subtitle of change email page"
+    },
+    "changeEmailSubtitle2_text_myAccountWidgetChangeEmailPage": "Enter your current password and the new email.",
+    "@changeEmailSubtitle2_text_myAccountWidgetChangeEmailPage": {
+        "description": "Subtitle of change email page"
+    },
+    "changeEmailCurrentPasswordInput_textformfield_myAccountWidgetChangeEmailPage": "Enter your current password",
+    "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
+        "description": "New email textformfield"
+    },
+    "changeEmailEmailInput_textformfield_myAccountWidgetChangeEmailPage": "Enter the new email",
+    "@changeEmailEmailInput_textformfield_myAccountWidgetChangeEmailPage": {
+        "description": "New email textformfield"
+    },
+    "changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": "Confirm the new email",
+    "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
+        "description": "New email textformfield"
+    },
+    "changeEmailSucess_dialog_myAccountWidgetChangeEmailPage": "Your email was changed successfully!, please, login in with your new email.",
+    "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
+        "description": "New email dialog after successfully changing email"
+    },
+    "@_MY_ACCOUNT_WIDGET_CHANGE_EMAIL_PAGE_EXCEPTIONS": {},
+    "changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException": "A user mismatch was found, please, try again.",
+    "@changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailUserNotFound_exception_myAccountWidgetChangeEmailPageException": "The user was not found, please, try again.",
+    "@changeEmailUserNotFound_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email, invalid email"
+    },
+    "changeEmailInvalidCredentials_exception_myAccountWidgetChangeEmailPageException": "The credentials are invalid, please, try again.",
+    "@changeEmailInvalidCredentials_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException": "The email is invalid, please, try again.",
+    "@changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException": "The password you entered is wrong, please, try again.",
+    "@changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": "There is a problem changing your email, you can try restarting the application or trying again later.",
+    "@changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailEmailAlreadyInUse_exception_myAccountWidgetChangeEmailPageException": "The email is already in use, please, use another email.",
+    "@changeEmailEmailAlreadyInUse_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException": "A recent login is needed, please, try closing your current session and login in again.",
+    "@changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailNoPassword_exception_myAccountWidgetChangeEmailPageException": "Please, enter your password.",
+    "@changeEmailNoPassword_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailNoEmails_exception_myAccountWidgetChangeEmailPageException": "Please, type the new email and confirm it.",
+    "@changeEmailNoEmails_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailEmailDontMatch_exception_myAccountWidgetChangeEmailPageException": "The emails do not match, please, try again.",
+    "@changeEmailEmailDontMatch_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "changeEmailCurrentEmailIsSame_exception_myAccountWidgetChangeEmailPageException": "The new email you are trying to change your account to, is your current account email.",
+    "@changeEmailCurrentEmailIsSame_exception_myAccountWidgetChangeEmailPageException": {
+        "description": "Exception changing email"
+    },
+    "@_MY_ACCOUNT_WIDGET_CHANGE_PASSWORD_PAGE": {},
+    "changePasswordTitle_text_myAccountWidgetChangePasswordPage": "Change password",
+    "@changePasswordTitle_text_myAccountWidgetChangePasswordPage": {
+        "description": "Title of change password page"
+    },
+    "changePasswordSubtitle_text_myAccountWidgetChangePasswordPage": "Do you really want to change your password?",
+    "@changePasswordSubtitle_text_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
+    },
+    "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "An email with instructions will be sent.",
+    "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
     }
+
 }

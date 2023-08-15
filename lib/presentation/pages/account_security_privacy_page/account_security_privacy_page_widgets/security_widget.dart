@@ -1,9 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/presentation/pages/change_email_page/change_email_page.dart';
 
 import '../../../../l10n/l10n_export.dart';
+import '../../../../utils/dialogs/successful_mail_sent_recover_pasword_dialog.dart';
+import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../change_password_page/change_password_page.dart';
 
 class SecurityWidget extends StatefulWidget {
-  const SecurityWidget({super.key});
+  final User currentUser;
+  const SecurityWidget({
+    super.key,
+    required this.currentUser,
+  });
 
   @override
   State<SecurityWidget> createState() => _SecurityWidgetState();
@@ -12,12 +22,103 @@ class SecurityWidget extends StatefulWidget {
 class _SecurityWidgetState extends State<SecurityWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        securityTitle(),
-        Text('Change email'),
-        Text('Change password'),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          securityTitle(),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800.withOpacity(1),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
+              ),
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // Change email
+                  Row(
+                    children: [
+                      const Icon(Icons.email, size: 18),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!
+                            .emailSubtitleWithSpace_text_myAccountWidget,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                            fontSize: 16,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          text: AppLocalizations.of(context)!
+                              .changeEmail_richText_myAccountWidget,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeEmailPage(
+                                      currentUser: widget.currentUser),
+                                ),
+                              );
+                            },
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Change password
+                  Row(
+                    children: [
+                      const Icon(Icons.password, size: 18),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!
+                            .changePassword_text_myAccountWidget,
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                            fontSize: 16,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          text: AppLocalizations.of(context)!
+                              .changePassword_richText_myAccountWidget,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangePasswordPage(
+                                      currentUser: widget.currentUser),
+                                ),
+                              );
+                            },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

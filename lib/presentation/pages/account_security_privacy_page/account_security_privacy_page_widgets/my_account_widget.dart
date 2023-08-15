@@ -70,8 +70,8 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
               ),
               Text(
                 AppLocalizations.of(context)!
-                    .emailSubtitle_text_myAccountWidget,
-                style: const TextStyle(fontSize: 12),
+                    .myEmailSubtitle_text_myAccountWidget,
+                style: const TextStyle(fontSize: 15),
               ),
               Expanded(
                 child: Align(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/dialogs/successful_mail_sent_recover_pasword_dialog.dart';
 
 import '../../../domain/services/auth_user_service.dart';
 import '../../../l10n/l10n_export.dart';
@@ -90,8 +91,16 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                       email: _emailRecoverPasswordController.text,
                       context: context,
                     ).then(
-                      (_) => Navigator.maybePop(context)
-                          .then((_) => dialogSucessfulMailSent(context)),
+                      (_) => Navigator.maybePop(context).then(
+                        (_) => showDialog(
+                          context: context,
+                          builder: (context) =>
+                              SuccessfulMailSentRecoverPasswordDialog(
+                            sucessMessage: AppLocalizations.of(context)!
+                                .sucessfulMailSent_body_dialog_recoverPasswordPage,
+                          ),
+                        ),
+                      ),
                     );
                   } catch (errorMessage) {
                     // errorMessage is the custom message sent by the firebase function.
@@ -105,39 +114,6 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Future<dynamic> dialogSucessfulMailSent(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 3,
-          backgroundColor: const Color.fromARGB(255, 13, 255, 53),
-          title: Center(
-            child: Text(AppLocalizations.of(context)!
-                .sucessfulMailSent_title_dialog_recoverPasswordPage),
-          ),
-          content: Text(
-            AppLocalizations.of(context)!
-                .sucessfulMailSent_body_dialog_recoverPasswordPage,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-              onPressed: () {
-                Navigator.maybePop(context);
-              },
-              child: const Text(
-                'Ok',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

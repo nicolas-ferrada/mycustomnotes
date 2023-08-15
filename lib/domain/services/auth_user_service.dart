@@ -149,6 +149,92 @@ class AuthUserService {
     }
   }
 
+  // Change email user firebase
+  static Future<String?> changeEmailUserFirebase({
+    required String currentEmail,
+    required String password,
+    required String newEmail,
+    required UserCredential updatedUser,
+    required BuildContext context,
+  }) async {
+    try {
+      String operationResult = '';
+      await updatedUser.user!
+          .updateEmail(newEmail)
+          .then((_) => operationResult = 'Success');
+      return operationResult;
+    } on FirebaseAuthException catch (firebaseException) {
+      if (firebaseException.code == 'invalid-email') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'email-already-in-use') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailEmailAlreadyInUse_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'requires-recent-login') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else {
+        throw Exception(AppLocalizations.of(context)!
+                .genericRecoverPasswordException_dialog_recoverPasswordPage)
+            .removeExceptionWord;
+      }
+    } catch (unexpectedException) {
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
+          .removeExceptionWord;
+    }
+  }
+
+  // ReAuth a user firebase
+  static Future<UserCredential> reAuthUserFirebase({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      User currentUser = getCurrentUserFirebase();
+      UserCredential reAuthedUser =
+          await currentUser.reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: email,
+          password: password,
+        ),
+      );
+      return reAuthedUser;
+    } on FirebaseAuthException catch (firebaseException) {
+      if (firebaseException.code == 'user-mismatch') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'user-not-found') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailUserNotFound_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'invalid-credential') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailInvalidCredentials_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'invalid-email') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else if (firebaseException.code == 'wrong-password') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      }
+    } catch (unexpectedException) {
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
+          .removeExceptionWord;
+    }
+  }
+
   // Get current user logged on firebase
   static User getCurrentUserFirebase() {
     try {

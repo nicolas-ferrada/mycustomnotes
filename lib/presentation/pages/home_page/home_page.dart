@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // updateCurrentUser();
     getUserConfiguration();
   }
 
@@ -41,12 +40,6 @@ class _HomePageState extends State<HomePage> {
       userId: currentUser.uid,
       context: context,
     );
-  }
-
-  void updateCurrentUser() async {
-    await currentUser.reload();
-    await currentUser.getIdToken(true);
-    setState(() {});
   }
 
   // Callback to update user config
