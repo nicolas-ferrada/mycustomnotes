@@ -93,26 +93,31 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 22),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                ),
-                onPressed: () async {
-                  // Log out firebase
-                  try {
-                    await AuthUserService.logOutUserFirebase(context: context);
-                  } catch (errorMessage) {
-                    ExceptionsAlertDialog.showErrorDialog(
-                        context: context,
-                        errorMessage: errorMessage.toString());
-                  }
-                },
-                icon: const Icon(Icons.arrow_back),
-                label: Text(
-                  textAlign: TextAlign.center,
-                  AppLocalizations.of(context)!
-                      .signOut_button_emailVerificationPage,
-                  style: const TextStyle(fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    minimumSize: const Size(200, 60),
+                  ),
+                  onPressed: () async {
+                    // Log out firebase
+                    try {
+                      await AuthUserService.logOutUserFirebase(
+                          context: context);
+                    } catch (errorMessage) {
+                      ExceptionsAlertDialog.showErrorDialog(
+                          context: context,
+                          errorMessage: errorMessage.toString());
+                    }
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                  label: Text(
+                    textAlign: TextAlign.center,
+                    AppLocalizations.of(context)!
+                        .signOut_button_emailVerificationPage,
+                    style: const TextStyle(fontSize: 18),
+                  ),
                 ),
               )
             ],
