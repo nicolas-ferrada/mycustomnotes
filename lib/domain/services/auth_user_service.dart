@@ -187,6 +187,70 @@ class AuthUserService {
     }
   }
 
+  // Delete account user firebase
+  static Future<String?> deleteAccountUserFirebase({
+    required UserCredential updatedUser,
+    required BuildContext context,
+  }) async {
+    try {
+      String operationResult = '';
+      final db = FirebaseFirestore.instance;
+
+      // Delete all user firestore documents
+
+      // Delete all note text
+      final CollectionReference noteTextCollectionRef =
+          db.collection('noteText');
+
+      QuerySnapshot noteTextQuery = await noteTextCollectionRef
+          .where('userId', isEqualTo: updatedUser.user!.uid)
+          .get();
+
+      for (var doc in noteTextQuery.docs) {
+        doc.reference.delete();
+      }
+
+      // Delete all note tasks
+      final CollectionReference noteTasksCollectionRef =
+          db.collection('noteTasks');
+
+      QuerySnapshot noteTasksQuery = await noteTasksCollectionRef
+          .where('userId', isEqualTo: updatedUser.user!.uid)
+          .get();
+
+      for (var doc in noteTasksQuery.docs) {
+        doc.reference.delete();
+      }
+
+      // Delete all note folders
+      final CollectionReference folderCollectionRef = db.collection('folder');
+
+      QuerySnapshot folderQuery = await folderCollectionRef
+          .where('userId', isEqualTo: updatedUser.user!.uid)
+          .get();
+
+      for (var doc in folderQuery.docs) {
+        doc.reference.delete();
+      }
+
+      await updatedUser.user!.delete().then((_) => operationResult = 'Success');
+      return operationResult;
+    } on FirebaseAuthException catch (firebaseException) {
+      if (firebaseException.code == 'requires-recent-login') {
+        throw Exception(AppLocalizations.of(context)!
+                .changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException)
+            .removeExceptionWord;
+      } else {
+        throw Exception(AppLocalizations.of(context)!
+                .genericDeleteAccountException_dialog_deleteAccountPage)
+            .removeExceptionWord;
+      }
+    } catch (unexpectedException) {
+      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
+          .removeExceptionWord;
+    }
+  }
+
   // ReAuth a user firebase
   static Future<UserCredential> reAuthUserFirebase({
     required String email,

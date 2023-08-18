@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/l10n_export.dart';
 
-class SuccessfulMailSentRecoverPasswordDialog extends StatefulWidget {
+class SuccessfulMessageDialog extends StatefulWidget {
   final String sucessMessage;
-  const SuccessfulMailSentRecoverPasswordDialog({
+  const SuccessfulMessageDialog({
     super.key,
     required this.sucessMessage,
   });
 
   @override
-  State<SuccessfulMailSentRecoverPasswordDialog> createState() =>
-      _SuccessfulMailSentRecoverPasswordDialogState();
+  State<SuccessfulMessageDialog> createState() =>
+      _SuccessfulMessageDialogState();
 }
 
-class _SuccessfulMailSentRecoverPasswordDialogState
-    extends State<SuccessfulMailSentRecoverPasswordDialog> {
+class _SuccessfulMessageDialogState extends State<SuccessfulMessageDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

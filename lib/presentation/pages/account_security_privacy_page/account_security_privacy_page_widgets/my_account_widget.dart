@@ -28,11 +28,11 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
             child: Container(
               width: double.infinity,
               height: double.infinity,
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.grey.shade800.withOpacity(1),
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
-              padding: const EdgeInsets.all(12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

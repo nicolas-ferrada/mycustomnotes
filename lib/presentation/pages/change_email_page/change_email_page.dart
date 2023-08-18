@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/domain/services/auth_user_service.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
 
-import '../../../utils/dialogs/successful_mail_sent_recover_pasword_dialog.dart';
+import '../../../utils/dialogs/successful_message_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class ChangeEmailPage extends StatefulWidget {
@@ -197,8 +197,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                 Navigator.maybePop(context).then((_) {
                   return showDialog(
                     context: context,
-                    builder: (context) =>
-                        SuccessfulMailSentRecoverPasswordDialog(
+                    builder: (context) => SuccessfulMessageDialog(
                       sucessMessage: AppLocalizations.of(context)!
                           .changeEmailSucess_dialog_myAccountWidgetChangeEmailPage,
                     ),

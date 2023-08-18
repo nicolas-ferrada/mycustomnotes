@@ -31,11 +31,12 @@ class _AccountSecurityPrivacyPageState
         ),
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(child: MyAccountWidget(currentUser: widget.currentUser)),
           Expanded(child: SecurityWidget(currentUser: widget.currentUser)),
-          const Expanded(child: PrivacyWidget()),
+          Expanded(child: PrivacyWidget(currentUser: widget.currentUser)),
         ],
       ),
     );

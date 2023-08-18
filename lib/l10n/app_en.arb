@@ -703,6 +703,7 @@
     "@myEmailSubtitle_text_myAccountWidget": {
         "description": "Email subtitle, emails is shown below"
     },
+    "@_SECURITY_WIDGET": {},
     "emailSubtitleWithSpace_text_myAccountWidget": "Email: ",
     "@emailSubtitleWithSpace_text_myAccountWidget": {
         "description": "Change email subtitle. MUST HAVE A SPACE AFTER THE ':'"
@@ -719,7 +720,7 @@
     "@changePassword_richText_myAccountWidget": {
         "description": "Change your password rich text"
     },
-    "@_MY_ACCOUNT_WIDGET_CHANGE_EMAIL_PAGE": {},
+    "@_SECURITY_WIDGET_CHANGE_EMAIL_PAGE": {},
     "changeEmailTitle_text_myAccountWidgetChangeEmailPage": "Change email",
     "@changeEmailTitle_text_myAccountWidgetChangeEmailPage": {
         "description": "Title of change email page"
@@ -748,7 +749,7 @@
     "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
         "description": "New email dialog after successfully changing email"
     },
-    "@_MY_ACCOUNT_WIDGET_CHANGE_EMAIL_PAGE_EXCEPTIONS": {},
+    "@_SECURITY_WIDGET_CHANGE_EMAIL_PAGE_EXCEPTIONS": {},
     "changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException": "A user mismatch was found, please, try again.",
     "@changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException": {
         "description": "Exception changing email"
@@ -797,7 +798,7 @@
     "@changeEmailCurrentEmailIsSame_exception_myAccountWidgetChangeEmailPageException": {
         "description": "Exception changing email"
     },
-    "@_MY_ACCOUNT_WIDGET_CHANGE_PASSWORD_PAGE": {},
+    "@_SECURITY_WIDGET_CHANGE_PASSWORD_PAGE": {},
     "changePasswordTitle_text_myAccountWidgetChangePasswordPage": "Change password",
     "@changePasswordTitle_text_myAccountWidgetChangePasswordPage": {
         "description": "Title of change password page"
@@ -809,6 +810,79 @@
     "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "An email with instructions will be sent.",
     "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
+    },
+    "@_PRIVACY_WIDGET": {},
+    "accountRemoval_text_privacyWidget": "Account removal: ",
+    "@accountRemoval_text_privacyWidget": {
+        "description": "Must have a space after the ':'"
+    },
+    "deleteMyAccount_richText_privacyWidget": "delete my account.",
+    "@deleteMyAccount_richText_privacyWidget": {
+        "description": "Rich text to go to the delete account page"
+    },
+    "myDataExport_text_privacyWidget": "My data export: ",
+    "@myDataExport_text_privacyWidget": {
+        "description": "Must have a space after the ':'"
+    },
+    "downloadMyData_richText_privacyWidget": "download my data.",
+    "@downloadMyData_richText_privacyWidget": {
+        "description": "Rich text to go to the download data page"
+    },
+    "termsOfService_richText_privacyWidget": "Terms of service",
+    "@termsOfService_richText_privacyWidget": {
+        "description": "Rich text to go to the TOS page"
+    },
+    "and_text_privacyWidget": " and ",
+    "@and_text_privacyWidget": {
+        "description": "Text in between TOS and privacy, must have two spaces"
+    },
+    "privacyPolicy_richText_privacyWidget": "Privacy policy.",
+    "@privacyPolicy_richText_privacyWidget": {
+        "description": "Rich text to go to the Privacy policy page"
+    },
+    "@_PRIVACY_WIDGET_DELETE_ACCOUNT_PAGE": {},
+    "deleteAccountTitle_text_privacyWidgetDeleteAccountPage": "Delete account",
+    "@deleteAccountTitle_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account page title"
+    },
+    "deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage": "Do you really want to delete your account?",
+    "@deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account page subtitle"
+    },
+    "deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": "All your data associated to your account will be permanently deleted and it won't be possible to recover it by any means.",
+    "@deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account page subtitle 2"
+    },
+    "deleteAccountCountdownText_text_privacyWidgetDeleteAccountPage": "Your account will be deleted\n after {countdown} seconds.",
+    "@deleteAccountCountdownText_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account page countdown",
+            "placeholders": {
+                "countdown": {
+                    "type": "int"
+                }
+        }
+    },
+    "deleteAccountCountdownCanceled_text_privacyWidgetDeleteAccountPage": "The countdown was canceled, your account is not going to be deleted.",
+    "@deleteAccountCountdownCanceled_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account canceled countdown"
+    },
+    "deleteAccountCancelCountdown_button_privacyWidgetDeleteAccountPage": "Cancel countdown, \ndo not delete my account.",
+    "@deleteAccountCancelCountdown_button_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account canceled countdown"
+    },
+    "deleteAccountDeleteInProgress_text_privacyWidgetDeleteAccountPage": "Your account is being deleted...",
+    "@deleteAccountDeleteInProgress_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account is in progress"
+    },
+    "deleteAccountYourAccountWasDeleted_text_privacyWidgetDeleteAccountPage": "Your account and all your data were deleted, if you want to continue using the app, please, create a new account",
+    "@deleteAccountYourAccountWasDeleted_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account was successful"
+    },
+    "@_PRIVACY_WIDGET_DELETE_ACCOUNT_EXCEPTIONS": {},
+    "genericDeleteAccountException_dialog_deleteAccountPage": "There is a problem deleting your account, you can try restarting the application or trying again later.",
+    "@genericDeleteAccountException_dialog_deleteAccountPage": {
+        "description": "One of the delete account exceptions was not caught"
     }
+
 
 }

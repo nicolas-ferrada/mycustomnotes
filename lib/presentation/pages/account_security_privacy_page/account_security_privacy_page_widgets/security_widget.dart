@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/change_email_page/change_email_page.dart';
 
 import '../../../../l10n/l10n_export.dart';
-import '../../../../utils/dialogs/successful_mail_sent_recover_pasword_dialog.dart';
-import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../change_password_page/change_password_page.dart';
 
 class SecurityWidget extends StatefulWidget {

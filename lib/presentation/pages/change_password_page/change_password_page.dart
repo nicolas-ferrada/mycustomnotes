@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/services/auth_user_service.dart';
 import '../../../l10n/l10n_export.dart';
-import '../../../utils/dialogs/successful_mail_sent_recover_pasword_dialog.dart';
+import '../../../utils/dialogs/successful_message_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -83,7 +83,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           (_) => Navigator.maybePop(context).then(
             (_) => showDialog(
               context: context,
-              builder: (context) => SuccessfulMailSentRecoverPasswordDialog(
+              builder: (context) => SuccessfulMessageDialog(
                   sucessMessage: AppLocalizations.of(context)!
                       .sucessfulMailSent_body_dialog_recoverPasswordPage),
             ),

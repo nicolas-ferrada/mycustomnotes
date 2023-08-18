@@ -236,7 +236,34 @@
     "@_MY_ACCOUNT_WIDGET_CHANGE_PASSWORD_PAGE": {},
     "changePasswordTitle_text_myAccountWidgetChangePasswordPage": "Cambiar contraseña",
     "changePasswordSubtitle_text_myAccountWidgetChangePasswordPage": "¿Quieres cambiar tu contraseña?",
-    "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "Un correo con instrucciones será enviado."
+    "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "Un correo con instrucciones será enviado.",
+    "@_PRIVACY_WIDGET": {},
+    "accountRemoval_text_privacyWidget": "Eliminar cuenta: ",
+    "deleteMyAccount_richText_privacyWidget": "borrar mi cuenta.",
+    "myDataExport_text_privacyWidget": "Exportar datos: ",
+    "downloadMyData_richText_privacyWidget": "descargar mis datos.",
+    "termsOfService_richText_privacyWidget": "Términos de uso",
+    "and_text_privacyWidget": " y ",
+    "privacyPolicy_richText_privacyWidget": "Política de privacidad.",
+    "@_PRIVACY_WIDGET_DELETE_ACCOUNT_PAGE": {},
+    "deleteAccountTitle_text_privacyWidgetDeleteAccountPage": "Borrar cuenta",
+    "deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage": "¿Realmente quieres borrar tu cuenta?",
+    "deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": "Todos los datos asociados a tu cuenta serán permanentemente borrados y no se podrán recuperar de ninguna forma.",
+    "deleteAccountCountdownText_text_privacyWidgetDeleteAccountPage": "Tu cuenta será borrada\n después de {countdown} segundos.",
+    "@deleteAccountCountdownText_text_privacyWidgetDeleteAccountPage": {
+        "description": "Delete account page countdown",
+            "placeholders": {
+                "countdown": {
+                    "type": "int"
+                }
+        }
+    },
+    "deleteAccountCountdownCanceled_text_privacyWidgetDeleteAccountPage": "La cuenta regresiva se canceló, tu cuenta no será borrada.",
+    "deleteAccountCancelCountdown_button_privacyWidgetDeleteAccountPage": "Cancelar cuenta regresiva, \nno borrar mi cuenta.",
+    "deleteAccountDeleteInProgress_text_privacyWidgetDeleteAccountPage": "Tu cuenta está siendo eliminada...",
+    "deleteAccountYourAccountWasDeleted_text_privacyWidgetDeleteAccountPage": "Tu cuenta y todos tus datos fueron eliminados, si deseas seguir usando la aplicación, por favor, crea una nueva cuenta.",
+    "@_PRIVACY_WIDGET_DELETE_ACCOUNT_EXCEPTIONS": {},
+    "genericDeleteAccountException_dialog_deleteAccountPage": "Ocurrió un problema intentando borrar tu cuenta, por favor, intenta reiniciando la aplicación o intentalo nuevamente más tarde."
 }
 
 
