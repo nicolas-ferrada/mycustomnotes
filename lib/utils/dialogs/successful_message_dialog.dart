@@ -19,7 +19,7 @@ class _SuccessfulMessageDialogState extends State<SuccessfulMessageDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       elevation: 3,
-      backgroundColor: const Color.fromARGB(211, 13, 255, 53),
+      backgroundColor: const Color.fromARGB(255, 13, 184, 41),
       title: Center(
         child: Text(
           AppLocalizations.of(context)!
