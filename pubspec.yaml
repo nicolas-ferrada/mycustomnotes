@@ -41,7 +41,7 @@ dependencies:
   firebase_auth: ^4.1.3
 
   # Firebase push notifications
-  firebase_messaging: ^14.6.5
+  firebase_messaging: ^14.6.6
 
   # Cloud storage
   cloud_firestore: ^4.3.1
@@ -77,11 +77,24 @@ dependencies:
   # Date format and internationalization
   intl: ^0.18.0
 
-  # Reproduce audio
+  # Reproduce audio when completing a task
   audioplayers: ^4.0.1
 
   # Actions when keyboard open/close
   flutter_keyboard_visibility: ^5.4.1
+
+  # Create XLSX excel-sheets files for user data exportation
+  excel: 2.1.0 
+
+  # Finds the correct path to save files
+  path_provider: ^2.1.0
+  path: ^1.8.3
+
+  # Handles permissions to export user data
+  permission_handler: ^10.4.3
+
+  # Get device info (Android version)
+  device_info_plus: ^9.0.3
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:

@@ -263,7 +263,19 @@
     "deleteAccountDeleteInProgress_text_privacyWidgetDeleteAccountPage": "Tu cuenta está siendo eliminada...",
     "deleteAccountYourAccountWasDeleted_text_privacyWidgetDeleteAccountPage": "Tu cuenta y todos tus datos fueron eliminados, si deseas seguir usando la aplicación, por favor, crea una nueva cuenta.",
     "@_PRIVACY_WIDGET_DELETE_ACCOUNT_EXCEPTIONS": {},
-    "genericDeleteAccountException_dialog_deleteAccountPage": "Ocurrió un problema intentando borrar tu cuenta, por favor, intenta reiniciando la aplicación o intentalo nuevamente más tarde."
+    "genericDeleteAccountException_dialog_deleteAccountPage": "Ocurrió un problema intentando borrar tu cuenta, por favor, intenta reiniciando la aplicación o intentalo nuevamente más tarde.",
+    "@_PRIVACY_WIDGET_EXPORT_DATA_PAGE": {},
+    "exportDataTitle_text_privacyWidgetExportDataPage": "Exportar datos",
+    "exportDataSubtitle_text_privacyWidgetExportDataPage": "¿Realmente quieres exportar\ntodos tus datos?",
+    "exportDataSubtitle2_text_privacyWidgetExportDataPage": "Todos los datos de tu cuenta serán colocados en un archivo xlsx, el cuál será guardado en la carpeta 'descargas' de tu dispositivo.",
+    "exportDataSubtitle3_text_privacyWidgetExportDataPage": "Exportar tus datos puede ser útil para respaldarlos o utilizarlos con otro servicio.",
+    "exportDataSubtitle4_text_privacyWidgetExportDataPage": "Recuerda ser cuidadoso, ya que toda tu información será puesta en un archivo sin seguridad.",
+    "exportDataSucessfulExportation_dialog_privacyWidgetExportDataPage": "Todos tus datos fueron exportados. Puedes encontrar el archivo en la carpeta 'Descargas'.\n\nPuedes quitar el permiso de 'Acceso a todos los archivos' sin problema.",
+    "@_PRIVACY_WIDGET_EXPORT_DATA_EXCEPTIONS": {},
+    "exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": "El permiso está permanentemente negado.\nPara poder exportar tus datos, tendrás que otorgarlo manualmente o reinstalar la aplicación.",
+    "exportDataPermissionDenied_exception_privacyWidgetExportDataPage": "El permiso necesario no está otorgado.\nPara poder exportar tus datos, el permiso de 'Acceso a todos los archivos' es necesario. Inténtalo nuevamente.",
+    "exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage": "El archivo no pudo crearse, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
+    "exportDataGenericException_exception_privacyWidgetExportDataPage": "Tus datos no pudieron exportarse, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde."
 }
 
 

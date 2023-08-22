@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import '../../../../data/models/Note/folder_model.dart';
+import '../../../../data/models/Note/note_tasks_model.dart';
+import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../data/models/User/user_configuration.dart';
 import '../../../../domain/services/user_configuration_service.dart';
 import '../../../../l10n/change_language.dart';
@@ -18,11 +21,18 @@ class NavigationDrawerHomePage extends StatelessWidget {
   final UserConfiguration userConfiguration;
   final Function updateUserConfiguration;
 
+  final List<NoteText> notesTextList;
+  final List<NoteTasks> notesTasksList;
+  final List<Folder> folders;
+
   const NavigationDrawerHomePage({
     super.key,
     required this.currentUser,
     required this.userConfiguration,
     required this.updateUserConfiguration,
+    required this.notesTextList,
+    required this.notesTasksList,
+    required this.folders,
   });
 
   @override
@@ -199,9 +209,13 @@ class NavigationDrawerHomePage extends StatelessWidget {
             (_) => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AccountSecurityPrivacyPage(
-                        currentUser: currentUser,
-                      )),
+                builder: (context) => AccountSecurityPrivacyPage(
+                  currentUser: currentUser,
+                  folders: folders,
+                  notesTasksList: notesTasksList,
+                  notesTextList: notesTextList,
+                ),
+              ),
             ),
           );
         } catch (errorMessage) {

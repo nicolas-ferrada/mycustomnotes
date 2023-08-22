@@ -186,6 +186,9 @@ class _HomePageState extends State<HomePage> {
         currentUser: currentUser,
         userConfiguration: userConfiguration,
         updateUserConfiguration: updateUserConfiguration,
+        notesTextList: textNotes,
+        notesTasksList: tasksNotes,
+        folders: folders,
       ),
       body: buildNoteBodyWidget(
         context: context,

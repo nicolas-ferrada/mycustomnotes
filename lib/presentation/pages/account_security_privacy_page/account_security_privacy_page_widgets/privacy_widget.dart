@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../data/models/Note/folder_model.dart';
+import '../../../../data/models/Note/note_tasks_model.dart';
+import '../../../../data/models/Note/note_text_model.dart';
 import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/successful_message_dialog.dart';
 import '../../delete_account_page/delete_account_page.dart';
@@ -11,9 +14,15 @@ import '../../terms_of_service_page/terms_of_service_page.dart';
 
 class PrivacyWidget extends StatefulWidget {
   final User currentUser;
+  final List<NoteText> notesTextList;
+  final List<NoteTasks> notesTasksList;
+  final List<Folder> folders;
   const PrivacyWidget({
     super.key,
     required this.currentUser,
+    required this.notesTextList,
+    required this.notesTasksList,
+    required this.folders,
   });
 
   @override
@@ -127,7 +136,12 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ExportDataPage(),
+                    builder: (context) => ExportDataPage(
+                      notesTextList: widget.notesTextList,
+                      notesTasksList: widget.notesTasksList,
+                      folders: widget.folders,
+                      currentUser: widget.currentUser,
+                    ),
                   ),
                 );
               },

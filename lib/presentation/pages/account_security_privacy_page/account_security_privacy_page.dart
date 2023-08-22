@@ -1,15 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/account_security_privacy_page/account_security_privacy_page_widgets/privacy_widget.dart';
+import '../../../data/models/Note/folder_model.dart';
+import '../../../data/models/Note/note_tasks_model.dart';
+import '../../../data/models/Note/note_text_model.dart';
 import '../../../l10n/l10n_export.dart';
 import 'account_security_privacy_page_widgets/my_account_widget.dart';
 import 'account_security_privacy_page_widgets/security_widget.dart';
 
 class AccountSecurityPrivacyPage extends StatefulWidget {
   final User currentUser;
+  final List<NoteText> notesTextList;
+  final List<NoteTasks> notesTasksList;
+  final List<Folder> folders;
   const AccountSecurityPrivacyPage({
     super.key,
     required this.currentUser,
+    required this.notesTextList,
+    required this.notesTasksList,
+    required this.folders,
   });
 
   @override
@@ -36,7 +45,14 @@ class _AccountSecurityPrivacyPageState
         children: [
           Expanded(child: MyAccountWidget(currentUser: widget.currentUser)),
           Expanded(child: SecurityWidget(currentUser: widget.currentUser)),
-          Expanded(child: PrivacyWidget(currentUser: widget.currentUser)),
+          Expanded(
+            child: PrivacyWidget(
+              currentUser: widget.currentUser,
+              notesTextList: widget.notesTextList,
+              notesTasksList: widget.notesTasksList,
+              folders: widget.folders,
+            ),
+          ),
         ],
       ),
     );

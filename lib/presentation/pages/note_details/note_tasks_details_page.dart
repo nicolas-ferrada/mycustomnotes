@@ -17,6 +17,7 @@ import '../../../utils/dialogs/note_details_info.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
+import '../../../utils/formatters/note_tasks_string_format.dart';
 import '../../../utils/internet/check_internet_connection.dart';
 import '../../../utils/note_color/note_color.dart';
 import '../../../utils/snackbars/snackbar_message.dart';
@@ -756,37 +757,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
           pickNoteColorPopupButton();
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
-          String getPendingTasksFormat() {
-            String pendingTasksFormat = '';
-            String task = '';
-            // Since tasks are shown reversed, so to make them order like in the app
-            Iterable<Map<String, dynamic>> reversedTasks =
-                widget.noteTasks.tasks.reversed;
-            for (int i = 0; i < reversedTasks.length; i++) {
-              if (reversedTasks.elementAt(i)['isTaskCompleted'] == false) {
-                task = reversedTasks.elementAt(i)['taskName'];
-                pendingTasksFormat += '- $task\n';
-              }
-            }
-            return pendingTasksFormat;
-          }
-
-          String getFinishedTasksFormat() {
-            String finishedTasksFormat = '';
-            String task = '';
-            Iterable<Map<String, dynamic>> reversedTasks =
-                widget.noteTasks.tasks.reversed;
-            for (int i = 0; i < reversedTasks.length; i++) {
-              if (reversedTasks.elementAt(i)['isTaskCompleted'] == true) {
-                task = reversedTasks.elementAt(i)['taskName'];
-                finishedTasksFormat += '- $task\n';
-              }
-            }
-            return finishedTasksFormat;
-          }
-
           Share.share(
-              '${widget.noteTasks.title}\n\n${AppLocalizations.of(context)!.noteTasks_text_shareNotCompletedNote}:\n${getPendingTasksFormat()}\n${AppLocalizations.of(context)!.noteTasks_text_shareCompletedNote}:\n${getFinishedTasksFormat().trimRight()}');
+            '${widget.noteTasks.title}\n\n${AppLocalizations.of(context)!.noteTasks_text_shareNotCompletedNote}:\n${NoteTasksStringFormat.getPendingTasksFormat(noteTasks: widget.noteTasks)}\n${AppLocalizations.of(context)!.noteTasks_text_shareCompletedNote}:\n${NoteTasksStringFormat.getFinishedTasksFormat(noteTasks: widget.noteTasks).trimRight()}',
+          );
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
           showDialog(
