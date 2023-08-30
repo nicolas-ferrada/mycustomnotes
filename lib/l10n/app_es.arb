@@ -10,6 +10,8 @@
     "password_textformfield_loginPage": "Ingresa tu contraseña",
     "signUp_richText_loginPage": "Regístrate",
     "signUp_text_info_loginPage": "¿No tienes una cuenta?",
+    "or_text_separator_loginPage": "O",
+    "googleButton_button_loginPage": "Acceder con Google",
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "Has ingresado una contraseña incorrecta.",
     "userNotFound_dialog_loginPage": "La cuenta ingresada no existe. Necesitas registrate antes de iniciar sesión, si lo hiciste, revisa que el email esté bien escrito.",

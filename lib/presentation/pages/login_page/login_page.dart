@@ -237,9 +237,10 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.grey.shade600,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('Or'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child:
+                Text(AppLocalizations.of(context)!.or_text_separator_loginPage),
           ),
           Expanded(
             child: Divider(
@@ -265,11 +266,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         onPressed: () {},
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(right: 22),
               child: Image(
                 image: AssetImage("assets/google_icon.png"),
@@ -278,8 +279,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Text(
-              'Sign in with Google',
-              style: TextStyle(
+              AppLocalizations.of(context)!.googleButton_button_loginPage,
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
                 fontWeight: FontWeight.w600,

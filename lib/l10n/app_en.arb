@@ -38,6 +38,14 @@
     "@signUp_text_info_loginPage": {
         "description": "Telling the user why and when to tap the right rich text"
     },
+    "or_text_separator_loginPage": "Or",
+    "@or_text_separator_loginPage": {
+        "description": "Used to separate email-password from google login provider"
+    },
+    "googleButton_button_loginPage": "Sign in with Google",
+    "@googleButton_button_loginPage": {
+        "description": "Log in with google provider button text"
+    },
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "You have entered a wrong password.",
     "@wrongPassword_dialog_loginPage": {
