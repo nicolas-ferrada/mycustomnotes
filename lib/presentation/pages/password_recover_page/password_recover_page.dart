@@ -3,6 +3,7 @@ import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
 
 import '../../../domain/services/auth_user_service.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../../utils/app_color_scheme/app_color_scheme.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
@@ -40,6 +41,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                 AppLocalizations.of(context)!
                     .instructions_text_recoverPasswordPage,
                 style: const TextStyle(fontSize: 14),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(
@@ -47,7 +49,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
             ),
             //Mail user input
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: TextFormField(
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 controller: _emailRecoverPasswordController,
@@ -57,36 +59,41 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                   hintText: AppLocalizations.of(context)!
                       .email_textformfield_recoverPasswordPage,
                   prefixIcon: const Icon(Icons.mail),
-                  border: const OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: AppColorScheme.purple()),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.grey.shade600),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 8),
             //Button recover password
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.lock,
-                  size: 32,
-                ),
-                label: Text(
-                  AppLocalizations.of(context)!
-                      .resetPassword_button_recoverPasswordPage,
-                  style: const TextStyle(fontSize: 24),
-                ),
+              child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 30),
-                  backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-                  minimumSize: const Size(220, 70),
+                  elevation: 30,
+                  backgroundColor: AppColorScheme.darkPurple(),
+                  minimumSize: const Size(200, 60),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
                 onPressed: () async {
                   // Send a email to recover the access of the account of the specified mail
                   try {
+                    if (_emailRecoverPasswordController.text.isEmpty) {
+                      ExceptionsAlertDialog.showErrorDialog(
+                        context: context,
+                        errorMessage: AppLocalizations.of(context)!
+                            .unknown_empty_dialog_recoverPassword,
+                      );
+                      return;
+                    }
                     await AuthUserService.recoverPasswordUserFirebase(
                       email: _emailRecoverPasswordController.text,
                       context: context,
@@ -108,6 +115,12 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                         errorMessage: errorMessage.toString());
                   }
                 },
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .resetPassword_button_recoverPasswordPage,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 22),
+                ),
               ),
             ),
           ],

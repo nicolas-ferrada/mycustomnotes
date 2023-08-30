@@ -151,7 +151,7 @@
     "@userNotFound_dialog_recoverPassword": {
         "description": "Exception to indicate the user what is doing wrong trying to reset their password."
     },
-    "unknown_empty_dialog_recoverPassword": "You have to type an email and password.",
+    "unknown_empty_dialog_recoverPassword": "You have to type an email.",
     "@unknown_empty_dialog_recoverPassword": {
         "description": "Exception to indicate the user what is doing wrong trying to reset their password."
     },
