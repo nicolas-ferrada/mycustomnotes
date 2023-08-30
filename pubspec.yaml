@@ -134,6 +134,8 @@ flutter:
   assets:
     - assets/
     - assets/icon.png
+    - assets/google_icon.png
+    - assets/completedTask.mp3
 
 
   fonts:

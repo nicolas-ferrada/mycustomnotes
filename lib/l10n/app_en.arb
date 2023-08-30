@@ -18,16 +18,12 @@
     "@email_textformfield_loginPage": {
         "description": "User input to type your email for login."
     },
-    "login_button_loginPage": "Login",
+    "login_button_loginPage": "Log in",
     "@login_button_loginPage": {
         "description": "The button that allows the user to log in after its pressed"
     },
-    "passwordRecover_richText_loginPage": "Recover it",
-    "@passwordRecover_richText_loginPage": {
-        "description": "User can tap to recover password"
-    },
-    "passwordRecover_text_info_loginPage": "Forgot your password? ",
-    "@passwordRecover_text_info_loginPage": {
+    "passwordRecover_richText_info_loginPage": "Forgot password?",
+    "@passwordRecover_richText_info_loginPage": {
         "description": "Telling the user why and when to tap the right rich text"
     },
     "password_textformfield_loginPage": "Enter your password",
@@ -38,7 +34,7 @@
     "@signUp_richText_loginPage": {
         "description": "User can tap to create an account"
     },
-    "signUp_text_info_loginPage": "Need an account? ",
+    "signUp_text_info_loginPage": "Don't have an account?",
     "@signUp_text_info_loginPage": {
         "description": "Telling the user why and when to tap the right rich text"
     },
