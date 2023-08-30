@@ -40,13 +40,15 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return Drawer(
       elevation: 5,
       width: 250,
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            buildHeader(context),
-            buildMenuItems(context),
-          ],
+      child: Center(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            children: [
+              buildHeader(context),
+              buildMenuItems(context),
+            ],
+          ),
         ),
       ),
     );
@@ -70,7 +72,10 @@ class NavigationDrawerHomePage extends StatelessWidget {
           ListTile(
             title: Text(
               AppLocalizations.of(context)!.title_drawer_homePage,
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ), // Change language
           const Divider(thickness: 1),
