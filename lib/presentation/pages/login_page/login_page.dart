@@ -131,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
           prefixIcon: const Icon(Icons.mail),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColorScheme.purple()),
+            borderSide: BorderSide(
+              color: AppColorScheme.purple(),
+            ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
