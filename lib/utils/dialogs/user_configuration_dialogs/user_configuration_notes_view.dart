@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../app_color_scheme/app_color_scheme.dart';
 import '../../styles/dialog_title_style.dart';
 
 import '../../../data/models/User/user_configuration.dart';
@@ -52,7 +51,7 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
     return Builder(builder: (BuildContext context) {
       return AlertDialog(
         elevation: 3,
-        backgroundColor: Colors.grey.shade400,
+        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
         title: Center(
           child: DialogTitleStyle(
             title: AppLocalizations.of(context)!
@@ -73,7 +72,7 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                       child: Card(
                         elevation: 10,
                         color: (notesView?.notesViewId == 1)
-                            ? AppColorScheme.purple()
+                            ? Colors.red
                             : Colors.grey.shade800.withOpacity(0.9),
                         child: InkWell(
                           onTap: () {
@@ -109,7 +108,7 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                       child: Card(
                         elevation: 10,
                         color: (notesView?.notesViewId == 2)
-                            ? AppColorScheme.purple()
+                            ? Colors.red
                             : Colors.grey.shade800.withOpacity(0.9),
                         child: InkWell(
                           onTap: () {
@@ -145,7 +144,7 @@ class _ChangeNotesViewState extends State<ChangeNotesView> {
                       child: Card(
                         elevation: 10,
                         color: (notesView?.notesViewId == 3)
-                            ? AppColorScheme.purple()
+                            ? Colors.red
                             : Colors.grey.shade800.withOpacity(0.9),
                         child: InkWell(
                           onTap: () {

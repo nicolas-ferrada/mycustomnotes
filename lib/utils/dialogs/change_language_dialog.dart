@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mycustomnotes/utils/app_color_scheme/app_color_scheme.dart';
 
 import '../../l10n/change_language.dart';
 import '../../l10n/l10n_export.dart';
@@ -42,7 +41,7 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
             builder: (BuildContext context) {
               return AlertDialog(
                 elevation: 3,
-                backgroundColor: Colors.grey.shade400,
+                backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
                 title: Center(
                     child: DialogTitleStyle(
                   title: AppLocalizations.of(context)!
@@ -60,7 +59,7 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
                             child: Card(
                               elevation: 10,
                               color: (currentLanguage?.languageIndex == 1)
-                                  ? AppColorScheme.purple()
+                                  ? Colors.red
                                   : Colors.grey.shade800.withOpacity(0.9),
                               child: InkWell(
                                 onTap: () {
@@ -95,7 +94,7 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
                             child: Card(
                               elevation: 10,
                               color: (currentLanguage?.languageIndex == 2)
-                                  ? AppColorScheme.purple()
+                                  ? Colors.red
                                   : Colors.grey.shade800.withOpacity(0.9),
                               child: InkWell(
                                 onTap: () {
