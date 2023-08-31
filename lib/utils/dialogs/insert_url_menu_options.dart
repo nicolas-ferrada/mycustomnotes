@@ -30,7 +30,7 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
       builder: (context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: Colors.grey.shade400,
           title: DialogTitleStyle(
               title: AppLocalizations.of(context)!.url_dialog_title),
           content: SingleChildScrollView(

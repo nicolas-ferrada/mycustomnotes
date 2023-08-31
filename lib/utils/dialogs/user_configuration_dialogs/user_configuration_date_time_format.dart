@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../app_color_scheme/app_color_scheme.dart';
 import '../../styles/dialog_title_style.dart';
 
 import '../../../data/models/User/user_configuration.dart';
@@ -86,7 +87,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: Colors.grey.shade400,
           title: DialogTitleStyle(
             title: AppLocalizations.of(context)!
                 .dateTimeTitle_drawerDialog_homePage,
@@ -105,7 +106,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                         child: Card(
                           elevation: 10,
                           color: (selectedDateCard == 1)
-                              ? Colors.red
+                              ? AppColorScheme.purple()
                               : Colors.grey.shade800.withOpacity(0.9),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
@@ -146,7 +147,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                         child: Card(
                           elevation: 10,
                           color: (selectedDateCard == 2)
-                              ? Colors.red
+                              ? AppColorScheme.purple()
                               : Colors.grey.shade800.withOpacity(0.9),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
@@ -187,7 +188,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                         child: Card(
                           elevation: 10,
                           color: (selectedDateCard == 3)
-                              ? Colors.red
+                              ? AppColorScheme.purple()
                               : Colors.grey.shade800.withOpacity(0.9),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
@@ -238,7 +239,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                         child: Card(
                           elevation: 10,
                           color: (selectedTimeCard == 1)
-                              ? Colors.red
+                              ? AppColorScheme.purple()
                               : Colors.grey.shade800.withOpacity(0.9),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
@@ -278,7 +279,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                         child: Card(
                           elevation: 10,
                           color: (selectedTimeCard == 2)
-                              ? Colors.red
+                              ? AppColorScheme.purple()
                               : Colors.grey.shade800.withOpacity(0.9),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),

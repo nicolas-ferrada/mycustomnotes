@@ -17,7 +17,7 @@ class NotesDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       elevation: 3,
-      backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+      backgroundColor: Colors.grey.shade400,
       title: Center(
         child: Container(
           decoration: BoxDecoration(

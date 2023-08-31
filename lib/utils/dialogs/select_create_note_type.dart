@@ -11,7 +11,7 @@ class SelectCreateNoteType {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: Colors.grey.shade400,
           title: DialogTitleStyle(
             title: AppLocalizations.of(context)!.newNoteTitle_dialog_homePage,
           ),

@@ -22,7 +22,7 @@ class _NotePickColorDialogState extends State<NotePickColorDialog> {
         return AlertDialog(
           elevation: 3,
           contentPadding: const EdgeInsets.all(12),
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: Colors.grey.shade400,
           title: Center(
             child: Container(
               decoration: BoxDecoration(

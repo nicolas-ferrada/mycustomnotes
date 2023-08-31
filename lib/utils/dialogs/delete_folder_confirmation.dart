@@ -22,7 +22,7 @@ class DeleteFolderConfirmation {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromARGB(220, 250, 215, 90),
+          backgroundColor: Colors.grey.shade400,
           title: DialogTitleStyle(
             title: AppLocalizations.of(context)!.deleteNote_dialog_title,
           ),

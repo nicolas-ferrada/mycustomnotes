@@ -13,7 +13,7 @@ class ConfirmationDialog {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.8),
+          backgroundColor: Colors.grey.shade400,
           title: DialogTitleStyle(
             title:
                 AppLocalizations.of(context)!.logOutTitle_drawerDialog_homePage,
@@ -83,7 +83,7 @@ class ConfirmationDialog {
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 3,
-          backgroundColor: const Color.fromARGB(204, 250, 212, 78),
+          backgroundColor: Colors.grey.shade400,
           title: Center(
             child: Container(
               decoration: BoxDecoration(
