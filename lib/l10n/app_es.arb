@@ -226,7 +226,7 @@
     "changeEmailUserNotFound_exception_myAccountWidgetChangeEmailPageException": "No se encontró el usuario, por favor, inténtalo nuevamente.",
     "changeEmailInvalidCredentials_exception_myAccountWidgetChangeEmailPageException": "Las credenciales son inválidas, por favor, inténtalo nuevamente.",
     "changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException": "El correo es inválido, por favor, inténtalo nuevamente.",
-    "changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException": "La contraseña ingresa es incorrecta, por favor, inténtalo nuevamente.",
+    "changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException": "La contraseña ingresada es incorrecta, por favor, inténtalo nuevamente.",
     "changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": "Ocurrió un problema intentando cambiar tu correo, por favor, intenta reiniciando la aplicación o intentalo nuevamente más tarde.",
     "changeEmailEmailAlreadyInUse_exception_myAccountWidgetChangeEmailPageException": "El correo ya está en uso, por favor, usa otro correo electrónico.",
     "changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException": "Un inicio de sesión reciente es necesario, por favor, intenta cerrando tu sesión actual y volviendo a iniciar sesión.",
