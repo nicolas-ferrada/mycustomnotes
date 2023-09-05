@@ -80,6 +80,10 @@
     "@email_textformfield_registerPage": {
         "description": "User input to type the email for creating an account."
     },
+    "emailConfirm_textformfield_registerPage": "Confirm your email",
+    "@emailConfirm_textformfield_registerPage": {
+        "description": "User input to type the email for creating an account confirmation."
+    },
     "password_textformfield_registerPage": "Enter a password",
     "@password_textformfield_registerPage": {
         "description": "User input to type the password for creating an account."
@@ -91,6 +95,10 @@
     "createAccount_button_registerPage": "Create account",
     "@createAccount_button_registerPage": {
         "description": "Button to trigger the create account funcionality using email and password"
+    },
+    "googleButton_button_registerPage": "Sign up with Google",
+    "@googleButton_button_registerPage": {
+        "description": "Register with google provider button text"
     },
     "@_REGISTER_PAGE_EXCEPTIONS": {},
     "confirmPasswordInvalid_dialog_registerPage": "The two passwords entered  do not match, please try writing your password again.",
@@ -112,6 +120,10 @@
     "unknown_empty_dialog_registerPage": "You have to type an email and password.",
     "@unknown_empty_dialog_registerPage": {
         "description": "Exception to indicate the user what is doing wrong in the register process."
+    },
+    "emailsDoNotMatch_dialog_registerPage": "The emails do not match.",
+    "@emailsDoNotMatch_dialog_registerPage": {
+        "description": "Exception to indicate the user wrote two different emails."
     },
     "genericRegisterException_dialog_registerPage": "There is a problem creating your account, try double checking the data you are writing, also you can try restarting the application or trying again later.",
     "@genericRegisterException_dialog_registerPage": {
@@ -180,6 +192,10 @@
     "signOut_button_emailVerificationPage": "Can't verify the email? Sign out",
     "@signOut_button_emailVerificationPage": {
         "description": "Sign out button in case user can't verify the email"
+    },
+    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "You have recently changed your account's email, please, sign in with Google using your new email.",
+    "@errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": {
+        "description": "User changed their email account using google provider and they are trying to log in with the old account instead of the new one"
     },
     "@_EMAIL_VERIFICATION_PAGE_EXCEPTIONS": {},
     "emailAlreadyVerified_dialog_emailVerificationPage": "The email is already verified",
@@ -695,8 +711,12 @@
     "@passwordProvider_text_myAccountWidget": {
         "description": "Email and password as login provider"
     },
-    "googleProvider_text_myAccountWidget": "Your account use Google to log in.",
+    "googleProvider_text_myAccountWidget": "Your account uses Google to log in.",
     "@googleProvider_text_myAccountWidget": {
+        "description": "Google as login provider"
+    },
+    "emailPasswordAndGoogleProvider_text_myAccountWidget": "Your account uses email-password and Google to log in.",
+    "@emailPasswordAndGoogleProvider_text_myAccountWidget": {
         "description": "Google as login provider"
     },
     "providerNotFound_text_myAccountWidget": "Login provider not found.",
@@ -752,6 +772,10 @@
     "changeEmailSucess_dialog_myAccountWidgetChangeEmailPage": "Your email was changed successfully!, please, login in with your new email.",
     "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
         "description": "New email dialog after successfully changing email"
+    },
+    "changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": "If you change your email, you will only be able to use Google to access to your account, meaning you will lost the possibility to log in using email and password.",
+    "@changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": {
+        "description": "Text explaning if user change email will lost access to account using email-password"
     },
     "@_SECURITY_WIDGET_CHANGE_EMAIL_PAGE_EXCEPTIONS": {},
     "changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException": "A user mismatch was found, please, try again.",
@@ -812,6 +836,14 @@
         "description": "Subtitle of change password page"
     },
     "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "An email with instructions will be sent.",
+    "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
+    },
+    "functionalityNotAvailableForGoogle_text_myAccountWidgetChangePasswordPage": "This functionality is not available to your account.",
+    "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
+    },
+    "warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": "Changing your password will unlink Google as log in option, you will have to link it manually again.",
     "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },

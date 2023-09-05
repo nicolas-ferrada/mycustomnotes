@@ -1,5 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../../utils/extensions/formatted_message.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -7,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_text_model.dart';
-import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/note_text_service.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../utils/dialogs/confirmation_dialog.dart';
@@ -40,8 +40,7 @@ class NoteTextDetailsPage extends StatefulWidget {
 
 class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
   // Access firebase user
-  final currentUser = AuthUserService.getCurrentUserFirebase();
-
+  final currentUser = AuthUserService.getCurrentUser();
   // Makes the save button to show up
   bool didTitleChanged = false;
   bool didBodyChanged = false;

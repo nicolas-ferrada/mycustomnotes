@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:mycustomnotes/presentation/pages/change_email_page/change_email_page.dart';
 
 import '../../../../l10n/l10n_export.dart';
+import '../../../../utils/enums/user_auth_provider.dart';
 import '../../change_password_page/change_password_page.dart';
 
 class SecurityWidget extends StatefulWidget {
   final User currentUser;
+  final UserAuthProvider userAuthProvider;
   const SecurityWidget({
     super.key,
     required this.currentUser,
+    required this.userAuthProvider,
   });
 
   @override
@@ -37,86 +40,95 @@ class _SecurityWidgetState extends State<SecurityWidget> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  // Change email
-                  Row(
-                    children: [
-                      const Icon(Icons.email, size: 18),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .emailSubtitleWithSpace_text_myAccountWidget,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.white,
-                            fontSize: 16,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          text: AppLocalizations.of(context)!
-                              .changeEmail_richText_myAccountWidget,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChangeEmailPage(
-                                      currentUser: widget.currentUser),
-                                ),
-                              );
-                            },
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Change password
-                  Row(
-                    children: [
-                      const Icon(Icons.password, size: 18),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .changePassword_text_myAccountWidget,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.white,
-                            fontSize: 16,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          text: AppLocalizations.of(context)!
-                              .changePassword_richText_myAccountWidget,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChangePasswordPage(
-                                      currentUser: widget.currentUser),
-                                ),
-                              );
-                            },
-                        ),
-                      ),
-                    ],
-                  ),
+                  changeEmail(context),
+                  changePassword(context),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget changePassword(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.password, size: 18),
+        const SizedBox(
+          width: 4,
+        ),
+        Text(
+          AppLocalizations.of(context)!.changePassword_text_myAccountWidget,
+          style: const TextStyle(fontSize: 15),
+        ),
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontSize: 16,
+              overflow: TextOverflow.ellipsis,
+            ),
+            text: AppLocalizations.of(context)!
+                .changePassword_richText_myAccountWidget,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangePasswordPage(
+                      currentUser: widget.currentUser,
+                      userAuthProvider: widget.userAuthProvider,
+                    ),
+                  ),
+                );
+              },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget changeEmail(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.email, size: 18),
+        const SizedBox(
+          width: 4,
+        ),
+        Text(
+          AppLocalizations.of(context)!
+              .emailSubtitleWithSpace_text_myAccountWidget,
+          style: const TextStyle(fontSize: 15),
+        ),
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontSize: 16,
+              overflow: TextOverflow.ellipsis,
+            ),
+            text: AppLocalizations.of(context)!
+                .changeEmail_richText_myAccountWidget,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeEmailPage(
+                      currentUser: widget.currentUser,
+                      userAuthProvider: widget.userAuthProvider,
+                    ),
+                  ),
+                );
+              },
+          ),
+        ),
+      ],
     );
   }
 

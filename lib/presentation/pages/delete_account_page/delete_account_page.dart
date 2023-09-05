@@ -2,17 +2,23 @@ import 'dart:async' show Timer;
 
 import 'package:firebase_auth/firebase_auth.dart' show User, UserCredential;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
 import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
+import 'package:mycustomnotes/utils/enums/user_auth_provider.dart';
 
-import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service_email_password.dart';
+import '../../../utils/app_color_scheme/app_color_scheme.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 
 class DeleteAccountPage extends StatefulWidget {
   final User currentUser;
+  final UserAuthProvider userAuthProvider;
   const DeleteAccountPage({
     super.key,
     required this.currentUser,
+    required this.userAuthProvider,
   });
 
   @override
@@ -47,62 +53,130 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               .deleteAccountTitle_text_privacyWidgetDeleteAccountPage),
           centerTitle: true,
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Visibility(
-                  visible: !didUserPressDeleteAccountButton,
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+        body: providerWidget(),
+      ),
+    );
+  }
+
+  Widget providerWidget() {
+    if (widget.userAuthProvider == UserAuthProvider.emailPassword) {
+      return deleteAccountEmailPassword(context);
+    } else if (widget.userAuthProvider == UserAuthProvider.google ||
+        widget.userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+      return deleteAccountGoogle(context);
+    } else {
+      return const Text('Error: No provider found');
+    }
+  }
+
+  Widget deleteAccountEmailPassword(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Visibility(
+                visible: !didUserPressDeleteAccountButton,
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 12),
-                Visibility(
-                  visible: !didUserPressDeleteAccountButton,
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
+              ),
+              const SizedBox(height: 12),
+              Visibility(
+                visible: !didUserPressDeleteAccountButton,
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
-                SizedBox(
-                  height: didUserPressDeleteAccountButton ? 0 : 32,
-                ),
-                Visibility(
-                  visible: !didUserPressDeleteAccountButton,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                      controller: _passwordLoginController,
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!
-                            .changeEmailCurrentPasswordInput_textformfield_myAccountWidgetChangeEmailPage,
-                        prefixIcon: const Icon(Icons.lock),
-                        border: const OutlineInputBorder(),
+              ),
+              SizedBox(
+                height: didUserPressDeleteAccountButton ? 0 : 32,
+              ),
+              Visibility(
+                visible: !didUserPressDeleteAccountButton,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: TextField(
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    controller: _passwordLoginController,
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!
+                          .changeEmailCurrentPasswordInput_textformfield_myAccountWidgetChangeEmailPage,
+                      prefixIcon: const Icon(Icons.lock),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: AppColorScheme.purple()),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey.shade600),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: didUserPressDeleteAccountButton ? 0 : 32,
+              ),
+              SizedBox(
+                height: didUserPressDeleteAccountButton ? 0 : 32,
+              ),
+              buttonAndTimerWidget(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget deleteAccountGoogle(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Visibility(
+                visible: !didUserPressDeleteAccountButton,
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-                buttonAndTimerWidget(),
-              ],
-            ),
+              ),
+              const SizedBox(height: 12),
+              Visibility(
+                visible: !didUserPressDeleteAccountButton,
+                child: Text(
+                  AppLocalizations.of(context)!
+                      .deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              SizedBox(
+                height: didUserPressDeleteAccountButton ? 0 : 32,
+              ),
+              buttonAndTimerWidget(),
+            ],
           ),
         ),
       ),
@@ -124,23 +198,43 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               ),
               onPressed: () async {
                 try {
-                  if (_passwordLoginController.text.isEmpty) {
-                    ExceptionsAlertDialog.showErrorDialog(
-                        context: context,
-                        errorMessage: AppLocalizations.of(context)!
-                            .changeEmailNoPassword_exception_myAccountWidgetChangeEmailPageException);
-                    return;
-                  }
-                  await AuthUserService.reAuthUserFirebase(
-                    context: context,
-                    email: widget.currentUser.email!,
-                    password: _passwordLoginController.text,
-                  ).then((reAuthCredentials) {
-                    setState(() {
-                      didUserPressDeleteAccountButton = true;
+                  if (widget.userAuthProvider ==
+                      UserAuthProvider.emailPassword) {
+                    if (_passwordLoginController.text.isEmpty) {
+                      ExceptionsAlertDialog.showErrorDialog(
+                          context: context,
+                          errorMessage: AppLocalizations.of(context)!
+                              .changeEmailNoPassword_exception_myAccountWidgetChangeEmailPageException);
+                      return;
+                    }
+                    await AuthUserServiceEmailPassword.reAuthUserEmailPassword(
+                      context: context,
+                      email: widget.currentUser.email!,
+                      password: _passwordLoginController.text,
+                    ).then((reAuthCredentials) {
+                      setState(() {
+                        didUserPressDeleteAccountButton = true;
+                      });
+                      startDeleteCountdown(
+                          reAuthCredentials: reAuthCredentials);
                     });
-                    startDeleteCountdown(reAuthCredentials: reAuthCredentials);
-                  });
+                  } else {
+                    await AuthUserServiceGoogleSignIn.reAuthUserGoogle(
+                      context: context,
+                      email: widget.currentUser.email!,
+                    ).then((reAuthCredentials) {
+                      setState(() {
+                        didUserPressDeleteAccountButton = true;
+                      });
+                      if (reAuthCredentials != null) {
+                        startDeleteCountdown(
+                            reAuthCredentials: reAuthCredentials);
+                      } else {
+                        throw Exception(AppLocalizations.of(context)!
+                            .unexpectedException_dialog);
+                      }
+                    });
+                  }
                 } catch (errorMessage) {
                   ExceptionsAlertDialog.showErrorDialog(
                       context: context, errorMessage: errorMessage.toString());
@@ -271,11 +365,13 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   }) async {
     try {
       if (context.mounted) {
-        await AuthUserService.deleteAccountUserFirebase(
-                context: context, updatedUser: reAuthCredentials)
-            .then(
+        await AuthUserService.deleteAccount(
+          context: context,
+          updatedUser: reAuthCredentials,
+        ).then(
           (result) {
             if (result != null && result == 'Success') {
+              AuthUserService.logOut(context: context);
               Navigator.pop(context);
               Navigator.pop(context);
               return showDialog(

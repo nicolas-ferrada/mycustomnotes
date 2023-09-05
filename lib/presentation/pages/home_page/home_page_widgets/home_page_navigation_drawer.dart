@@ -241,7 +241,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
   }) {
     return ListTile(
       onTap: () {
-        ConfirmationDialog.logOutDialog(context);
+        ConfirmationDialog.logOutDialog(context, currentUser);
       },
       leading: Transform.scale(
         scaleX: -1,

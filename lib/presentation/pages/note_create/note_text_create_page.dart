@@ -1,5 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../../utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/l10n_export.dart';
@@ -7,7 +8,6 @@ import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
-import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/note_text_service.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +25,7 @@ class NoteTextCreatePage extends StatefulWidget {
 }
 
 class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
-  final currentUser = AuthUserService.getCurrentUserFirebase();
-
+  final currentUser = AuthUserService.getCurrentUser();
   final _noteTitleController = TextEditingController();
   final _noteBodyController = TextEditingController();
 

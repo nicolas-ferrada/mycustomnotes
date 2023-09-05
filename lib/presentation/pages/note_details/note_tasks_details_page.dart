@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
-import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -51,8 +51,7 @@ class NoteTasksDetailsPage extends StatefulWidget {
 
 class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   // Access firebase user
-  final currentUser = AuthUserService.getCurrentUserFirebase();
-
+  final currentUser = AuthUserService.getCurrentUser();
   // Makes the save button to show up
   bool didTitleChange = false;
   bool didTaskChange = false;

@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import '../../../data/models/Note/folder_notifier.dart';
 import '../../../data/models/User/user_configuration.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../../utils/dialogs/delete_folder_confirmation.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/Note/folder_model.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
-import '../../../domain/services/auth_user_service.dart';
 import '../../../domain/services/folder_service.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../utils/dialogs/confirmation_dialog.dart';
@@ -68,7 +68,7 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
   List<NoteText> selectedNoteText = [];
   List<NoteTasks> selectedNoteTasks = [];
 
-  final User currentUser = AuthUserService.getCurrentUserFirebase();
+  final User currentUser = AuthUserService.getCurrentUser();
 
   void selectedNoteChanged() {
     setState(() {

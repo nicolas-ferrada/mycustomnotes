@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/enums/user_auth_provider.dart';
 
 import '../../../../data/models/Note/folder_model.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
@@ -17,12 +18,14 @@ class PrivacyWidget extends StatefulWidget {
   final List<NoteText> notesTextList;
   final List<NoteTasks> notesTasksList;
   final List<Folder> folders;
+  final UserAuthProvider userAuthProvider;
   const PrivacyWidget({
     super.key,
     required this.currentUser,
     required this.notesTextList,
     required this.notesTasksList,
     required this.folders,
+    required this.userAuthProvider,
   });
 
   @override
@@ -88,16 +91,18 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        DeleteAccountPage(currentUser: widget.currentUser),
+                    builder: (context) => DeleteAccountPage(
+                      currentUser: widget.currentUser,
+                      userAuthProvider: widget.userAuthProvider,
+                    ),
                   ),
                 ).then((didUserPressDeleteAccountButton) async {
                   if (didUserPressDeleteAccountButton == true) {
                     await showDialog(
                       context: context,
-                      builder: (context) => const SuccessfulMessageDialog(
-                        sucessMessage:
-                            'The countdown was canceled, your account is not going to be deleted.',
+                      builder: (context) => SuccessfulMessageDialog(
+                        sucessMessage: AppLocalizations.of(context)!
+                            .deleteAccountCountdownCanceled_text_privacyWidgetDeleteAccountPage,
                       ),
                     );
                   }

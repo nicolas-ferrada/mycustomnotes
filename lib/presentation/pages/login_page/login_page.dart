@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
 import 'package:provider/provider.dart';
 
-import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service_email_password.dart';
 import '../../../l10n/change_language.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../l10n/l10n_locale_provider.dart';
@@ -182,9 +183,18 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         onPressed: () async {
-          // Login firebase.
+          if (_emailLoginController.text.isEmpty ||
+              _passwordLoginController.text.isEmpty) {
+            ExceptionsAlertDialog.showErrorDialog(
+              context: context,
+              errorMessage:
+                  AppLocalizations.of(context)!.unknown_empty_dialog_loginPage,
+            );
+            return;
+          }
+
           try {
-            await AuthUserService.loginUserFirebase(
+            await AuthUserServiceEmailPassword.logInInEmailPassword(
               email: _emailLoginController.text,
               password: _passwordLoginController.text,
               context: context,
@@ -263,10 +273,18 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(9),
           ),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          try {
+            await AuthUserServiceGoogleSignIn.logInGoogle();
+          } catch (errorMessage) {
+            // errorMessage is the custom message sent by the firebase function.
+            ExceptionsAlertDialog.showErrorDialog(
+                context: context, errorMessage: errorMessage.toString());
+          }
+        },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,

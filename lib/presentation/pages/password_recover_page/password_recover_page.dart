@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
 
-import '../../../domain/services/auth_user_service.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service_email_password.dart';
 import '../../../l10n/l10n_export.dart';
 import '../../../utils/app_color_scheme/app_color_scheme.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -94,7 +94,8 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                       );
                       return;
                     }
-                    await AuthUserService.recoverPasswordUserFirebase(
+                    await AuthUserServiceEmailPassword
+                        .recoverPasswordEmailPassword(
                       email: _emailRecoverPasswordController.text,
                       context: context,
                     ).then(

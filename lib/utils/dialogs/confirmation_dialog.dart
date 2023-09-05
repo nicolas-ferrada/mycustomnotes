@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import '../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../l10n/l10n_export.dart';
 import '../exceptions/exceptions_alert_dialog.dart';
-import '../../domain/services/auth_user_service.dart';
 import '../styles/dialog_subtitle_style.dart';
 import '../styles/dialog_title_style.dart';
 
 class ConfirmationDialog {
   // Log out from firebase confirmation
-  static Future<dynamic> logOutDialog(BuildContext context) {
+  static Future<dynamic> logOutDialog(BuildContext context, User currentUser) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -35,9 +36,9 @@ class ConfirmationDialog {
                     onPressed: () async {
                       // log out firebase
                       try {
-                        await AuthUserService.logOutUserFirebase(
-                                context: context)
-                            .then((value) => Navigator.maybePop(context));
+                        await AuthUserService.logOut(
+                          context: context,
+                        ).then((value) => Navigator.maybePop(context));
                       } catch (errorMessage) {
                         ExceptionsAlertDialog.showErrorDialog(
                             context: context,

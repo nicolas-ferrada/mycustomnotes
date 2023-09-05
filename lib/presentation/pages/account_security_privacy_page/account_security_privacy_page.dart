@@ -4,7 +4,9 @@ import 'package:mycustomnotes/presentation/pages/account_security_privacy_page/a
 import '../../../data/models/Note/folder_model.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
+import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../../l10n/l10n_export.dart';
+import '../../../utils/enums/user_auth_provider.dart';
 import 'account_security_privacy_page_widgets/my_account_widget.dart';
 import 'account_security_privacy_page_widgets/security_widget.dart';
 
@@ -28,6 +30,17 @@ class AccountSecurityPrivacyPage extends StatefulWidget {
 
 class _AccountSecurityPrivacyPageState
     extends State<AccountSecurityPrivacyPage> {
+  late final UserAuthProvider userAuthProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    userAuthProvider = AuthUserService.getUserAuthProvider(
+      currentUser: widget.currentUser,
+      context: context,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +56,23 @@ class _AccountSecurityPrivacyPageState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(child: MyAccountWidget(currentUser: widget.currentUser)),
-          Expanded(child: SecurityWidget(currentUser: widget.currentUser)),
+          Expanded(
+              child: MyAccountWidget(
+            currentUser: widget.currentUser,
+            userAuthProvider: userAuthProvider,
+          )),
+          Expanded(
+              child: SecurityWidget(
+            currentUser: widget.currentUser,
+            userAuthProvider: userAuthProvider,
+          )),
           Expanded(
             child: PrivacyWidget(
               currentUser: widget.currentUser,
               notesTextList: widget.notesTextList,
               notesTasksList: widget.notesTasksList,
               folders: widget.folders,
+              userAuthProvider: userAuthProvider,
             ),
           ),
         ],

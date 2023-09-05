@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../data/models/User/user_configuration.dart';
+import '../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../extensions/fix_date_format_es.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/services/auth_user_service.dart';
 import '../../domain/services/user_configuration_service.dart';
 import '../../l10n/l10n_locale_provider.dart';
 import '../enums/last_modification_date_formats_enum.dart';
@@ -192,7 +192,7 @@ class DateFormatter {
   }) async {
     String language = context.read<L10nLocaleProvider>().locale.toString();
 
-    final User currentUser = AuthUserService.getCurrentUserFirebase();
+    final User currentUser = AuthUserService.getCurrentUser();
 
     late UserConfiguration userConfiguration;
 

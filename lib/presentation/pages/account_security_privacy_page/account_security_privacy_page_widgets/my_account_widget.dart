@@ -1,13 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/enums/user_auth_provider.dart';
 
 import '../../../../l10n/l10n_export.dart';
 
 class MyAccountWidget extends StatefulWidget {
   final User currentUser;
+  final UserAuthProvider userAuthProvider;
   const MyAccountWidget({
     super.key,
     required this.currentUser,
+    required this.userAuthProvider,
   });
 
   @override
@@ -112,25 +115,28 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
   }
 
   Widget showProvider() {
-    String userProvider = '';
-    for (final provider in widget.currentUser.providerData) {
-      userProvider = provider.providerId;
-    }
-    if (userProvider == 'password') {
-      return Text(
-        AppLocalizations.of(context)!.passwordProvider_text_myAccountWidget,
-        style: const TextStyle(fontSize: 10),
-      );
-    } else if (userProvider == 'google.com') {
-      return Text(
-        AppLocalizations.of(context)!.googleProvider_text_myAccountWidget,
-        style: const TextStyle(fontSize: 10),
-      );
+    return Text(
+      getProviderText(widget.userAuthProvider),
+      style: const TextStyle(
+        fontSize: 10,
+        fontStyle: FontStyle.italic,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  String getProviderText(UserAuthProvider userAuthProvider) {
+    if (userAuthProvider == UserAuthProvider.emailPassword) {
+      return AppLocalizations.of(context)!
+          .passwordProvider_text_myAccountWidget;
+    } else if (userAuthProvider == UserAuthProvider.google) {
+      return AppLocalizations.of(context)!.googleProvider_text_myAccountWidget;
+    } else if (userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+      return AppLocalizations.of(context)!
+          .emailPasswordAndGoogleProvider_text_myAccountWidget;
     } else {
-      return Text(
-        AppLocalizations.of(context)!.providerNotFound_text_myAccountWidget,
-        style: const TextStyle(fontSize: 10),
-      );
+      return AppLocalizations.of(context)!
+          .providerNotFound_text_myAccountWidget;
     }
   }
 }

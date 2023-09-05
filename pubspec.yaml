@@ -96,6 +96,9 @@ dependencies:
   # Get device info (Android version)
   device_info_plus: ^9.0.3
 
+  # Google login provider firebase auth
+  google_sign_in: ^6.1.5
+
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#fad85a"
@@ -136,6 +139,7 @@ flutter:
     - assets/icon.png
     - assets/google_icon.png
     - assets/completedTask.mp3
+    - assets/google_icon_transparent.png
 
 
   fonts:
