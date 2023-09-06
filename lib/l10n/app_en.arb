@@ -67,6 +67,10 @@
     "@networkRequestFailed_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
+    "tooManyLoginRequests_dialog_loginPage": "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.",
+    "@tooManyLoginRequests_dialog_loginPage": {
+        "description": "Exception to indicate the user what is doing wrong in the login process."
+    },
     "genericLoginException_dialog_loginPage": "There is an problem with your login, try double checking the data you are writing, also you can try restarting the application or trying again later.",
     "@genericLoginException_dialog_loginPage": {
         "description": "One of the login exceptions was not caught"

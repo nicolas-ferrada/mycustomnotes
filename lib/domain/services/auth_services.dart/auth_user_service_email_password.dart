@@ -65,6 +65,10 @@ class AuthUserServiceEmailPassword {
         throw Exception(
                 AppLocalizations.of(context)!.invalidEmail_dialog_loginPage)
             .removeExceptionWord;
+      } else if (exception.code == 'too-many-requests') {
+        throw Exception(AppLocalizations.of(context)!
+                .tooManyLoginRequests_dialog_loginPage)
+            .removeExceptionWord;
       } else if (exception.code == 'unknown') {
         throw Exception(
                 AppLocalizations.of(context)!.unknown_empty_dialog_loginPage)
