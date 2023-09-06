@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailLoginController = TextEditingController();
   final _passwordLoginController = TextEditingController();
+  bool isPasswordHidden = true;
 
   @override
   void initState() {
@@ -150,13 +151,25 @@ class _LoginPageState extends State<LoginPage> {
       child: TextField(
         onTapOutside: (event) => FocusScope.of(context).unfocus(),
         controller: _passwordLoginController,
-        obscureText: true,
+        obscureText: isPasswordHidden,
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
           hintText:
               AppLocalizations.of(context)!.password_textformfield_loginPage,
           prefixIcon: const Icon(Icons.lock),
+          suffixIcon: InkWell(
+            borderRadius: BorderRadius.circular(25),
+            onTap: () {
+              setState(() {
+                isPasswordHidden = !isPasswordHidden;
+              });
+            },
+            child: isPasswordHidden
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
+          ),
+          suffixIconColor: Colors.grey.shade400,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: AppColorScheme.purple()),

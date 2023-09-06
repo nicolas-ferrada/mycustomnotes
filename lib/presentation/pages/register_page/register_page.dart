@@ -19,6 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordRegisterController = TextEditingController();
   final _passwordConfirmRegisterController = TextEditingController();
 
+  bool isPasswordHidden = true;
+  bool isPasswordConfirmHidden = true;
+
   @override
   void dispose() {
     _emailRegisterController.dispose();
@@ -102,10 +105,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextField(
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _passwordRegisterController,
-                  obscureText: true,
+                  obscureText: isPasswordHidden,
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
+                    suffixIcon: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      onTap: () {
+                        setState(() {
+                          isPasswordHidden = !isPasswordHidden;
+                        });
+                      },
+                      child: isPasswordHidden
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
+                    ),
+                    suffixIconColor: Colors.grey.shade400,
                     prefixIcon: const Icon(Icons.lock),
                     hintText: AppLocalizations.of(context)!
                         .password_textformfield_registerPage,
@@ -127,10 +142,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextField(
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   controller: _passwordConfirmRegisterController,
-                  obscureText: true,
+                  obscureText: isPasswordConfirmHidden,
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
+                    suffixIcon: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      onTap: () {
+                        setState(() {
+                          isPasswordConfirmHidden = !isPasswordConfirmHidden;
+                        });
+                      },
+                      child: isPasswordConfirmHidden
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
+                    ),
+                    suffixIconColor: Colors.grey.shade400,
                     prefixIcon: const Icon(Icons.lock),
                     hintText: AppLocalizations.of(context)!
                         .confirmPassword_textformfield_registerPage,
