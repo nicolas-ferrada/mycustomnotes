@@ -25,6 +25,12 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
   TextEditingController urlController = TextEditingController();
 
   @override
+  void dispose() {
+    urlController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {

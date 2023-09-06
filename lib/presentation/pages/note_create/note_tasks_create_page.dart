@@ -35,8 +35,7 @@ class NoteTasksCreatePage extends StatefulWidget {
 
 class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   // Access firebase user
-  final currentUser =
-      AuthUserService.getCurrentUser();
+  final currentUser = AuthUserService.getCurrentUser();
 
   // Makes the save button to show up
   bool didTitleChange = false;
@@ -96,6 +95,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
   @override
   void dispose() {
     keyboardSubscription.cancel();
+    _titleTextController.dispose();
+    _newTaskTextController.dispose();
     noteTitleTextFormFieldFocusNode.dispose();
     noteTaskSubmittedFieldFocusNode.dispose();
     super.dispose();

@@ -31,6 +31,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     userVerifyEmail();
   }
 
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   Future<void> userVerifyEmail() async {
     // If current user's email is not verified, send the email verification to it's email
     if (currentUser.emailVerified == false &&
@@ -61,12 +67,6 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             context: context, errorMessage: errorMessage.toString());
       }
     }
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   @override

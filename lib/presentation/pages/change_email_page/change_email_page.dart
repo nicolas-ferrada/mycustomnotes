@@ -29,6 +29,14 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
   final _confirmNewEmailController = TextEditingController();
 
   @override
+  void dispose() {
+    _passwordLoginController.dispose();
+    _newEmailController.dispose();
+    _confirmNewEmailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

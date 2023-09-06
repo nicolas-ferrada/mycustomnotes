@@ -107,6 +107,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
   @override
   void dispose() {
     keyboardSubscription.cancel();
+    _newTaskTextController.dispose();
+    _titleTextController.dispose();
     noteTitleTextFormFieldFocusNode.dispose();
     noteTaskSubmittedFieldFocusNode.dispose();
     super.dispose();

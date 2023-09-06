@@ -35,6 +35,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
 
   @override
   void dispose() {
+    _passwordLoginController.dispose();
     timerToDeleteAccount?.cancel();
     super.dispose();
   }
