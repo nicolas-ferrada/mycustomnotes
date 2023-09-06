@@ -26,43 +26,45 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!
-              .changePasswordTitle_text_myAccountWidgetChangePasswordPage,
+          changeOrCreate(context),
         ),
         centerTitle: true,
       ),
-      body: selectChangePasswordWidget(),
+      body: changePasswordWidget(context),
     );
   }
 
-  Widget selectChangePasswordWidget() {
-    if (widget.userAuthProvider == UserAuthProvider.emailPassword ||
-        widget.userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
-      return changePasswordWidget(context);
-    } else if (widget.userAuthProvider == UserAuthProvider.google) {
-      return functionalityNotAvailableForGoogle(context);
+  String changeOrCreate(BuildContext context) {
+    if (widget.userAuthProvider == UserAuthProvider.google) {
+      return AppLocalizations.of(context)!
+          .createPassword_button_myAccountWidgetChangePasswordPage;
     } else {
-      return const Text('Error: No provider found');
+      return AppLocalizations.of(context)!
+          .changePasswordTitle_text_myAccountWidgetChangePasswordPage;
     }
   }
 
-  Widget functionalityNotAvailableForGoogle(BuildContext context) {
-    return Center(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(AppLocalizations.of(context)!.googleProvider_text_myAccountWidget),
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          AppLocalizations.of(context)!
-              .functionalityNotAvailableForGoogle_text_myAccountWidgetChangePasswordPage,
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ));
+  String changeOrCreateSubtitle(BuildContext context) {
+    if (widget.userAuthProvider == UserAuthProvider.google) {
+      return AppLocalizations.of(context)!
+          .createPasswordSubtitle_text_myAccountWidgetChangePasswordPage;
+    } else {
+      return AppLocalizations.of(context)!
+          .changePasswordSubtitle_text_myAccountWidgetChangePasswordPage;
+    }
+  }
+
+  String selectProviderMessage(BuildContext context) {
+    if (widget.userAuthProvider == UserAuthProvider.google) {
+      return AppLocalizations.of(context)!
+          .warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage;
+    } else if (widget.userAuthProvider ==
+        UserAuthProvider.emailPasswordAndGoogle) {
+      return AppLocalizations.of(context)!
+          .warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage;
+    } else {
+      return '';
+    }
   }
 
   Widget changePasswordWidget(BuildContext context) {
@@ -71,33 +73,35 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context)!
-                .changePasswordSubtitle_text_myAccountWidgetChangePasswordPage,
+            changeOrCreateSubtitle(context),
             style: const TextStyle(fontStyle: FontStyle.italic),
           ),
           const SizedBox(
-            height: 12,
+            height: 8,
           ),
           Text(
             AppLocalizations.of(context)!
                 .changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage,
             style: const TextStyle(fontStyle: FontStyle.italic),
           ),
+          const SizedBox(
+            height: 8,
+          ),
           Visibility(
-            visible: (widget.userAuthProvider ==
-                UserAuthProvider.emailPasswordAndGoogle),
+            visible: widget.userAuthProvider == UserAuthProvider.google ||
+                widget.userAuthProvider ==
+                    UserAuthProvider.emailPasswordAndGoogle,
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
-                AppLocalizations.of(context)!
-                    .warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage,
+                selectProviderMessage(context),
                 style: const TextStyle(fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
           const SizedBox(
-            height: 32,
+            height: 22,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -109,8 +113,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               resetPassword();
             },
             child: Text(
-              AppLocalizations.of(context)!
-                  .changePasswordTitle_text_myAccountWidgetChangePasswordPage,
+              changeOrCreate(context),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,

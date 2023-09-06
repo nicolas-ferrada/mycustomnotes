@@ -748,6 +748,10 @@
     "@changePassword_richText_myAccountWidget": {
         "description": "Change your password rich text"
     },
+    "createPassword_richText_myAccountWidget": "create a password.",
+    "@createPassword_richText_myAccountWidget": {
+        "description": "Change your password rich text"
+    },
     "@_SECURITY_WIDGET_CHANGE_EMAIL_PAGE": {},
     "changeEmailTitle_text_myAccountWidgetChangeEmailPage": "Change email",
     "@changeEmailTitle_text_myAccountWidgetChangeEmailPage": {
@@ -777,7 +781,7 @@
     "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
         "description": "New email dialog after successfully changing email"
     },
-    "changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": "If you change your email, you will only be able to use Google to access to your account, meaning you will lost the possibility to log in using email and password.",
+    "changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": "If you change your email, you will only be able to use Google to access to your account for the first log in, after, you will be able to create a password manually if you want.",
     "@changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": {
         "description": "Text explaning if user change email will lost access to account using email-password"
     },
@@ -835,20 +839,28 @@
     "@changePasswordTitle_text_myAccountWidgetChangePasswordPage": {
         "description": "Title of change password page"
     },
+    "createPassword_button_myAccountWidgetChangePasswordPage": "Create password",
+    "@createPassword_button_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
+    },
     "changePasswordSubtitle_text_myAccountWidgetChangePasswordPage": "Do you really want to change your password?",
     "@changePasswordSubtitle_text_myAccountWidgetChangePasswordPage": {
+        "description": "Subtitle of change password page"
+    },
+    "createPasswordSubtitle_text_myAccountWidgetChangePasswordPage": "Do you really want to create a password?",
+    "@createPasswordSubtitle_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
     "changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": "An email with instructions will be sent.",
     "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
-    "functionalityNotAvailableForGoogle_text_myAccountWidgetChangePasswordPage": "This functionality is not available to your account.",
-    "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
+    "warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": "Changing your password will unlink Google as log in option, you will have to link it manually again.",
+    "@warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
-    "warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": "Changing your password will unlink Google as log in option, you will have to link it manually again.",
-    "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
+    "warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage": "Creating a password will unlink Google as log in option, you will have to link it manually again.",
+    "@warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
     "@_PRIVACY_WIDGET": {},

@@ -71,8 +71,11 @@ class _SecurityWidgetState extends State<SecurityWidget> {
               fontSize: 16,
               overflow: TextOverflow.ellipsis,
             ),
-            text: AppLocalizations.of(context)!
-                .changePassword_richText_myAccountWidget,
+            text: widget.userAuthProvider == UserAuthProvider.google
+                ? AppLocalizations.of(context)!
+                    .createPassword_richText_myAccountWidget
+                : AppLocalizations.of(context)!
+                    .changePassword_richText_myAccountWidget,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 Navigator.push(
