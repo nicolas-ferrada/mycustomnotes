@@ -99,6 +99,9 @@ dependencies:
   # Google login provider firebase auth
   google_sign_in: ^6.1.5
 
+  # Protect backend against abuse
+  firebase_app_check: ^0.1.5+2
+
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#fad85a"

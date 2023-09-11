@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ Future main() async {
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);
+  await FirebaseAppCheck.instance.activate();
   await FirebasePushNotifications().initNotifications();
+
   // if language is null, (no record in db) it will return device language, if not en/es, use en
   final String language = await ChangeLanguage.getLanguage();
   runApp(MyApp(language: language));
