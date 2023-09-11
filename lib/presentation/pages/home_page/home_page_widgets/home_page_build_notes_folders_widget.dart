@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/dialogs/delete_folder_confirmation.dart';
+import 'package:mycustomnotes/utils/dialogs/delete_note_confirmation.dart';
 import '../../../../data/models/User/user_configuration.dart';
 import '../../../../l10n/l10n_export.dart';
 import 'build_notes_tasks/build_note_tasks_note_view1_small.dart';
@@ -329,6 +331,11 @@ class _HomePageBuildNotesAndFoldersWidgetState
               Folder folder = widget.folders![index];
               navigateToFolderDetails(folder: folder);
             },
+            onLongPress: () {
+              Folder folder = widget.folders![index];
+              DeleteFolderConfirmation.deleteFolderDialog(
+                  context: context, folder: folder);
+            },
             // build each note per type/view
             child: showFolders(
               folder: widget.folders![index],
@@ -434,6 +441,30 @@ class _HomePageBuildNotesAndFoldersWidgetState
                       'noteTasks': noteTasks,
                       'editingFromSearchBar': widget.editingFromSearchBar,
                     });
+              }
+            },
+            onLongPress: () {
+              // Check if the tapped note is a NoteText
+              if (allNotes[index] is NoteText) {
+                NoteText noteText = allNotes[index];
+                // Open the detailed version of the NoteText
+                DeleteNoteConfirmation.deleteNoteDialog(
+                  context: context,
+                  note: noteText,
+                  editingFromSearchBar: widget.editingFromSearchBar,
+                  isBeingEditedInFolder: false,
+                );
+              }
+              // Check if the tapped note is a NoteTasks
+              else if (allNotes[index] is NoteTasks) {
+                NoteTasks noteTasks = allNotes[index];
+                // Open the detailed version of the NoteTasks
+                DeleteNoteConfirmation.deleteNoteDialog(
+                  context: context,
+                  note: noteTasks,
+                  editingFromSearchBar: widget.editingFromSearchBar,
+                  isBeingEditedInFolder: false,
+                );
               }
             },
             // build each note per type/view
