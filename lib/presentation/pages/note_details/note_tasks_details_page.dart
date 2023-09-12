@@ -393,8 +393,10 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         key: ValueKey(task),
         onDismissed: (_) {
           setState(() {
-            notCompletedTasksList.removeAt(index);
+            final Tasks taskBeingDeleted =
+                notCompletedTasksList.removeAt(index);
             didTaskChange = true;
+            revertTaskDeleted(index, taskBeingDeleted);
           });
         },
         background: Container(
@@ -489,8 +491,9 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         key: ValueKey(task),
         onDismissed: (direction) {
           setState(() {
-            completedTasksList.removeAt(index);
+            final Tasks taskBeingDeleted = completedTasksList.removeAt(index);
             didTaskChange = true;
+            revertTaskDeleted(index, taskBeingDeleted);
           });
         },
         background: Container(
@@ -979,5 +982,54 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         }
       });
     }
+  }
+
+  void revertTaskDeleted(int index, Tasks taskBeingDeleted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 4000),
+        content: Row(
+          children: [
+            const Text(
+              'Task deleted:',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+              ),
+              // textAlign: TextAlign.start,
+            ),
+            Expanded(
+              child: Text(
+                ' ${taskBeingDeleted.taskName}',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.grey.shade300,
+        action: SnackBarAction(
+          label: 'Undo',
+          textColor: Colors.white,
+          backgroundColor: Colors.grey.shade800,
+          onPressed: () {
+            if (taskBeingDeleted.isTaskCompleted) {
+              setState(() {
+                completedTasksList.insert(index, taskBeingDeleted);
+              });
+            } else {
+              setState(() {
+                notCompletedTasksList.insert(index, taskBeingDeleted);
+              });
+            }
+          },
+        ),
+      ),
+    );
   }
 }
