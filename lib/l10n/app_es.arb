@@ -288,7 +288,19 @@
     "exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": "El permiso está permanentemente negado.\nPara poder exportar tus datos, tendrás que otorgarlo manualmente o reinstalar la aplicación.",
     "exportDataPermissionDenied_exception_privacyWidgetExportDataPage": "El permiso necesario no está otorgado.\nPara poder exportar tus datos, el permiso de 'Acceso a todos los archivos' es necesario. Inténtalo nuevamente.",
     "exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage": "El archivo no pudo crearse, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
-    "exportDataGenericException_exception_privacyWidgetExportDataPage": "Tus datos no pudieron exportarse, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde."
+    "exportDataGenericException_exception_privacyWidgetExportDataPage": "Tus datos no pudieron exportarse, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
+    "@_ABOUT_PAGE": {},
+    "about_text_aboutPage": "Acerca de",
+    "privacyPolicyTitle_text_aboutPage": "Política de Privacidad",
+    "privacyPolicySubtitle_text_aboutPage": "Revisa nuestras Políticas de Privacidad.",
+    "termsOfServiceTitle_text_aboutPage": "Términos de Servicio",
+    "termsOfServiceSubtitle_text_aboutPage": "Revisa nuestros Términos de Servicio",
+    "softwareLicenseTitle_text_aboutPage": "Licencia de Software",
+    "softwareLicenseSubtitle_text_aboutPage": "Revisa la licencia de software que utiliza este proyecto.",
+    "thirdPartySoftwareTitle_text_aboutPage": "Software de terceros",
+    "thirdPartySoftwareSubtitle_text_aboutPage": "Revisa el software de terceros que utilizamos en esta aplicación con sus respectivas licencias.",
+    "websiteTitle_text_aboutPage": "Sitio web",
+    "websiteSubtitle_text_aboutPage": "Descubre como fue el proceso de desarrollo, nuestro código abierto, correo de contacto, y más en nuestro sitio web."
 }
 
 

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/presentation/pages/about_page/about_page.dart';
 import '../../../../data/models/Note/folder_model.dart';
 import '../../../../data/models/Note/note_tasks_model.dart';
 import '../../../../data/models/Note/note_text_model.dart';
@@ -66,14 +67,14 @@ class NavigationDrawerHomePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Wrap(
-        runSpacing: 12,
+        runSpacing: 8,
         children: [
           // Title
           ListTile(
             title: Text(
               AppLocalizations.of(context)!.title_drawer_homePage,
               style: const TextStyle(
-                fontSize: 28,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -86,6 +87,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
           notesStyleVisualization(context: context),
           const Divider(thickness: 1),
           accountSecurityAndPrivacy(context: context),
+          const Divider(thickness: 1),
+          about(context: context),
           const Divider(thickness: 1),
           logout(context: context),
           const Divider(thickness: 1),
@@ -231,6 +234,33 @@ class NavigationDrawerHomePage extends StatelessWidget {
       leading: const Icon(Icons.lock, size: 28),
       title: Text(
         AppLocalizations.of(context)!.accountSecurityAndPrivacy_drawer_homePage,
+        style: const TextStyle(fontSize: 16),
+      ),
+    );
+  }
+
+  Widget about({
+    required BuildContext context,
+  }) {
+    return ListTile(
+      onTap: () async {
+        try {
+          Navigator.maybePop(context).then(
+            (_) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AboutPage(),
+              ),
+            ),
+          );
+        } catch (errorMessage) {
+          ExceptionsAlertDialog.showErrorDialog(
+              context: context, errorMessage: errorMessage.toString());
+        }
+      },
+      leading: const Icon(Icons.info, size: 28),
+      title: Text(
+        AppLocalizations.of(context)!.about_text_aboutPage,
         style: const TextStyle(fontSize: 16),
       ),
     );

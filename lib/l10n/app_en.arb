@@ -976,5 +976,50 @@
     "exportDataGenericException_exception_privacyWidgetExportDataPage": "Your data could not be exported, please, try restarting the app or trying again later.",
     "@exportDataGenericException_exception_privacyWidgetExportDataPage": {
         "description": "Generic exception for exporting data after the function failed"
+    },
+    "@_ABOUT_PAGE": {},
+    "about_text_aboutPage": "About",
+    "@about_text_aboutPage": {
+        "description": "About text"
+    },
+    "privacyPolicyTitle_text_aboutPage": "Privacy Policy",
+    "@privacyPolicyTitle_text_aboutPage": {
+        "description": "PP text"
+    },
+    "privacyPolicySubtitle_text_aboutPage": "Review our Privacy Policy.",
+    "@privacyPolicySubtitle_text_aboutPage": {
+        "description": "PP sub-text"
+    },
+    "termsOfServiceTitle_text_aboutPage": "Terms of Service",
+    "@termsOfServiceTitle_text_aboutPage": {
+        "description": "TOS text"
+    },
+    "termsOfServiceSubtitle_text_aboutPage": "Review our Terms of Service.",
+    "@termsOfServiceSubtitle_text_aboutPage": {
+        "description": "TOS sub-text"
+    },
+    "softwareLicenseTitle_text_aboutPage": "Software License",
+    "@softwareLicenseTitle_text_aboutPage": {
+        "description": "SL text about"
+    },
+    "softwareLicenseSubtitle_text_aboutPage": "Review the software license that is used in this project.",
+    "@softwareLicenseSubtitle_text_aboutPage": {
+        "description": "SL sub-text"
+    },
+    "thirdPartySoftwareTitle_text_aboutPage": "Third-party Software",
+    "@thirdPartySoftwareTitle_text_aboutPage": {
+        "description": "T-PS text"
+    },
+    "thirdPartySoftwareSubtitle_text_aboutPage": "Review the third-party code we utilized in this software and their respective licenses.",
+    "@thirdPartySoftwareSubtitle_text_aboutPage": {
+        "description": "T-PS sub-text"
+    },
+    "websiteTitle_text_aboutPage": "Website",
+    "@websiteTitle_text_aboutPage": {
+        "description": "Website text"
+    },
+    "websiteSubtitle_text_aboutPage": "Explore our development journey, our open-source code, contact email, and more on our website.",
+    "@websiteSubtitle_text_aboutPage": {
+        "description": "Website sub-text"
     }
 }

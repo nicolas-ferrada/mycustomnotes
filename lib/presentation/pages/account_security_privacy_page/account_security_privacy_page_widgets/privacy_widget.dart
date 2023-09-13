@@ -10,8 +10,6 @@ import '../../../../l10n/l10n_export.dart';
 import '../../../../utils/dialogs/successful_message_dialog.dart';
 import '../../delete_account_page/delete_account_page.dart';
 import '../../export_data_page/export_data_page.dart';
-import '../../privacy_policy_page/privacy_policy_page.dart';
-import '../../terms_of_service_page/terms_of_service_page.dart';
 
 class PrivacyWidget extends StatefulWidget {
   final User currentUser;
@@ -50,11 +48,10 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   deleteAccount(),
                   exportData(),
-                  termsOfServiceAndPrivacyPolicy()
                 ],
               ),
             ),
@@ -147,64 +144,6 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
                       folders: widget.folders,
                       currentUser: widget.currentUser,
                     ),
-                  ),
-                );
-              },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row termsOfServiceAndPrivacyPolicy() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Terms of service
-        RichText(
-          text: TextSpan(
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontSize: 13,
-              overflow: TextOverflow.ellipsis,
-            ),
-            text: AppLocalizations.of(context)!
-                .termsOfService_richText_privacyWidget,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TermsOfServicePage(),
-                  ),
-                );
-              },
-          ),
-        ),
-        Text(
-          AppLocalizations.of(context)!.and_text_privacyWidget,
-          style: const TextStyle(fontSize: 12),
-        ),
-        // Privacy policy
-        RichText(
-          text: TextSpan(
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontSize: 13,
-              overflow: TextOverflow.ellipsis,
-            ),
-            text: AppLocalizations.of(context)!
-                .privacyPolicy_richText_privacyWidget,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PrivacyPolicyPage(),
                   ),
                 );
               },
