@@ -237,6 +237,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     });
                   }
                 } catch (errorMessage) {
+                  if (!context.mounted) return;
+
                   ExceptionsAlertDialog.showErrorDialog(
                       context: context, errorMessage: errorMessage.toString());
                 }
@@ -387,6 +389,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
         );
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }

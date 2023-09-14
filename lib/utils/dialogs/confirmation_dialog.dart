@@ -40,6 +40,8 @@ class ConfirmationDialog {
                           context: context,
                         ).then((value) => Navigator.maybePop(context));
                       } catch (errorMessage) {
+                              if (!context.mounted) return;
+
                         ExceptionsAlertDialog.showErrorDialog(
                             context: context,
                             errorMessage: errorMessage.toString());

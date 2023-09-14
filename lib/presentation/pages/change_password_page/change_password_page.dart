@@ -147,6 +147,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             AppLocalizations.of(context)!.unexpectedException_dialog);
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
         context: context,
         errorMessage: errorMessage.toString(),

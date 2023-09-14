@@ -13,32 +13,26 @@ class UserConfigurationService {
   // Only used for the first time, on account creation/email verification.
   static Future<UserConfiguration> createUserConfigurations({
     required String userId,
-    required BuildContext context,
   }) async {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
 
-      if (context.mounted) {
-        final UserConfiguration userConfiguration = UserConfiguration(
-          userId: userId,
-          dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
-              LastModificationTimeFormat.hours24.value,
-          notesView: NotesView.small.notesViewId,
-          areNotesBeingVisible: true,
-        );
+      final UserConfiguration userConfiguration = UserConfiguration(
+        userId: userId,
+        dateTimeFormat: LastModificationDateFormat.dayMonthYear.value +
+            LastModificationTimeFormat.hours24.value,
+        notesView: NotesView.small.notesViewId,
+        areNotesBeingVisible: true,
+      );
 
-        final userConfigurationJson = json.encode(userConfiguration.toMap());
+      final userConfigurationJson = json.encode(userConfiguration.toMap());
 
-        await preferences.setString(userId, userConfigurationJson);
+      await preferences.setString(userId, userConfigurationJson);
 
-        return userConfiguration;
-      } else {
-        throw Exception();
-      }
-    } catch (e) {
-      throw Exception(
-              AppLocalizations.of(context)!.creating_dialog_userConfiguration)
+      return userConfiguration;
+    } catch (_) {
+      throw Exception('Error: Restart or reinstall the app')
           .removeExceptionWord;
     }
   }
@@ -59,8 +53,7 @@ class UserConfigurationService {
 
       if (userConfigurationJson == null && context.mounted) {
         // the config does not exists, create one and then get it
-        userConfiguration =
-            await createUserConfigurations(userId: userId, context: context);
+        userConfiguration = await createUserConfigurations(userId: userId);
       } else {
         // the config exists, get it
         try {
@@ -68,13 +61,14 @@ class UserConfigurationService {
               UserConfiguration.fromMap(json.decode(userConfigurationJson!));
         } catch (_) {
           // if fails loading the config, just reset it
-          userConfiguration =
-              await createUserConfigurations(userId: userId, context: context);
+
+          userConfiguration = await createUserConfigurations(userId: userId);
         }
       }
 
       return userConfiguration;
     } catch (e) {
+      if (!context.mounted) throw Exception();
       throw Exception(
               AppLocalizations.of(context)!.reading_dialog_userConfiguration)
           .removeExceptionWord;
@@ -117,6 +111,7 @@ class UserConfigurationService {
         throw Exception();
       }
     } catch (e) {
+      if (!context.mounted) throw Exception();
       throw Exception(
               AppLocalizations.of(context)!.editing_dialog_userConfiguration)
           .removeExceptionWord;

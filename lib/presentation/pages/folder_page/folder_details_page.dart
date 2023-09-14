@@ -256,6 +256,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         saveEditingFolder();
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }
@@ -302,6 +304,8 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         saveCreatingFolder();
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }

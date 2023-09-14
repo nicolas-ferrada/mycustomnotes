@@ -51,6 +51,7 @@ class AuthUserServiceGoogleSignIn {
       );
       return reAuthedUser;
     } on FirebaseAuthException catch (firebaseException) {
+      if (!context.mounted) return null;
       if (firebaseException.code == 'user-mismatch') {
         throw Exception(AppLocalizations.of(context)!
                 .changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException)
@@ -77,6 +78,7 @@ class AuthUserServiceGoogleSignIn {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) return null;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }

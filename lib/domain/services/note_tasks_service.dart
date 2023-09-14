@@ -39,6 +39,7 @@ class NoteTasksService {
       }
       yield noteTasks;
     } catch (e) {
+      if (!context.mounted) return;
       throw Exception(
           AppLocalizations.of(context)!.notesService_exception_gettingNotes);
     }
@@ -80,6 +81,7 @@ class NoteTasksService {
       // Store the note object in firestore
       await documentReference.set(mapNote);
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(
               AppLocalizations.of(context)!.notesService_exception_creatingNote)
           .removeExceptionWord;
@@ -111,6 +113,7 @@ class NoteTasksService {
 
       await docNote.set(mapNote);
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(
               AppLocalizations.of(context)!.notesService_exception_editingNote)
           .removeExceptionWord;
@@ -129,6 +132,7 @@ class NoteTasksService {
 
       await docNote.delete();
     } catch (_) {
+      if (!context.mounted) return;
       throw Exception(
               AppLocalizations.of(context)!.notesService_exception_deletingNote)
           .removeExceptionWord;

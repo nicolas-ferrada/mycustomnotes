@@ -109,6 +109,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         }
       }
     } catch (errorMessage) {
+      if (!context.mounted) return throw Exception();
+
       await ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }
@@ -122,6 +124,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       final Uri toLaunchUrl = Uri.parse(url);
       await launchUrl(toLaunchUrl, mode: LaunchMode.externalApplication);
     } catch (e) {
+      if (!context.mounted) return;
+
       await ExceptionsAlertDialog.showErrorDialog(
           context: context,
           errorMessage:
@@ -341,6 +345,8 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
               }
             }
           } catch (errorMessage) {
+            if (!context.mounted) return;
+
             ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
           }

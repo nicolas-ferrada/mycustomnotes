@@ -226,6 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ).then((_) => Navigator.maybePop(context));
                     } catch (errorMessage) {
                       // errorMessage is the custom message sent by the firebase f unction.
+                      if (!context.mounted) return;
                       ExceptionsAlertDialog.showErrorDialog(
                           context: context,
                           errorMessage: errorMessage.toString());
@@ -292,6 +293,7 @@ class _RegisterPageState extends State<RegisterPage> {
             await AuthUserServiceGoogleSignIn.logInGoogle();
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
+            if (!context.mounted) return;
             ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
           }

@@ -652,6 +652,8 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
                   }
                 }
               } catch (errorMessage) {
+                if (!context.mounted) return;
+
                 ExceptionsAlertDialog.showErrorDialog(
                     context: context, errorMessage: errorMessage.toString());
               }

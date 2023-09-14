@@ -100,6 +100,8 @@ class _LoginPageState extends State<LoginPage> {
             }
           } catch (errorMessage) {
             // errorMessage is the custom message probably sent by the user configuration functions
+            if (!context.mounted) return;
+
             ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
           }
@@ -214,6 +216,8 @@ class _LoginPageState extends State<LoginPage> {
             );
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
+            if (!context.mounted) return;
+
             ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
           }
@@ -294,6 +298,8 @@ class _LoginPageState extends State<LoginPage> {
             await AuthUserServiceGoogleSignIn.logInGoogle();
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
+            if (!context.mounted) return;
+
             ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
           }

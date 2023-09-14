@@ -633,6 +633,8 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
                   Navigator.of(context).maybePop();
                 }
               } catch (errorMessage) {
+                      if (!context.mounted) return;
+
                 ExceptionsAlertDialog.showErrorDialog(
                     context: context, errorMessage: errorMessage.toString());
               }

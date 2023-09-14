@@ -56,7 +56,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             } else {
               // User is verified for the first time, so create it's configuration
               await UserConfigurationService.createUserConfigurations(
-                  context: context, userId: currentUser.uid);
+                  userId: currentUser.uid);
               timer?.cancel();
               setState(() {});
             }
@@ -122,6 +122,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                   try {
                     await AuthUserService.logOut(context: context);
                   } catch (errorMessage) {
+                    if (!context.mounted) return;
+
                     ExceptionsAlertDialog.showErrorDialog(
                         context: context,
                         errorMessage: errorMessage.toString());
@@ -177,6 +179,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                   try {
                     await AuthUserService.logOut(context: context);
                   } catch (errorMessage) {
+                    if (!context.mounted) return;
+
                     ExceptionsAlertDialog.showErrorDialog(
                         context: context,
                         errorMessage: errorMessage.toString());

@@ -143,6 +143,8 @@ class _ExportDataPageState extends State<ExportDataPage> {
                         ),
                       );
                     } else {
+                      if (!context.mounted) return;
+
                       throw Exception(
                         AppLocalizations.of(context)!
                             .exportDataGenericException_exception_privacyWidgetExportDataPage,

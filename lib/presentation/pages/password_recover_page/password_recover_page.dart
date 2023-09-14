@@ -111,6 +111,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                     );
                   } catch (errorMessage) {
                     // errorMessage is the custom message sent by the firebase function.
+                    if (!context.mounted) return;
                     ExceptionsAlertDialog.showErrorDialog(
                         context: context,
                         errorMessage: errorMessage.toString());

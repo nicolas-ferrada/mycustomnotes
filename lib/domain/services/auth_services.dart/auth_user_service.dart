@@ -20,6 +20,7 @@ class AuthUserService {
       await FirebaseFirestore.instance.terminate();
       await FirebaseFirestore.instance.clearPersistence();
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -77,6 +78,7 @@ class AuthUserService {
           .then((_) => operationResult = 'Success');
       return operationResult;
     } on FirebaseAuthException catch (firebaseException) {
+      if (!context.mounted) throw Exception();
       if (firebaseException.code == 'invalid-email') {
         throw Exception(AppLocalizations.of(context)!
                 .changeEmailInvalidEmail_exception_myAccountWidgetChangeEmailPageException)
@@ -95,6 +97,7 @@ class AuthUserService {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) throw Exception();
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -149,15 +152,18 @@ class AuthUserService {
       return operationResult;
     } on FirebaseAuthException catch (firebaseException) {
       if (firebaseException.code == 'requires-recent-login') {
+        if (!context.mounted) throw Exception();
         throw Exception(AppLocalizations.of(context)!
                 .changeEmailRecentLoginNeeded_exception_myAccountWidgetChangeEmailPageException)
             .removeExceptionWord;
       } else {
+        if (!context.mounted) throw Exception();
         throw Exception(AppLocalizations.of(context)!
                 .genericDeleteAccountException_dialog_deleteAccountPage)
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) throw Exception();
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }

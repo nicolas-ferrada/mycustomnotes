@@ -17,6 +17,7 @@ class AuthUserServiceEmailPassword {
         password: password.trim(),
       );
     } on FirebaseAuthException catch (firebaseException) {
+      if (!context.mounted) return;
       if (firebaseException.code == 'email-already-in-use') {
         throw Exception(AppLocalizations.of(context)!
                 .emailAlreadyInUse_dialog_registerPage)
@@ -39,6 +40,7 @@ class AuthUserServiceEmailPassword {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -53,6 +55,7 @@ class AuthUserServiceEmailPassword {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
     } on FirebaseAuthException catch (exception) {
+      if (!context.mounted) return;
       if (exception.code == 'wrong-password') {
         throw Exception(
                 AppLocalizations.of(context)!.wrongPassword_dialog_loginPage)
@@ -83,6 +86,7 @@ class AuthUserServiceEmailPassword {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -100,6 +104,7 @@ class AuthUserServiceEmailPassword {
             .emailAlreadyVerified_dialog_emailVerificationPage);
       }
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -112,6 +117,7 @@ class AuthUserServiceEmailPassword {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
     } on FirebaseAuthException catch (firebaseException) {
+      if (!context.mounted) return;
       if (firebaseException.code == 'invalid-email') {
         throw Exception(
           AppLocalizations.of(context)!.invalidEmail_dialog_recoverPasswordPage,
@@ -130,6 +136,7 @@ class AuthUserServiceEmailPassword {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }
@@ -151,6 +158,7 @@ class AuthUserServiceEmailPassword {
       );
       return reAuthedUser;
     } on FirebaseAuthException catch (firebaseException) {
+      if (!context.mounted) throw Exception();
       if (firebaseException.code == 'user-mismatch') {
         throw Exception(AppLocalizations.of(context)!
                 .changeEmailUserMismatch_exception_myAccountWidgetChangeEmailPageException)
@@ -177,6 +185,7 @@ class AuthUserServiceEmailPassword {
             .removeExceptionWord;
       }
     } catch (unexpectedException) {
+      if (!context.mounted) throw Exception();
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
           .removeExceptionWord;
     }

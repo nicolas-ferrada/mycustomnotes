@@ -38,6 +38,7 @@ class FolderService {
       }
       yield folders;
     } catch (e) {
+      if (!context.mounted) return;
       throw Exception(
           AppLocalizations.of(context)!.foldersService_exception_gettingFolder);
     }
@@ -67,6 +68,7 @@ class FolderService {
 
       await documentReference.set(mapFolder);
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!
               .foldersService_exception_creatingFolder)
           .removeExceptionWord;
@@ -98,6 +100,7 @@ class FolderService {
 
       await docFolder.set(mapFolder);
     } catch (unexpectedException) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!
               .foldersService_exception_editingFolder)
           .removeExceptionWord;
@@ -116,6 +119,7 @@ class FolderService {
 
       await docFolder.delete();
     } catch (_) {
+      if (!context.mounted) return;
       throw Exception(AppLocalizations.of(context)!
               .foldersService_exception_deletingFolder)
           .removeExceptionWord;

@@ -141,6 +141,7 @@ class NotesDetails extends StatelessWidget {
   Future<List<String>> getDates(dynamic note) async {
     final String createdDate = await DateFormatter.showDateFormattedAllFields(
         dateDB: note.createdDate, context: context);
+    if (!context.mounted) throw Exception();
     final String lastDate = await DateFormatter.showDateFormattedAllFields(
         dateDB: note.lastModificationDate, context: context);
 

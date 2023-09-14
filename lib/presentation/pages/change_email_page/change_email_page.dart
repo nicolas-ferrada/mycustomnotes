@@ -374,6 +374,8 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         );
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }
@@ -437,6 +439,8 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         );
       }
     } catch (errorMessage) {
+      if (!context.mounted) return;
+
       ExceptionsAlertDialog.showErrorDialog(
           context: context, errorMessage: errorMessage.toString());
     }

@@ -117,6 +117,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
           }
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
+          if (!context.mounted) return;
+
           ExceptionsAlertDialog.showErrorDialog(
               context: context, errorMessage: errorMessage.toString());
         }
@@ -156,6 +158,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
           }
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
+          if (!context.mounted) return;
+
           ExceptionsAlertDialog.showErrorDialog(
               context: context, errorMessage: errorMessage.toString());
         }
@@ -195,6 +199,8 @@ class NavigationDrawerHomePage extends StatelessWidget {
           }
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions
+          if (!context.mounted) return;
+
           ExceptionsAlertDialog.showErrorDialog(
               context: context, errorMessage: errorMessage.toString());
         }
