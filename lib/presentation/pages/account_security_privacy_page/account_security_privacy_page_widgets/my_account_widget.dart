@@ -29,20 +29,26 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
           myAccountTitle(),
           Expanded(
             child: Container(
-              width: double.infinity,
-              height: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.grey.shade800.withOpacity(1),
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  showEmail(),
-                  showProvider(),
-                ],
-              ),
+              child: LayoutBuilder(builder: (context, constraint) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraint.maxHeight),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        showEmail(),
+                        showProvider(),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
         ],

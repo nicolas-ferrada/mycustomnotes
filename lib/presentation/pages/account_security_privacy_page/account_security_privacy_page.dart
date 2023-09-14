@@ -44,38 +44,51 @@ class _AccountSecurityPrivacyPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          AppLocalizations.of(context)!
-              .accountSecurityAndPrivacy_drawer_homePage,
-          style: const TextStyle(fontSize: 17),
-        ),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-              child: MyAccountWidget(
-            currentUser: widget.currentUser,
-            userAuthProvider: userAuthProvider,
-          )),
-          Expanded(
-              child: SecurityWidget(
-            currentUser: widget.currentUser,
-            userAuthProvider: userAuthProvider,
-          )),
-          Expanded(
-            child: PrivacyWidget(
-              currentUser: widget.currentUser,
-              notesTextList: widget.notesTextList,
-              notesTasksList: widget.notesTasksList,
-              folders: widget.folders,
-              userAuthProvider: userAuthProvider,
+      appBar: appBar(context),
+      body: LayoutBuilder(builder: (context, constraint) {
+        return Center(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: constraint.maxHeight),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: MyAccountWidget(
+                      currentUser: widget.currentUser,
+                      userAuthProvider: userAuthProvider,
+                    ),
+                  ),
+                  Expanded(
+                    child: SecurityWidget(
+                      currentUser: widget.currentUser,
+                      userAuthProvider: userAuthProvider,
+                    ),
+                  ),
+                  Expanded(
+                    child: PrivacyWidget(
+                      currentUser: widget.currentUser,
+                      notesTextList: widget.notesTextList,
+                      notesTasksList: widget.notesTasksList,
+                      folders: widget.folders,
+                      userAuthProvider: userAuthProvider,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
+        );
+      }),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      centerTitle: true,
+      title: Text(
+        AppLocalizations.of(context)!.accountSecurityAndPrivacy_drawer_homePage,
+        style: const TextStyle(fontSize: 17),
       ),
     );
   }

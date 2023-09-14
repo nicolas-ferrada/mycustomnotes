@@ -34,26 +34,32 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 22),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
       child: Column(
         children: [
           privacyTitle(),
           Expanded(
             child: Container(
-              width: double.infinity,
-              height: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.grey.shade800.withOpacity(1),
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  deleteAccount(),
-                  exportData(),
-                ],
-              ),
+              child: LayoutBuilder(builder: (context, constraint) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraint.maxHeight),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        deleteAccount(),
+                        exportData(),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
         ],

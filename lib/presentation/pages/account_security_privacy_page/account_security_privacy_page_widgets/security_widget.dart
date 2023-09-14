@@ -30,20 +30,26 @@ class _SecurityWidgetState extends State<SecurityWidget> {
           securityTitle(),
           Expanded(
             child: Container(
-              width: double.infinity,
-              height: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.grey.shade800.withOpacity(1),
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
               padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  changeEmail(context),
-                  changePassword(context),
-                ],
-              ),
+              child: LayoutBuilder(builder: (context, constraint) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraint.maxHeight),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        changeEmail(context),
+                        changePassword(context),
+                      ],
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
         ],
