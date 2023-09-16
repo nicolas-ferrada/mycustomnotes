@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/presentation/widgets/privacy_policy_terms_of_service_widget/privacy_policy_terms_of_service.dart';
 
 import '../../../domain/services/auth_services.dart/auth_user_service_email_password.dart';
 import '../../../domain/services/auth_services.dart/auth_user_service_google_singin.dart';
@@ -22,6 +23,14 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isPasswordHidden = true;
   bool isPasswordConfirmHidden = true;
 
+  bool isUserAcceptingPPAndTos = false;
+
+  void updateUserAcceptance(bool newValue) {
+    setState(() {
+      isUserAcceptingPPAndTos = newValue;
+    });
+  }
+
   @override
   void dispose() {
     _emailRegisterController.dispose();
@@ -44,9 +53,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 16,
-              ),
               // Mail user input
               Padding(
                 padding:
@@ -97,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 22),
+              const SizedBox(height: 12),
               // Password user input
               Padding(
                 padding:
@@ -172,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               //Register button
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -217,6 +223,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       return;
                     }
 
+                    if (isUserAcceptingPPAndTos == false) {
+                      ExceptionsAlertDialog.showErrorDialog(
+                        context: context,
+                        errorMessage: AppLocalizations.of(context)!
+                            .pptosWereNotAccepted_exception_pptos,
+                      );
+                      return;
+                    }
+
                     // Register a user with email and password
                     try {
                       await AuthUserServiceEmailPassword.registerEmailPassword(
@@ -239,12 +254,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+              privacyPolicyAndTermsOfService(),
               loginProvidersSeparationWidget(context),
               googleLoginButtonWidget(context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget privacyPolicyAndTermsOfService() {
+    return PrivacyPolicyTermsOfServiceWidget(
+      isUserAccepting: isUserAcceptingPPAndTos,
+      updateUserAcceptance: updateUserAcceptance,
     );
   }
 
@@ -290,7 +313,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         onPressed: () async {
           try {
-            await AuthUserServiceGoogleSignIn.logInGoogle();
+            await AuthUserServiceGoogleSignIn.logInGoogle(context);
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
             if (!context.mounted) return;

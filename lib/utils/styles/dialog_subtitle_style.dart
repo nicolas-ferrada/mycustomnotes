@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DialogSubtitleStyle extends StatelessWidget {
-  final String subtitle;
+  final String? subtitle;
   final double? fontSize;
+  final Widget? widget;
   const DialogSubtitleStyle({
     super.key,
-    required this.subtitle,
+    this.subtitle,
     this.fontSize,
+    this.widget,
   });
 
   @override
@@ -17,14 +19,16 @@ class DialogSubtitleStyle extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      child: Text(
-        subtitle,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontStyle: FontStyle.italic,
-          fontSize: fontSize ?? 14,
-        ),
-      ),
+      child: (widget != null && subtitle == null)
+          ? widget
+          : Text(
+              subtitle!,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: fontSize ?? 14,
+              ),
+            ),
     );
   }
 }

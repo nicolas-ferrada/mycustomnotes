@@ -295,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         onPressed: () async {
           try {
-            await AuthUserServiceGoogleSignIn.logInGoogle();
+            await AuthUserServiceGoogleSignIn.logInGoogle(context);
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
             if (!context.mounted) return;
@@ -362,6 +362,7 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.white,
                 fontSize: 19,
                 fontStyle: FontStyle.italic,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

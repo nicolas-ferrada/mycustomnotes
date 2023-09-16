@@ -3,6 +3,7 @@
     "unexpectedException_dialog": "Lo sentimos, se encontró un error no esperado, por favor, intenta reiniciar la aplicación o intentar nuevamente más tarde.",
     "cancelButton": "Cancelar",
     "closeButton": "Cerrar",
+    "continueButton": "Continuar",
     "@_LOGIN_PAGE": {},
     "email_textformfield_loginPage": "Ingresa tu correo",
     "login_button_loginPage": "Iniciar sesión",
@@ -294,13 +295,24 @@
     "privacyPolicyTitle_text_aboutPage": "Política de Privacidad",
     "privacyPolicySubtitle_text_aboutPage": "Revisa nuestras Políticas de Privacidad.",
     "termsOfServiceTitle_text_aboutPage": "Términos de Servicio",
-    "termsOfServiceSubtitle_text_aboutPage": "Revisa nuestros Términos de Servicio",
+    "termsOfServiceSubtitle_text_aboutPage": "Revisa nuestros Términos de Servicio.",
     "softwareLicenseTitle_text_aboutPage": "Licencia de Software",
     "softwareLicenseSubtitle_text_aboutPage": "Revisa la licencia de software que utiliza este proyecto.",
     "thirdPartySoftwareTitle_text_aboutPage": "Software de terceros",
     "thirdPartySoftwareSubtitle_text_aboutPage": "Revisa el software de terceros que utilizamos en esta aplicación con sus respectivas licencias.",
     "websiteTitle_text_aboutPage": "Sitio web",
-    "websiteSubtitle_text_aboutPage": "Descubre como fue el proceso de desarrollo, nuestro código abierto, correo de contacto, y más en nuestro sitio web."
+    "websiteSubtitle_text_aboutPage": "Descubre como fue el proceso de desarrollo, nuestro código abierto, correo de contacto, y más en nuestro sitio web.",
+    "@_PRIVACY_POLICY_TERMS_OF_SERVICE": {},
+    "title_text_pptos": "Política de Privacidad y Términos de Servicio",
+    "pptosWereNotAccepted_exception_pptos": "Debes aceptar la Política de Privacidad y los Términos de Servicio para continuar, presiona la casilla de verificación (cuadrado) para aceptarlos. Asegurate de leerlos primero.",
+    "@_PRIVACY_POLICY_TERMS_OF_SERVICE_CONSENT": {},
+    "agree_text_pptos": "He leído y acepto ",                 
+    "the_text_pptos": "la ",
+    "privacyPolicy_text_pptos": "Política de Privacidad ",
+    "and_text_pptos": "y ",
+    "termsOfService_text_pptos": "Términos de Servicio."
 }
+
+
 
 

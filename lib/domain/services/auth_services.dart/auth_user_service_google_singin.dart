@@ -2,16 +2,34 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service.dart';
+import 'package:mycustomnotes/presentation/widgets/privacy_policy_terms_of_service_widget/privacy_policy_terms_of_service_dialog.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 
 import '../../../l10n/l10n_export.dart';
 
 class AuthUserServiceGoogleSignIn {
-  static Future<UserCredential?> logInGoogle() async {
+  static Future<void> logInGoogle(context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) return null;
+      if (googleUser == null) return;
+
+      // Accept Privacy Policy and Terms of Service
+      // Since I did not find any way to check if user is creating an account or just logging in,
+      // so I could only ask for consent only when they are signing up, I just ask every time
+      // until I find other more user comfortable approuch
+      bool? didUserAccepted = await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => const PrivacyPolicyTermsOfServiceDialog(),
+      );
+
+      if (didUserAccepted == false || didUserAccepted == null) {
+        AuthUserService.logOut();
+        throw Exception(AppLocalizations.of(context)!
+                .pptosWereNotAccepted_exception_pptos)
+            .removeExceptionWord;
+      }
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -21,9 +39,10 @@ class AuthUserServiceGoogleSignIn {
         idToken: googleAuth.idToken,
       );
 
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      // This will create the account if it does not exist.
+      await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      throw Exception(e);
+      throw Exception(e).removeExceptionWord;
     }
   }
 

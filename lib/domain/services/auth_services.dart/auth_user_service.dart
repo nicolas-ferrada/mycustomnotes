@@ -9,7 +9,7 @@ import '../../../utils/extensions/formatted_message.dart';
 
 class AuthUserService {
   static Future<void> logOut({
-    required BuildContext context,
+    BuildContext? context,
   }) async {
     try {
       // If user uses both providers, if they log in with email and password instead of google,
@@ -20,9 +20,12 @@ class AuthUserService {
       await FirebaseFirestore.instance.terminate();
       await FirebaseFirestore.instance.clearPersistence();
     } catch (unexpectedException) {
-      if (!context.mounted) return;
-      throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)
-          .removeExceptionWord;
+      if (context != null) {
+        if (!context.mounted) return;
+        throw Exception(
+                AppLocalizations.of(context)!.unexpectedException_dialog)
+            .removeExceptionWord;
+      }
     }
   }
 
