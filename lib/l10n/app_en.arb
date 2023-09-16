@@ -79,6 +79,10 @@
     "@genericLoginException_dialog_loginPage": {
         "description": "One of the login exceptions was not caught"
     },
+    "googleLoginTooFast_dialog_loginPage": "There was a communication error, please, do not press buttons too quick, or check your internet connection.",
+    "@googleLoginTooFast_dialog_loginPage": {
+        "description": "Exception to indicate the user what is doing wrong in the login process."
+    },
     "@_REGISTER_PAGE_SCREEN": {},
     "title_appbar_registerPage": "Create an account",
     "@title_appbar_registerPage": {

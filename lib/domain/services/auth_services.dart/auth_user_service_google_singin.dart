@@ -42,6 +42,13 @@ class AuthUserServiceGoogleSignIn {
       // This will create the account if it does not exist.
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
+      // Special exception usually cause for spamming the google button.
+      if (e.toString() ==
+          'PlatformException(channel-error, Unable to establish connection on channel., null, null)') {
+        throw Exception(
+          AppLocalizations.of(context)!.googleLoginTooFast_dialog_loginPage,
+        ).removeExceptionWord;
+      }
       throw Exception(e).removeExceptionWord;
     }
   }

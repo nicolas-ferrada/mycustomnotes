@@ -21,6 +21,7 @@
     "networkRequestFailed_dialog_loginPage": "Debes estar conectado a internet para iniciar sesión.",
     "tooManyLoginRequests_dialog_loginPage": "El acceso a esta cuenta se ha deshabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puedes restaurarlo inmediatamente restableciendo tu contraseña o puedes volver a intentarlo más tarde.",
     "genericLoginException_dialog_loginPage": "Hay un problema con el inicio de sesión, corrobora los datos que estás escribiendo. También puedes intentar reiniciando la aplicación o intentar nuevamente más tarde.",
+    "googleLoginTooFast_dialog_loginPage": "Hubo un error de comunicación, no aprietes los botones tan rápido, o revisa tu conexión a internet.",
     "@_REGISTER_PAGE_SCREEN": {},
     "title_appbar_registerPage": "Crea una cuenta",
     "email_textformfield_registerPage": "Ingresa tu correo",
