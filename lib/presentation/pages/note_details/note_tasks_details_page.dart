@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:mycustomnotes/utils/dialogs/unsaved_note_actions_dialog.dart';
+import 'package:mycustomnotes/utils/enums/unsaved_note_actions.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../domain/services/auth_services.dart/auth_user_service.dart';
@@ -11,7 +13,6 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../domain/services/note_tasks_service.dart';
 import '../../../l10n/l10n_export.dart';
-import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/delete_note_confirmation.dart';
 import '../../../utils/dialogs/note_details_info.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
@@ -216,6 +217,32 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     }
   }
 
+  Future<bool> actionToTakeWhenUserLeave() async {
+    bool shouldUserLeave = false;
+
+    final UnsavedNoteActions? actionToTake =
+        await UnsavedNoteActionsDialog.unsavedNoteActionDialog(context);
+    if (actionToTake == null) {
+      shouldUserLeave = false;
+    }
+
+    if (actionToTake == UnsavedNoteActions.saveChanges) {
+      if (!context.mounted) return false;
+      shouldUserLeave = false;
+      saveFunction();
+    }
+
+    if (actionToTake == UnsavedNoteActions.leaveWithoutSaving) {
+      shouldUserLeave = true;
+    }
+
+    if (actionToTake == UnsavedNoteActions.cancel) {
+      shouldUserLeave = false;
+    }
+
+    return shouldUserLeave;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -224,10 +251,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         FocusScope.of(context).unfocus();
         // Triggers a warning for leaving when user made changes and the save button was not pressed
         if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
-          final bool? shouldPop =
-              await ConfirmationDialog.discardChangesNoteDetails(context);
-          return shouldPop ??
-              false; // If user tap outside dialog, then don't leave page
+          return await actionToTakeWhenUserLeave();
         } else {
           return true; // Come back to home page
         }
@@ -581,87 +605,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Visibility(
-          visible: didUserMadeChanges(),
-          child: FloatingActionButton(
-            heroTag: null,
-            shape: const CircleBorder(),
-            onPressed: () async {
-              // Create note button
-              try {
-                // Update newNote with final results
-                newNote.tasks = getListMapFromTasksList();
-
-                wasTheSaveButtonPressed = true;
-                // Check if device it's connected to any network
-                bool isDeviceConnected =
-                    await CheckInternetConnection.checkInternetConnection();
-                int waitingConnection = 5;
-
-                // If device is connected, wait 5 seconds, if is not connected, dont wait.
-                if (isDeviceConnected) {
-                  waitingConnection = 5;
-                } else {
-                  waitingConnection = 0;
-                }
-
-                // Create note on firebase, it will wait depending if the device it's connected to a network
-                if (context.mounted) {
-                  await NoteTasksService.editNoteTasks(
-                    context: context,
-                    note: newNote,
-                  ).timeout(
-                    Duration(seconds: waitingConnection),
-                    onTimeout: () {
-                      Provider.of<NoteNotifier>(context, listen: false)
-                          .refreshNotes();
-
-                      // Double navigator.pop when editing from search bar to avoid not updating bug
-                      if (widget.editingFromSearchBar != null &&
-                          widget.editingFromSearchBar == true) {
-                        Navigator.maybePop(context)
-                            .then((_) => Navigator.maybePop(context));
-                      } else {
-                        Navigator.maybePop(context).then((_) {
-                          Map<String, dynamic> arguments = {
-                            'newNote': newNote,
-                            'isBeingEditedInFolder':
-                                widget.isBeingEditedInFolder,
-                          };
-                          Navigator.maybePop(context, arguments);
-                        });
-                      }
-                    },
-                  );
-                }
-                if (context.mounted) {
-                  context.read<NoteNotifier>().refreshNotes();
-                  // Double navigator.pop when editing from search bar to avoid not updating bug
-                  if (widget.editingFromSearchBar != null &&
-                      widget.editingFromSearchBar == true) {
-                    Navigator.maybePop(context)
-                        .then((_) => Navigator.maybePop(context));
-                  } else {
-                    Navigator.maybePop(context).then((_) {
-                      Map<String, dynamic> arguments = {
-                        'newNote': newNote,
-                        'isBeingEditedInFolder': widget.isBeingEditedInFolder,
-                      };
-                      Navigator.maybePop(context, arguments);
-                    });
-                  }
-                }
-              } catch (errorMessage) {
-                if (!context.mounted) return;
-
-                ExceptionsAlertDialog.showErrorDialog(
-                    context: context, errorMessage: errorMessage.toString());
-              }
-            },
-            backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-            child: const Icon(Icons.save),
-          ),
-        ),
+        saveButton(context),
         const SizedBox(
           height: 8,
         ),
@@ -722,6 +666,90 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         ),
       ],
     );
+  }
+
+  Visibility saveButton(BuildContext context) {
+    return Visibility(
+      visible: didUserMadeChanges(),
+      child: FloatingActionButton(
+        heroTag: null,
+        shape: const CircleBorder(),
+        onPressed: () async {
+          saveFunction();
+        },
+        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+        child: const Icon(Icons.save),
+      ),
+    );
+  }
+
+  void saveFunction() async {
+    try {
+      // Update newNote with final results
+      newNote.tasks = getListMapFromTasksList();
+
+      wasTheSaveButtonPressed = true;
+      // Check if device it's connected to any network
+      bool isDeviceConnected =
+          await CheckInternetConnection.checkInternetConnection();
+      int waitingConnection = 5;
+
+      // If device is connected, wait 5 seconds, if is not connected, dont wait.
+      if (isDeviceConnected) {
+        waitingConnection = 5;
+      } else {
+        waitingConnection = 0;
+      }
+
+      // Create note on firebase, it will wait depending if the device it's connected to a network
+      if (context.mounted) {
+        await NoteTasksService.editNoteTasks(
+          context: context,
+          note: newNote,
+        ).timeout(
+          Duration(seconds: waitingConnection),
+          onTimeout: () {
+            Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+
+            // Double navigator.pop when editing from search bar to avoid not updating bug
+            if (widget.editingFromSearchBar != null &&
+                widget.editingFromSearchBar == true) {
+              Navigator.maybePop(context)
+                  .then((_) => Navigator.maybePop(context));
+            } else {
+              Navigator.maybePop(context).then((_) {
+                Map<String, dynamic> arguments = {
+                  'newNote': newNote,
+                  'isBeingEditedInFolder': widget.isBeingEditedInFolder,
+                };
+                Navigator.maybePop(context, arguments);
+              });
+            }
+          },
+        );
+      }
+      if (context.mounted) {
+        context.read<NoteNotifier>().refreshNotes();
+        // Double navigator.pop when editing from search bar to avoid not updating bug
+        if (widget.editingFromSearchBar != null &&
+            widget.editingFromSearchBar == true) {
+          Navigator.maybePop(context).then((_) => Navigator.maybePop(context));
+        } else {
+          Navigator.maybePop(context).then((_) {
+            Map<String, dynamic> arguments = {
+              'newNote': newNote,
+              'isBeingEditedInFolder': widget.isBeingEditedInFolder,
+            };
+            Navigator.maybePop(context, arguments);
+          });
+        }
+      }
+    } catch (errorMessage) {
+      if (!context.mounted) return;
+
+      ExceptionsAlertDialog.showErrorDialog(
+          context: context, errorMessage: errorMessage.toString());
+    }
   }
 
   void creatingNewTask() {

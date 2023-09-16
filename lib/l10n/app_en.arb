@@ -17,6 +17,10 @@
     "@continueButton": {
         "description": "A generic continue button generally used in dialogs"
     },
+    "saveChangesButton": "Save changes",
+    "@saveChangesButton": {
+        "description": "Button to save changes"
+    },
     "@_LOGIN_PAGE_SCREEN": {},
     "email_textformfield_loginPage": "Enter your email",
     "@email_textformfield_loginPage": {
@@ -616,7 +620,7 @@
         "description": "Building note tasks, message shown outside if no tasks was added"
     },
     "@_DISCARD_CHANGES_DIALOG": {},
-    "discardChanges_dialog_title": "Discard changes?",
+    "discardChanges_dialog_title": "What do you want to do?",
     "@discardChanges_dialog_title": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },

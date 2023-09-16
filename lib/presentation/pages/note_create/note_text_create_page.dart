@@ -1,10 +1,11 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/dialogs/unsaved_note_actions_dialog.dart';
+import 'package:mycustomnotes/utils/enums/unsaved_note_actions.dart';
 import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 import '../../../utils/extensions/formatted_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/l10n_export.dart';
-import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/insert_url_menu_options.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -101,6 +102,32 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
     }
   }
 
+  Future<bool> actionToTakeWhenUserLeave() async {
+    bool shouldUserLeave = false;
+
+    final UnsavedNoteActions? actionToTake =
+        await UnsavedNoteActionsDialog.unsavedNoteActionDialog(context);
+    if (actionToTake == null) {
+      shouldUserLeave = false;
+    }
+
+    if (actionToTake == UnsavedNoteActions.saveChanges) {
+      if (!context.mounted) return false;
+      shouldUserLeave = false;
+      saveFunction();
+    }
+
+    if (actionToTake == UnsavedNoteActions.leaveWithoutSaving) {
+      shouldUserLeave = true;
+    }
+
+    if (actionToTake == UnsavedNoteActions.cancel) {
+      shouldUserLeave = false;
+    }
+
+    return shouldUserLeave;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -110,10 +137,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         // Triggers when user made changes and the save button was not pressed
         if (_isCreateButtonVisible == true &&
             wasTheSaveButtonPressed == false) {
-          final bool? shouldPop =
-              await ConfirmationDialog.discardChangesNoteDetails(context);
-          return shouldPop ??
-              false; // If user tap outside dialog, then don't leave page
+          return await actionToTakeWhenUserLeave();
         } else {
           return true; // Come back to home page
         }
@@ -262,52 +286,7 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
       visible: _isCreateButtonVisible,
       child: FloatingActionButton.extended(
         onPressed: () async {
-          // Create note button
-          try {
-            wasTheSaveButtonPressed = true;
-            // Check if device it's connected to any network
-            bool isDeviceConnected =
-                await CheckInternetConnection.checkInternetConnection();
-            int waitingConnection = 5;
-
-            // If device is connected, wait 5 seconds, if is not connected, dont wait.
-            if (isDeviceConnected) {
-              waitingConnection = 5;
-            } else {
-              waitingConnection = 0;
-            }
-
-            // Create note on firebase, it will wait depending if the device it's connected to a network
-            if (context.mounted) {
-              await NoteTextService.createNoteText(
-                context: context,
-                url: url,
-                title: _noteTitleController.text,
-                body: _noteBodyController.text,
-                userId: currentUser.uid,
-                isFavorite: isNoteFavorite,
-                color: intNoteColor,
-              ).timeout(
-                Duration(seconds: waitingConnection),
-                onTimeout: () {
-                  Provider.of<NoteNotifier>(context, listen: false)
-                      .refreshNotes();
-
-                  Navigator.of(context).maybePop();
-                },
-              );
-            }
-            if (context.mounted) {
-              Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
-
-              Navigator.of(context).maybePop();
-            }
-          } catch (errorMessage) {
-            if (!context.mounted) return;
-
-            ExceptionsAlertDialog.showErrorDialog(
-                context: context, errorMessage: errorMessage.toString());
-          }
+          saveFunction();
         },
         backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
         label: Text(
@@ -316,6 +295,53 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
         icon: const Icon(Icons.save),
       ),
     );
+  }
+
+  void saveFunction() async {
+    try {
+      wasTheSaveButtonPressed = true;
+      // Check if device it's connected to any network
+      bool isDeviceConnected =
+          await CheckInternetConnection.checkInternetConnection();
+      int waitingConnection = 5;
+
+      // If device is connected, wait 5 seconds, if is not connected, dont wait.
+      if (isDeviceConnected) {
+        waitingConnection = 5;
+      } else {
+        waitingConnection = 0;
+      }
+
+      // Create note on firebase, it will wait depending if the device it's connected to a network
+      if (context.mounted) {
+        await NoteTextService.createNoteText(
+          context: context,
+          url: url,
+          title: _noteTitleController.text,
+          body: _noteBodyController.text,
+          userId: currentUser.uid,
+          isFavorite: isNoteFavorite,
+          color: intNoteColor,
+        ).timeout(
+          Duration(seconds: waitingConnection),
+          onTimeout: () {
+            Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+
+            Navigator.of(context).maybePop();
+          },
+        );
+      }
+      if (context.mounted) {
+        Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+
+        Navigator.of(context).maybePop();
+      }
+    } catch (errorMessage) {
+      if (!context.mounted) return;
+
+      ExceptionsAlertDialog.showErrorDialog(
+          context: context, errorMessage: errorMessage.toString());
+    }
   }
 
   Widget noteCreatePageBody() {

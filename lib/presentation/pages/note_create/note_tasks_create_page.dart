@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:mycustomnotes/utils/dialogs/unsaved_note_actions_dialog.dart';
+import 'package:mycustomnotes/utils/enums/unsaved_note_actions.dart';
 import '../../../data/models/Note/note_notifier.dart';
 import '../../../domain/services/auth_services.dart/auth_user_service.dart';
 
 import 'package:provider/provider.dart';
 import '../../../domain/services/note_tasks_service.dart';
 import '../../../l10n/l10n_export.dart';
-import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/exceptions/exceptions_alert_dialog.dart';
 import '../../../utils/internet/check_internet_connection.dart';
@@ -169,6 +170,32 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     return didUserMadeChanges;
   }
 
+  Future<bool> actionToTakeWhenUserLeave() async {
+    bool shouldUserLeave = false;
+
+    final UnsavedNoteActions? actionToTake =
+        await UnsavedNoteActionsDialog.unsavedNoteActionDialog(context);
+    if (actionToTake == null) {
+      shouldUserLeave = false;
+    }
+
+    if (actionToTake == UnsavedNoteActions.saveChanges) {
+      if (!context.mounted) return false;
+      shouldUserLeave = false;
+      saveFunction();
+    }
+
+    if (actionToTake == UnsavedNoteActions.leaveWithoutSaving) {
+      shouldUserLeave = true;
+    }
+
+    if (actionToTake == UnsavedNoteActions.cancel) {
+      shouldUserLeave = false;
+    }
+
+    return shouldUserLeave;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -177,10 +204,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
         FocusScope.of(context).unfocus();
         // Triggers when user made changes and the save button was not pressed
         if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
-          final bool? shouldPop =
-              await ConfirmationDialog.discardChangesNoteDetails(context);
-          return shouldPop ??
-              false; // If user tap outside dialog, then don't leave page
+          return await actionToTakeWhenUserLeave();
         } else {
           return true; // Come back to home page
         }
@@ -592,52 +616,7 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
           child: FloatingActionButton.extended(
             heroTag: null,
             onPressed: () async {
-              // Create note button
-              try {
-                wasTheSaveButtonPressed = true;
-                // Check if device it's connected to any network
-                bool isDeviceConnected =
-                    await CheckInternetConnection.checkInternetConnection();
-                int waitingConnection = 5;
-
-                // If device is connected, wait 5 seconds, if is not connected, dont wait.
-                if (isDeviceConnected) {
-                  waitingConnection = 5;
-                } else {
-                  waitingConnection = 0;
-                }
-
-                // Create note on firebase, it will wait depending if the device it's connected to a network
-                if (context.mounted) {
-                  await NoteTasksService.createNoteTasks(
-                    context: context,
-                    title: _titleTextController.text,
-                    isFavorite: isNoteFavorite,
-                    color: intNoteColor,
-                    tasks: getListMapFromTasksList(),
-                    userId: currentUser.uid,
-                  ).timeout(
-                    Duration(seconds: waitingConnection),
-                    onTimeout: () {
-                      Provider.of<NoteNotifier>(context, listen: false)
-                          .refreshNotes();
-
-                      Navigator.of(context).maybePop();
-                    },
-                  );
-                }
-                if (context.mounted) {
-                  Provider.of<NoteNotifier>(context, listen: false)
-                      .refreshNotes();
-
-                  Navigator.of(context).maybePop();
-                }
-              } catch (errorMessage) {
-                      if (!context.mounted) return;
-
-                ExceptionsAlertDialog.showErrorDialog(
-                    context: context, errorMessage: errorMessage.toString());
-              }
+              saveFunction();
             },
             backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
             icon: const Icon(Icons.save),
@@ -705,6 +684,52 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
         ),
       ],
     );
+  }
+
+  void saveFunction() async {
+    try {
+      wasTheSaveButtonPressed = true;
+      // Check if device it's connected to any network
+      bool isDeviceConnected =
+          await CheckInternetConnection.checkInternetConnection();
+      int waitingConnection = 5;
+
+      // If device is connected, wait 5 seconds, if is not connected, dont wait.
+      if (isDeviceConnected) {
+        waitingConnection = 5;
+      } else {
+        waitingConnection = 0;
+      }
+
+      // Create note on firebase, it will wait depending if the device it's connected to a network
+      if (context.mounted) {
+        await NoteTasksService.createNoteTasks(
+          context: context,
+          title: _titleTextController.text,
+          isFavorite: isNoteFavorite,
+          color: intNoteColor,
+          tasks: getListMapFromTasksList(),
+          userId: currentUser.uid,
+        ).timeout(
+          Duration(seconds: waitingConnection),
+          onTimeout: () {
+            Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+
+            Navigator.of(context).maybePop();
+          },
+        );
+      }
+      if (context.mounted) {
+        Provider.of<NoteNotifier>(context, listen: false).refreshNotes();
+
+        Navigator.of(context).maybePop();
+      }
+    } catch (errorMessage) {
+      if (!context.mounted) return;
+
+      ExceptionsAlertDialog.showErrorDialog(
+          context: context, errorMessage: errorMessage.toString());
+    }
   }
 
   void creatingNewTask() {

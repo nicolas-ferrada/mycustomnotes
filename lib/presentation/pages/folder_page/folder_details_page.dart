@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/utils/dialogs/unsaved_note_actions_dialog.dart';
+import 'package:mycustomnotes/utils/enums/unsaved_note_actions.dart';
 import '../../../data/models/Note/folder_notifier.dart';
 import '../../../data/models/User/user_configuration.dart';
 import '../../../domain/services/auth_services.dart/auth_user_service.dart';
@@ -12,7 +14,6 @@ import '../../../data/models/Note/note_tasks_model.dart';
 import '../../../data/models/Note/note_text_model.dart';
 import '../../../domain/services/folder_service.dart';
 import '../../../l10n/l10n_export.dart';
-import '../../../utils/dialogs/confirmation_dialog.dart';
 import '../../../utils/dialogs/folder_details_info.dart';
 import '../../../utils/dialogs/note_pick_color_dialog.dart';
 import '../../../utils/enums/menu_item_note_detail.dart';
@@ -130,17 +131,45 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
     updateVariables();
   }
 
+  Future<bool> actionToTakeWhenUserLeave() async {
+    bool shouldUserLeave = false;
+
+    final UnsavedNoteActions? actionToTake =
+        await UnsavedNoteActionsDialog.unsavedNoteActionDialog(context);
+    if (actionToTake == null) {
+      shouldUserLeave = false;
+    }
+
+    if (actionToTake == UnsavedNoteActions.saveChanges) {
+      if (!context.mounted) return false;
+      if (widget.folder != null) {
+        shouldUserLeave = false;
+        editingFolder();
+      } else {
+        creatingFolder();
+      }
+    }
+
+    if (actionToTake == UnsavedNoteActions.leaveWithoutSaving) {
+      shouldUserLeave = true;
+    }
+
+    if (actionToTake == UnsavedNoteActions.cancel) {
+      shouldUserLeave = false;
+    }
+
+    return shouldUserLeave;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         FocusScope.of(context).unfocus();
         if (didUserMadeChanges() == true && wasTheSaveButtonPressed == false) {
-          final bool? shouldPop =
-              await ConfirmationDialog.discardChangesNoteDetails(context);
-          return shouldPop ?? false;
+          return await actionToTakeWhenUserLeave();
         } else {
-          return true;
+          return true; // Come back to home page
         }
       },
       child: Scaffold(

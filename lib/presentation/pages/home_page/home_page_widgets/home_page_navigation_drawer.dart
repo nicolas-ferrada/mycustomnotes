@@ -11,7 +11,7 @@ import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_
 import '../../../../utils/dialogs/user_configuration_dialogs/user_configuration_notes_view.dart';
 import '../../../../utils/enums/select_language_enum.dart';
 import '../../../../l10n/l10n_export.dart';
-import '../../../../utils/dialogs/confirmation_dialog.dart';
+import '../../../../utils/dialogs/log_out_dialog.dart';
 import '../../../../utils/dialogs/change_language_dialog.dart';
 import '../../../../utils/enums/notes_view_enum.dart';
 import '../../../../utils/exceptions/exceptions_alert_dialog.dart';
@@ -277,7 +277,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
   }) {
     return ListTile(
       onTap: () {
-        ConfirmationDialog.logOutDialog(context, currentUser);
+        LogOutDialog.logOutDialog(context, currentUser);
       },
       leading: Transform.scale(
         scaleX: -1,
