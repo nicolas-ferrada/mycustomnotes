@@ -102,6 +102,9 @@ dependencies:
   # Protect backend against abuse
   firebase_app_check: ^0.1.5+2
 
+  # Storage Access Framework (export user data)
+  shared_storage: ^0.8.0
+
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#fad85a"

@@ -1,14 +1,11 @@
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:flutter/material.dart';
 import 'package:excel/excel.dart';
 import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' show join;
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/models/Note/folder_model.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
@@ -20,6 +17,8 @@ import 'export_data_page_create_sheets_functions/export_data_page_create_folder_
 import 'export_data_page_create_sheets_functions/export_data_page_create_note_tasks_sheet.dart';
 import 'export_data_page_create_sheets_functions/export_data_page_create_note_text_sheet.dart';
 import 'export_data_page_create_sheets_functions/export_data_page_user_sheet.dart';
+
+import 'package:shared_storage/shared_storage.dart' as saf;
 
 class ExportDataPage extends StatefulWidget {
   final List<NoteText> notesTextList;
@@ -115,42 +114,15 @@ class _ExportDataPageState extends State<ExportDataPage> {
                 ),
                 onPressed: () async {
                   try {
-                    // Get permissions to save the file
-                    await getManageExteralStoragePermission();
-
-                    String downloadFolderPath = await getDownloadFolderPath();
-
-                    // File include UID to avoid two users in the same phone to delete their file
-                    String finalPath =
-                        '$downloadFolderPath/MyCustomNotes-${widget.currentUser.uid}.xlsx';
-
-                    Excel excel = createExcelData();
-
-                    // Save the excel in the given folder (download)
-                    String? operationResult =
-                        saveExcelToFile(excel: excel, path: finalPath);
-
-                    if (operationResult != null &&
-                        operationResult == 'Success' &&
-                        context.mounted) {
-                      Navigator.maybePop(context).then(
-                        (_) => showDialog(
-                          context: context,
-                          builder: (context) => SuccessfulMessageDialog(
-                            sucessMessage: AppLocalizations.of(context)!
-                                .exportDataSucessfulExportation_dialog_privacyWidgetExportDataPage,
-                          ),
-                        ),
-                      );
+                    if (Platform.isAndroid) {
+                      exportDataForAndroid(context);
+                    } else if (Platform.isIOS) {
+                      // exportDataForIOS();
                     } else {
-                      if (!context.mounted) return;
-
-                      throw Exception(
-                        AppLocalizations.of(context)!
-                            .exportDataGenericException_exception_privacyWidgetExportDataPage,
-                      );
+                      throw Exception('Invalid platform');
                     }
                   } catch (errorMessage) {
+                    if (!context.mounted) return;
                     ExceptionsAlertDialog.showErrorDialog(
                       context: context,
                       errorMessage: errorMessage.toString(),
@@ -177,55 +149,73 @@ class _ExportDataPageState extends State<ExportDataPage> {
     );
   }
 
-  Future<void> getManageExteralStoragePermission() async {
-    // Get permission of 'all files' to save the exported file in the download folder.
+  void exportDataForAndroid(BuildContext context) async {
+    final Uri path = await getPathAndPermissionsAndroid();
 
-    late PermissionStatus status;
-    if (Platform.isAndroid) {
-      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-      final AndroidDeviceInfo info = await deviceInfoPlugin.androidInfo;
-      if ((info.version.sdkInt) >= 33) {
-        // Android 13 or more
-        status = await Permission.manageExternalStorage.request();
-      } else {
-        // Lower than android 13
-        status = await Permission.storage.request();
-      }
-    } else {
-      // For IOS
-      status = await Permission.storage.request();
+    String fileName = 'MyCustomNotes-${widget.currentUser.uid}.xlsx';
+
+    Excel excel = createExcelData();
+
+    final List<int>? excelBytes = excel.encode();
+
+    if (excelBytes == null) {
+      if (!context.mounted) return;
+      throw Exception(
+        AppLocalizations.of(context)!
+            .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
+      ).removeExceptionWord;
     }
-    if (!status.isGranted) {
-      if (status.isPermanentlyDenied) {
-        if (context.mounted) {
-          throw Exception(
-            AppLocalizations.of(context)!
-                .exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage,
-          ).removeExceptionWord;
-        }
-      } else {
-        if (context.mounted) {
-          throw Exception(
-            AppLocalizations.of(context)!
-                .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
-          ).removeExceptionWord;
-        }
-      }
+
+    saf.DocumentFile? createdFile = await saf.createFileAsBytes(
+      path,
+      mimeType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      displayName: fileName,
+      bytes: Uint8List.fromList(excelBytes),
+    );
+
+    if (createdFile == null) {
+      if (!context.mounted) return;
+      throw Exception(
+        AppLocalizations.of(context)!
+            .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
+      ).removeExceptionWord;
     }
+
+    if (!context.mounted) return;
+    Navigator.maybePop(context).then(
+      (_) => showDialog(
+        context: context,
+        builder: (context) => SuccessfulMessageDialog(
+          sucessMessage: AppLocalizations.of(context)!
+              .exportDataSucessfulExportation_dialog_privacyWidgetExportDataPage,
+        ),
+      ),
+    );
   }
 
-  Future<String> getDownloadFolderPath() async {
-    late String directory;
-    if (Platform.isIOS) {
-      directory = (await getDownloadsDirectory())!.path;
-    } else {
-      directory = "/storage/emulated/0/Download";
-      bool dirDownloadExists = await Directory(directory).exists();
-      if (!dirDownloadExists) {
-        directory = "/storage/emulated/0/Downloads";
-      }
+  Future<Uri> getPathAndPermissionsAndroid() async {
+    final Uri? grantedUri = await saf.openDocumentTree(
+      grantWritePermission: true,
+    );
+
+    if (grantedUri == null) {
+      if (!context.mounted) return throw Exception('Permission not granted');
+      throw Exception(
+        AppLocalizations.of(context)!
+            .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
+      ).removeExceptionWord;
     }
-    return directory;
+
+    if (await saf.canWrite(grantedUri) ?? false) {
+      return grantedUri;
+    } else {
+      if (!context.mounted) return throw Exception('Permission not granted');
+      throw Exception(
+        AppLocalizations.of(context)!
+            .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
+      ).removeExceptionWord;
+    }
   }
 
   Excel createExcelData() {
@@ -267,25 +257,63 @@ class _ExportDataPageState extends State<ExportDataPage> {
     return excel;
   }
 
-  String? saveExcelToFile({
-    required Excel excel,
-    required String path,
-  }) {
-    String? operationResult;
-    final excelBytes = excel.encode();
-    if (excelBytes != null) {
-      File(join(path))
-        ..createSync(recursive: true)
-        ..writeAsBytesSync(excelBytes);
-      operationResult = 'Success';
-    } else {
-      if (context.mounted) {
-        throw Exception(
-          AppLocalizations.of(context)!
-              .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
-        ).removeExceptionWord;
-      }
-    }
-    return operationResult;
-  }
+  // void exportDataForIOS() async {
+  //   Future<void> getPermissionIOS() async {
+  //     PermissionStatus status = await Permission.storage.request();
+
+  //     if (!status.isGranted) {
+  //       if (status.isPermanentlyDenied) {
+  //         if (context.mounted) {
+  //           throw Exception(
+  //             AppLocalizations.of(context)!
+  //                 .exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage,
+  //           ).removeExceptionWord;
+  //         }
+  //       } else {
+  //         if (context.mounted) {
+  //           throw Exception(
+  //             AppLocalizations.of(context)!
+  //                 .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
+  //           ).removeExceptionWord;
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   Future<String> getDownloadFolderPath() async {
+  //     late String directory;
+  //     if (Platform.isIOS) {
+  //       directory = (await getDownloadsDirectory())!.path;
+  //     } else {
+  //       directory = "/storage/emulated/0/Download";
+  //       bool dirDownloadExists = await Directory(directory).exists();
+  //       if (!dirDownloadExists) {
+  //         directory = "/storage/emulated/0/Downloads";
+  //       }
+  //     }
+  //     return directory;
+  //   }
+
+  // String? saveExcelToFile({
+  //   required Excel excel,
+  //   required String path,
+  // }) {
+  //   String? operationResult;
+  //   final excelBytes = excel.encode();
+  //   if (excelBytes != null) {
+  //     File(join(path))
+  //       ..createSync(recursive: true)
+  //       ..writeAsBytesSync(excelBytes);
+  //     operationResult = 'Success';
+  //   } else {
+  //     if (context.mounted) {
+  //       throw Exception(
+  //         AppLocalizations.of(context)!
+  //             .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
+  //       ).removeExceptionWord;
+  //     }
+  //   }
+  //   return operationResult;
+  // }
+  // }
 }

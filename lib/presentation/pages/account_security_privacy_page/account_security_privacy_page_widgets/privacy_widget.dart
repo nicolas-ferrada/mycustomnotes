@@ -34,7 +34,7 @@ class _PrivacyWidgetState extends State<PrivacyWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
       child: Column(
         children: [
           privacyTitle(),
