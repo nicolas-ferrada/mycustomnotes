@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -99,7 +100,11 @@ class _AboutPageState extends State<AboutPage> {
       title: AppLocalizations.of(context)!.privacyPolicyTitle_text_aboutPage,
       subtitle:
           AppLocalizations.of(context)!.privacyPolicySubtitle_text_aboutPage,
-      onTapFunction: () {},
+      onTapFunction: () {
+        launchUrl(
+          Uri.parse('https://mycustomnotes.nicolasferrada.com/privacy-policy'),
+        );
+      },
     );
   }
 
@@ -108,7 +113,12 @@ class _AboutPageState extends State<AboutPage> {
       title: AppLocalizations.of(context)!.termsOfServiceTitle_text_aboutPage,
       subtitle:
           AppLocalizations.of(context)!.termsOfServiceSubtitle_text_aboutPage,
-      onTapFunction: () {},
+      onTapFunction: () {
+        launchUrl(
+          Uri.parse(
+              'https://mycustomnotes.nicolasferrada.com/terms-of-service'),
+        );
+      },
     );
   }
 
@@ -117,7 +127,12 @@ class _AboutPageState extends State<AboutPage> {
       title: AppLocalizations.of(context)!.softwareLicenseTitle_text_aboutPage,
       subtitle:
           AppLocalizations.of(context)!.softwareLicenseSubtitle_text_aboutPage,
-      onTapFunction: () {},
+      onTapFunction: () {
+        launchUrl(
+          Uri.parse(
+              'https://github.com/nicolas-ferrada/mycustomnotes/blob/main/LICENSE'),
+        );
+      },
     );
   }
 
@@ -137,7 +152,9 @@ class _AboutPageState extends State<AboutPage> {
     return widgetsStyle(
       title: AppLocalizations.of(context)!.websiteTitle_text_aboutPage,
       subtitle: AppLocalizations.of(context)!.websiteSubtitle_text_aboutPage,
-      onTapFunction: () {},
+      onTapFunction: () {
+        launchUrl(Uri.parse('https://nicolasferrada.com'));
+      },
     );
   }
 
