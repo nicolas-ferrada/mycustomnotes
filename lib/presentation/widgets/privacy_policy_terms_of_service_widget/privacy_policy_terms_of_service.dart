@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class PrivacyPolicyTermsOfServiceWidget extends StatefulWidget {
@@ -52,7 +53,12 @@ class _PrivacyPolicyTermsOfServiceWidgetState
           ),
           InkWell(
             borderRadius: BorderRadius.circular(20),
-            onTap: () => {},
+            onTap: () => {
+              launchUrl(
+                Uri.parse(
+                    'https://mycustomnotes.nicolasferrada.com/privacy-policy'),
+              ),
+            },
             child: Text(
               AppLocalizations.of(context)!.privacyPolicy_text_pptos,
               style: const TextStyle(
@@ -70,7 +76,12 @@ class _PrivacyPolicyTermsOfServiceWidgetState
           ),
           InkWell(
             borderRadius: BorderRadius.circular(20),
-            onTap: () => {},
+            onTap: () => {
+              launchUrl(
+                Uri.parse(
+                    'https://mycustomnotes.nicolasferrada.com/terms-of-service'),
+              ),
+            },
             child: Text(
               AppLocalizations.of(context)!.termsOfService_text_pptos,
               style: const TextStyle(
