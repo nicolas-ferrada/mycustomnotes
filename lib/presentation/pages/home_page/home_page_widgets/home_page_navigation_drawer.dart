@@ -74,7 +74,7 @@ class NavigationDrawerHomePage extends StatelessWidget {
             title: Text(
               AppLocalizations.of(context)!.title_drawer_homePage,
               style: const TextStyle(
-                fontSize: 26,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
