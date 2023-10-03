@@ -972,6 +972,10 @@
     "@exportDataGenericException_exception_privacyWidgetExportDataPage": {
         "description": "Generic exception for exporting data after the function failed"
     },
+    "exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage": "All your data were successfully exported. You can find your data file in your files.",
+    "@exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage": {
+        "description": "Generic exception for exporting data after the function failed, FOR IOS"
+    },
     "@_PRIVACY_WIDGET_EXPORT_DATA_EXCEPTIONS": {},
     "exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": "The permission is permanently denied.\nIn order to export your data, you will have to manually grant it or re-install the app.",
     "@exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": {

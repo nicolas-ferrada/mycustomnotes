@@ -287,6 +287,7 @@
     "exportDataSubtitle3_text_privacyWidgetExportDataPage": "Exportar tus datos puede ser útil para respaldarlos o utilizarlos con otro servicio.",
     "exportDataSubtitle4_text_privacyWidgetExportDataPage": "Recuerda ser cuidadoso, ya que toda tu información será puesta en un archivo sin seguridad.",
     "exportDataSucessfulExportation_dialog_privacyWidgetExportDataPage": "Todos tus datos fueron exportados exitosamente. Puedes encontrar el archivo en la carpeta seleccionada.",
+    "exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage": "Todos tus datos fueron exportados exitosamente. Puedes encontrar el documento en tus archivos.",
     "@_PRIVACY_WIDGET_EXPORT_DATA_EXCEPTIONS": {},
     "exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": "El permiso está permanentemente negado.\nPara poder exportar tus datos, tendrás que otorgarlo manualmente o reinstalar la aplicación.",
     "exportDataPermissionDenied_exception_privacyWidgetExportDataPage": "El permiso necesario no está otorgado.\nPara poder exportar tus datos es necesario selecionar una carpeta y aceptar el permiso solicitado. Inténtalo nuevamente.",

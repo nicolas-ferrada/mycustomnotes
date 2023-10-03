@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:excel/excel.dart';
 import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
 import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/models/Note/folder_model.dart';
 import '../../../data/models/Note/note_tasks_model.dart';
@@ -70,17 +73,19 @@ class _ExportDataPageState extends State<ExportDataPage> {
               const SizedBox(
                 height: 16,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  AppLocalizations.of(context)!
-                      .exportDataSubtitle2_text_privacyWidgetExportDataPage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
+              Platform.isAndroid
+                  ? Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .exportDataSubtitle2_text_privacyWidgetExportDataPage,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
@@ -117,7 +122,7 @@ class _ExportDataPageState extends State<ExportDataPage> {
                     if (Platform.isAndroid) {
                       exportDataForAndroid(context);
                     } else if (Platform.isIOS) {
-                      // exportDataForIOS();
+                      exportDataForIOS();
                     } else {
                       throw Exception('Invalid platform');
                     }
@@ -218,6 +223,83 @@ class _ExportDataPageState extends State<ExportDataPage> {
     }
   }
 
+  void exportDataForIOS() async {
+    await getPermissionIOS();
+    Directory downloadPath = await getApplicationDocumentsDirectory();
+    String finalpath =
+        '${downloadPath.path}/MyCustomNotes-${widget.currentUser.uid}.xlsx';
+    Excel excel = createExcelData();
+    String? operationResult = saveExcelToFile(excel: excel, path: finalpath);
+
+    if (operationResult != null &&
+        operationResult == 'Success' &&
+        context.mounted) {
+      Navigator.maybePop(context).then(
+        (_) => showDialog(
+          context: context,
+          builder: (context) => SuccessfulMessageDialog(
+            sucessMessage: AppLocalizations.of(context)!
+                .exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage,
+          ),
+        ),
+      );
+    } else {
+      if (!context.mounted) return;
+      throw Exception(
+        AppLocalizations.of(context)!
+            .exportDataGenericException_exception_privacyWidgetExportDataPage,
+      );
+    }
+  }
+
+  Future<void> getPermissionIOS() async {
+    PermissionStatus status = await Permission.storage.request();
+    if (!status.isGranted) {
+      if (status.isPermanentlyDenied) {
+        if (context.mounted) {
+          throw Exception(
+            AppLocalizations.of(context)!
+                .exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage,
+          ).removeExceptionWord;
+        }
+      } else {
+        if (context.mounted) {
+          throw Exception(
+            AppLocalizations.of(context)!
+                .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
+          ).removeExceptionWord;
+        }
+      }
+    }
+  }
+
+  Future<String> getDownloadFolderPath() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    return directory.path.toString();
+  }
+
+  String? saveExcelToFile({
+    required Excel excel,
+    required String path,
+  }) {
+    String? operationResult;
+    final excelBytes = excel.encode();
+    if (excelBytes != null) {
+      File(join(path))
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(excelBytes);
+      operationResult = 'Success';
+    } else {
+      if (context.mounted) {
+        throw Exception(
+          AppLocalizations.of(context)!
+              .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
+        ).removeExceptionWord;
+      }
+    }
+    return operationResult;
+  }
+
   Excel createExcelData() {
     Excel excel = Excel.createExcel();
 
@@ -256,64 +338,4 @@ class _ExportDataPageState extends State<ExportDataPage> {
 
     return excel;
   }
-
-  // void exportDataForIOS() async {
-  //   Future<void> getPermissionIOS() async {
-  //     PermissionStatus status = await Permission.storage.request();
-
-  //     if (!status.isGranted) {
-  //       if (status.isPermanentlyDenied) {
-  //         if (context.mounted) {
-  //           throw Exception(
-  //             AppLocalizations.of(context)!
-  //                 .exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage,
-  //           ).removeExceptionWord;
-  //         }
-  //       } else {
-  //         if (context.mounted) {
-  //           throw Exception(
-  //             AppLocalizations.of(context)!
-  //                 .exportDataPermissionDenied_exception_privacyWidgetExportDataPage,
-  //           ).removeExceptionWord;
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   Future<String> getDownloadFolderPath() async {
-  //     late String directory;
-  //     if (Platform.isIOS) {
-  //       directory = (await getDownloadsDirectory())!.path;
-  //     } else {
-  //       directory = "/storage/emulated/0/Download";
-  //       bool dirDownloadExists = await Directory(directory).exists();
-  //       if (!dirDownloadExists) {
-  //         directory = "/storage/emulated/0/Downloads";
-  //       }
-  //     }
-  //     return directory;
-  //   }
-
-  // String? saveExcelToFile({
-  //   required Excel excel,
-  //   required String path,
-  // }) {
-  //   String? operationResult;
-  //   final excelBytes = excel.encode();
-  //   if (excelBytes != null) {
-  //     File(join(path))
-  //       ..createSync(recursive: true)
-  //       ..writeAsBytesSync(excelBytes);
-  //     operationResult = 'Success';
-  //   } else {
-  //     if (context.mounted) {
-  //       throw Exception(
-  //         AppLocalizations.of(context)!
-  //             .exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage,
-  //       ).removeExceptionWord;
-  //     }
-  //   }
-  //   return operationResult;
-  // }
-  // }
 }
