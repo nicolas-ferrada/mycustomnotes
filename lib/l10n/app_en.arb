@@ -489,7 +489,7 @@
     "@url_AnyLinkPreviewWidget_contentError": {
         "description": "The content of the any link preview package widget was unable to load"
     },
-    "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image...",
+    "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image. The url might be invalid, please, try again",
     "@url_AnyLinkPreviewWidget_widgetError": {
         "description": "The widget of the any link preview package had an error"
     },
@@ -498,7 +498,7 @@
     "@url_dialog_title": {
         "description": "Dialog to insert urls title"
     },
-    "url_dialog_explanation": "You can paste any internet url to show it in your text notes.",
+    "url_dialog_explanation": "You can paste any internet url to show it in your text notes. (Url must include http/https).",
     "@url_dialog_explanation": {
         "description": "Dialog to insert urls explanation"
     },
@@ -971,6 +971,10 @@
     "exportDataSucessfulExportation_dialog_privacyWidgetExportDataPage": "All your data were successfully exported. You can find your data file in the folder you selected.",
     "@exportDataGenericException_exception_privacyWidgetExportDataPage": {
         "description": "Generic exception for exporting data after the function failed"
+    },
+    "exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage": "All your data were successfully exported. You can find your data file in your files.",
+    "@exportDataSucessfulExportationIOS_dialog_privacyWidgetExportDataPage": {
+        "description": "Generic exception for exporting data after the function failed, FOR IOS"
     },
     "@_PRIVACY_WIDGET_EXPORT_DATA_EXCEPTIONS": {},
     "exportDataPermissionPermanentlyDenied_exception_privacyWidgetExportDataPage": "The permission is permanently denied.\nIn order to export your data, you will have to manually grant it or re-install the app.",

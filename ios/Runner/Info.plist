@@ -7,7 +7,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>My&#x2007;Custom&#x2007;Notes</string>
+		<string>MyCustomNotes</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -62,5 +62,14 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UIFileSharingEnabled</key>
+		<true/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+  		<string>http</string>
+  		<string>https</string>
+		</array>
 	</dict>
 </plist>
