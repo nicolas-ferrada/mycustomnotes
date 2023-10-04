@@ -36,7 +36,7 @@ class SelectCreateNoteType {
                             const SizedBox(height: 8),
                             const Icon(
                               Icons.text_snippet,
-                              size: 46,
+                              size: 44,
                               color: Colors.white,
                             ),
                             const SizedBox(height: 8),
@@ -46,7 +46,7 @@ class SelectCreateNoteType {
                                 AppLocalizations.of(context)!
                                     .newNoteTextNoteOption_dialog_homePage,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                           ],
@@ -71,7 +71,7 @@ class SelectCreateNoteType {
                             const SizedBox(height: 8),
                             const Icon(
                               Icons.view_list,
-                              size: 46,
+                              size: 44,
                               color: Colors.white,
                             ),
                             const SizedBox(height: 8),
@@ -81,7 +81,7 @@ class SelectCreateNoteType {
                                 AppLocalizations.of(context)!
                                     .newNoteTasksNoteOption_dialog_homePage,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                           ],
