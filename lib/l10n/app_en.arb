@@ -489,7 +489,7 @@
     "@url_AnyLinkPreviewWidget_contentError": {
         "description": "The content of the any link preview package widget was unable to load"
     },
-    "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image...",
+    "url_AnyLinkPreviewWidget_widgetError": "Error: can't display any image. The url might be invalid, please, try again",
     "@url_AnyLinkPreviewWidget_widgetError": {
         "description": "The widget of the any link preview package had an error"
     },
@@ -498,7 +498,7 @@
     "@url_dialog_title": {
         "description": "Dialog to insert urls title"
     },
-    "url_dialog_explanation": "You can paste any internet url to show it in your text notes.",
+    "url_dialog_explanation": "You can paste any internet url to show it in your text notes. (Url must include http/https).",
     "@url_dialog_explanation": {
         "description": "Dialog to insert urls explanation"
     },
