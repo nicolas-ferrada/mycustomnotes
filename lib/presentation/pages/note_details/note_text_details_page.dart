@@ -429,7 +429,12 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
           // load url to firestore
         } else if (value == MenuItemNoteDetail.item4) {
           // Share note
-          Share.share('${widget.noteText.title}\n\n${widget.noteText.body}');
+          if (widget.noteText.url != null) {
+            Share.share(
+                '${widget.noteText.title}\n\n${widget.noteText.body}\n\n${widget.noteText.url}');
+          } else {
+            Share.share('${widget.noteText.title}\n\n${widget.noteText.body}');
+          }
         } else if (value == MenuItemNoteDetail.item5) {
           // Note details
           showDialog(
