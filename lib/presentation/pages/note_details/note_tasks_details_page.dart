@@ -661,7 +661,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
               isShowModalBottomSheetTryingToBeClosed = false;
             });
           },
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+          backgroundColor: Colors.white,
           child: const Icon(Icons.add),
         ),
       ],
@@ -677,7 +677,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         onPressed: () async {
           saveFunction();
         },
-        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+        backgroundColor: Colors.white,
         child: const Icon(Icons.save),
       ),
     );

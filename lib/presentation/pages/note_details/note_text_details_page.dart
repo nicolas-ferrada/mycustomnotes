@@ -307,7 +307,7 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
       visible: didUserMadeChanges(),
       child: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+        backgroundColor: Colors.white,
         child: const Icon(Icons.save),
         onPressed: () async {
           // Edit the selected note

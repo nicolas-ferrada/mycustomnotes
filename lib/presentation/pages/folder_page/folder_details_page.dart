@@ -231,7 +231,7 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
       visible: didUserMadeChanges(),
       child: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
+        backgroundColor: Colors.white,
         child: const Icon(Icons.save),
         onPressed: () async {
           if (widget.folder != null) {

@@ -613,21 +613,20 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
       children: [
         Visibility(
           visible: didUserMadeChanges(),
-          child: FloatingActionButton.extended(
+          child: FloatingActionButton(
+            shape: const CircleBorder(),
             heroTag: null,
             onPressed: () async {
               saveFunction();
             },
-            backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-            icon: const Icon(Icons.save),
-            label: Text(
-                AppLocalizations.of(context)!.save_button_noteTextCreatePage),
+            backgroundColor: Colors.white,
+            child: const Icon(Icons.save),
           ),
         ),
         const SizedBox(
           height: 8,
         ),
-        FloatingActionButton.extended(
+        FloatingActionButton(
           heroTag: null,
           onPressed: () async {
             isShowModalBottomSheetTryingToBeClosed = true;
@@ -678,9 +677,9 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
               isShowModalBottomSheetTryingToBeClosed = false;
             });
           },
-          backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-          icon: const Icon(Icons.add),
-          label: Text(AppLocalizations.of(context)!.noteTasks_button_newTask),
+          shape: const CircleBorder(),
+          backgroundColor: Colors.white,
+          child: const Icon(Icons.add),
         ),
       ],
     );

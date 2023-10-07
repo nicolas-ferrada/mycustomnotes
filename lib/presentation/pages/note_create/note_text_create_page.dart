@@ -284,15 +284,13 @@ class _NoteTextCreatePageState extends State<NoteTextCreatePage> {
   Visibility noteCreatePageFloatingActionButton(BuildContext context) {
     return Visibility(
       visible: _isCreateButtonVisible,
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
         onPressed: () async {
           saveFunction();
         },
-        backgroundColor: const Color.fromRGBO(250, 216, 90, 0.9),
-        label: Text(
-          AppLocalizations.of(context)!.save_button_noteTextCreatePage,
-        ),
-        icon: const Icon(Icons.save),
+        backgroundColor: Colors.white,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.save),
       ),
     );
   }
