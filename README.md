@@ -1,4 +1,10 @@
-# <p style="text-align: center;">My Custom Notes</p>
+<a href="https://mycustomnotes.nicolasferrada.com/">
+  <h1 align="center">
+    <picture>
+      <img width="300" alt="My Custom Notes" src="assets/logo.png">
+    </picture>
+  </h1>
+</a>
 
 ## Organize your day and save your favorite moments in one place!
 
@@ -13,6 +19,9 @@ My Custom Notes is available on:
 - **App Store** for IOS.
 
 ## Tecnologies
+![dart](https://img.shields.io/badge/Dart-02569B?style=for-the-badge&logo=dart&logoColor=0175C2&labelColor=101010) 
+![flutter](https://img.shields.io/badge/Flutter-0175C2?style=for-the-badge&logo=flutter&logoColor=0175C2&labelColor=101010) 
+![firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=yellow&labelColor=101010)
 - **Dart** as the programming language.
 - **Flutter** as the framework.
 - **Firebase** as the back-end.
@@ -41,20 +50,17 @@ My Custom Notes is available on:
     - Software licences
 
 - **Branding:**
-    - Domain name (nicolasferrada.com)
-    - Subdomain for the project (mycustomnotes.nicolasferrada.com)
-    - Email domain (contact@nicolasferrada.com and mycustomnotes@nicolasferrada.com)
-    - Working along with designers for logo, color pallette and app's website design
+    - Domain name and subdomains (nicolasferrada.com) (mycustomnotes.nicolasferrada.com)
+    - Email domain (contact@nicolasferrada.com) (mycustomnotes@nicolasferrada.com)
 
 ## Project Story
-After obtaining my degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter and providing guidance in my learning journey, which included not only Flutter but also good coding practices, Git/Github, and Firebase.
+After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter and providing guidance in my learning journey, which included not only Flutter but also good coding practices, Git/Github, Firebase, and other important topics.
 
 [![Learn Flutter in 37 hours](https://img.youtube.com/vi/VPvVD8t02U8/0.jpg)](https://www.youtube.com/watch?v=VPvVD8t02U8)
 
-After approximately 25 hours of the course, I became very excited about adding new functionalities to the app, and exactly, after a year, we ended up here.
-
-My initial goal with the tutorial was to take six months, but I ended up learning and adding a lot of things beyond my original plan. 
-Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building a project with weak foundations. However, at the end of the day, I am really glad and grateful for what I've accomplished.
+After approximately 25 hours of the course, I became very excited about adding new functionalities to the app, and after a year, we ended up here.
+ 
+Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations. However, at the end of the day, I am really glad and grateful for what I've accomplished.
 
 Most importantly, I've learned a lot during this year-long project, and I'm confident that I won't repeat the mistakes I've made. However, I would definitely not recommend using a learning project to create a final product.
 
