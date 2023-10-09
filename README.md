@@ -86,10 +86,10 @@ The software foundations are inconsistent since started as a tutorial project, a
 After a lot of coding, I believed I would finish the project within a few months, I decided that refactoring the existing code would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
 
 #### **Boilerplate code** 
-There is a significant amount of boilerplate code in some critical parts of the project. This is primarily due to the absence of a clear state management system.
+There is a significant amount of boilerplate code. This is primarily due to the absence of a clear state management system.
 
 #### **Testing** 
-No testing beyond using real devices was performed. I realized the importance of testing much later in the project, and by then, it was too late.
+No testing beyond using real devices was performed.
 
 ## Future of the project
 It has been decided that this project is solely for learning purposes, so I will not be updating it beyond fixing bugs or implementing small features in the near future.
