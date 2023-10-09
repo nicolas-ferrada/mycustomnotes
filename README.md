@@ -12,6 +12,8 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 
 ## Video
 
+*Coming soon*
+
 ## Where to get app?
 My Custom Notes is available for:
 
@@ -25,8 +27,11 @@ My Custom Notes is available for:
 ![dart](https://img.shields.io/badge/Dart-02569B?style=for-the-badge&logo=dart&logoColor=0175C2&labelColor=101010) 
 ![flutter](https://img.shields.io/badge/Flutter-0175C2?style=for-the-badge&logo=flutter&logoColor=0175C2&labelColor=101010) 
 ![firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=yellow&labelColor=101010)
+
 - **Dart** as the programming language.
+
 - **Flutter** as the framework.
+
 - **Firebase** as the back-end.
 
 ## Resume of major technical functionalities
@@ -68,14 +73,14 @@ After obtaining a CS degree in mid-2022, I began working on some small Flutter p
 
 [![Learn Flutter in 37 hours](https://img.youtube.com/vi/VPvVD8t02U8/0.jpg)](https://www.youtube.com/watch?v=VPvVD8t02U8)
 
-After approximately 25 hours of the course, I became very excited about adding new functionalities to the app. A year later, we've reached this point.
+After completing approximately 25 hours of the course, I became enthusiastic about adding new features to the app. A year later, we've reached this point.
  
-Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations. However, at the end of the day, I am really glad and grateful for what I've accomplished.
+Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations.
 
 Most importantly, I've learned a lot during this year-long project, and I'm confident that I won't repeat the mistakes I've made. However, I would definitely not recommend using a learning project to create a final product.
 
 ## Major known issues
-The software foundations are inconsistent since started as a tutorial project, and good programming practices were not developed from the start. This has made the project unsustainable for the long term.
+The software foundations are inconsistent since started as a tutorial project, and good practices were not developed from the start. This has made the project unsustainable for the long term, mainly because:
 
 #### **State management** 
 After a lot of coding, I believed I would finish the project within a few months, I decided that refactoring the existing code would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
@@ -90,6 +95,3 @@ No testing beyond using real devices was performed. I realized the importance of
 It has been decided that this project is solely for learning purposes, so I will not be updating it beyond fixing bugs or implementing small features in the near future.
 
 If you discover any bugs, please, feel free to report them or help me fix them; otherwise, you are welcome to fork the project, and use it as you please.
-
-## Did you like the project?
-I am currently looking for a **Junior front-end Flutter job**. If you know of any companies that may be interested in a profile like mine, please don't hesitate to share my information with them!
