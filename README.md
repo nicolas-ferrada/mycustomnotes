@@ -34,39 +34,29 @@ My Custom Notes is available for:
 
 - **Firebase** as the back-end.
 
-## Resume of major technical functionalities
+## Major technical components
 
-- **Server side**
+- Login and register with email/password and Google.
 
-    - Login and register with email/password and Google.
+- Account operations and configurations based on the login provider.
 
-    - Account operations and configurations based on the login provider.
-
-    - Non-relational database management.
-
-    - Database protection using advanced rules and App Check.
-
-    - Push notifications.
+- Push notifications.
         
-    - Offline mode.
+- Offline mode.
 
-    - Deleting all user's data on request.
+- Deleting all user's data on request.
         
-- **Client side**
+- User experience and error handling.
 
-    - User experience and error handling in all operations mentioned above.
+- Clean architecture.
 
-    - Clean architecture.
+- Local storage.
 
-    - Local storage.
+- Exporting user's data.
 
-    - Exporting user's data.
+- Translation to multiple languages.
 
-- **Internationalization**
-
-    - Translated to multiple languages.
-
-    - Date and time formatting.
+- Date and time formatting.
 
 ## Project story
 After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter and providing guidance in my learning journey, which included not only Flutter but also good coding practices, Git/Github, Firebase, and other important topics.
