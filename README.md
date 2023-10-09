@@ -13,7 +13,7 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 ## Video
 
 ## Where to get app?
-My Custom Notes is available on:
+My Custom Notes is available for:
 
 ![android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=101010)
 ![ios](https://img.shields.io/badge/iOS-lightgrey?style=for-the-badge&logo=ios&logoColor=lightgrey&labelColor=101010)
@@ -21,7 +21,7 @@ My Custom Notes is available on:
 - **Google Play** for Android.
 - **App Store** for IOS.
 
-## Tecnologies
+## Technologies
 ![dart](https://img.shields.io/badge/Dart-02569B?style=for-the-badge&logo=dart&logoColor=0175C2&labelColor=101010) 
 ![flutter](https://img.shields.io/badge/Flutter-0175C2?style=for-the-badge&logo=flutter&logoColor=0175C2&labelColor=101010) 
 ![firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=yellow&labelColor=101010)
@@ -39,7 +39,7 @@ My Custom Notes is available on:
 
     - Non-relational database management.
 
-    - Database protection using advance rules and App Check.
+    - Database protection using advanced rules and App Check.
 
     - Push notifications.
         
@@ -51,13 +51,13 @@ My Custom Notes is available on:
 
     - User experience and error handling in all operations mentioned above.
 
-    - Clean arquitecture.
+    - Clean architecture.
 
     - Local storage.
 
     - Exporting user's data.
 
-- **Internacionalization**
+- **Internationalization**
 
     - Translated to multiple languages.
 
@@ -68,13 +68,13 @@ After obtaining a CS degree in mid-2022, I began working on some small Flutter p
 
 [![Learn Flutter in 37 hours](https://img.youtube.com/vi/VPvVD8t02U8/0.jpg)](https://www.youtube.com/watch?v=VPvVD8t02U8)
 
-After approximately 25 hours of the course, I became very excited about adding new functionalities to the app, and after a year, we ended up here.
+After approximately 25 hours of the course, I became very excited about adding new functionalities to the app. A year later, we've reached this point.
  
 Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations. However, at the end of the day, I am really glad and grateful for what I've accomplished.
 
 Most importantly, I've learned a lot during this year-long project, and I'm confident that I won't repeat the mistakes I've made. However, I would definitely not recommend using a learning project to create a final product.
 
-## Mayor known issues
+## Major known issues
 The software foundations are inconsistent since started as a tutorial project, and good programming practices were not developed from the start. This has made the project unsustainable for the long term.
 
 #### **State management** 
