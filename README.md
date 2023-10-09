@@ -15,6 +15,9 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 ## Where to get app?
 My Custom Notes is available on:
 
+![android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=101010)
+![ios](https://img.shields.io/badge/iOS-lightgrey?style=for-the-badge&logo=ios&logoColor=lightgrey&labelColor=101010)
+
 - **Google Play** for Android.
 - **App Store** for IOS.
 
@@ -26,34 +29,41 @@ My Custom Notes is available on:
 - **Flutter** as the framework.
 - **Firebase** as the back-end.
 
-## Resume of Major funcionalities of the project
+## Resume of major technical functionalities
 
-- **Technical:**
-    - **Firebase operations**
-        - Login and register with email/password and Google.
-        - Account configuration based on the login provider.
-        - Password recovery.
-        - Firestore database management and operations.
-        - Protecting the database with Firestore rules.
-        - Push notifications.
-        - Offline mode.
-    - **Client side**
-        - User experience and error handling in all operations mentioned above.
-        - Local storage.
-        - Exporting user's data.
-    - **Internacionalization**
-        - Translated to multiple languages.
-        - Date and time formatting.
+- **Server side**
 
-- **Legal:**
-    - Creation of Terms of Service and Privacy Policy
-    - Software licences
+    - Login and register with email/password and Google.
 
-- **Branding:**
-    - Domain name and subdomains (nicolasferrada.com) (mycustomnotes.nicolasferrada.com)
-    - Email domain (contact@nicolasferrada.com) (mycustomnotes@nicolasferrada.com)
+    - Account operations and configurations based on the login provider.
 
-## Project Story
+    - Non-relational database management.
+
+    - Database protection using advance rules and App Check.
+
+    - Push notifications.
+        
+    - Offline mode.
+
+    - Deleting all user's data on request.
+        
+- **Client side**
+
+    - User experience and error handling in all operations mentioned above.
+
+    - Clean arquitecture.
+
+    - Local storage.
+
+    - Exporting user's data.
+
+- **Internacionalization**
+
+    - Translated to multiple languages.
+
+    - Date and time formatting.
+
+## Project story
 After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter and providing guidance in my learning journey, which included not only Flutter but also good coding practices, Git/Github, Firebase, and other important topics.
 
 [![Learn Flutter in 37 hours](https://img.youtube.com/vi/VPvVD8t02U8/0.jpg)](https://www.youtube.com/watch?v=VPvVD8t02U8)
@@ -64,14 +74,17 @@ Not being able to distinguish between a learning project and a real-world projec
 
 Most importantly, I've learned a lot during this year-long project, and I'm confident that I won't repeat the mistakes I've made. However, I would definitely not recommend using a learning project to create a final product.
 
-## Mayor known issues with the project
-As the story mentions, this project started as a learning project in 2022. Therefore, the software foundations are inconsistent, and good programming practices were not developed from the start. This has made the project unsustainable for the long term for the following main reasons:
+## Mayor known issues
+The software foundations are inconsistent since started as a tutorial project, and good programming practices were not developed from the start. This has made the project unsustainable for the long term.
 
-- **State management:** Since after I dropped the tutorial, I believed I would finish the project within a few months, I decided that refactoring the existing code would be a waste of time. Consequently, I continued using stateful widgets and setState. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
+#### **State management** 
+After a lot of coding, I believed I would finish the project within a few months, I decided that refactoring the existing code would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
 
-- **Boilerplate code:** There is a significant amount of boilerplate code in some of the most critical parts of the project. This is primarily due to the absence of a clear state management system, which did the development more difficult.
+#### **Boilerplate code** 
+There is a significant amount of boilerplate code in some critical parts of the project. This is primarily due to the absence of a clear state management system.
 
-- **Testing:** No testing beyond using real devices was performed, mainly because of the issues described in the story and the state management problem. I only realized the importance of testing much later in the project, and by then, it was too late.
+#### **Testing** 
+No testing beyond using real devices was performed. I realized the importance of testing much later in the project, and by then, it was too late.
 
 ## Future of the project
 It has been decided that this project is solely for learning purposes, so I will not be updating it beyond fixing bugs or implementing small features in the near future.
@@ -79,4 +92,4 @@ It has been decided that this project is solely for learning purposes, so I will
 If you discover any bugs, please, feel free to report them or help me fix them; otherwise, you are welcome to fork the project, and use it as you please.
 
 ## Did you like the project?
-I am currently seeking a front-end Flutter developer job. If you know of any companies that may be interested in a profile like mine, please don't hesitate to share my information with them!
+I am currently looking for a **Junior front-end Flutter job**. If you know of any companies that may be interested in a profile like mine, please don't hesitate to share my information with them!
