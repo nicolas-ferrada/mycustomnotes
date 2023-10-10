@@ -12,7 +12,13 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 
 ## Video
 
-[![My Custom Notes](https://img.youtube.com/vi/r3kYD4kMXtA/0.jpg)](https://youtu.be/r3kYD4kMXtA)
+Click on the image to see a brief video demonstration of the app!
+
+<div align="center">
+  <a href="https://youtu.be/r3kYD4kMXtA">
+    <img src="https://img.youtube.com/vi/r3kYD4kMXtA/0.jpg" alt="My Custom Notes"/>
+  </a>
+</div>
 
 ## Where to get app?
 My Custom Notes is available for:
