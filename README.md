@@ -73,13 +73,13 @@ After completing approximately 25 hours of the course, I became enthusiastic abo
  
 Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations.
 
-Most importantly, I've learned a lot during this year-long project, and I'm confident that I won't repeat the mistakes I've made. However, I would definitely not recommend using a learning project to create a final product.
+Most importantly, I've learned a lot during this year-long project, and I know that same mistakes won't be repeated. However, I would definitely not recommend using a learning project to create a final product.
 
 ## Major known issues
 The software foundations are inconsistent since started as a tutorial project, and good practices were not developed from the start. This has made the project unsustainable for the long term, mainly because:
 
 #### **State management** 
-After a lot of coding, I believed I would finish the project within a few months, I decided that refactoring the existing code would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
+After a lot of coding, I believed I would finish the project within a few months. I decided that refactoring the existing code to add a solid state management approach would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
 
 #### **Boilerplate code** 
 There is a significant amount of boilerplate code. This is primarily due to the absence of a clear state management system.
