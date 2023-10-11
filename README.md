@@ -12,7 +12,7 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 
 ## Video
 
-Click on the image to see a brief video demonstration of the app!
+Click on the image to see a brief demonstration of the app!
 
 <div align="center">
   <a href="https://youtu.be/r3kYD4kMXtA">
