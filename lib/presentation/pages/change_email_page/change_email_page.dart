@@ -61,7 +61,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
     if (widget.userAuthProvider == UserAuthProvider.emailPassword) {
       return emailPasswordProviderWidget(context);
     } else if (widget.userAuthProvider == UserAuthProvider.google ||
-        widget.userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+        widget.userAuthProvider == UserAuthProvider.multipleProviders) {
       return googleProviderWidget(context);
     } else {
       return const Text('Error: No provider found');
@@ -205,7 +205,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         ),
         Visibility(
           visible: (widget.userAuthProvider ==
-              UserAuthProvider.emailPasswordAndGoogle),
+              UserAuthProvider.multipleProviders),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

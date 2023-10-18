@@ -137,7 +137,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
           .passwordProvider_text_myAccountWidget;
     } else if (userAuthProvider == UserAuthProvider.google) {
       return AppLocalizations.of(context)!.googleProvider_text_myAccountWidget;
-    } else if (userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+    } else if (userAuthProvider == UserAuthProvider.multipleProviders) {
       return AppLocalizations.of(context)!
           .emailPasswordAndGoogleProvider_text_myAccountWidget;
     } else {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_apple_signin.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
 import 'package:provider/provider.dart';
 
@@ -70,8 +71,10 @@ class _LoginPageState extends State<LoginPage> {
               forgotPasswordWidget(context),
               loginProvidersSeparationWidget(context),
               googleLoginButtonWidget(context),
+              appleLoginButtonWidget(context),
               createAccountSeparationWidget(context),
               signUpWidget(context),
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -81,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget changeLanguageWidget(String language, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () async {
@@ -255,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget loginProvidersSeparationWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -330,9 +333,58 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget appleLoginButtonWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 10,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9),
+          ),
+        ),
+        onPressed: () async {
+          try {
+            await AuthUserServiceAppleSignIn.logInApple(context);
+          } catch (errorMessage) {
+            // errorMessage is the custom message sent by the firebase function.
+            if (!context.mounted) return;
+
+            ExceptionsAlertDialog.showErrorDialog(
+                context: context, errorMessage: errorMessage.toString());
+          }
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(right: 22),
+              child: Image(
+                image: AssetImage("assets/apple.png"),
+                height: 22,
+                width: 22,
+              ),
+            ),
+            Text(
+              '  Sign in with Apple  ',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget createAccountSeparationWidget(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: 8),
       child: Divider(
         thickness: 1,
         color: Colors.white70,

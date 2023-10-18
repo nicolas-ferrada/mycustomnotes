@@ -77,7 +77,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     } else {
       if (currentUser.emailVerified == false &&
               userAuthProvider == UserAuthProvider.google ||
-          userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+          userAuthProvider == UserAuthProvider.multipleProviders) {
         // If user using Google, changes their email, they should not log in using the old account
         // and get the verify email sent, otherwise, the new and the old account will be linked to
         // their account. Since only logging in the new account by google will make their email

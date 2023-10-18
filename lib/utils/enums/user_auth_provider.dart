@@ -1,5 +1,6 @@
 enum UserAuthProvider {
   emailPassword,
   google,
-  emailPasswordAndGoogle,
+  apple,
+  multipleProviders,
 }

@@ -63,7 +63,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     if (widget.userAuthProvider == UserAuthProvider.emailPassword) {
       return deleteAccountEmailPassword(context);
     } else if (widget.userAuthProvider == UserAuthProvider.google ||
-        widget.userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
+        widget.userAuthProvider == UserAuthProvider.multipleProviders) {
       return deleteAccountGoogle(context);
     } else {
       return const Text('Error: No provider found');
