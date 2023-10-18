@@ -32,12 +32,21 @@ class AuthUserServiceAppleSignIn {
       log.log('3');
       final user =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+      final firebaseUser = user.user;
       log.log('4');
       log.log('user email ${user.user!.email.toString()}');
       log.log('apple email ${appleCredential.email.toString()}');
       log.log('user credential ${appleCredential.email.toString()}');
       log.log(
           'current user ${FirebaseAuth.instance.currentUser!.uid.toString()}');
+      //           final credentials = AppleAuthProvider.credential(
+      //   appleCredential.authorizationCode,
+      // );
+
+      // log.log('3');
+      // final user =
+      //     await FirebaseAuth.instance.signInWithCredential(credentials);
     } catch (e) {
       throw Exception(e).removeExceptionWord;
     }
