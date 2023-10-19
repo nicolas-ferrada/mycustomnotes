@@ -137,7 +137,11 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
           .passwordProvider_text_myAccountWidget;
     } else if (userAuthProvider == UserAuthProvider.google) {
       return AppLocalizations.of(context)!.googleProvider_text_myAccountWidget;
-    } else if (userAuthProvider == UserAuthProvider.multipleProviders) {
+    } else if (userAuthProvider == UserAuthProvider.apple) {
+      return AppLocalizations.of(context)!.appleProvider_text_myAccountWidget;
+    } else if (userAuthProvider ==
+            UserAuthProvider.multipleProvidersWithGoogle ||
+        userAuthProvider == UserAuthProvider.multipleProvidersWithApple) {
       return AppLocalizations.of(context)!
           .emailPasswordAndGoogleProvider_text_myAccountWidget;
     } else {

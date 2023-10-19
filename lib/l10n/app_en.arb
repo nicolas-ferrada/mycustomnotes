@@ -54,6 +54,10 @@
     "@googleButton_button_loginPage": {
         "description": "Log in with google provider button text"
     },
+    "appleButton_button_loginPage": " Sign in with Apple  ",
+    "@googleButton_button_loginPage": {
+        "description": "Log in with apple provider button text"
+    },
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "You have entered a wrong password.",
     "@wrongPassword_dialog_loginPage": {
@@ -731,9 +735,13 @@
     "@googleProvider_text_myAccountWidget": {
         "description": "Google as login provider"
     },
+    "appleProvider_text_myAccountWidget": "Your account uses Apple to log in.",
+    "@appleProvider_text_myAccountWidget": {
+        "description": "Apple as login provider"
+    },
     "emailPasswordAndGoogleProvider_text_myAccountWidget": "Your account uses multiple providers to log in.",
     "@emailPasswordAndGoogleProvider_text_myAccountWidget": {
-        "description": "Google as login provider"
+        "description": "Multiple providers as login provider"
     },
     "providerNotFound_text_myAccountWidget": "Login provider not found.",
     "@providerNotFound_text_myAccountWidget": {

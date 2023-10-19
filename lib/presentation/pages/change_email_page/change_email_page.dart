@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' show User, UserCredential;
 import 'package:flutter/material.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_apple_signin.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_email_password.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
@@ -60,11 +61,8 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
   Widget providerWidget() {
     if (widget.userAuthProvider == UserAuthProvider.emailPassword) {
       return emailPasswordProviderWidget(context);
-    } else if (widget.userAuthProvider == UserAuthProvider.google ||
-        widget.userAuthProvider == UserAuthProvider.multipleProviders) {
-      return googleProviderWidget(context);
     } else {
-      return const Text('Error: No provider found');
+      return notEmailPasswordProviderWidget(context);
     }
   }
 
@@ -191,7 +189,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
     );
   }
 
-  Widget googleProviderWidget(BuildContext context) {
+  Widget notEmailPasswordProviderWidget(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -205,7 +203,9 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         ),
         Visibility(
           visible: (widget.userAuthProvider ==
-              UserAuthProvider.multipleProviders),
+                  UserAuthProvider.multipleProvidersWithApple ||
+              widget.userAuthProvider ==
+                  UserAuthProvider.multipleProvidersWithGoogle),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -291,7 +291,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
             backgroundColor: Colors.white,
           ),
           onPressed: () {
-            changeEmailInGoogle();
+            changeEmailGoogleOrApple();
           },
           child: Text(
             AppLocalizations.of(context)!
@@ -381,7 +381,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
     }
   }
 
-  void changeEmailInGoogle() async {
+  void changeEmailGoogleOrApple() async {
     try {
       if (_newEmailController.text.isEmpty ||
           _confirmNewEmailController.text.isEmpty) {
@@ -408,35 +408,72 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
         return;
       }
 
-      UserCredential? reAuthCredentials =
-          await AuthUserServiceGoogleSignIn.reAuthUserGoogle(
-        context: context,
-        email: widget.currentUser.email!,
-      );
-
-      if (context.mounted && reAuthCredentials != null) {
-        await AuthUserService.changeEmail(
-          updatedUser: reAuthCredentials,
-          newEmail: _newEmailController.text,
+      if (widget.userAuthProvider == UserAuthProvider.google ||
+          widget.userAuthProvider ==
+              UserAuthProvider.multipleProvidersWithGoogle) {
+        UserCredential? reAuthCredentials =
+            await AuthUserServiceGoogleSignIn.reAuthUserGoogle(
           context: context,
-        ).then(
-          (result) {
-            if (result != null && result == 'Success') {
-              AuthUserService.logOut(context: context);
-              Navigator.maybePop(context).then((_) {
-                Navigator.maybePop(context).then((_) {
-                  return showDialog(
-                    context: context,
-                    builder: (context) => SuccessfulMessageDialog(
-                      sucessMessage: AppLocalizations.of(context)!
-                          .changeEmailSucess_dialog_myAccountWidgetChangeEmailPage,
-                    ),
-                  );
-                });
-              });
-            }
-          },
+          email: widget.currentUser.email!,
         );
+
+        if (context.mounted && reAuthCredentials != null) {
+          await AuthUserService.changeEmail(
+            updatedUser: reAuthCredentials,
+            newEmail: _newEmailController.text,
+            context: context,
+          ).then(
+            (result) {
+              if (result != null && result == 'Success') {
+                AuthUserService.logOut(context: context);
+                Navigator.maybePop(context).then((_) {
+                  Navigator.maybePop(context).then((_) {
+                    return showDialog(
+                      context: context,
+                      builder: (context) => SuccessfulMessageDialog(
+                        sucessMessage: AppLocalizations.of(context)!
+                            .changeEmailSucess_dialog_myAccountWidgetChangeEmailPage,
+                      ),
+                    );
+                  });
+                });
+              }
+            },
+          );
+        }
+      } else if (widget.userAuthProvider == UserAuthProvider.apple ||
+          widget.userAuthProvider ==
+              UserAuthProvider.multipleProvidersWithApple) {
+        UserCredential? reAuthCredentials =
+            await AuthUserServiceAppleSignIn.reAuthUserApple(
+          context: context,
+          email: widget.currentUser.email!,
+        );
+
+        if (context.mounted && reAuthCredentials != null) {
+          await AuthUserService.changeEmail(
+            updatedUser: reAuthCredentials,
+            newEmail: _newEmailController.text,
+            context: context,
+          ).then(
+            (result) {
+              if (result != null && result == 'Success') {
+                AuthUserService.logOut(context: context);
+                Navigator.maybePop(context).then((_) {
+                  Navigator.maybePop(context).then((_) {
+                    return showDialog(
+                      context: context,
+                      builder: (context) => SuccessfulMessageDialog(
+                        sucessMessage: AppLocalizations.of(context)!
+                            .changeEmailSucess_dialog_myAccountWidgetChangeEmailPage,
+                      ),
+                    );
+                  });
+                });
+              }
+            },
+          );
+        }
       }
     } catch (errorMessage) {
       if (!context.mounted) return;

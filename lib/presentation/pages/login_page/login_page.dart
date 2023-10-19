@@ -369,7 +369,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Text(
-              '  Sign in with Apple  ',
+              AppLocalizations.of(context)!.appleButton_button_loginPage,
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,

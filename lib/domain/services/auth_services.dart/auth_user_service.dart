@@ -61,9 +61,14 @@ class AuthUserService {
       } else if (userProviderList.contains('apple.com') &&
           userProviderList.length == 1) {
         finalUserAuthProvider = UserAuthProvider.apple;
+      } else if (userProviderList.contains('google.com')) {
+        finalUserAuthProvider = UserAuthProvider.multipleProvidersWithGoogle;
+      } else if (userProviderList.contains('apple.com')) {
+        finalUserAuthProvider = UserAuthProvider.multipleProvidersWithApple;
       } else {
-        finalUserAuthProvider = UserAuthProvider.multipleProviders;
+        throw Exception('Provider not found');
       }
+
       return finalUserAuthProvider;
     } catch (e) {
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)

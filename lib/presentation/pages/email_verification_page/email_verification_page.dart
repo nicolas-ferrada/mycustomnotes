@@ -76,22 +76,21 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       return const HomePage();
     } else {
       if (currentUser.emailVerified == false &&
-              userAuthProvider == UserAuthProvider.google ||
-          userAuthProvider == UserAuthProvider.multipleProviders) {
+          userAuthProvider == UserAuthProvider.emailPassword) {
+        return emailVerificationWidget(context);
+      } else {
         // If user using Google, changes their email, they should not log in using the old account
         // and get the verify email sent, otherwise, the new and the old account will be linked to
         // their account. Since only logging in the new account by google will make their email
         // verified, is only necessary to avoid sending emailVerificationEmailPassword in this case.
         // After first login with the new email, old account will be unlinked.
         // Sadly this makes user with both providers, only be able to use google and not password.
-        return googleAccountTryingToVerifyEmail(context);
-      } else {
-        return emailVerificationWidget(context);
+        return notEmailPasswordAccountTryingToVerifyEmail(context);
       }
     }
   }
 
-  Widget googleAccountTryingToVerifyEmail(BuildContext context) {
+  Widget notEmailPasswordAccountTryingToVerifyEmail(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
