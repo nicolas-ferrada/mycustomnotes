@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_apple_signin.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
@@ -70,8 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               loginButtonWidget(context),
               forgotPasswordWidget(context),
               loginProvidersSeparationWidget(context),
-              googleLoginButtonWidget(context),
-              appleLoginButtonWidget(context),
+              showLoginProvidersButtonInOrder(),
               createAccountSeparationWidget(context),
               signUpWidget(context),
               const SizedBox(height: 8),
@@ -380,6 +381,24 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Widget showLoginProvidersButtonInOrder() {
+    if (Platform.isIOS) {
+      return Column(
+        children: [
+          appleLoginButtonWidget(context),
+          googleLoginButtonWidget(context),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          googleLoginButtonWidget(context),
+          appleLoginButtonWidget(context),
+        ],
+      );
+    }
   }
 
   Widget createAccountSeparationWidget(BuildContext context) {

@@ -105,6 +105,7 @@ dependencies:
   # Storage Access Framework (export user data)
   shared_storage: ^0.8.0
   sign_in_with_apple: ^5.0.0
+  crypto: ^3.0.3
 
 # Splash screen configurations flutter pub run flutter_native_splash:create
 flutter_native_splash:

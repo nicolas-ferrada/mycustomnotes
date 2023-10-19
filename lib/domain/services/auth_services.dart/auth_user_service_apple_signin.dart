@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service.dart';
@@ -6,15 +8,29 @@ import 'package:mycustomnotes/utils/extensions/formatted_message.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../l10n/l10n_export.dart';
+import '../../../utils/operations/sha256_of_string.dart';
 
 class AuthUserServiceAppleSignIn {
   static Future<void> logInApple(context) async {
     try {
+      final rawNonce = generateNonce();
+
+      /// RawNonce into SHA256
+      final nonce = Sha256OfString.sha256ofString(rawNonce);
+
       final AuthorizationCredentialAppleID appleCredential =
           await SignInWithApple.getAppleIDCredential(
+        nonce: Platform.isIOS ? nonce : null,
         scopes: [
           AppleIDAuthorizationScopes.email,
         ],
+        webAuthenticationOptions: Platform.isIOS
+            ? null
+            : WebAuthenticationOptions(
+                clientId: 'com.nicolasferrada.mycustomnotes-service',
+                redirectUri: Uri.parse(
+                    'https://my-custom-notes-sign-in-with-apple.glitch.me/callbacks/sign_in_with_apple'),
+              ),
       );
 
       bool? didUserAccepted = await showDialog(
@@ -32,7 +48,8 @@ class AuthUserServiceAppleSignIn {
 
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
+        rawNonce: Platform.isIOS ? rawNonce : null,
+        accessToken: Platform.isIOS ? null : appleCredential.authorizationCode,
       );
 
       await FirebaseAuth.instance.signInWithCredential(oauthCredential);
