@@ -58,6 +58,9 @@ class AuthUserServiceAppleSignIn {
       if (e.toString() ==
           "SignInWithAppleAuthorizationError(AuthorizationErrorCode.canceled, The operation couldn’t be completed. (com.apple.AuthenticationServices.AuthorizationError error 1001.))") {
         return;
+      } else if (e.toString() ==
+          "SignInWithAppleAuthorizationError(AuthorizationErrorCode.canceled, The user closed the Custom Tab)") {
+        return;
       }
       throw Exception(e).removeExceptionWord;
     }
