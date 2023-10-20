@@ -213,7 +213,7 @@
     "@signOut_button_emailVerificationPage": {
         "description": "Sign out button in case user can't verify the email"
     },
-    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "You have recently changed your account's email, please, sign in using your new email.",
+    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "You have recently changed your account's email, please, sign in using your new email with Google or Apple. If you cannot, use the email you have received to change your email back.",
     "@errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": {
         "description": "User changed their email account using a provider and they are trying to log in with the old account instead of the new one"
     },

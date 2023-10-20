@@ -64,7 +64,7 @@
         }
     },
     "signOut_button_emailVerificationPage": "¿No puedes verificar el correo?, cierra sesión",
-    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "Recientemente has cambiado el correo de tu cuenta, por favor, acceda usando su nuevo correo.",
+    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "Recientemente has cambiado el correo de tu cuenta, por favor, acceda usando su nuevo correo con Google o Apple. Si no puedes, usa el correo que recibiste para cambiar tu dirección de correo de vuelta.",
     "@_EMAIL_VERIFICATION_PAGE_EXCEPTIONS": {},
     "emailAlreadyVerified_dialog_emailVerificationPage": "Este correo ya está verificado",
     "@_HOME_PAGE_PAGE_EXCEPTIONS": {},
