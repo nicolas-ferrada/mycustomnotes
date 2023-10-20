@@ -70,18 +70,33 @@ class AuthUserServiceAppleSignIn {
     try {
       User currentUser = AuthUserService.getCurrentUser();
 
+      final rawNonce = generateNonce();
+
+      /// RawNonce into SHA256
+      final nonce = Sha256OfString.sha256ofString(rawNonce);
+
       final AuthorizationCredentialAppleID appleCredential =
           await SignInWithApple.getAppleIDCredential(
+        nonce: Platform.isIOS ? nonce : null,
         scopes: [
           AppleIDAuthorizationScopes.email,
         ],
+        webAuthenticationOptions: Platform.isIOS
+            ? null
+            : WebAuthenticationOptions(
+                clientId: 'com.nicolasferrada.mycustomnotes-service',
+                redirectUri: Uri.parse(
+                    'https://my-custom-notes-sign-in-with-apple.glitch.me/callbacks/sign_in_with_apple'),
+              ),
       );
 
       UserCredential reAuthedUser =
           await currentUser.reauthenticateWithCredential(
         OAuthProvider("apple.com").credential(
           idToken: appleCredential.identityToken,
-          accessToken: appleCredential.authorizationCode,
+          rawNonce: Platform.isIOS ? rawNonce : null,
+          accessToken:
+              Platform.isIOS ? null : appleCredential.authorizationCode,
         ),
       );
       return reAuthedUser;
