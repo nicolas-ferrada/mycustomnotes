@@ -53,15 +53,22 @@ class AuthUserService {
         userProviderList.add(provider.providerId);
       }
       if (userProviderList.contains('password') &&
-          userProviderList.contains('google.com')) {
-        finalUserAuthProvider = UserAuthProvider.emailPasswordAndGoogle;
-      } else if (userProviderList.contains('password')) {
+          userProviderList.length == 1) {
         finalUserAuthProvider = UserAuthProvider.emailPassword;
-      } else if (userProviderList.contains('google.com')) {
+      } else if (userProviderList.contains('google.com') &&
+          userProviderList.length == 1) {
         finalUserAuthProvider = UserAuthProvider.google;
+      } else if (userProviderList.contains('apple.com') &&
+          userProviderList.length == 1) {
+        finalUserAuthProvider = UserAuthProvider.apple;
+      } else if (userProviderList.contains('google.com')) {
+        finalUserAuthProvider = UserAuthProvider.multipleProvidersWithGoogle;
+      } else if (userProviderList.contains('apple.com')) {
+        finalUserAuthProvider = UserAuthProvider.multipleProvidersWithApple;
       } else {
-        throw Exception('User provider not found');
+        throw Exception('Provider not found');
       }
+
       return finalUserAuthProvider;
     } catch (e) {
       throw Exception(AppLocalizations.of(context)!.unexpectedException_dialog)

@@ -3,6 +3,7 @@ import 'dart:async' show Timer;
 import 'package:firebase_auth/firebase_auth.dart' show User, UserCredential;
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service.dart';
+import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_apple_signin.dart';
 import 'package:mycustomnotes/domain/services/auth_services.dart/auth_user_service_google_singin.dart';
 import 'package:mycustomnotes/l10n/l10n_export.dart';
 import 'package:mycustomnotes/utils/dialogs/successful_message_dialog.dart';
@@ -62,11 +63,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   Widget providerWidget() {
     if (widget.userAuthProvider == UserAuthProvider.emailPassword) {
       return deleteAccountEmailPassword(context);
-    } else if (widget.userAuthProvider == UserAuthProvider.google ||
-        widget.userAuthProvider == UserAuthProvider.emailPasswordAndGoogle) {
-      return deleteAccountGoogle(context);
     } else {
-      return const Text('Error: No provider found');
+      return deleteNoEmailPasswordAccount(context);
     }
   }
 
@@ -142,7 +140,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     );
   }
 
-  Widget deleteAccountGoogle(BuildContext context) {
+  Widget deleteNoEmailPasswordAccount(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -219,8 +217,27 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       startDeleteCountdown(
                           reAuthCredentials: reAuthCredentials);
                     });
-                  } else {
+                  } else if (widget.userAuthProvider ==
+                          UserAuthProvider.google ||
+                      widget.userAuthProvider ==
+                          UserAuthProvider.multipleProvidersWithGoogle) {
                     await AuthUserServiceGoogleSignIn.reAuthUserGoogle(
+                      context: context,
+                      email: widget.currentUser.email!,
+                    ).then((reAuthCredentials) {
+                      setState(() {
+                        didUserPressDeleteAccountButton = true;
+                      });
+                      if (reAuthCredentials != null) {
+                        startDeleteCountdown(
+                            reAuthCredentials: reAuthCredentials);
+                      } else {
+                        throw Exception(AppLocalizations.of(context)!
+                            .unexpectedException_dialog);
+                      }
+                    });
+                  } else {
+                    await AuthUserServiceAppleSignIn.reAuthUserApple(
                       context: context,
                       email: widget.currentUser.email!,
                     ).then((reAuthCredentials) {

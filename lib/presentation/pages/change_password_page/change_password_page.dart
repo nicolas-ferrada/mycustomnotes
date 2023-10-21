@@ -55,11 +55,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   }
 
   String selectProviderMessage(BuildContext context) {
-    if (widget.userAuthProvider == UserAuthProvider.google) {
+    if (widget.userAuthProvider == UserAuthProvider.google ||
+        widget.userAuthProvider == UserAuthProvider.apple) {
       return AppLocalizations.of(context)!
           .warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage;
     } else if (widget.userAuthProvider ==
-        UserAuthProvider.emailPasswordAndGoogle) {
+            UserAuthProvider.multipleProvidersWithGoogle ||
+        widget.userAuthProvider ==
+            UserAuthProvider.multipleProvidersWithApple) {
       return AppLocalizations.of(context)!
           .warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage;
     } else {
@@ -89,8 +92,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ),
           Visibility(
             visible: widget.userAuthProvider == UserAuthProvider.google ||
-                widget.userAuthProvider ==
-                    UserAuthProvider.emailPasswordAndGoogle,
+                widget.userAuthProvider == UserAuthProvider.apple,
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(

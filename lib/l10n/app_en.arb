@@ -54,6 +54,10 @@
     "@googleButton_button_loginPage": {
         "description": "Log in with google provider button text"
     },
+    "appleButton_button_loginPage": " Sign in with Apple  ",
+    "@googleButton_button_loginPage": {
+        "description": "Log in with apple provider button text"
+    },
     "@_LOGIN_PAGE_DIALOGS_EXCEPTIONS": {},
     "wrongPassword_dialog_loginPage": "You have entered a wrong password.",
     "@wrongPassword_dialog_loginPage": {
@@ -113,6 +117,10 @@
         "description": "Button to trigger the create account funcionality using email and password"
     },
     "googleButton_button_registerPage": "Sign up with Google",
+    "@googleButton_button_registerPage": {
+        "description": "Register with google provider button text"
+    },
+    "appleButton_button_registerPage": " Sign up with Apple  ",
     "@googleButton_button_registerPage": {
         "description": "Register with google provider button text"
     },
@@ -209,9 +217,9 @@
     "@signOut_button_emailVerificationPage": {
         "description": "Sign out button in case user can't verify the email"
     },
-    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "You have recently changed your account's email, please, sign in with Google using your new email.",
+    "errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": "You have recently changed your account's email, please, sign in using your new email with Google or Apple. If you cannot, use the email you have received to change your email back.",
     "@errorGoogleLoginOldAccountAfterEmailChange_text_emailVerificationPage": {
-        "description": "User changed their email account using google provider and they are trying to log in with the old account instead of the new one"
+        "description": "User changed their email account using a provider and they are trying to log in with the old account instead of the new one"
     },
     "@_EMAIL_VERIFICATION_PAGE_EXCEPTIONS": {},
     "emailAlreadyVerified_dialog_emailVerificationPage": "The email is already verified",
@@ -731,9 +739,13 @@
     "@googleProvider_text_myAccountWidget": {
         "description": "Google as login provider"
     },
-    "emailPasswordAndGoogleProvider_text_myAccountWidget": "Your account uses email-password and Google to log in.",
+    "appleProvider_text_myAccountWidget": "Your account uses Apple to log in.",
+    "@appleProvider_text_myAccountWidget": {
+        "description": "Apple as login provider"
+    },
+    "emailPasswordAndGoogleProvider_text_myAccountWidget": "Your account uses multiple providers to log in.",
     "@emailPasswordAndGoogleProvider_text_myAccountWidget": {
-        "description": "Google as login provider"
+        "description": "Multiple providers as login provider"
     },
     "providerNotFound_text_myAccountWidget": "Login provider not found.",
     "@providerNotFound_text_myAccountWidget": {
@@ -793,7 +805,7 @@
     "@changeEmailEmailInputConfirm_textformfield_myAccountWidgetChangeEmailPage": {
         "description": "New email dialog after successfully changing email"
     },
-    "changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": "If you change your email, you will only be able to use Google to access to your account for the first log in, after, you will be able to create a password manually if you want.",
+    "changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": "If you change your email, you will only be able to use your new email for first log in.",
     "@changeEmailMultiprovider_text_myAccountWidgetChangeEmailPage": {
         "description": "Text explaning if user change email will lost access to account using email-password"
     },
@@ -867,11 +879,11 @@
     "@changePasswordSubtitle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
-    "warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": "Changing your password will unlink Google as log in option, you will have to link it manually again.",
+    "warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": "Changing your password might unlink other log in options, you will have to link it manually again.",
     "@warningChangingAccountUnlinkGoogle_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },
-    "warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage": "Creating a password will unlink Google as log in option, you will have to link it manually again.",
+    "warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage": "Creating a password might unlink other log in options, you will have to link it manually again.",
     "@warningChangingAccountUnlinkGoogle2_text_myAccountWidgetChangePasswordPage": {
         "description": "Subtitle of change password page"
     },

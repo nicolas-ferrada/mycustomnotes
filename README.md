@@ -42,7 +42,7 @@ My Custom Notes is available for:
 
 ## Major technical components
 
-- Login and register with email/password and Google.
+- Sign in with email/password, Google and Apple.
 
 - Account operations and configurations based on the login provider.
 

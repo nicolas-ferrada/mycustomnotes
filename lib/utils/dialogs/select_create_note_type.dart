@@ -17,109 +17,117 @@ class SelectCreateNoteType {
           ),
           content: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
-            child: SizedBox(
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, noteTextCreatePageRoute);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            const Icon(
-                              Icons.text_snippet,
-                              size: 44,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .newNoteTextNoteOption_dialog_homePage,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    child: Card(
-                      elevation: 10,
-                      color: Colors.grey.shade800.withOpacity(0.9),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(
-                              context, noteTasksCreatePageRoute);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            const Icon(
-                              Icons.view_list,
-                              size: 44,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .newNoteTasksNoteOption_dialog_homePage,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                noteText(context),
+                noteTasks(context),
+              ],
             ),
           ),
           actions: [
-            Center(
-              child: Column(
-                children: [
-                  // Close button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 10,
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.maybePop(context);
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.cancelButton,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            cancelButton(context),
           ],
         );
       },
+    );
+  }
+
+  static Widget noteText(BuildContext context) {
+    return Flexible(
+      child: Card(
+        elevation: 10,
+        color: Colors.grey.shade800.withOpacity(0.9),
+        child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, noteTextCreatePageRoute);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.text_snippet,
+                  size: 44,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  AppLocalizations.of(context)!
+                      .newNoteTextNoteOption_dialog_homePage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget noteTasks(BuildContext context) {
+    return Flexible(
+      child: Card(
+        elevation: 10,
+        color: Colors.grey.shade800.withOpacity(0.9),
+        child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, noteTasksCreatePageRoute);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.view_list,
+                  size: 44,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  AppLocalizations.of(context)!
+                      .newNoteTasksNoteOption_dialog_homePage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Center cancelButton(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          // Close button
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                elevation: 10,
+                minimumSize: const Size(200, 40),
+                backgroundColor: Colors.white),
+            onPressed: () {
+              Navigator.maybePop(context);
+            },
+            child: Text(
+              AppLocalizations.of(context)!.cancelButton,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
