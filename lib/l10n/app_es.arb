@@ -32,6 +32,7 @@
     "confirmPassword_textformfield_registerPage": "Confirma tu contraseña",
     "createAccount_button_registerPage": "Crear cuenta",
     "googleButton_button_registerPage": "Registrarse con Google",
+    "appleButton_button_registerPage": " Registrarse con Apple  ",
     "@_REGISTER_PAGE_EXCEPTIONS": {},
     "confirmPasswordInvalid_dialog_registerPage": "Las dos contraseñas ingresadas no coinciden, por favor, intenta escribiendolas nuevamente.",
     "emailAlreadyInUse_dialog_registerPage": "El correo ingresado está en uso.",

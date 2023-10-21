@@ -120,6 +120,10 @@
     "@googleButton_button_registerPage": {
         "description": "Register with google provider button text"
     },
+    "appleButton_button_registerPage": " Sign up with Apple  ",
+    "@googleButton_button_registerPage": {
+        "description": "Register with google provider button text"
+    },
     "@_REGISTER_PAGE_EXCEPTIONS": {},
     "confirmPasswordInvalid_dialog_registerPage": "The two passwords entered  do not match, please try writing your password again.",
     "@confirmPasswordInvalid_dialog_registerPage": {

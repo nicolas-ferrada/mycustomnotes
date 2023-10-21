@@ -404,7 +404,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Text(
-              AppLocalizations.of(context)!.appleButton_button_loginPage,
+              AppLocalizations.of(context)!.appleButton_button_registerPage,
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
