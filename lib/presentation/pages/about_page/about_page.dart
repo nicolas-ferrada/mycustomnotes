@@ -157,7 +157,4 @@ class _AboutPageState extends State<AboutPage> {
       },
     );
   }
-
-  // AppLocalizations.of(context)!.termsOfService_richText_privacyWidget
-  // AppLocalizations.of(context)!.privacyPolicy_richText_privacyWidget
 }
