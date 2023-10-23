@@ -398,11 +398,11 @@
     "@newNoteTitle_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page"
     },
-    "newNoteTextNoteOption_dialog_homePage": "Text Note",
+    "newNoteTextNoteOption_dialog_homePage": "Text\nNote",
     "@newNoteTextNoteOption_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page option 1"
     },
-    "newNoteTasksNoteOption_dialog_homePage": "Tasks Note",
+    "newNoteTasksNoteOption_dialog_homePage": "Tasks\nNote",
     "@newNoteTextNoteOption_dialog_homePage": {
         "description": "New note dialog opened after tapping on new note button in home page option 2"
     },

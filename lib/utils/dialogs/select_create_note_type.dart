@@ -35,33 +35,37 @@ class SelectCreateNoteType {
 
   static Widget noteText(BuildContext context) {
     return Flexible(
-      child: Card(
-        elevation: 10,
-        color: Colors.grey.shade800.withOpacity(0.9),
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, noteTextCreatePageRoute);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.text_snippet,
-                  size: 44,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context)!
-                      .newNoteTextNoteOption_dialog_homePage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
+      child: SizedBox(
+        height: 150,
+        width: 200,
+        child: Card(
+          elevation: 10,
+          color: Colors.grey.shade800.withOpacity(0.9),
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, noteTextCreatePageRoute);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.text_snippet,
+                    size: 44,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!
+                        .newNoteTextNoteOption_dialog_homePage,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -71,33 +75,37 @@ class SelectCreateNoteType {
 
   static Widget noteTasks(BuildContext context) {
     return Flexible(
-      child: Card(
-        elevation: 10,
-        color: Colors.grey.shade800.withOpacity(0.9),
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, noteTasksCreatePageRoute);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.view_list,
-                  size: 44,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context)!
-                      .newNoteTasksNoteOption_dialog_homePage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
+      child: SizedBox(
+        height: 150,
+        width: 200,
+        child: Card(
+          elevation: 10,
+          color: Colors.grey.shade800.withOpacity(0.9),
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, noteTasksCreatePageRoute);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.view_list,
+                    size: 44,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!
+                        .newNoteTasksNoteOption_dialog_homePage,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
