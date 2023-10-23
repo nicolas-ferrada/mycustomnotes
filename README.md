@@ -15,8 +15,8 @@ Simplify your day by effortlessly managing your to-dos, capturing valuable thoug
 Click on the image to see a brief demonstration of the app!
 
 <div align="center">
-  <a href="https://youtu.be/r3kYD4kMXtA">
-    <img src="https://img.youtube.com/vi/r3kYD4kMXtA/0.jpg" alt="My Custom Notes"/>
+  <a href="https://youtu.be/DOAFupAHOC4">
+    <img src="https://img.youtube.com/vi/DOAFupAHOC4/0.jpg" alt="My Custom Notes video"/>
   </a>
 </div>
 
@@ -26,8 +26,8 @@ My Custom Notes is available for:
 ![android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=101010)
 ![ios](https://img.shields.io/badge/iOS-lightgrey?style=for-the-badge&logo=ios&logoColor=lightgrey&labelColor=101010)
 
-- **Google Play** for Android.
-- **App Store** for IOS.
+- **[Google Play](https://play.google.com/store/apps/details?id=com.nicolasferrada.mycustomnotes)** for Android.
+- **[App Store](https://apps.apple.com/us/app/my-custom-notes/id6469385680?platform=iphone)** for IOS.
 
 ## Technologies
 ![dart](https://img.shields.io/badge/Dart-02569B?style=for-the-badge&logo=dart&logoColor=0175C2&labelColor=101010) 
