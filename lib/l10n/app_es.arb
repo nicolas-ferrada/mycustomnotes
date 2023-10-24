@@ -180,7 +180,6 @@
     "noteTasks_text_noTasksAdded": "Aún no se han creado tareas.\nToca el ícono 'Nueva tarea' para comenzar.",         
     "noteTasks_textformfield_createNewTask": "Crea una nueva tarea",
     "noteTasks_button_newTask": "Nueva tarea",
-    "noteTasks_snackbar_emptyTask": "No puedes crear una tarea vacía",
     "noteTasks_text_shareCompletedNote": "Terminadas",
     "noteTasks_text_shareNotCompletedNote": "Pendientes",
     "noteTasks_text_buildNotesAllCompleted": "¡Todas las tareas hechas!",

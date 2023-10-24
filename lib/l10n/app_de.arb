@@ -180,7 +180,6 @@
     "noteTasks_text_noTasksAdded": "Es wurden noch keine Aufgaben erstellt. \nTippe auf “Neue Aufgabe” um zu beginnen",         
     "noteTasks_textformfield_createNewTask": "Neue Aufgabe erstellen",
     "noteTasks_button_newTask": "Neue Aufgabe",
-    "noteTasks_snackbar_emptyTask": "Du kannst keine leere Aufgabe erstellen",
     "noteTasks_text_shareCompletedNote": "Abgeschlossen",
     "noteTasks_text_shareNotCompletedNote": "Offene Aufgaben",
     "noteTasks_text_buildNotesAllCompleted": "Alle Aufgaben erledigt!",

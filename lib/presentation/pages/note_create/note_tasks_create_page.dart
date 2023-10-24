@@ -742,11 +742,6 @@ class _NoteTasksCreatePageState extends State<NoteTasksCreatePage> {
     } else {
       // task is empty
       FocusManager.instance.primaryFocus?.unfocus();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBarMessage.snackBarMessage(
-            message: AppLocalizations.of(context)!.noteTasks_snackbar_emptyTask,
-            backgroundColor: Colors.red),
-      );
     }
   }
 

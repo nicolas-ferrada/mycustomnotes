@@ -615,10 +615,6 @@
     "@noteTasks_button_newTask": {
         "description": "Floating button to create a new task"
     },
-    "noteTasks_snackbar_emptyTask": "You can't create an empty task",
-    "@noteTasks_snackbar_emptyTask": {
-        "description": "User is trying to create an empty task"
-    },
     "noteTasks_text_shareCompletedNote": "Completed",
     "@noteTasks_text_shareCompletedNote": {
         "description": "User is sharing a completed task"
