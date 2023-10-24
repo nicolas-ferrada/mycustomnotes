@@ -1,7 +1,7 @@
 {
     "@_FORMAT_FUNCTION_WIDGET_PAGE": {},
     "@_GENERIC": {},
-    "unexpectedException_dialog": "Sorry, an unexpected error found, please try restarting the application or try again later.",
+    "unexpectedException_dialog": "Sorry, an unexpected error found, you can restart the application or try again later.",
     "@unexpectedException_dialog": {
         "description": "A unexpected exception was caught"
     },
@@ -87,7 +87,7 @@
     "@tooManyLoginRequests_dialog_loginPage": {
         "description": "Exception to indicate the user what is doing wrong in the login process."
     },
-    "genericLoginException_dialog_loginPage": "There is an problem with your login, try double checking the data you are writing, also you can try restarting the application or trying again later.",
+    "genericLoginException_dialog_loginPage": "There is a problem with your login, try double checking the data you are writing, also you can restart the application or try again later..",
     "@genericLoginException_dialog_loginPage": {
         "description": "One of the login exceptions was not caught"
     },
@@ -153,7 +153,7 @@
     "@emailsDoNotMatch_dialog_registerPage": {
         "description": "Exception to indicate the user wrote two different emails."
     },
-    "genericRegisterException_dialog_registerPage": "There is a problem creating your account, try double checking the data you are writing, also you can try restarting the application or trying again later.",
+    "genericRegisterException_dialog_registerPage": "There is a problem creating your account, try double checking the data you are writing, you can also restart the application or try again later..",
     "@genericRegisterException_dialog_registerPage": {
         "description": "One of the register exceptions was not caught"
     },
@@ -195,7 +195,7 @@
     "@unknown_empty_dialog_recoverPassword": {
         "description": "Exception to indicate the user what is doing wrong trying to reset their password."
     },
-    "genericRecoverPasswordException_dialog_recoverPasswordPage": "There is a problem resetting your password, you can try restarting the application or trying again later.",
+    "genericRecoverPasswordException_dialog_recoverPasswordPage": "There is a problem resetting your password, you can restart the application or try again later..",
     "@genericRecoverPasswordException_dialog_recoverPasswordPage": {
         "description": "One of the reset password exceptions was not caught"
     },
@@ -381,15 +381,15 @@
         "description": "Log out button in the drawer dialog"
     },
     "@_HOME_PAGE_USER_CONFIGURATION_EXCEPTIONS": {},
-    "editing_dialog_userConfiguration": "Error editing the user configurations, please, try restarting the app",
+    "editing_dialog_userConfiguration": "Error editing the user configurations, you can restart the application or try again later.",
     "@editing_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
     },
-    "reading_dialog_userConfiguration": "Error reading the user configurations, please, try restarting the app",
+    "reading_dialog_userConfiguration": "Error reading the user configurations, you can restart the application or try again later.",
     "@reading_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
     },
-    "creating_dialog_userConfiguration": "Error creating the user configurations, please, try restarting the app",
+    "creating_dialog_userConfiguration": "Error creating the user configurations, you can restart the application or try again later.",
     "@creating_dialog_userConfiguration": {
         "description": "Error trying to do operations to the user configurations"
     },
@@ -480,7 +480,7 @@
     "@color_dialog_title": {
         "description": "Pick note color dialog title"
     },
-    "color_snackbar_alreadyHaveThisColor": "Your note already have this color",
+    "color_snackbar_alreadyHaveThisColor": "Your note already has this color",
     "@color_snackbar_alreadyHaveThisColor": {
         "description": "Snackbar message to let the user know that is selecting the same color already applied to the note"
     },
@@ -493,7 +493,7 @@
     "@url_dialog_urlNotValid": {
         "description": "Invalid url"
     },
-    "url_dialog_couldNotLaunch": "Sorry, could not launch this URL, try with other one",
+    "url_dialog_couldNotLaunch": "Sorry, could not launch this URL, try with another one",
     "@url_dialog_couldNotLaunch": {
         "description": "Url was not able to be launcher"
     },
@@ -640,7 +640,7 @@
     "@discardChanges_dialog_subtitle": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },
-    "discardChanges_dialog_subtitle_parttwo": "to not lose your changes",
+    "discardChanges_dialog_subtitle_parttwo": "to avoid losing your changes",                                 
     "@discardChanges_dialog_subtitle_parttwo": {
         "description": "Discard changes triggers when user is trying to leave an unsaved note"
     },
@@ -700,7 +700,7 @@
     "@editModeNoNotesCreatedTitle_text_folder": {
         "description": "Text letting the user know that has no notes created"
     },
-    "editModeNoNotesCreatedSubtitle_text_folder": "You need at least one note created, so then you can add it to the folder.",
+    "editModeNoNotesCreatedSubtitle_text_folder": "You need at least one note created to add it to the folder.",
     "@editModeNoNotesCreatedSubtitle_text_folder": {
         "description": "Subtext letting the user note that has no notes created"
     },
@@ -735,7 +735,7 @@
     "@showEmailException_text_myAccountWidget": {
         "description": "Email is null exception"
     },
-    "passwordProvider_text_myAccountWidget": "Your account use email and password to log in.",
+    "passwordProvider_text_myAccountWidget": "Your account uses email and password to log in.",
     "@passwordProvider_text_myAccountWidget": {
         "description": "Email and password as login provider"
     },
@@ -834,7 +834,7 @@
     "@changeEmailWrongPassword_exception_myAccountWidgetChangeEmailPageException": {
         "description": "Exception changing email"
     },
-    "changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": "There is a problem changing your email, you can try restarting the application or trying again later.",
+    "changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": "There is a problem changing your email, you can restart the application or try again later..",
     "@changeEmailGeneric_exception_myAccountWidgetChangeEmailPageException": {
         "description": "Exception changing email"
     },
@@ -929,7 +929,7 @@
     "@deleteAccountSubtitle_text_privacyWidgetDeleteAccountPage": {
         "description": "Delete account page subtitle"
     },
-    "deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": "All your data associated to your account will be permanently deleted and it won't be possible to recover it by any means.",
+    "deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": "All the data associated to your account will be permanently deleted and it won't be possible to recover it by any means.",
     "@deleteAccountSubtitle2_text_privacyWidgetDeleteAccountPage": {
         "description": "Delete account page subtitle 2"
     },
@@ -959,7 +959,7 @@
         "description": "Delete account was successful"
     },
     "@_PRIVACY_WIDGET_DELETE_ACCOUNT_EXCEPTIONS": {},
-    "genericDeleteAccountException_dialog_deleteAccountPage": "There is a problem deleting your account, you can try restarting the application or trying again later.",
+    "genericDeleteAccountException_dialog_deleteAccountPage": "There is a problem deleting your account, you can restart the application or try again later.",
     "@genericDeleteAccountException_dialog_deleteAccountPage": {
         "description": "One of the delete account exceptions was not caught"
     },
@@ -1001,11 +1001,11 @@
     "@exportDataPermissionDenied_exception_privacyWidgetExportDataPage": {
         "description": "All files permission denied"
     },
-    "exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage": "The file could not be created, please, try restarting the app or trying again later.",
+    "exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage": "The file could not be created, please, you can restart the application or try again later.",
     "@exportDataFileCouldNotBeCreated_exception_privacyWidgetExportDataPage": {
         "description": "Excel could not be created"
     },
-    "exportDataGenericException_exception_privacyWidgetExportDataPage": "Your data could not be exported, please, try restarting the app or trying again later.",
+    "exportDataGenericException_exception_privacyWidgetExportDataPage": "Your data could not be exported, please, you can restart the application or try again later.",
     "@exportDataGenericException_exception_privacyWidgetExportDataPage": {
         "description": "Generic exception for exporting data after the function failed"
     },
