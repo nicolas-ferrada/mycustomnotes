@@ -782,6 +782,7 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
     // IMPORTANT: Current note, didUserMadeChanges so to know when ask the user to save
     // Less important: Icons colors
     return PopupMenuButton(
+      onOpened: () => FocusScope.of(context).unfocus(),
       onSelected: (value) async {
         if (value == MenuItemNoteDetail.item1) {
           // Mark as favorite

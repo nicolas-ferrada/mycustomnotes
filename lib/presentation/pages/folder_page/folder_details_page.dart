@@ -387,6 +387,7 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
   // Menu note button (icon three dots)
   PopupMenuButton menuEdit() {
     return PopupMenuButton(
+      onOpened: () => FocusScope.of(context).unfocus(),
       onSelected: (value) async {
         if (value == MenuItemNoteDetail.item1) {
           // Edit folder
