@@ -334,7 +334,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         onPressed: () async {
           try {
-            await AuthUserServiceGoogleSignIn.logInGoogle(context);
+            await AuthUserServiceGoogleSignIn.logInGoogle(context)
+                .then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
             if (!context.mounted) return;
@@ -382,7 +383,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         onPressed: () async {
           try {
-            await AuthUserServiceAppleSignIn.logInApple(context);
+            await AuthUserServiceAppleSignIn.logInApple(context)
+                .then((_) => Navigator.maybePop(context));
           } catch (errorMessage) {
             // errorMessage is the custom message sent by the firebase function.
             if (!context.mounted) return;
