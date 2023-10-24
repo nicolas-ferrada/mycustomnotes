@@ -28,6 +28,8 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
         return SelectLanguage.english;
       case 'es':
         return SelectLanguage.spanish;
+      case 'de':
+        return SelectLanguage.german;
     }
   }
 
@@ -53,79 +55,14 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Flexible(
-                            child: Card(
-                              elevation: 10,
-                              color: (currentLanguage?.languageIndex == 1)
-                                  ? AppColorScheme.purple()
-                                  : Colors.grey.shade800.withOpacity(0.9),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.maybePop(
-                                      context, SelectLanguage.english);
-                                },
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(height: 8),
-                                    Icon(
-                                      Icons.language,
-                                      size: 38,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(height: 8),
-                                    Padding(
-                                      padding: EdgeInsets.all(12),
-                                      child: Text(
-                                        'English',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: Card(
-                              elevation: 10,
-                              color: (currentLanguage?.languageIndex == 2)
-                                  ? AppColorScheme.purple()
-                                  : Colors.grey.shade800.withOpacity(0.9),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.maybePop(
-                                      context, SelectLanguage.spanish);
-                                },
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(height: 8),
-                                    Icon(
-                                      Icons.language,
-                                      size: 38,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(height: 8),
-                                    Padding(
-                                      padding: EdgeInsets.all(12),
-                                      child: Text(
-                                        'Español',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                          englishCardOption(context),
+                          spanishCardOption(context),
+                          germanCardOption(context),
                         ],
                       ),
                       Center(
@@ -193,6 +130,99 @@ class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
           return const Center(child: Text("A problem has ocurred"));
         }
       },
+    );
+  }
+
+  Widget englishCardOption(BuildContext context) {
+    return Flexible(
+      child: SizedBox(
+        height: 60,
+        width: 150,
+        child: Card(
+          elevation: 10,
+          color:
+              (currentLanguage?.languageId == SelectLanguage.english.languageId)
+                  ? AppColorScheme.purple()
+                  : Colors.grey.shade800.withOpacity(0.9),
+          child: InkWell(
+            onTap: () {
+              Navigator.maybePop(context, SelectLanguage.english);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'English',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget spanishCardOption(BuildContext context) {
+    return Flexible(
+      child: SizedBox(
+        height: 60,
+        width: 150,
+        child: Card(
+          elevation: 10,
+          color:
+              (currentLanguage?.languageId == SelectLanguage.spanish.languageId)
+                  ? AppColorScheme.purple()
+                  : Colors.grey.shade800.withOpacity(0.9),
+          child: InkWell(
+            onTap: () {
+              Navigator.maybePop(context, SelectLanguage.spanish);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'Español',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget germanCardOption(BuildContext context) {
+    return Flexible(
+      child: SizedBox(
+        height: 60,
+        width: 150,
+        child: Card(
+          elevation: 10,
+          color:
+              (currentLanguage?.languageId == SelectLanguage.german.languageId)
+                  ? AppColorScheme.purple()
+                  : Colors.grey.shade800.withOpacity(0.9),
+          child: InkWell(
+            onTap: () {
+              Navigator.maybePop(context, SelectLanguage.german);
+            },
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Text(
+                    'Deutsch',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

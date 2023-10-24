@@ -98,6 +98,7 @@ class _InsertUrlMenuOptionsState extends State<InsertUrlMenuOptions> {
                     },
                     child: Text(
                       AppLocalizations.of(context)!.url_dialog_confirmButton,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.black, fontSize: 18),
                     ),
                   ),

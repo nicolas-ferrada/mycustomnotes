@@ -21,6 +21,10 @@
     "@saveChangesButton": {
         "description": "Button to save changes"
     },
+    "errorTitle": "Error",
+    "@errorTitle": {
+        "description": "Error title, used in dialogs"
+    },
     "@_LOGIN_PAGE_SCREEN": {},
     "email_textformfield_loginPage": "Enter your email",
     "@email_textformfield_loginPage": {
@@ -276,6 +280,10 @@
     "languageSpanishOption_drawerDialog_homePage": "Spanish",
     "@languageSpanishOption_drawerDialog_homePage": {
         "description": "Spanish option of the dialog from the language drawer"
+    },
+    "languageGermanOption_drawerDialog_homePage": "German",
+    "@languageGermanOption_drawerDialog_homePage": {
+        "description": "German option of the dialog from the language drawer"
     },
     "languageCurrentLanguageSelected_drawerDialog_homePage": "Current language selected:",
     "@languageCurrentLanguageSelected_drawerDialog_homePage": {

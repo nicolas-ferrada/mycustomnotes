@@ -367,6 +367,7 @@ class _ChangeNoteDateTimeFormatState extends State<ChangeNoteDateTimeFormat> {
                     child: Text(
                       AppLocalizations.of(context)!
                           .applyChanges_button_drawerDialog_homePage,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,

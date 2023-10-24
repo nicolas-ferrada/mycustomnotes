@@ -13,8 +13,8 @@ class ExceptionsAlertDialog {
         return AlertDialog(
           elevation: 3,
           backgroundColor: Colors.redAccent[200],
-          title: const Center(
-            child: Text('Error'),
+          title: Center(
+            child: Text(AppLocalizations.of(context)!.errorTitle),
           ),
           content: SingleChildScrollView(
             child: Text(

@@ -25,21 +25,19 @@ class ChangeLanguage {
   // Change language in app
   static Future<void> changeLanguage({
     required BuildContext context,
-    required String language,
+    required String languageId,
   }) async {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      // If the language given is EN or ES, take it, otherwise just use EN
-      final String finalLanguage =
-          (language == 'en' || language == 'es') ? language : 'en';
+
       // Save the language in the db
-      await preferences.setString('language', finalLanguage);
+      await preferences.setString('language', languageId);
       // Set the language to see the changes in the app
       if (context.mounted) {
         final provider =
             Provider.of<L10nLocaleProvider>(context, listen: false);
-        provider.setLocale(Locale(language));
+        provider.setLocale(Locale(languageId));
       } else {
         throw Exception();
       }

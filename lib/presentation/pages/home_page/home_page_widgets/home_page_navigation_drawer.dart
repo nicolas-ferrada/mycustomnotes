@@ -113,7 +113,9 @@ class NavigationDrawerHomePage extends StatelessWidget {
           );
           if (language != null && context.mounted) {
             await ChangeLanguage.changeLanguage(
-                context: context, language: language.lenguageId);
+              context: context,
+              languageId: language.languageId,
+            );
           }
         } catch (errorMessage) {
           // errorMessage is the custom message probably sent by the user configuration functions

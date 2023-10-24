@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_export.dart';
 
 enum SelectLanguage {
-  english(lenguageId: 'en', languageIndex: 1),
-  spanish(lenguageId: 'es', languageIndex: 2);
+  english(languageId: 'en', languageIndex: 1),
+  spanish(languageId: 'es', languageIndex: 2),
+  german(languageId: 'de', languageIndex: 3);
 
   const SelectLanguage({
-    required this.lenguageId,
+    required this.languageId,
     required this.languageIndex,
   });
-  final String lenguageId;
+  final String languageId;
   final int languageIndex;
 
   String languageName({
@@ -24,6 +25,9 @@ enum SelectLanguage {
       case SelectLanguage.spanish:
         return AppLocalizations.of(context)!
             .languageSpanishOption_drawerDialog_homePage;
+      case SelectLanguage.german:
+        return AppLocalizations.of(context)!
+            .languageGermanOption_drawerDialog_homePage;
     }
   }
 }
