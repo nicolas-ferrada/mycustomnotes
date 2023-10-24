@@ -808,12 +808,13 @@ class _NoteTasksDetailsPageState extends State<NoteTasksDetailsPage> {
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           try {
+            wasTheSaveButtonPressed = true;
             DeleteNoteConfirmation.deleteNoteDialog(
               context: context,
               note: widget.noteTasks,
               editingFromSearchBar: widget.editingFromSearchBar,
               isBeingEditedInFolder: widget.isBeingEditedInFolder,
-            );
+            ).then((_) => wasTheSaveButtonPressed = false);
           } catch (errorMessage) {
             await ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());

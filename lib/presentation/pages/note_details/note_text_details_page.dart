@@ -446,12 +446,16 @@ class _NoteTextDetailsPageState extends State<NoteTextDetailsPage> {
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete note
           try {
+            wasTheSaveButtonPressed =
+                true; // dont trigger dialog of leaving without saving
             DeleteNoteConfirmation.deleteNoteDialog(
               context: context,
               note: widget.noteText,
               editingFromSearchBar: widget.editingFromSearchBar,
               isBeingEditedInFolder: widget.isBeingEditedInFolder,
-            );
+            ).then(
+              (_) => wasTheSaveButtonPressed = false,
+            ); // if note was not deleted, activate the dialog again
           } catch (errorMessage) {
             await ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());

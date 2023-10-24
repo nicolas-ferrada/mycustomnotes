@@ -409,8 +409,10 @@ class _FolderDetailsPageState extends State<FolderDetailsPage> {
         } else if (value == MenuItemNoteDetail.item6) {
           // Delete
           try {
+            wasTheSaveButtonPressed = true;
             DeleteFolderConfirmation.deleteFolderDialog(
-                context: context, folder: widget.folder!);
+                    context: context, folder: widget.folder!)
+                .then((_) => wasTheSaveButtonPressed = false);
           } catch (errorMessage) {
             await ExceptionsAlertDialog.showErrorDialog(
                 context: context, errorMessage: errorMessage.toString());
