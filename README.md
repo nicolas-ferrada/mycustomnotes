@@ -65,21 +65,23 @@ My Custom Notes is available for:
 - Date and time formatting.
 
 ## Project story
-After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter and providing guidance in my learning journey, which included not only Flutter but also good coding practices, Git/Github, Firebase, and other important topics.
+After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter.
 
-[![Learn Flutter in 37 hours](https://img.youtube.com/vi/VPvVD8t02U8/0.jpg)](https://www.youtube.com/watch?v=VPvVD8t02U8)
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=VPvVD8t02U8">
+    <img src="https://img.youtube.com/vi/VPvVD8t02U8/0.jpg" alt="Learn Flutter in 37 hours"/>
+  </a>
+</div>
 
-After completing approximately 25 hours of the course, I became enthusiastic about adding new features to the app. A year later, we've reached this point.
+After completing approximately 25 hours of the course, I became enthusiastic about adding new features to the application. A year later, this is the final result.
  
-Not being able to distinguish between a learning project and a real-world project cost me a lot of time in building an application with weak foundations.
-
-Most importantly, I've learned a lot during this year-long project, and I know that same mistakes won't be repeated. However, I would definitely not recommend using a learning project to create a final product.
+I wouldn't recommend using a learning project to create a final product.
 
 ## Major known issues
-The software foundations are inconsistent since started as a tutorial project, and good practices were not developed from the start. This has made the project unsustainable for the long term, mainly because:
+The software foundations are inconsistent, making the project unsustainable for the long term.
 
 #### **State management** 
-After a lot of coding, I believed I would finish the project within a few months. I decided that refactoring the existing code to add a solid state management approach would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
+I initially believed I would complete the project within a few months, so I decided that refactoring the existing code to add a solid state management approach would be a waste of time. This turned out to be a poor decision and is the primary reason why the project lacks scalability.
 
 #### **Boilerplate code** 
 There is a significant amount of boilerplate code. This is primarily due to the absence of a clear state management system.
@@ -87,7 +89,8 @@ There is a significant amount of boilerplate code. This is primarily due to the 
 #### **Testing** 
 No testing beyond using real devices was performed.
 
+#### **Planning**
+The project started as a learning project, so it did not have any planning.
+
 ## Future of the project
 It has been decided that this project is solely for learning purposes, so I will not be updating it beyond fixing bugs or implementing small features in the near future.
-
-If you discover any bugs, please, feel free to report them or help me fix them; otherwise, you are welcome to fork the project, and use it as you please.
