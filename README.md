@@ -20,7 +20,7 @@ Click on the image to see a brief demonstration of the app!
   </a>
 </div>
 
-## Where to get app?
+## Where to get the app?
 My Custom Notes is available for:
 
 ![android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=101010)
@@ -42,7 +42,7 @@ My Custom Notes is available for:
 
 ## Major technical components
 
-- Sign in with email/password, Google and Apple.
+- Sign in with email/password, Google, and Apple.
 
 - Account operations and configurations based on the login provider.
 
@@ -50,22 +50,16 @@ My Custom Notes is available for:
         
 - Offline mode.
 
-- Deleting all user's data on request.
-        
-- User experience and error handling.
-
-- Clean architecture.
-
 - Local storage.
-
-- Exporting user's data.
 
 - Translation to multiple languages.
 
-- Date and time formatting.
+- Deleting all user's data on request.
+
+- Exporting user's data.
 
 ## Project story
-After obtaining a CS degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter.
+After obtaining a computer science (CS) degree in mid-2022, I began working on some small Flutter projects that didn't seem to lead anywhere. In November 2022, I decided to follow a promising tutorial that lasted for a day and a half. This was aimed at strengthening my foundational knowledge of Flutter.
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=VPvVD8t02U8">
@@ -92,5 +86,5 @@ No testing beyond using real devices was performed.
 #### **Planning**
 The project started as a learning project, so it did not have any planning.
 
-## Future of the project
-It has been decided that this project is solely for learning purposes, so I will not be updating it beyond fixing bugs or implementing small features in the near future.
+## Acknowledgements
+This project was a valuable learning experience and it significantly improved my knowledge. I am thankful for the opportunity it provided to enhance my skills.
