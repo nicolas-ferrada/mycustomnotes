@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mycustomnotes/domain/services/firebase_push_notifications.dart';
+import 'package:mycustomnotes/firebase_options.dart';
 import 'data/models/Note/folder_notifier.dart';
 import 'l10n/l10n.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,9 @@ import 'presentation/routes/routes.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);
   await FirebaseAppCheck.instance.activate();

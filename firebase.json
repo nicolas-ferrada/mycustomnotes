@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"mycustomnotes","appId":"1:561879108691:android:9270712cdb1e3054950aa6","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"mycustomnotes","configurations":{"android":"1:561879108691:android:9270712cdb1e3054950aa6","ios":"1:561879108691:ios:f1ab19660956dcef950aa6"}}}}}}
